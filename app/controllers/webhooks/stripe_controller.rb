@@ -54,7 +54,7 @@ module Webhooks
     def handle_checkout_failed(checkout_session)
       user_exam = find_user_exam(checkout_session)
       return unless user_exam
-      return if user_exam.paid?
+      return if user_exam.status_paid?
 
       user_exam.update!(
         status: :failed,

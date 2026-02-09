@@ -8,6 +8,6 @@ class Exam < ApplicationRecord
   def purchased_by?(user)
     return false unless user
 
-    user_exams.paid.exists?(user: user)
+    user_exams.status_paid.exists?(user: user)
   end
 end

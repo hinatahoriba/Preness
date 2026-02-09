@@ -6,7 +6,7 @@ class UserExamsController < ApplicationController
   def create
     user_exam = current_user.user_exams.find_or_initialize_by(exam: @exam)
 
-    if user_exam.paid?
+    if user_exam.status_paid?
       redirect_to exams_path, alert: "この模試は既に購入済みです。"
       return
     end
@@ -33,7 +33,7 @@ class UserExamsController < ApplicationController
     )
 
     user_exam.update!(stripe_checkout_session_id: session.id)
-    redirect_to session.url, allow_other_host: true
+    redirect_to session.url, allow_other_host: true, status: :see_other
   rescue Stripe::StripeError => e
     user_exam&.update(status: :failed)
     redirect_to exams_path, alert: "決済の開始に失敗しました: #{e.message}"
@@ -42,7 +42,7 @@ class UserExamsController < ApplicationController
   def success
     user_exam = current_user.user_exams.find_by(exam: @exam)
 
-    if user_exam&.paid?
+    if user_exam&.status_paid?
       redirect_to exams_path, notice: "模試の購入が完了しました。"
     else
       redirect_to exams_path, notice: "決済は受け付け済みです。購入状態の反映まで数秒お待ちください。"
@@ -51,7 +51,7 @@ class UserExamsController < ApplicationController
 
   def cancel
     user_exam = current_user.user_exams.find_by(exam: @exam)
-    user_exam&.update(status: :failed) if user_exam&.pending?
+    user_exam&.update(status: :failed) if user_exam&.status_pending?
 
     redirect_to exams_path, alert: "購入をキャンセルしました。"
   end
@@ -69,7 +69,8 @@ class UserExamsController < ApplicationController
   end
 
   def checkout_line_items(exam)
-    return [ { price: exam.stripe_price_id, quantity: 1 } ] if exam.stripe_price_id.present?
+    shared_exam_price_id = Rails.configuration.x.stripe.exam_price_id
+    return [ { price: shared_exam_price_id, quantity: 1 } ] if shared_exam_price_id.present?
 
     [
       {

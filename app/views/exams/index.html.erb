@@ -24,17 +24,17 @@
               </div>
 
               <div class="d-flex align-items-center">
-                <% if user_exam&.paid? %>
+                <% if user_exam&.status_paid? %>
                   <span class="badge text-bg-success px-3 py-2">購入済み</span>
-                <% elsif user_exam&.pending? %>
+                <% elsif user_exam&.status_pending? %>
                   <span class="badge text-bg-warning px-3 py-2">決済処理中</span>
                 <% else %>
-                  <%= button_to "購入する", exam_purchase_path(exam), method: :post, class: "btn btn-dark px-4" %>
+                  <%= button_to "購入する", exam_purchase_path(exam), method: :post, class: "btn btn-dark px-4", form: { data: { turbo: false } } %>
                 <% end %>
               </div>
             </div>
 
-            <% if user_exam&.failed? %>
+            <% if user_exam&.status_failed? %>
               <p class="small text-danger mt-3 mb-0">
                 前回の決済に失敗しました。再度購入ボタンからお試しください。
               </p>
