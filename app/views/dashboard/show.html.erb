@@ -10,6 +10,65 @@
       <%= button_to "ログアウト", destroy_user_session_path, method: :delete, class: "btn btn-dark", form: { class: "d-inline" } %>
     </div>
 
+    <div class="border rounded-4 p-3 p-md-4 mb-4 bg-white">
+      <h2 class="h5 fw-bold mb-3">サブスクリプション</h2>
+
+      <% if @subscription.present? %>
+        <ul class="list-group list-group-flush mb-3">
+          <li class="list-group-item bg-transparent px-0 d-flex justify-content-between align-items-center">
+            <span class="text-secondary">現在のプラン</span>
+            <span class="badge text-bg-dark"><%= @subscription.plan_trial? ? "トライアル" : "プレミアム" %></span>
+          </li>
+          <li class="list-group-item bg-transparent px-0 d-flex justify-content-between align-items-center">
+            <span class="text-secondary">契約ステータス</span>
+            <% status_label = case @subscription.status
+              when "active" then "有効"
+              when "past_due" then "支払い確認中"
+              when "canceled" then "解約済み"
+              else @subscription.status
+            end %>
+            <span class="badge text-bg-secondary"><%= status_label %></span>
+          </li>
+          <% if @subscription.plan_trial? && @subscription.trial_ends_at.present? %>
+            <li class="list-group-item bg-transparent px-0 d-flex justify-content-between align-items-center">
+              <span class="text-secondary">トライアル終了日</span>
+              <span><%= l(@subscription.trial_ends_at, format: :long) %></span>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p class="text-secondary mb-3">現在は未契約です。トライアルまたはプレミアムをお申し込みください。</p>
+      <% end %>
+
+      <div class="d-flex flex-wrap gap-2">
+        <% trial_button_disabled = @subscription&.trial_started_at.present? || @subscription&.stripe_subscription_id.present? || (@subscription&.plan_premium? && @subscription&.status_active?) %>
+        <% if trial_button_disabled %>
+          <button class="btn btn-outline-secondary" disabled>トライアル申込済み</button>
+        <% else %>
+          <%= button_to "#{@trial_days.positive? ? @trial_days : 7}日間トライアルを始める",
+            trial_subscription_path,
+            method: :post,
+            class: "btn btn-outline-dark",
+            form: { class: "d-inline" } %>
+        <% end %>
+
+        <% premium_button_disabled = @subscription&.plan_premium? && @subscription&.status_active? %>
+        <% if premium_button_disabled %>
+          <button class="btn btn-dark" disabled>プレミアム利用中</button>
+        <% else %>
+          <%= button_to "プレミアムプランを申し込む",
+            premium_subscription_path,
+            method: :post,
+            class: "btn btn-dark",
+            form: { class: "d-inline", data: { turbo: false } } %>
+        <% end %>
+      </div>
+
+      <% if @subscription&.status_past_due? %>
+        <p class="small text-danger mt-3 mb-0">お支払い情報の確認が必要です。時間をおいて状態をご確認ください。</p>
+      <% end %>
+    </div>
+
     <div class="border rounded-4 p-3 p-md-4 bg-light">
       <h2 class="h5 fw-bold mb-3">購入済み模試</h2>
       <% if @paid_user_exams.any? %>

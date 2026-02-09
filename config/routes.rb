@@ -2,6 +2,10 @@ Rails.application.routes.draw do
   devise_for :users
   root "home#index"
   get "dashboard", to: "dashboard#show", as: :dashboard
+  post "subscription/trial", to: "subscriptions#create_trial", as: :trial_subscription
+  post "subscription/premium", to: "subscriptions#create_premium", as: :premium_subscription
+  get "subscription/success", to: "subscriptions#success", as: :subscription_success
+  get "subscription/cancel", to: "subscriptions#cancel", as: :subscription_cancel
 
   resources :exams, only: [ :index ] do
     resource :purchase, only: [ :create ], controller: "user_exams" do

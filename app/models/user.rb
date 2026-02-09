@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   has_many :user_exams, dependent: :destroy
   has_many :exams, through: :user_exams
+  has_one :subscription, dependent: :destroy
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
