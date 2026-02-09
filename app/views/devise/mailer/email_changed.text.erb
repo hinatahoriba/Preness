@@ -1,0 +1,7 @@
+<%= @resource.email %> 様
+
+<% if @resource.try(:unconfirmed_email?) %>
+メールアドレス変更の申請を受け付けました。変更先: <%= @resource.unconfirmed_email %>
+<% else %>
+メールアドレスが変更されました。現在のメールアドレス: <%= @resource.email %>
+<% end %>
