@@ -1,0 +1,53 @@
+<% content_for :title, "模試一覧 | Preness" %>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div>
+    <p class="text-uppercase text-secondary small fw-semibold mb-1">Exams</p>
+    <h1 class="h3 fw-bold mb-0">模試一覧</h1>
+  </div>
+  <%= link_to "マイページへ戻る", dashboard_path, class: "btn btn-outline-dark" %>
+</div>
+
+<% if @exams.any? %>
+  <div class="row g-3">
+    <% @exams.each do |exam| %>
+      <% user_exam = @user_exams_by_exam_id[exam.id] %>
+      <div class="col-12">
+        <div class="card border-0 shadow-sm rounded-4">
+          <div class="card-body p-4">
+            <div class="d-flex flex-column flex-md-row justify-content-between gap-3">
+              <div>
+                <h2 class="h5 fw-bold mb-2"><%= exam.title %></h2>
+                <p class="text-secondary mb-0">
+                  価格: <strong>¥<%= number_with_delimiter(exam.price) %></strong>
+                </p>
+              </div>
+
+              <div class="d-flex align-items-center">
+                <% if user_exam&.paid? %>
+                  <span class="badge text-bg-success px-3 py-2">購入済み</span>
+                <% elsif user_exam&.pending? %>
+                  <span class="badge text-bg-warning px-3 py-2">決済処理中</span>
+                <% else %>
+                  <%= button_to "購入する", exam_purchase_path(exam), method: :post, class: "btn btn-dark px-4" %>
+                <% end %>
+              </div>
+            </div>
+
+            <% if user_exam&.failed? %>
+              <p class="small text-danger mt-3 mb-0">
+                前回の決済に失敗しました。再度購入ボタンからお試しください。
+              </p>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <div class="card border-0 shadow-sm rounded-4">
+    <div class="card-body p-4">
+      <p class="text-secondary mb-0">販売中の模試はまだありません。</p>
+    </div>
+  </div>
+<% end %>

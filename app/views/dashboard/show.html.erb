@@ -8,10 +8,27 @@
       ここがPrenessのマイページです。今後、学習履歴やスコア分析をこの画面で確認できるように拡張できます。
     </p>
 
-    <div class="d-flex flex-wrap gap-2">
+    <div class="d-flex flex-wrap gap-2 mb-4">
+      <%= link_to "模試一覧を見る", exams_path, class: "btn btn-dark" %>
       <%= link_to "プロフィール編集", edit_user_registration_path, class: "btn btn-outline-dark" %>
       <%= button_to "ログアウト", destroy_user_session_path, method: :delete, class: "btn btn-dark", form: { class: "d-inline" } %>
       <%= link_to "LPへ戻る", root_path, class: "btn btn-link px-0" %>
+    </div>
+
+    <div class="border rounded-4 p-3 p-md-4 bg-light">
+      <h2 class="h5 fw-bold mb-3">購入済み模試</h2>
+      <% if @paid_user_exams.any? %>
+        <ul class="list-group list-group-flush">
+          <% @paid_user_exams.each do |user_exam| %>
+            <li class="list-group-item bg-transparent px-0 d-flex justify-content-between align-items-center">
+              <span><%= user_exam.exam.title %></span>
+              <span class="badge text-bg-success">購入済み</span>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p class="text-secondary mb-0">まだ模試を購入していません。</p>
+      <% end %>
     </div>
   </div>
 </div>

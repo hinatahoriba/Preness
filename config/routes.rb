@@ -2,6 +2,17 @@ Rails.application.routes.draw do
   devise_for :users
   root "home#index"
   get "dashboard", to: "dashboard#show", as: :dashboard
+
+  resources :exams, only: [ :index ] do
+    resource :purchase, only: [ :create ], controller: "user_exams" do
+      get :success
+      get :cancel
+    end
+  end
+
+  namespace :webhooks do
+    post :stripe, to: "stripe#create"
+  end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
