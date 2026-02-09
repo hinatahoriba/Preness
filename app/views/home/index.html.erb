@@ -1,0 +1,190 @@
+<% content_for :title, "Preness | TOEFL ITP対策を、AIで最短ルートに" %>
+<% content_for :full_width, true %>
+<% content_for :body_class, "lp-body" %>
+
+<header class="lp-nav py-3">
+  <div class="container">
+    <div class="d-flex align-items-center justify-content-between rounded-4 border bg-white px-3 px-md-4 py-2 shadow-sm lp-nav-shell">
+      <div class="d-flex align-items-center gap-2">
+        <span class="lp-dot"></span>
+        <span class="fw-bold fs-5 lp-brand">Preness</span>
+      </div>
+      <div class="d-flex gap-2">
+        <%= link_to "ログイン", new_user_session_path, class: "btn btn-outline-accent btn-sm px-3" %>
+        <%= link_to "無料で始める", new_user_registration_path, class: "btn btn-accent btn-sm px-3" %>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="py-4 py-md-5">
+  <div class="container">
+    <div class="row align-items-center g-4 g-lg-5">
+      <div class="col-lg-7">
+        <span class="badge rounded-pill lp-chip px-3 py-2 mb-3">
+          AI TOEFL ITP Platform
+        </span>
+        <h1 class="display-5 fw-bold lh-sm lp-heading mb-3">
+          TOEFL ITP対策の「見えない壁」を、<span class="lp-accent-text">可視化して突破する。</span>
+        </h1>
+        <p class="text-secondary fs-6 lh-lg mb-4">
+          多くの学習者がスコアの伸び悩みを感じる背景には、間違いの原因が分からないまま学習を続けてしまうこと、
+          手持ち教材だけでは演習量が不足すること、模試や受験料の高さで十分な練習頻度を確保できないことがあります。
+          Prenessは、これらの課題をAIで解決するTOEFL ITP対策プラットフォームです。
+        </p>
+        <div class="d-flex flex-wrap gap-2">
+          <%= link_to "無料で始める", new_user_registration_path, class: "btn btn-accent btn-lg px-4" %>
+          <%= link_to "ログイン", new_user_session_path, class: "btn btn-outline-accent btn-lg px-4" %>
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <div class="card border-0 shadow-lg rounded-4 lp-panel lp-hover-lift">
+          <div class="card-body p-4">
+            <p class="small text-uppercase fw-semibold text-secondary mb-3">分析サマリー</p>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <span class="text-secondary small">Section別正答率</span>
+              <span class="badge lp-latest-badge">最新</span>
+            </div>
+            <div class="mb-3">
+              <div class="d-flex justify-content-between small mb-1"><span>Listening</span><strong>68%</strong></div>
+              <div class="progress" role="progressbar" aria-label="Listening score" aria-valuenow="68" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-bar lp-bar-1" style="width: 68%"></div>
+              </div>
+            </div>
+            <div class="mb-3">
+              <div class="d-flex justify-content-between small mb-1"><span>Structure</span><strong>54%</strong></div>
+              <div class="progress" role="progressbar" aria-label="Structure score" aria-valuenow="54" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-bar lp-bar-2" style="width: 54%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="d-flex justify-content-between small mb-1"><span>Reading</span><strong>72%</strong></div>
+              <div class="progress" role="progressbar" aria-label="Reading score" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-bar lp-bar-3" style="width: 72%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-4 py-md-5 lp-section-soft">
+  <div class="container">
+    <div class="d-flex align-items-end justify-content-between mb-3">
+      <h2 class="h2 fw-bold mb-0">従来学習で起きる3つのボトルネック</h2>
+    </div>
+    <div class="row g-3 g-md-4">
+      <div class="col-md-6 col-lg-4">
+        <article class="card h-100 border-0 shadow-sm rounded-4 lp-card-danger lp-hover-lift">
+          <div class="card-body p-4">
+            <h3 class="h5 fw-bold mb-2">原因不明の失点</h3>
+            <p class="text-secondary mb-0">間違えた理由が曖昧なまま復習が終わり、同じミスが繰り返される。</p>
+          </div>
+        </article>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <article class="card h-100 border-0 shadow-sm rounded-4 lp-card-danger lp-hover-lift">
+          <div class="card-body p-4">
+            <h3 class="h5 fw-bold mb-2">演習量の不足</h3>
+            <p class="text-secondary mb-0">参考書中心では実戦形式の問題数が足りず、試験慣れが進まない。</p>
+          </div>
+        </article>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <article class="card h-100 border-0 shadow-sm rounded-4 lp-card-danger lp-hover-lift">
+          <div class="card-body p-4">
+            <h3 class="h5 fw-bold mb-2">練習頻度の限界</h3>
+            <p class="text-secondary mb-0">模試や受験料の負担が大きく、必要な回数を確保しづらい。</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-4 py-md-5">
+  <div class="container">
+    <h2 class="h2 fw-bold mb-3">Prenessが提供する、スコアアップの新しい標準</h2>
+    <div class="row g-3 g-md-4">
+      <div class="col-md-6">
+        <article class="card h-100 border-0 shadow-sm rounded-4 lp-card-solution lp-hover-lift">
+          <div class="card-body p-4">
+            <h3 class="h5 fw-bold mb-2">AIで無限に実戦演習</h3>
+            <p class="text-secondary mb-0">TOEFL ITP形式の模擬試験をAIが生成。いつでも何度でも実戦形式でトレーニングできます。</p>
+          </div>
+        </article>
+      </div>
+      <div class="col-md-6">
+        <article class="card h-100 border-0 shadow-sm rounded-4 lp-card-solution lp-hover-lift">
+          <div class="card-body p-4">
+            <h3 class="h5 fw-bold mb-2">詳細レポートで弱点特定</h3>
+            <p class="text-secondary mb-0">正誤だけでなく、Section別の正答率や時間超過問題まで可視化。次に取り組むべき課題が明確になります。</p>
+          </div>
+        </article>
+      </div>
+      <div class="col-md-6">
+        <article class="card h-100 border-0 shadow-sm rounded-4 lp-card-solution lp-hover-lift">
+          <div class="card-body p-4">
+            <h3 class="h5 fw-bold mb-2">分野別に集中対策</h3>
+            <p class="text-secondary mb-0">Structure・Reading・Listeningごとに課題を切り分け、限られた時間を最も効果的に配分できます。</p>
+          </div>
+        </article>
+      </div>
+      <div class="col-md-6">
+        <article class="card h-100 border-0 shadow-sm rounded-4 lp-card-solution lp-hover-lift">
+          <div class="card-body p-4">
+            <h3 class="h5 fw-bold mb-2">目的別学習サイクル</h3>
+            <p class="text-secondary mb-0">基礎固めから弱点克服、スコア伸長まで、レベルに応じた学習を一貫サポートします。</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-4 py-md-5 lp-section-soft">
+  <div class="container">
+    <div class="card border-0 rounded-4 shadow-sm lp-cycle-wrap">
+      <div class="card-body p-4 p-lg-5">
+        <h2 class="h2 fw-bold mb-4">迷わない学習サイクル</h2>
+        <div class="row g-3 g-md-4">
+          <div class="col-md-4">
+            <article class="p-3 rounded-4 border h-100 bg-white lp-hover-lift lp-step-card">
+              <span class="badge rounded-pill lp-step-badge mb-2">STEP 1</span>
+              <h3 class="h5 fw-bold">受ける</h3>
+              <p class="text-secondary mb-0">AI模試を解いて、現状の力を測定。</p>
+            </article>
+          </div>
+          <div class="col-md-4">
+            <article class="p-3 rounded-4 border h-100 bg-white lp-hover-lift lp-step-card">
+              <span class="badge rounded-pill lp-step-badge mb-2">STEP 2</span>
+              <h3 class="h5 fw-bold">分析する</h3>
+              <p class="text-secondary mb-0">失点傾向と時間配分を確認し、弱点を特定。</p>
+            </article>
+          </div>
+          <div class="col-md-4">
+            <article class="p-3 rounded-4 border h-100 bg-white lp-hover-lift lp-step-card">
+              <span class="badge rounded-pill lp-step-badge mb-2">STEP 3</span>
+              <h3 class="h5 fw-bold">絞って伸ばす</h3>
+              <p class="text-secondary mb-0">課題分野へ集中し、再演習で改善を定着。</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-5">
+  <div class="container">
+    <div class="card border-0 rounded-4 shadow-lg lp-cta text-center">
+      <div class="card-body p-4 p-md-5">
+        <h2 class="display-6 fw-bold mb-3">AIの力で、無駄なく着実にスコアアップ。</h2>
+        <p class="text-secondary fs-5 mb-4">忙しい学生や社会人でも続けられる、実戦量と分析精度を両立したTOEFL ITP対策を始めましょう。</p>
+        <%= link_to "Prenessを始める", new_user_registration_path, class: "btn btn-accent btn-lg px-5" %>
+      </div>
+    </div>
+  </div>
+</section>

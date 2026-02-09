@@ -8,3 +8,181 @@
  *
  * Consider organizing styles into separate files for maintainability.
  */
+
+:root {
+  --lp-bg: #fff9f3;
+  --lp-ink: #23180f;
+  --lp-accent: #ff7a1a;
+  --lp-accent-deep: #ef5c11;
+  --lp-accent-soft: #ffe6d1;
+  --lp-warm-line: #ffd1ad;
+  --lp-shadow: 0 20px 50px rgba(208, 99, 27, 0.12);
+}
+
+.lp-body {
+  margin: 0;
+  color: var(--lp-ink);
+  font-family: "Noto Sans JP", sans-serif;
+  --bs-primary: var(--lp-accent);
+  --bs-primary-rgb: 255, 122, 26;
+  --bs-link-color: var(--lp-accent);
+  --bs-link-hover-color: var(--lp-accent-deep);
+  background:
+    radial-gradient(1050px 580px at 88% -24%, rgba(255, 122, 26, 0.21), transparent 65%),
+    radial-gradient(900px 520px at -8% 25%, rgba(255, 180, 124, 0.2), transparent 58%),
+    var(--lp-bg);
+}
+
+.lp-nav {
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+  backdrop-filter: blur(8px);
+}
+
+.lp-brand,
+.lp-heading {
+  font-family: "Lexend", sans-serif;
+}
+
+.lp-nav-shell {
+  border-color: rgba(255, 122, 26, 0.25) !important;
+  background: rgba(255, 255, 255, 0.86) !important;
+}
+
+.lp-dot {
+  display: inline-block;
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ff7a1a, #ffb23f);
+  box-shadow: 0 0 0 6px rgba(255, 122, 26, 0.2);
+}
+
+.lp-chip {
+  color: #a04600;
+  border: 1px solid rgba(255, 122, 26, 0.28);
+  background: rgba(255, 255, 255, 0.7);
+  letter-spacing: 0.04em;
+}
+
+.lp-accent-text {
+  background: linear-gradient(120deg, #f4590f, #ff9e2f);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.btn-accent {
+  border: 1px solid var(--lp-accent);
+  background: linear-gradient(135deg, var(--lp-accent), #ff9a2f);
+  color: #fff;
+  font-weight: 700 !important;
+  box-shadow: 0 14px 28px rgba(239, 92, 17, 0.24);
+}
+
+.btn-accent:hover {
+  border-color: var(--lp-accent-deep);
+  background: linear-gradient(135deg, var(--lp-accent-deep), #ff8825);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.btn-outline-accent {
+  border: 1px solid rgba(255, 122, 26, 0.42);
+  color: #b24e0a;
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.btn-outline-accent:hover {
+  border-color: rgba(255, 122, 26, 0.8);
+  color: #8f3f08;
+  background: rgba(255, 233, 213, 0.8);
+}
+
+.lp-panel {
+  background:
+    radial-gradient(450px 280px at 10% 0%, rgba(255, 176, 105, 0.24), transparent 65%),
+    linear-gradient(165deg, #ffffff, #fff2e5);
+  border: 1px solid rgba(255, 122, 26, 0.2);
+  box-shadow: var(--lp-shadow) !important;
+}
+
+.lp-card-danger {
+  background: linear-gradient(160deg, #ffffff, #fff2e8);
+  border: 1px solid rgba(255, 146, 79, 0.35);
+}
+
+.lp-card-solution {
+  background: linear-gradient(160deg, #ffffff, #fff7ef);
+  border: 1px solid rgba(255, 122, 26, 0.28);
+}
+
+.lp-cycle-wrap {
+  background: linear-gradient(135deg, #fff0e0, #ffffff);
+}
+
+.lp-cta {
+  background:
+    radial-gradient(600px 220px at 50% 0%, rgba(255, 178, 117, 0.25), transparent 75%),
+    linear-gradient(135deg, #ffe9d6, #fff7ef);
+  box-shadow: var(--lp-shadow) !important;
+}
+
+.progress {
+  height: 0.65rem;
+  background: #ffe7d4;
+}
+
+.lp-latest-badge {
+  background: #fff2e6;
+  border: 1px solid var(--lp-warm-line);
+  color: #a24d12;
+}
+
+.lp-bar-1 {
+  background: linear-gradient(90deg, #ff7a1a, #ffa12f);
+}
+
+.lp-bar-2 {
+  background: linear-gradient(90deg, #ff9d2a, #ffbf45);
+}
+
+.lp-bar-3 {
+  background: linear-gradient(90deg, #f05a11, #ff8d2a);
+}
+
+.lp-section-soft {
+  background: linear-gradient(180deg, rgba(255, 234, 213, 0.45), rgba(255, 255, 255, 0));
+}
+
+.lp-step-badge {
+  background: var(--lp-accent-soft);
+  color: #9c4305;
+  border: 1px solid var(--lp-warm-line);
+}
+
+.lp-step-card {
+  border-color: rgba(255, 122, 26, 0.2) !important;
+}
+
+.lp-hover-lift {
+  transition: transform 220ms ease, box-shadow 220ms ease;
+}
+
+.lp-hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 34px rgba(181, 89, 30, 0.14) !important;
+}
+
+@media (max-width: 991px) {
+  .lp-nav {
+    position: static;
+    backdrop-filter: none;
+  }
+
+  .btn-accent,
+  .btn-outline-accent {
+    box-shadow: none;
+  }
+}
