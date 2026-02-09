@@ -1,6 +1,6 @@
 <% if resource.errors.any? %>
-  <div id="error_explanation" data-turbo-cache="false">
-    <h2>
+  <div id="error_explanation" class="alert alert-danger" data-turbo-cache="false">
+    <h2 class="h6 mb-2">
       <%= I18n.t(
         "errors.messages.not_saved",
         count: resource.errors.count,
@@ -8,7 +8,7 @@
       ) %>
     </h2>
 
-    <ul>
+    <ul class="mb-0 ps-3">
       <% resource.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>
