@@ -1,0 +1,12 @@
+<%= render "devise/shared/auth_shell", title: "確認メールを送信しました", subtitle: "メール内のリンクを開くまでログインできません。" do %>
+  <p class="text-sm leading-relaxed text-slate-600">
+    <%= @pending_email.present? ? "#{@pending_email} 宛に確認メールを送信しました。" : "入力したメールアドレス宛に確認メールを送信しました。" %>
+  </p>
+
+  <div class="mt-6 space-y-3">
+    <%= link_to "確認メールを再送する", new_user_confirmation_path(user: { email: @pending_email }),
+        class: "inline-flex w-full items-center justify-center rounded-xl bg-orange-500 px-4 py-3 text-sm font-semibold text-white transition hover:bg-orange-600" %>
+    <%= link_to "ログイン画面へ戻る", new_user_session_path,
+        class: "inline-flex w-full items-center justify-center rounded-xl border border-orange-300 px-4 py-3 text-sm font-semibold text-orange-700 transition hover:bg-orange-50" %>
+  </div>
+<% end %>

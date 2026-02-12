@@ -1,0 +1,52 @@
+<%= render "devise/shared/auth_shell", title: "アカウント設定", subtitle: "ユーザー名・メールアドレスを変更できます。メール変更時は再認証が必要です。" do %>
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: "space-y-5" }) do |f| %>
+    <%= render "devise/shared/error_messages", resource: resource %>
+
+    <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+      <div class="rounded-xl border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+        新しいメールアドレス（<%= resource.unconfirmed_email %>）は認証待ちです。
+      </div>
+    <% end %>
+
+    <div>
+      <%= f.label :username, "ユーザー名", class: "text-sm font-medium text-slate-700" %>
+      <%= f.text_field :username, autofocus: true, autocomplete: "nickname", class: "mt-1 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder-slate-400 outline-none ring-0 transition focus:border-orange-400 focus:ring-2 focus:ring-orange-300/40" %>
+    </div>
+
+    <div>
+      <%= f.label :email, "メールアドレス", class: "text-sm font-medium text-slate-700" %>
+      <%= f.email_field :email, autocomplete: "email", class: "mt-1 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder-slate-400 outline-none ring-0 transition focus:border-orange-400 focus:ring-2 focus:ring-orange-300/40" %>
+    </div>
+
+    <div class="rounded-xl border border-orange-200 bg-orange-50 p-4">
+      <p class="text-sm font-medium text-slate-700">パスワード変更（任意）</p>
+      <div class="mt-3 space-y-4">
+        <div>
+          <div class="flex items-baseline justify-between">
+            <%= f.label :password, "新しいパスワード", class: "text-sm text-slate-600" %>
+            <% if @minimum_password_length %>
+              <span class="text-xs text-slate-400">最低<%= @minimum_password_length %>文字</span>
+            <% end %>
+          </div>
+          <%= f.password_field :password, autocomplete: "new-password", class: "mt-1 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder-slate-400 outline-none ring-0 transition focus:border-orange-400 focus:ring-2 focus:ring-orange-300/40" %>
+        </div>
+
+        <div>
+          <%= f.label :password_confirmation, "新しいパスワード（確認）", class: "text-sm text-slate-600" %>
+          <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "mt-1 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder-slate-400 outline-none ring-0 transition focus:border-orange-400 focus:ring-2 focus:ring-orange-300/40" %>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <%= f.label :current_password, "現在のパスワード（変更確認のため必須）", class: "text-sm font-medium text-slate-700" %>
+      <%= f.password_field :current_password, autocomplete: "current-password", class: "mt-1 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder-slate-400 outline-none ring-0 transition focus:border-orange-400 focus:ring-2 focus:ring-orange-300/40" %>
+    </div>
+
+    <%= f.submit "保存する", class: "inline-flex w-full items-center justify-center rounded-xl bg-orange-500 px-4 py-3 text-sm font-semibold text-white transition hover:bg-orange-600" %>
+  <% end %>
+
+  <div class="mt-6">
+    <%= link_to "トップへ戻る", root_path, class: "text-sm font-medium text-orange-700 hover:text-orange-800" %>
+  </div>
+<% end %>

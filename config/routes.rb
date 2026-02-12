@@ -1,5 +1,27 @@
 Rails.application.routes.draw do
-  devise_for :users
+  if Rails.env.development?
+    begin
+      require "letter_opener_web"
+      mount LetterOpenerWeb::Engine, at: "/letter_opener"
+    rescue LoadError
+      Rails.logger.warn("letter_opener_web is not available. Run bundle install in this environment.")
+    end
+  end
+
+  devise_for :users, skip: [:registrations]
+
+  as :user do
+    get "users/sign_up", to: "users/registrations#new", as: :new_user_registration
+    post "users", to: "users/registrations#create", as: :user_registration
+    get "users/edit", to: "users/registrations#edit", as: :edit_user_registration
+    patch "users", to: "users/registrations#update"
+    put "users", to: "users/registrations#update"
+  end
+
+  get "users/confirmation/pending", to: "auth#confirmation_pending", as: :user_confirmation_pending
+  resource :mypage, only: [:show]
+  get "terms", to: "pages#terms", as: :terms
+  get "privacy", to: "pages#privacy", as: :privacy
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

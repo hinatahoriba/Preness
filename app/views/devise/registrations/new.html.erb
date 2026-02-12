@@ -1,0 +1,44 @@
+<%= render "devise/shared/auth_shell", title: "新規登録", subtitle: "メール認証を完了するとログインできます。" do %>
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "space-y-5" }) do |f| %>
+    <%= render "devise/shared/error_messages", resource: resource %>
+
+    <div>
+      <%= f.label :username, "ユーザー名", class: "text-sm font-medium text-slate-700" %>
+      <%= f.text_field :username, autofocus: true, autocomplete: "nickname", class: "mt-1 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder-slate-400 outline-none ring-0 transition focus:border-orange-400 focus:ring-2 focus:ring-orange-300/40" %>
+    </div>
+
+    <div>
+      <%= f.label :email, "メールアドレス", class: "text-sm font-medium text-slate-700" %>
+      <%= f.email_field :email, autocomplete: "email", class: "mt-1 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder-slate-400 outline-none ring-0 transition focus:border-orange-400 focus:ring-2 focus:ring-orange-300/40" %>
+    </div>
+
+    <div>
+      <div class="flex items-baseline justify-between">
+        <%= f.label :password, "パスワード", class: "text-sm font-medium text-slate-700" %>
+        <% if @minimum_password_length %>
+          <span class="text-xs text-slate-400">最低<%= @minimum_password_length %>文字</span>
+        <% end %>
+      </div>
+      <%= f.password_field :password, autocomplete: "new-password", class: "mt-1 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder-slate-400 outline-none ring-0 transition focus:border-orange-400 focus:ring-2 focus:ring-orange-300/40" %>
+    </div>
+
+    <div>
+      <%= f.label :password_confirmation, "パスワード（確認）", class: "text-sm font-medium text-slate-700" %>
+      <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "mt-1 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder-slate-400 outline-none ring-0 transition focus:border-orange-400 focus:ring-2 focus:ring-orange-300/40" %>
+    </div>
+
+    <label class="flex items-start gap-3 rounded-xl border border-orange-200 bg-orange-50 p-4 text-sm text-slate-700">
+      <%= f.check_box :terms_agreed, required: true, class: "mt-0.5 h-4 w-4 rounded border-slate-300 bg-white text-orange-500 focus:ring-orange-500" %>
+      <span>
+        <%= link_to "利用規約", terms_path, class: "font-medium text-orange-700 hover:text-orange-800" %>
+        と
+        <%= link_to "プライバシーポリシー", privacy_path, class: "font-medium text-orange-700 hover:text-orange-800" %>
+        に同意します
+      </span>
+    </label>
+
+    <%= f.submit "アカウントを作成", class: "inline-flex w-full items-center justify-center rounded-xl bg-orange-500 px-4 py-3 text-sm font-semibold text-white transition hover:bg-orange-600" %>
+  <% end %>
+
+  <%= render "devise/shared/links" %>
+<% end %>

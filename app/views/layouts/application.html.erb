@@ -23,6 +23,16 @@
   </head>
 
   <body class="antialiased">
+    <% if notice.present? || alert.present? %>
+      <div class="fixed inset-x-0 top-4 z-50 mx-auto w-full max-w-2xl px-4">
+        <% if notice.present? %>
+          <p class="rounded-lg border border-orange-300 bg-orange-100 px-4 py-3 text-sm font-medium text-orange-900"><%= notice %></p>
+        <% end %>
+        <% if alert.present? %>
+          <p class="mt-2 rounded-lg border border-orange-300 bg-orange-50 px-4 py-3 text-sm font-medium text-orange-900"><%= alert %></p>
+        <% end %>
+      </div>
+    <% end %>
     <%= yield %>
   </body>
 </html>
