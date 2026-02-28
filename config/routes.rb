@@ -23,6 +23,13 @@ Rails.application.routes.draw do
   get "terms", to: "pages#terms", as: :terms
   get "privacy", to: "pages#privacy", as: :privacy
 
+  resources :exercises, only: [:index] do
+    member do
+      match :answer, via: %i[get post]
+      get :result
+    end
+  end
+
   namespace :api do
     namespace :v1 do
       resources :mocks, only: [:create]

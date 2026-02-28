@@ -1,0 +1,54 @@
+<section class="min-h-screen bg-white px-6 py-12">
+  <div class="mx-auto max-w-5xl">
+    <div class="flex flex-wrap items-center justify-between gap-4">
+      <div>
+        <p class="text-sm font-semibold uppercase tracking-[0.2em] text-orange-500">Preness</p>
+        <h1 class="mt-2 text-3xl font-extrabold text-slate-900">セクション別演習</h1>
+        <p class="mt-2 text-sm text-slate-600">セットを選んで解答し、「採点する」で結果を保存します。</p>
+      </div>
+      <div class="flex flex-wrap items-center gap-3">
+        <%= link_to "マイページ", mypage_path, class: "inline-flex items-center rounded-lg border border-orange-300 px-5 py-2 text-sm font-semibold text-orange-700 hover:bg-orange-50" %>
+        <%= link_to "ログアウト", destroy_user_session_path, data: { turbo_method: :delete }, class: "inline-flex items-center rounded-lg bg-orange-500 px-5 py-2 text-sm font-semibold text-white hover:bg-orange-600" %>
+      </div>
+    </div>
+
+    <% Section::SECTION_TYPES.each do |section_type| %>
+      <% entries = @exercise_entries_by_section_type.fetch(section_type, []) %>
+
+      <div class="mt-12">
+        <h2 class="text-xl font-bold text-slate-900"><%= exercise_section_label(section_type) %></h2>
+
+        <% if entries.empty? %>
+          <p class="mt-3 text-sm text-slate-500">まだセットがありません。</p>
+        <% else %>
+          <% entries.group_by { _1.fetch(:part_type) }
+              .sort_by { |_, part_entries| part_entries.first.fetch(:part_display_order) }
+              .each do |part_type, part_entries| %>
+            <% part_label = exercise_part_label(part_type) %>
+
+            <% if part_label.present? && section_type != "reading" %>
+              <h3 class="mt-8 text-sm font-bold text-slate-700"><%= part_label %></h3>
+            <% end %>
+
+            <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <% part_entries.sort_by { _1.fetch(:set_number) }.each do |entry| %>
+                <% exercise = entry.fetch(:exercise) %>
+                <% set_number = entry.fetch(:set_number) %>
+
+                <%= link_to answer_exercise_path(exercise),
+                  class: "group rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:border-orange-200 hover:shadow-md" do %>
+                  <p class="text-sm font-semibold text-slate-500">セット<%= set_number %></p>
+                  <p class="mt-2 text-lg font-bold text-slate-900 group-hover:text-orange-700">
+                    <%= exercise_set_title(section_type: entry.fetch(:section_type), part_type: entry.fetch(:part_type), set_number: set_number) %>
+                  </p>
+                  <p class="mt-2 text-sm text-slate-600">未回答でも採点できます。</p>
+                <% end %>
+              <% end %>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</section>
+
