@@ -97,6 +97,14 @@ else
   demo_user.confirmed_at ||= Time.current
   demo_user.save!
 
+  test_user = User.find_or_initialize_by(email: "test@gmail.com")
+  test_user.username = "テストユーザー"
+  test_user.password = "testuser1234"
+  test_user.password_confirmation = "testuser1234"
+  test_user.terms_agreed = true
+  test_user.confirmed_at ||= Time.current
+  test_user.save!
+
   audio_url = "https://preness-listening-audio.s3.ap-northeast-1.amazonaws.com/PartB_02.wav"
 
   create_exercise_set!(
@@ -106,6 +114,7 @@ else
     questions: [
       {
         question_text: "What does the woman imply?",
+        audio_url: audio_url,
         choice_a: "She will return the book today.",
         choice_b: "The book may be kept at the front desk.",
         choice_c: "The library is closed for research.",
@@ -115,6 +124,7 @@ else
       },
       {
         question_text: "What will the man probably do next?",
+        audio_url: audio_url,
         choice_a: "Ask at the front desk.",
         choice_b: "Go to the dormitory.",
         choice_c: "Buy the book online.",
@@ -124,6 +134,7 @@ else
       },
       {
         question_text: "Where does the conversation most likely take place?",
+        audio_url: audio_url,
         choice_a: "At a café.",
         choice_b: "In a classroom.",
         choice_c: "At a library.",
@@ -141,6 +152,7 @@ else
     questions: [
       {
         question_text: "What is the man concerned about?",
+        audio_url: audio_url,
         choice_a: "Missing the deadline.",
         choice_b: "Forgetting his umbrella.",
         choice_c: "Losing his student ID.",
@@ -150,6 +162,7 @@ else
       },
       {
         question_text: "What does the woman suggest?",
+        audio_url: audio_url,
         choice_a: "Submitting online.",
         choice_b: "Waiting until tomorrow.",
         choice_c: "Asking for a refund.",
@@ -159,6 +172,7 @@ else
       },
       {
         question_text: "What will they do later?",
+        audio_url: audio_url,
         choice_a: "Meet at the library.",
         choice_b: "Go to the gym.",
         choice_c: "Visit the museum.",
@@ -177,6 +191,7 @@ else
     questions: [
       {
         question_text: "What are the students mainly discussing?",
+        audio_url: audio_url,
         choice_a: "Weekend plans.",
         choice_b: "A research project.",
         choice_c: "A scholarship requirement.",
@@ -186,6 +201,7 @@ else
       },
       {
         question_text: "What does the woman offer to do?",
+        audio_url: audio_url,
         choice_a: "Collect the data.",
         choice_b: "Write the introduction.",
         choice_c: "Make the slides.",
@@ -204,6 +220,7 @@ else
     questions: [
       {
         question_text: "What is the purpose of the talk?",
+        audio_url: audio_url,
         choice_a: "To introduce the library services.",
         choice_b: "To explain campus history.",
         choice_c: "To describe a new major.",
@@ -213,6 +230,7 @@ else
       },
       {
         question_text: "What does the speaker recommend?",
+        audio_url: audio_url,
         choice_a: "Borrowing only one book at a time.",
         choice_b: "Using the online catalog.",
         choice_c: "Avoiding group study rooms.",

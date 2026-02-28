@@ -1,3 +1,5 @@
+<% section_type = local_assigns.fetch(:section_type, nil) %>
+
 <% questions.each_with_index do |question, index| %>
   <% selected_choice = answers_by_question_id[question.id]&.selected_choice %>
 
@@ -8,10 +10,17 @@
       </span>
 
       <div class="min-w-0 flex-1">
-        <p class="text-sm font-semibold leading-relaxed text-slate-900"><%= question.question_text %></p>
+        <% if section_type == "listening" %>
+          <p class="sr-only"><%= question.question_text %></p>
+          <% if question.audio_url.present? %>
+            <audio class="w-full" controls src="<%= question.audio_url %>"></audio>
+          <% end %>
+        <% else %>
+          <p class="text-sm font-semibold leading-relaxed text-slate-900"><%= question.question_text %></p>
 
-        <% if question.audio_url.present? %>
-          <audio class="mt-4 w-full" controls src="<%= question.audio_url %>"></audio>
+          <% if question.audio_url.present? %>
+            <audio class="mt-4 w-full" controls src="<%= question.audio_url %>"></audio>
+          <% end %>
         <% end %>
 
         <div class="mt-5 grid gap-3">

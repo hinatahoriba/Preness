@@ -56,12 +56,12 @@
             </div>
           </aside>
           <div class="space-y-6 lg:w-7/12">
-            <%= render partial: "question_cards", locals: { questions: @questions, answers_by_question_id: @answers_by_question_id } %>
+            <%= render partial: "question_cards", locals: { questions: @questions, answers_by_question_id: @answers_by_question_id, section_type: @section.section_type } %>
           </div>
         </div>
       <% else %>
         <div class="mt-8 space-y-6">
-          <%= render partial: "question_cards", locals: { questions: @questions, answers_by_question_id: @answers_by_question_id } %>
+          <%= render partial: "question_cards", locals: { questions: @questions, answers_by_question_id: @answers_by_question_id, section_type: @section.section_type } %>
         </div>
       <% end %>
 
