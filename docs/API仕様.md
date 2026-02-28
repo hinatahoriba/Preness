@@ -6,8 +6,8 @@
 
 - **データ投入元:** 外部の問題生成アプリケーション（FastAPI）からPOSTリクエストを受け取ります。
 - **管理画面:** 不要（問題の確認・編集もAPIのみで行い、DBに直接反映されます）
-- **認証方式:** 固定APIキー（環境変数 `CONTENT_API_KEY` で管理）
-- **リクエストヘッダー:** `X-Api-Key: {CONTENT_API_KEY}`
+- **認証方式:** 特定の送信元IPアドレス制限
+- **許可IP:** 環境変数 `ALLOWED_CONTENT_SOURCE_IPS` で管理
 
 ### エンドポイント一覧
 
@@ -20,7 +20,7 @@
 
 ## POST /api/v1/mocks
 
-模擬試験は3セクション（Listening / Structure / Reading）全てが必須。
+模擬試験は投入されたセクション構成に従って表示されます。
 
 ### リクエストスキーマ
 
@@ -215,7 +215,7 @@
 ```json
 {
   "status": "error",
-  "errors": ["sections must include all three types: listening, structure, reading"]
+  "errors": ["Validation failed: title can't be blank"]
 }
 ```
 
