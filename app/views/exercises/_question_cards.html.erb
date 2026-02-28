@@ -17,28 +17,29 @@
         <div class="mt-5 grid gap-3">
           <% Question::CHOICES.each do |choice| %>
             <% input_id = "exercise_question_#{question.id}_#{choice}" %>
-            <input
-              class="peer sr-only"
-              type="radio"
-              id="<%= input_id %>"
-              name="answers[<%= question.id %>]"
-              value="<%= choice %>"
-              <%= "checked" if selected_choice == choice %>
-              data-action="exercise-progress#update"
-            />
-            <label
-              for="<%= input_id %>"
-              class="flex cursor-pointer items-start gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 shadow-sm transition hover:bg-slate-50 peer-checked:border-orange-400 peer-checked:bg-orange-50"
-            >
-              <span class="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-slate-300 text-xs font-bold text-slate-600">
-                <%= choice %>
-              </span>
-              <span class="whitespace-pre-line leading-relaxed"><%= question_choice_text(question, choice) %></span>
-            </label>
+            <div>
+              <input
+                class="peer sr-only"
+                type="radio"
+                id="<%= input_id %>"
+                name="answers[<%= question.id %>]"
+                value="<%= choice %>"
+                <%= "checked" if selected_choice == choice %>
+                data-action="exercise-progress#update"
+              />
+              <label
+                for="<%= input_id %>"
+                class="flex cursor-pointer items-start gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 shadow-sm transition hover:bg-slate-50 peer-checked:border-orange-400 peer-checked:bg-orange-50"
+              >
+                <span class="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-slate-300 text-xs font-bold text-slate-600">
+                  <%= choice %>
+                </span>
+                <span class="whitespace-pre-line leading-relaxed"><%= question_choice_text(question, choice) %></span>
+              </label>
+            </div>
           <% end %>
         </div>
       </div>
     </div>
   </div>
 <% end %>
-

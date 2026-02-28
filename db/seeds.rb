@@ -97,7 +97,7 @@ else
   demo_user.confirmed_at ||= Time.current
   demo_user.save!
 
-  audio_url = "https://www2.cs.uic.edu/~i101/SoundFiles/BabyElephantWalk60.wav"
+  audio_url = "https://preness-listening-audio.s3.ap-northeast-1.amazonaws.com/PartB_02.wav"
 
   create_exercise_set!(
     section_type: "listening",
