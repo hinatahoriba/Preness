@@ -10,9 +10,38 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_02_12_150513) do
+ActiveRecord::Schema[8.0].define(version: 2026_02_28_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "answers", force: :cascade do |t|
+    t.bigint "attempt_id", null: false
+    t.bigint "question_id", null: false
+    t.string "selected_choice"
+    t.boolean "is_correct"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["attempt_id", "question_id"], name: "index_answers_on_attempt_id_and_question_id", unique: true
+    t.index ["attempt_id"], name: "index_answers_on_attempt_id"
+    t.index ["question_id"], name: "index_answers_on_question_id"
+  end
+
+  create_table "attempts", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "mockable_type", null: false
+    t.bigint "mockable_id", null: false
+    t.datetime "completed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["mockable_type", "mockable_id"], name: "index_attempts_on_mockable"
+    t.index ["user_id", "mockable_type", "mockable_id"], name: "index_attempts_on_user_id_and_mockable_type_and_mockable_id", unique: true
+    t.index ["user_id"], name: "index_attempts_on_user_id"
+  end
+
+  create_table "exercises", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "mock_tests", force: :cascade do |t|
     t.string "title", null: false
@@ -25,6 +54,21 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_12_150513) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["published"], name: "index_mock_tests_on_published"
+  end
+
+  create_table "mocks", force: :cascade do |t|
+    t.string "title", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "parts", force: :cascade do |t|
+    t.bigint "section_id", null: false
+    t.string "part_type", null: false
+    t.integer "display_order", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["section_id"], name: "index_parts_on_section_id"
   end
 
   create_table "purchases", force: :cascade do |t|
@@ -42,6 +86,42 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_12_150513) do
     t.index ["stripe_payment_intent_id"], name: "index_purchases_on_stripe_payment_intent_id"
     t.index ["user_id", "mock_test_id"], name: "index_purchases_on_user_id_and_mock_test_id", unique: true
     t.index ["user_id"], name: "index_purchases_on_user_id"
+  end
+
+  create_table "question_sets", force: :cascade do |t|
+    t.bigint "part_id", null: false
+    t.text "passage"
+    t.string "audio_url"
+    t.integer "display_order", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["part_id"], name: "index_question_sets_on_part_id"
+  end
+
+  create_table "questions", force: :cascade do |t|
+    t.bigint "question_set_id", null: false
+    t.integer "display_order", null: false
+    t.text "question_text", null: false
+    t.string "audio_url"
+    t.text "choice_a", null: false
+    t.text "choice_b", null: false
+    t.text "choice_c", null: false
+    t.text "choice_d", null: false
+    t.string "correct_choice", null: false
+    t.text "explanation"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["question_set_id"], name: "index_questions_on_question_set_id"
+  end
+
+  create_table "sections", force: :cascade do |t|
+    t.string "sectionable_type", null: false
+    t.bigint "sectionable_id", null: false
+    t.string "section_type", null: false
+    t.integer "display_order", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["sectionable_type", "sectionable_id"], name: "index_sections_on_sectionable"
   end
 
   create_table "subscriptions", force: :cascade do |t|
@@ -82,7 +162,13 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_12_150513) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "answers", "attempts"
+  add_foreign_key "answers", "questions"
+  add_foreign_key "attempts", "users"
+  add_foreign_key "parts", "sections"
   add_foreign_key "purchases", "mock_tests"
   add_foreign_key "purchases", "users"
+  add_foreign_key "question_sets", "parts"
+  add_foreign_key "questions", "question_sets"
   add_foreign_key "subscriptions", "users"
 end
