@@ -5,6 +5,7 @@
     </h1>
 
     <div class="mt-10 flex flex-wrap gap-3">
+      <%= link_to "セクション別演習へ", exercises_path, class: "inline-flex items-center rounded-lg bg-orange-500 px-5 py-2 text-sm font-semibold text-white hover:bg-orange-600" %>
       <%= link_to "アカウント設定", edit_user_registration_path, class: "inline-flex items-center rounded-lg bg-orange-500 px-5 py-2 text-sm font-semibold text-white hover:bg-orange-600" %>
       <%= link_to "ログアウト", destroy_user_session_path, data: { turbo_method: :delete }, class: "inline-flex items-center rounded-lg border border-orange-300 px-5 py-2 text-sm font-semibold text-orange-700 hover:bg-orange-50" %>
     </div>

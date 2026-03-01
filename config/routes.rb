@@ -22,6 +22,20 @@ Rails.application.routes.draw do
   resource :mypage, only: [:show]
   get "terms", to: "pages#terms", as: :terms
   get "privacy", to: "pages#privacy", as: :privacy
+
+  resources :exercises, only: [:index] do
+    member do
+      match :answer, via: %i[get post]
+      get :result
+    end
+  end
+
+  namespace :api do
+    namespace :v1 do
+      resources :mocks, only: [:create]
+      resources :exercises, only: [:create]
+    end
+  end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
