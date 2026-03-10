@@ -1,1 +1,14 @@
 @import "tailwindcss";
+
+@theme {
+    --color-preness-50: #edf9f8;
+    --color-preness-100: #d0efee;
+    --color-preness-200: #9dd9d8;
+    --color-preness-300: #6ac4c2;
+    --color-preness-400: #46afac;
+    --color-preness-500: #38A19D;
+    --color-preness-600: #2d8380;
+    --color-preness-700: #226462;
+    --color-preness-800: #174544;
+    --color-preness-900: #0f2e2d;
+}
