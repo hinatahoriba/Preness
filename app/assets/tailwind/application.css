@@ -11,4 +11,67 @@
     --color-preness-700: #226462;
     --color-preness-800: #174544;
     --color-preness-900: #0f2e2d;
+
+    /* LP colors */
+    --color-biscay: #1b3b69;
+    --color-gold-tips: #dec514;
+    --color-eastern-blue: #249ea6;
+    --color-catskill: #ecf2f9;
+    --color-light-gray: #efefef;
+    --color-dark-text: #202020;
 }
+
+/* LP custom classes */
+.btn-primary {
+    background-color: #249ea6;
+    color: white;
+    font-weight: 700;
+    border-radius: 9999px;
+    padding: 14px 32px;
+    display: inline-block;
+    transition: opacity 0.2s;
+}
+.btn-primary:hover { opacity: 0.85; }
+
+.btn-outline {
+    background-color: #ecf2f9;
+    border: 2px solid #249ea6;
+    color: #249ea6;
+    font-weight: 700;
+    border-radius: 9999px;
+    padding: 10px 28px;
+    display: inline-block;
+    transition: background-color 0.2s;
+}
+.btn-outline:hover { background-color: #d0e8f7; }
+
+.link-arrow {
+    color: #249ea6;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+.link-arrow::after { content: '→'; }
+
+.section-bg { background-color: #ecf2f9; }
+
+.merit-number {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 90px;
+    color: #dec514;
+    line-height: 1;
+}
+
+.exam-card {
+    background: #ecf2f9;
+    border: 3px solid #249ea6;
+    border-radius: 30px;
+    padding: 32px 24px;
+    min-height: 400px;
+}
+
+.footer-bg { background-color: #1b3b69; }
+
+.lp-page { font-family: 'Noto Sans JP', sans-serif; }
