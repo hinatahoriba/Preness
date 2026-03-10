@@ -1,12 +1,33 @@
-<%= render "devise/shared/auth_shell", title: "確認メールを送信しました", subtitle: "メール内のリンクを開くまでログインできません。" do %>
-  <p class="text-sm leading-relaxed text-slate-600">
-    <%= @pending_email.present? ? "#{@pending_email} 宛に確認メールを送信しました。" : "入力したメールアドレス宛に確認メールを送信しました。" %>
-  </p>
+<section class="min-h-screen bg-gray-50 flex flex-col items-center justify-center px-4 py-12">
+  <div class="bg-white rounded-2xl shadow-sm w-full max-w-md p-8 md:p-12 text-center border border-gray-100">
 
-  <div class="mt-6 space-y-3">
-    <%= link_to "確認メールを再送する", new_user_confirmation_path(user: { email: @pending_email }),
-        class: "inline-flex w-full items-center justify-center rounded-xl bg-preness-500 px-4 py-3 text-sm font-semibold text-white transition hover:bg-preness-600" %>
-    <%= link_to "ログイン画面へ戻る", new_user_session_path,
-        class: "inline-flex w-full items-center justify-center rounded-xl border border-preness-300 px-4 py-3 text-sm font-semibold text-preness-700 transition hover:bg-preness-50" %>
+    <div class="flex justify-center mb-6">
+      <div class="bg-teal-50 w-20 h-20 rounded-full flex items-center justify-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+        </svg>
+      </div>
+    </div>
+
+    <h1 class="text-2xl font-bold text-slate-800 mb-4">確認メールを送信しました</h1>
+    <p class="text-gray-500 text-sm mb-4">以下のメールアドレスに確認用リンクを送信しました：</p>
+
+    <div class="bg-slate-50 border border-slate-100 rounded-lg py-2 px-4 inline-block mb-10">
+      <span class="text-slate-800 font-medium"><%= @pending_email.present? ? @pending_email : "登録したメールアドレス" %></span>
+    </div>
+
+    <div class="mb-8">
+      <p class="text-xs text-gray-400 mb-3">メールが届かない場合は、以下のボタンから再送してください</p>
+      <%= link_to "メールを再送する", new_user_confirmation_path(user: { email: @pending_email }),
+          class: "block w-full bg-[#529b93] hover:bg-[#45867f] text-white font-bold py-3.5 rounded-lg transition-all shadow-sm active:scale-[0.98] text-center" %>
+    </div>
+
+    <%= link_to new_user_registration_path, class: "inline-flex items-center text-sm text-gray-400 hover:text-teal-600 transition-colors group" do %>
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+      </svg>
+      新規登録に戻る
+    <% end %>
+
   </div>
-<% end %>
+</section>
