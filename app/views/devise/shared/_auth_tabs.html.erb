@@ -1,0 +1,10 @@
+<div class="-mx-8 -mt-8 mb-8 flex border-b border-gray-100">
+  <%= link_to new_registration_path(resource_name),
+        class: "flex-1 py-4 text-center text-sm font-medium transition #{controller_name == 'registrations' ? 'border-b-2 border-preness-500 text-preness-600' : 'text-gray-400 hover:text-gray-600'}" do %>
+    新規登録
+  <% end %>
+  <%= link_to new_session_path(resource_name),
+        class: "flex-1 py-4 text-center text-sm font-medium transition #{controller_name == 'sessions' ? 'border-b-2 border-preness-500 text-preness-600' : 'text-gray-400 hover:text-gray-600'}" do %>
+    ログイン
+  <% end %>
+</div>
