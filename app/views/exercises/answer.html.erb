@@ -27,7 +27,7 @@
     <div class="flex items-center gap-3 px-6 border-l border-[#ffffff20] whitespace-nowrap">
       <%= link_to "一覧に戻る", exercises_path, class: "px-6 py-2.5 bg-white border border-gray-300 text-gray-800 text-[13px] font-bold rounded-sm hover:bg-gray-50 transition-colors duration-200" %>
       <% if @attempt.present? %>
-        <%= link_to "前回の結果を見る", result_exercise_path(@exercise), class: "px-6 py-2.5 bg-white border border-gray-300 text-gray-800 text-[13px] font-bold rounded-sm hover:bg-gray-50 transition-colors duration-200" %>
+        <%= link_to "結果履歴を見る", history_exercise_path(@exercise), class: "px-6 py-2.5 bg-white border border-gray-300 text-gray-800 text-[13px] font-bold rounded-sm hover:bg-gray-50 transition-colors duration-200" %>
       <% end %>
     </div>
   </header>

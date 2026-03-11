@@ -18,19 +18,18 @@ module Exercises
 
     def call
       questions = @question_set.questions.to_a
-      attempt = Attempt.find_or_create_by!(user: @user, mockable: @exercise)
-
-      existing_answers = attempt.answers.where(question_id: questions.map(&:id)).index_by(&:question_id)
+      attempt = Attempt.create!(user: @user, mockable: @exercise, completed_at: Time.current)
 
       Answer.transaction do
         questions.each do |question|
           selected_choice = @answers_by_question_id.fetch(question.id.to_s, nil).presence
           is_correct = selected_choice.present? ? (selected_choice == question.correct_choice) : nil
 
-          answer = existing_answers[question.id] || attempt.answers.build(question:)
-          answer.selected_choice = selected_choice
-          answer.is_correct = is_correct
-          answer.save!
+          attempt.answers.create!(
+            question:,
+            selected_choice:,
+            is_correct:
+          )
         end
       end
 

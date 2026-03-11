@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   resources :exercises, only: [:index] do
     member do
       match :answer, via: %i[get post]
+      get :history
       get :result
     end
   end
