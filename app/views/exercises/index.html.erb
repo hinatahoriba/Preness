@@ -1,19 +1,23 @@
-<section class="min-h-screen bg-white px-6 py-12">
-  <div class="mx-auto max-w-5xl">
-    <div class="flex flex-wrap items-center justify-between gap-4">
-      <div>
-        <p class="text-sm font-semibold uppercase tracking-[0.2em] text-blue-500">Preness</p>
-        <h1 class="mt-2 text-3xl font-extrabold text-gray-900">セクション別演習</h1>
-      </div>
-      <div class="flex flex-wrap items-center gap-3">
-        <%= link_to "マイページ", mypage_path, class: "inline-flex items-center rounded-lg border border-blue-300 px-5 py-2 text-sm font-semibold text-blue-700 hover:bg-blue-50" %>
-      </div>
+<div class="min-h-screen bg-gray-50">
+  <header class="sticky top-0 z-50 flex items-stretch bg-white h-20 shadow-sm min-w-[1000px]">
+    <div class="flex items-center px-8 border-r border-gray-200 whitespace-nowrap">
+      <h1 class="text-[15px] font-bold text-gray-800 tracking-wide uppercase">
+        セクション別演習
+      </h1>
     </div>
 
+    <div class="flex-1"></div>
+
+    <div class="flex items-center gap-3 px-6 border-l border-gray-200 whitespace-nowrap">
+      <%= link_to "マイページ", mypage_path, class: "px-6 py-2.5 bg-white border border-gray-300 text-gray-800 text-[13px] font-bold rounded-sm hover:bg-gray-50 transition-colors duration-200" %>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-5xl px-6 py-10 min-w-[1000px]">
     <% Section::SECTION_TYPES.each do |section_type| %>
       <% entries = @exercise_entries_by_section_type.fetch(section_type, []) %>
 
-      <div class="mt-12">
+      <div class="mb-12 last:mb-0">
         <h2 class="text-xl font-bold text-gray-900"><%= exercise_section_label(section_type) %></h2>
 
         <% if entries.empty? %>
@@ -25,7 +29,7 @@
             <% part_label = exercise_part_label(part_type) %>
 
             <% if part_label.present? && section_type != "reading" %>
-              <h3 class="mt-8 text-sm font-bold text-gray-700"><%= part_label %></h3>
+              <h3 class="mt-8 text-sm font-bold text-gray-700 tracking-wide"><%= part_label %></h3>
             <% end %>
 
             <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -35,8 +39,8 @@
 
                 <%= link_to answer_exercise_path(exercise),
                   class: "group rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition hover:border-blue-200 hover:shadow-md" do %>
-                  <p class="text-sm font-semibold text-gray-500">Set<%= set_number %></p>
-                  <p class="mt-2 text-lg font-bold text-gray-900 group-hover:text-blue-700">
+                  <p class="text-sm font-semibold text-gray-400">Set<%= set_number %></p>
+                  <p class="mt-2 text-lg font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
                     <%= exercise_set_title(section_type: entry.fetch(:section_type), part_type: entry.fetch(:part_type), set_number: set_number) %>
                   </p>
                 <% end %>
@@ -46,6 +50,6 @@
         <% end %>
       </div>
     <% end %>
-  </div>
-</section>
+  </main>
+</div>
 
