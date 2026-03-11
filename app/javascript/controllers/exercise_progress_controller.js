@@ -1,8 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["answeredCount", "bar"]
-  static values = { total: Number }
+  static targets = ["answeredCount", "indicator"]
 
   connect() {
     this.update()
@@ -17,10 +16,19 @@ export default class extends Controller {
       this.answeredCountTarget.textContent = answeredCount
     }
 
-    if (this.hasBarTarget) {
-      const total = this.totalValue || 0
-      const percent = total === 0 ? 0 : (answeredCount / total) * 100
-      this.barTarget.style.width = `${percent}%`
+    if (this.hasIndicatorTarget) {
+      this.indicatorTargets.forEach((indicator) => {
+        const questionId = indicator.dataset.questionId
+        const isAnswered = this.element.querySelector(`input[name="answers[${questionId}]"]:checked`)
+        
+        if (isAnswered) {
+          indicator.classList.remove("bg-gray-200")
+          indicator.classList.add("bg-blue-500")
+        } else {
+          indicator.classList.remove("bg-blue-500")
+          indicator.classList.add("bg-gray-200")
+        }
+      })
     }
   }
 }
