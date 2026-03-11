@@ -1,33 +1,33 @@
 <% set_title = exercise_set_title(section_type: @section.section_type, part_type: @part.part_type, set_number: @question_set.display_order) %>
 <div
-  class="min-h-screen bg-gray-50"
+  class="min-h-screen bg-[#f4f5f7]"
   data-controller="exercise-progress"
 >
-  <header class="sticky top-0 z-50 flex items-stretch bg-white h-20 shadow-sm min-w-[1000px]">
-    <div class="flex items-center px-8 border-r border-gray-200 whitespace-nowrap">
-      <h1 class="text-[15px] font-bold text-gray-800 tracking-wide uppercase">
+  <header class="sticky top-0 z-50 flex items-stretch bg-[#001c54] h-20 shadow-sm min-w-[1000px]">
+    <div class="flex items-center px-8 border-r border-[#ffffff20] whitespace-nowrap">
+      <h1 class="text-[15px] font-bold text-white tracking-wide uppercase">
         <%= set_title %>
       </h1>
     </div>
 
     <div class="flex-1 flex flex-col items-center justify-center px-4">
-      <span class="text-[13px] font-bold text-[#333333] tracking-widest mb-2">
+      <span class="text-[13px] font-bold text-white tracking-widest mb-2">
         回答済み : <span data-exercise-progress-target="answeredCount"><%= @answered_count %></span>/<%= @total_count %>問
       </span>
       <div class="flex flex-wrap justify-center gap-[3px]">
         <% @questions.each do |question| %>
           <% is_answered = @answers_by_question_id[question.id]&.selected_choice.present? %>
-          <div class="w-[10px] h-[3px] <%= is_answered ? 'bg-blue-500' : 'bg-gray-200' %>" 
+          <div class="w-[10px] h-[3px] <%= is_answered ? 'bg-white' : 'bg-white/30' %>" 
                data-exercise-progress-target="indicator"
                data-question-id="<%= question.id %>"></div>
         <% end %>
       </div>
     </div>
 
-    <div class="flex items-center gap-3 px-6 border-l border-gray-200 whitespace-nowrap">
+    <div class="flex items-center gap-3 px-6 border-l border-[#ffffff20] whitespace-nowrap">
       <%= link_to "一覧に戻る", exercises_path, class: "px-6 py-2.5 bg-white border border-gray-300 text-gray-800 text-[13px] font-bold rounded-sm hover:bg-gray-50 transition-colors duration-200" %>
       <% if @attempt.present? %>
-        <%= link_to "前回の結果を見る", result_exercise_path(@exercise), class: "px-6 py-2.5 bg-blue-500 text-white text-[13px] font-bold rounded-sm hover:bg-blue-600 transition-colors duration-200" %>
+        <%= link_to "前回の結果を見る", result_exercise_path(@exercise), class: "px-6 py-2.5 bg-white border border-gray-300 text-gray-800 text-[13px] font-bold rounded-sm hover:bg-gray-50 transition-colors duration-200" %>
       <% end %>
     </div>
   </header>
@@ -62,7 +62,7 @@
       <% end %>
 
       <div class="mt-10 flex flex-wrap items-center justify-end gap-3">
-        <%= button_tag "採点する", type: :submit, class: "inline-flex items-center rounded-sm bg-blue-500 px-6 py-3 text-sm font-semibold text-white hover:bg-blue-600" %>
+        <%= button_tag "採点する", type: :submit, class: "inline-flex items-center rounded-sm bg-[#0f2361] px-6 py-3 text-sm font-semibold text-white hover:bg-[#0a1845]" %>
       </div>
     <% end %>
   </main>

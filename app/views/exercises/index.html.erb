@@ -1,14 +1,14 @@
-<div class="min-h-screen bg-gray-50">
-  <header class="sticky top-0 z-50 flex items-stretch bg-white h-20 shadow-sm min-w-[1000px]">
-    <div class="flex items-center px-8 border-r border-gray-200 whitespace-nowrap">
-      <h1 class="text-[15px] font-bold text-gray-800 tracking-wide uppercase">
+<div class="min-h-screen bg-[#f4f5f7]">
+  <header class="sticky top-0 z-50 flex items-stretch bg-[#001c54] h-20 shadow-sm min-w-[1000px]">
+    <div class="flex items-center px-8 border-r border-[#ffffff20] whitespace-nowrap">
+      <h1 class="text-[15px] font-bold text-white tracking-wide uppercase">
         セクション別演習
       </h1>
     </div>
 
     <div class="flex-1"></div>
 
-    <div class="flex items-center gap-3 px-6 border-l border-gray-200 whitespace-nowrap">
+    <div class="flex items-center gap-3 px-6 border-l border-[#ffffff20] whitespace-nowrap">
       <%= link_to "マイページ", mypage_path, class: "px-6 py-2.5 bg-white border border-gray-300 text-gray-800 text-[13px] font-bold rounded-sm hover:bg-gray-50 transition-colors duration-200" %>
     </div>
   </header>
@@ -38,9 +38,9 @@
                 <% set_number = entry.fetch(:set_number) %>
 
                 <%= link_to answer_exercise_path(exercise),
-                  class: "group rounded-sm border border-gray-200 bg-white p-6 shadow-sm transition hover:border-blue-200 hover:shadow-md" do %>
+                  class: "group rounded-sm border border-gray-200 bg-white p-6 shadow-sm transition hover:border-[#0f2361] hover:shadow-md" do %>
                   <p class="text-sm font-semibold text-gray-400">Set<%= set_number %></p>
-                  <p class="mt-2 text-lg font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
+                  <p class="mt-2 text-lg font-bold text-gray-900 group-hover:text-[#0f2361] transition-colors">
                     <%= exercise_set_title(section_type: entry.fetch(:section_type), part_type: entry.fetch(:part_type), set_number: set_number) %>
                   </p>
                 <% end %>
