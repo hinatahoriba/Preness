@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_02_28_000000) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_11_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -34,7 +34,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_28_000000) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["mockable_type", "mockable_id"], name: "index_attempts_on_mockable"
-    t.index ["user_id", "mockable_type", "mockable_id"], name: "index_attempts_on_user_id_and_mockable_type_and_mockable_id", unique: true
+    t.index ["user_id", "mockable_type", "mockable_id"], name: "index_attempts_on_user_id_and_mock", unique: true, where: "((mockable_type)::text = 'Mock'::text)"
+    t.index ["user_id", "mockable_type", "mockable_id"], name: "index_attempts_on_user_id_and_mockable"
     t.index ["user_id"], name: "index_attempts_on_user_id"
   end
 
