@@ -4,7 +4,13 @@ class ExercisesController < ApplicationController
   before_action :set_exercise_content, only: %i[answer result]
 
   def index
-    exercises = Exercise.includes(sections: { parts: :question_sets }).to_a
+    exercises = Exercise.includes(sections: { parts: { question_sets: :questions } }).to_a
+
+    exercise_ids = exercises.map(&:id)
+    attempts = current_user.attempts
+      .where(mockable_type: "Exercise", mockable_id: exercise_ids)
+      .includes(:answers)
+    attempts_by_exercise_id = attempts.index_by(&:mockable_id)
 
     @exercise_entries = exercises.filter_map do |exercise|
       section = exercise.sections.first
@@ -13,13 +19,20 @@ class ExercisesController < ApplicationController
 
       next if section.blank? || part.blank? || question_set.blank?
 
+      attempt = attempts_by_exercise_id[exercise.id]
+      total_count = question_set.questions.size
+      correct_count = attempt ? attempt.answers.count(&:is_correct) : nil
+
       {
         exercise: exercise,
         section_type: section.section_type,
         section_display_order: section.display_order,
         part_type: part.part_type,
         part_display_order: part.display_order,
-        set_number: question_set.display_order
+        set_number: question_set.display_order,
+        attempted: attempt.present?,
+        correct_count: correct_count,
+        total_count: total_count
       }
     end
 
