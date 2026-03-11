@@ -3,7 +3,7 @@
 <% questions.each_with_index do |question, index| %>
   <% selected_choice = answers_by_question_id[question.id]&.selected_choice %>
 
-  <div class="p-5 border border-gray-200 rounded-2xl bg-white shadow-sm font-sans mb-4 last:mb-0">
+  <div class="p-5 border border-gray-200 rounded-sm bg-white shadow-sm font-sans mb-4 last:mb-0">
     <div class="flex items-center mb-3">
       <span class="text-blue-500 font-semibold text-base mr-3">#<%= index + 1 %></span>
 
@@ -28,7 +28,7 @@
         <% input_id = "exercise_question_#{question.id}_#{choice}" %>
         <label
           for="<%= input_id %>"
-          class="group flex items-center p-3 border rounded-xl cursor-pointer transition-colors bg-white hover:bg-gray-50 border-gray-200 has-[:checked]:border-2 has-[:checked]:border-blue-500 has-[:checked]:bg-white has-[:checked]:hover:bg-white"
+          class="group flex items-center p-3 border rounded-sm cursor-pointer transition-colors bg-white hover:bg-gray-50 border-gray-200 has-[:checked]:border-2 has-[:checked]:border-blue-500 has-[:checked]:bg-white has-[:checked]:hover:bg-white"
         >
           <input
             class="sr-only"
@@ -39,7 +39,7 @@
             <%= "checked" if selected_choice == choice %>
             data-action="exercise-progress#update"
           />
-          <div class="flex items-center justify-center w-9 h-9 rounded-full border border-gray-300 text-gray-500 font-medium text-sm mr-3 flex-shrink-0 group-has-[:checked]:bg-blue-500 group-has-[:checked]:text-white group-has-[:checked]:border-transparent">
+          <div class="flex items-center justify-center w-9 h-9 rounded-sm border border-gray-300 text-gray-500 font-medium text-sm mr-3 flex-shrink-0 group-has-[:checked]:bg-blue-500 group-has-[:checked]:text-white group-has-[:checked]:border-transparent">
             <%= choice %>
           </div>
           <span class="text-gray-800 text-sm group-has-[:checked]:text-gray-900 group-has-[:checked]:font-medium whitespace-pre-line leading-relaxed"><%= question_choice_text(question, choice) %></span>
