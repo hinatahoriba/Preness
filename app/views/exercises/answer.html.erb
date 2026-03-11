@@ -9,29 +9,29 @@
   >
     <div class="flex flex-wrap items-start justify-between gap-4">
       <div>
-        <p class="text-sm font-semibold uppercase tracking-[0.2em] text-preness-500">Exercises</p>
-        <h1 class="mt-2 text-3xl font-extrabold text-slate-900"><%= set_title %></h1>
-        <p class="mt-2 text-sm text-slate-600">回答を選択して「採点する」を押してください（未回答でも可）。</p>
+        <p class="text-sm font-semibold uppercase tracking-[0.2em] text-blue-500">Exercises</p>
+        <h1 class="mt-2 text-3xl font-extrabold text-gray-900"><%= set_title %></h1>
+        <p class="mt-2 text-sm text-gray-600">回答を選択して「採点する」を押してください（未回答でも可）。</p>
       </div>
 
       <div class="flex flex-wrap items-center gap-3">
-        <%= link_to "一覧へ戻る", exercises_path, class: "inline-flex items-center rounded-lg border border-preness-300 px-5 py-2 text-sm font-semibold text-preness-700 hover:bg-preness-50" %>
+        <%= link_to "一覧へ戻る", exercises_path, class: "inline-flex items-center rounded-lg border border-blue-300 px-5 py-2 text-sm font-semibold text-blue-700 hover:bg-blue-50" %>
         <% if @attempt.present? %>
-          <%= link_to "前回の結果を見る", result_exercise_path(@exercise), class: "inline-flex items-center rounded-lg bg-preness-500 px-5 py-2 text-sm font-semibold text-white hover:bg-preness-600" %>
+          <%= link_to "前回の結果を見る", result_exercise_path(@exercise), class: "inline-flex items-center rounded-lg bg-blue-500 px-5 py-2 text-sm font-semibold text-white hover:bg-blue-600" %>
         <% end %>
       </div>
     </div>
 
-    <div class="mt-8 rounded-2xl border border-slate-200 bg-white p-6">
+    <div class="mt-8 rounded-2xl border border-gray-200 bg-white p-6">
       <div class="flex flex-wrap items-center justify-between gap-3">
-        <p class="text-sm font-semibold text-slate-700">
+        <p class="text-sm font-semibold text-gray-700">
           <span data-exercise-progress-target="answeredCount"><%= @answered_count %></span> / <%= @total_count %> 回答済み
         </p>
-        <p class="text-sm text-slate-500">ページ再読み込み時は保存済みの回答を復元します。</p>
+        <p class="text-sm text-gray-500">ページ再読み込み時は保存済みの回答を復元します。</p>
       </div>
-      <div class="mt-3 h-2 w-full overflow-hidden rounded-full bg-slate-100">
+      <div class="mt-3 h-2 w-full overflow-hidden rounded-full bg-gray-100">
         <div
-          class="h-full bg-preness-500 transition-[width]"
+          class="h-full bg-blue-500 transition-[width]"
           style="width: <%= answered_percent %>%"
           data-exercise-progress-target="bar"
         ></div>
@@ -41,8 +41,8 @@
     <%= form_with url: answer_exercise_path(@exercise), method: :post do %>
 
       <% if @question_set.audio_url.present? %>
-        <div class="mt-8 rounded-2xl border border-slate-200 bg-white p-6">
-          <h2 class="text-sm font-bold text-slate-700">音声（セット共通）</h2>
+        <div class="mt-8 rounded-2xl border border-gray-200 bg-white p-6">
+          <h2 class="text-sm font-bold text-gray-700">音声（セット共通）</h2>
           <audio class="mt-4 w-full" controls src="<%= @question_set.audio_url %>"></audio>
         </div>
       <% end %>
@@ -50,9 +50,9 @@
       <% if @section.section_type == "reading" %>
         <div class="mt-8 flex flex-col gap-8 lg:flex-row">
           <aside class="lg:w-5/12">
-            <div class="rounded-2xl border border-slate-200 bg-white p-6 lg:sticky lg:top-8">
-              <h2 class="text-sm font-bold text-slate-700">Passage</h2>
-              <p class="mt-4 whitespace-pre-line text-sm leading-relaxed text-slate-700"><%= @question_set.passage %></p>
+            <div class="rounded-2xl border border-gray-200 bg-white p-6 lg:sticky lg:top-8">
+              <h2 class="text-sm font-bold text-gray-700">Passage</h2>
+              <p class="mt-4 whitespace-pre-line text-sm leading-relaxed text-gray-700"><%= @question_set.passage %></p>
             </div>
           </aside>
           <div class="space-y-6 lg:w-7/12">
@@ -66,7 +66,7 @@
       <% end %>
 
       <div class="mt-10 flex flex-wrap items-center justify-end gap-3">
-        <%= button_tag "採点する", type: :submit, class: "inline-flex items-center rounded-lg bg-preness-500 px-6 py-3 text-sm font-semibold text-white hover:bg-preness-600" %>
+        <%= button_tag "採点する", type: :submit, class: "inline-flex items-center rounded-lg bg-blue-500 px-6 py-3 text-sm font-semibold text-white hover:bg-blue-600" %>
       </div>
     <% end %>
   </div>
