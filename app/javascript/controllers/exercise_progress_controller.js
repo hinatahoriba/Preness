@@ -22,11 +22,11 @@ export default class extends Controller {
         const isAnswered = this.element.querySelector(`input[name="answers[${questionId}]"]:checked`)
         
         if (isAnswered) {
-          indicator.classList.remove("bg-gray-200")
-          indicator.classList.add("bg-blue-500")
+          indicator.classList.remove("bg-white/30")
+          indicator.classList.add("bg-white")
         } else {
-          indicator.classList.remove("bg-blue-500")
-          indicator.classList.add("bg-gray-200")
+          indicator.classList.remove("bg-white")
+          indicator.classList.add("bg-white/30")
         }
       })
     }
