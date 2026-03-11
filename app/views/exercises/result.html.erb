@@ -1,50 +1,49 @@
 <% set_title = exercise_set_title(section_type: @section.section_type, part_type: @part.part_type, set_number: @question_set.display_order) %>
 <% score_percent = @total_count.zero? ? 0 : ((@correct_count.to_f / @total_count) * 100).round(1) %>
 
-<section class="min-h-screen bg-[#F3F4F6] px-6 py-10 flex justify-center">
-  <div class="w-full max-w-4xl space-y-12">
+<section class="min-h-screen bg-gray-50 px-6 py-8 flex justify-center">
+  <div class="w-full max-w-4xl space-y-6">
     <!-- Header -->
     <div class="flex flex-wrap items-start justify-between gap-4">
       <div>
-        <p class="text-sm font-semibold uppercase tracking-[0.2em] text-gray-500">Result</p>
-        <h1 class="mt-2 text-3xl font-extrabold text-gray-900">採点結果</h1>
-        <p class="mt-2 text-sm text-gray-600"><%= set_title %></p>
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-gray-400">Result</p>
+        <h1 class="mt-1 text-2xl font-extrabold text-gray-900">採点結果</h1>
+        <p class="mt-1 text-sm text-gray-500"><%= set_title %></p>
       </div>
-
     </div>
 
     <!-- Score Card -->
-    <div class="bg-white border border-gray-200 rounded-xl p-8 flex justify-between items-center shadow-sm">
-      <div class="flex flex-col gap-2">
-        <span class="text-sm text-gray-500 font-medium tracking-wide">正答率</span>
-        <span class="text-6xl font-semibold text-[#3B82F6]"><%= score_percent %>%</span>
+    <div class="bg-white border border-gray-200 rounded-xl p-6 flex justify-between items-center shadow-sm">
+      <div class="flex flex-col gap-1">
+        <span class="text-xs text-gray-500 font-medium tracking-wide">正答率</span>
+        <span class="text-5xl font-semibold text-blue-500"><%= score_percent %>%</span>
       </div>
       
-      <div class="flex flex-col items-end gap-3">
-        <div class="border border-gray-200 rounded-lg px-8 py-3 bg-[#FAFAFA] text-gray-800 text-sm font-medium">
+      <div class="flex flex-col items-end gap-2">
+        <div class="border border-gray-200 rounded-lg px-6 py-2 bg-gray-50 text-gray-800 text-sm font-medium">
           正解数: <%= @correct_count %> / <%= @total_count %>
         </div>
-        <span class="text-xs text-gray-400 tracking-wide">作成日: <%= @exercise.created_at.strftime("%Y/%m/%d") rescue Time.current.strftime("%Y/%m/%d") %></span>
+        <span class="text-[10px] text-gray-400 tracking-wide">作成日: <%= @exercise.created_at.strftime("%Y/%m/%d") rescue Time.current.strftime("%Y/%m/%d") %></span>
       </div>
     </div>
 
     <!-- Questions Details -->
-    <div class="space-y-6">
-      <div class="border-b border-gray-200 pb-3 flex justify-between items-center">
-        <h2 class="text-xl font-bold text-gray-900">正誤/解説</h2>
+    <div class="space-y-4">
+      <div class="border-b border-gray-200 pb-2 flex justify-between items-center">
+        <h2 class="text-lg font-bold text-gray-900">正誤/解説</h2>
 
         <%= form_with url: result_exercise_path(@exercise), method: :get, class: "m-0", data: { turbo: true } do |f| %>
           <%= f.select :filter, 
                 options_for_select([['全問', 'all'], ['間違った問題', 'wrong'], ['あってた問題', 'correct']], @filter), 
                 {}, 
                 onchange: "this.form.submit()", 
-                class: "block w-40 rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm py-2 px-3 bg-white text-gray-700 cursor-pointer" %>
+                class: "block w-36 rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm py-1.5 px-3 bg-white text-gray-700 cursor-pointer" %>
         <% end %>
       </div>
 
       <% if @display_questions.empty? %>
-        <div class="bg-white border border-gray-200 rounded-xl p-8 flex justify-center items-center shadow-sm">
-          <p class="text-lg font-semibold text-gray-500">
+        <div class="bg-white border border-gray-200 rounded-xl p-6 flex justify-center items-center shadow-sm">
+          <p class="text-base font-semibold text-gray-400">
             該当する問題がありません。
           </p>
         </div>
@@ -56,28 +55,28 @@
           <% is_correct = answer&.is_correct == true %>
 
           <div class="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
-            <div class="border-b border-gray-100 px-6 py-4 flex justify-between items-center bg-gray-50">
+            <div class="border-b border-gray-100 px-5 py-3 flex justify-between items-center bg-gray-50">
               <span class="text-sm font-bold text-gray-700">Q<%= question.display_order %></span>
               <% if is_correct %>
-                <span class="text-sm font-bold text-emerald-600 bg-emerald-100 px-3 py-1 rounded-full">正解</span>
+                <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full">正解</span>
               <% else %>
-                <span class="text-sm font-bold text-[#EF4444] bg-red-50 px-3 py-1 rounded-full">不正解</span>
+                <span class="text-xs font-bold text-red-500 bg-red-50 px-2.5 py-1 rounded-full">不正解</span>
               <% end %>
             </div>
 
-            <div class="p-6 space-y-8">
-              <h3 class="text-[17px] font-bold text-gray-900 tracking-wide">
+            <div class="p-5 space-y-5">
+              <h3 class="text-base font-bold text-gray-900 leading-tight">
                 <%= question.question_text %>
               </h3>
 
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <div class="border border-gray-200 rounded-xl p-5 <%= is_correct ? 'bg-emerald-50/50' : 'bg-red-50/30' %>">
-                  <p class="text-xs text-gray-500 mb-4">あなたの解答</p>
-                  <div class="flex items-center gap-4">
-                    <div class="w-8 h-8 rounded-full <%= is_correct ? 'bg-emerald-500' : 'bg-[#EF4444]' %> text-white flex justify-center items-center text-sm font-medium">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="border border-gray-100 rounded-xl p-4 <%= is_correct ? 'bg-emerald-50/30' : 'bg-red-50/30' %>">
+                  <p class="text-[10px] text-gray-400 font-semibold mb-2 uppercase">あなたの解答</p>
+                  <div class="flex items-center gap-3">
+                    <div class="w-7 h-7 rounded-full <%= is_correct ? 'bg-emerald-500' : 'bg-red-500' %> text-white flex justify-center items-center text-xs font-bold">
                       <%= selected_choice.present? ? selected_choice.upcase : "-" %>
                     </div>
-                    <span class="text-gray-800">
+                    <span class="text-sm text-gray-800">
                       <% if selected_choice.present? %>
                         <%= question_choice_text(question, selected_choice) %>
                       <% else %>
@@ -87,22 +86,22 @@
                   </div>
                 </div>
 
-                <div class="border border-gray-200 rounded-xl p-5 bg-blue-50/30">
-                  <p class="text-xs text-gray-500 mb-4">正解</p>
-                  <div class="flex items-center gap-4">
-                    <div class="w-8 h-8 rounded-full bg-[#3B82F6] text-white flex justify-center items-center text-sm font-medium">
+                <div class="border border-gray-100 rounded-xl p-4 bg-blue-50/20">
+                  <p class="text-[10px] text-gray-400 font-semibold mb-2 uppercase">正解</p>
+                  <div class="flex items-center gap-3">
+                    <div class="w-7 h-7 rounded-full bg-blue-500 text-white flex justify-center items-center text-xs font-bold">
                       <%= correct_choice.upcase %>
                     </div>
-                    <span class="text-gray-900 font-medium">
+                    <span class="text-sm text-gray-900 font-medium">
                       <%= question_choice_text(question, correct_choice) %>
                     </span>
                   </div>
                 </div>
               </div>
 
-              <div class="border border-gray-200 rounded-xl p-5 bg-[#FAFAFA]">
-                <p class="text-xs text-gray-500 mb-3">解説</p>
-                <div class="text-sm text-gray-800 leading-relaxed tracking-wide whitespace-pre-line">
+              <div class="border border-gray-100 rounded-xl p-4 bg-gray-50/50">
+                <p class="text-[10px] text-gray-400 font-semibold mb-1.5 uppercase">解説</p>
+                <div class="text-sm text-gray-700 leading-relaxed whitespace-pre-line">
                   <%= question.explanation.presence || "解説はありません。" %>
                 </div>
               </div>
@@ -113,19 +112,19 @@
     </div>
 
     <!-- Bottom Buttons -->
-    <div class="flex flex-row items-stretch gap-3 sm:gap-6 mt-16 pb-20">
-      <%= link_to exercises_path, class: "group flex-1 flex items-center justify-center gap-2 sm:gap-3 rounded-2xl border-2 border-gray-200 bg-white px-4 sm:px-8 py-4 text-base sm:text-xl font-extrabold text-gray-700 transition-all duration-200 hover:border-gray-300 hover:bg-gray-50 hover:shadow-xl hover:shadow-gray-200 active:scale-[0.98]" do %>
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6 transition-transform group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <div class="flex flex-row items-stretch gap-4 mt-8 pb-12">
+      <%= link_to exercises_path, class: "group flex-1 flex items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm font-bold text-gray-600 transition-all hover:bg-gray-50 active:scale-[0.98]" do %>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
         </svg>
-        <span class="whitespace-nowrap">一覧へ戻る</span>
+        <span>一覧へ戻る</span>
       <% end %>
       
-      <%= link_to answer_exercise_path(@exercise), class: "group flex-1 flex items-center justify-center gap-2 sm:gap-3 rounded-2xl bg-[#3B82F6] px-4 sm:px-8 py-4 text-base sm:text-xl font-extrabold text-white shadow-xl shadow-blue-100 transition-all duration-200 hover:bg-blue-600 hover:shadow-blue-200 hover:-translate-y-1 active:scale-[0.98]" do %>
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6 transition-transform group-hover:rotate-45" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <%= link_to answer_exercise_path(@exercise), class: "group flex-1 flex items-center justify-center gap-2 rounded-xl bg-blue-500 px-4 py-3 text-sm font-bold text-white transition-all hover:bg-blue-600 active:scale-[0.98]" do %>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
         </svg>
-        <span class="whitespace-nowrap">もう一度解く</span>
+        <span>もう一度解く</span>
       <% end %>
     </div>
   </div>
