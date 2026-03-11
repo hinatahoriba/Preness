@@ -34,26 +34,39 @@
 
     <!-- Questions Details -->
     <div class="space-y-6">
-      <div class="border-b border-gray-200 pb-3">
+      <div class="border-b border-gray-200 pb-3 flex justify-between items-center">
         <h2 class="text-xl font-bold text-gray-900">正誤/解説</h2>
+
+        <%= form_with url: result_exercise_path(@exercise), method: :get, class: "m-0", data: { turbo: true } do |f| %>
+          <%= f.select :filter, 
+                options_for_select([['全問', 'all'], ['間違った問題', 'wrong'], ['あってた問題', 'correct']], @filter), 
+                {}, 
+                onchange: "this.form.submit()", 
+                class: "block w-40 rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm py-2 px-3 bg-white text-gray-700 cursor-pointer" %>
+        <% end %>
       </div>
 
-      <% if @wrong_questions.empty? %>
+      <% if @display_questions.empty? %>
         <div class="bg-white border border-gray-200 rounded-xl p-8 flex justify-center items-center shadow-sm">
-          <p class="text-lg font-semibold text-[#3B82F6]">
-            全問正解です。素晴らしい！
+          <p class="text-lg font-semibold text-gray-500">
+            該当する問題がありません。
           </p>
         </div>
       <% else %>
-        <% @wrong_questions.each do |question| %>
+        <% @display_questions.each do |question| %>
           <% answer = @answers_by_question_id[question.id] %>
           <% selected_choice = answer&.selected_choice %>
           <% correct_choice = question.correct_choice %>
+          <% is_correct = answer&.is_correct == true %>
 
           <div class="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
-            <div class="border-b border-gray-100 px-6 py-4 flex justify-between items-center">
-              <span class="text-sm text-gray-500 font-medium">Q<%= question.display_order %></span>
-              <span class="text-sm text-[#EF4444] font-bold">不正解</span>
+            <div class="border-b border-gray-100 px-6 py-4 flex justify-between items-center bg-gray-50">
+              <span class="text-sm font-bold text-gray-700">Q<%= question.display_order %></span>
+              <% if is_correct %>
+                <span class="text-sm font-bold text-emerald-600 bg-emerald-100 px-3 py-1 rounded-full">正解</span>
+              <% else %>
+                <span class="text-sm font-bold text-[#EF4444] bg-red-50 px-3 py-1 rounded-full">不正解</span>
+              <% end %>
             </div>
 
             <div class="p-6 space-y-8">
@@ -62,10 +75,10 @@
               </h3>
 
               <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <div class="border border-gray-200 rounded-xl p-5">
+                <div class="border border-gray-200 rounded-xl p-5 <%= is_correct ? 'bg-emerald-50/50' : 'bg-red-50/30' %>">
                   <p class="text-xs text-gray-500 mb-4">あなたの解答</p>
                   <div class="flex items-center gap-4">
-                    <div class="w-8 h-8 rounded-full bg-[#EF4444] text-white flex justify-center items-center text-sm font-medium">
+                    <div class="w-8 h-8 rounded-full <%= is_correct ? 'bg-emerald-500' : 'bg-[#EF4444]' %> text-white flex justify-center items-center text-sm font-medium">
                       <%= selected_choice.present? ? selected_choice.upcase : "-" %>
                     </div>
                     <span class="text-gray-800">
@@ -78,7 +91,7 @@
                   </div>
                 </div>
 
-                <div class="border border-gray-200 rounded-xl p-5">
+                <div class="border border-gray-200 rounded-xl p-5 bg-blue-50/30">
                   <p class="text-xs text-gray-500 mb-4">正解</p>
                   <div class="flex items-center gap-4">
                     <div class="w-8 h-8 rounded-full bg-[#3B82F6] text-white flex justify-center items-center text-sm font-medium">

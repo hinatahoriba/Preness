@@ -68,7 +68,18 @@ class ExercisesController < ApplicationController
     @total_count = @questions.size
     @correct_count = @questions.count { @answers_by_question_id[_1.id]&.is_correct == true }
     @answered_count = @questions.count { @answers_by_question_id[_1.id]&.selected_choice.present? }
-    @wrong_questions = @questions.select { @answers_by_question_id[_1.id]&.is_correct != true }
+    
+    @filter = params[:filter].presence || 'wrong'
+    @display_questions = case @filter
+                         when 'all'
+                           @questions
+                         when 'correct'
+                           @questions.select { @answers_by_question_id[_1.id]&.is_correct == true }
+                         when 'wrong'
+                           @questions.select { @answers_by_question_id[_1.id]&.is_correct != true }
+                         else
+                           @questions.select { @answers_by_question_id[_1.id]&.is_correct != true }
+                         end
   end
 
   private
