@@ -1,7 +1,7 @@
 module Api
   module V1
     class BaseController < ActionController::API
-      before_action :restrict_content_source_ip!
+      before_action :authenticate_api_key!
 
       rescue_from ActionController::ParameterMissing do |e|
         render json: { status: "error", errors: [e.message] }, status: :unprocessable_entity
@@ -17,17 +17,41 @@ module Api
 
       private
 
-      def restrict_content_source_ip!
-        allowed_ips = ENV.fetch("ALLOWED_CONTENT_SOURCE_IPS", "")
-          .split(",")
-          .map(&:strip)
-          .reject(&:blank?)
+      API_KEY_ENV = "CONTENT_SOURCE_API_KEY"
 
-        return if allowed_ips.empty?
+      def authenticate_api_key!
+        expected = ENV[API_KEY_ENV].to_s
 
-        return if allowed_ips.include?(request.remote_ip)
+        if expected.blank?
+          Rails.logger.error("[API Auth] #{API_KEY_ENV} is not set")
+          render json: { status: "error", errors: ["Server misconfigured"] }, status: :internal_server_error
+          return
+        end
 
-        render json: { status: "error", errors: ["Forbidden"] }, status: :forbidden
+        provided = extract_api_key
+
+        unless provided.present? && secure_compare(provided, expected)
+          render json: { status: "error", errors: ["Unauthorized"] }, status: :unauthorized
+        end
+      end
+
+      def extract_api_key
+        auth = request.authorization.to_s.strip
+
+        if auth.start_with?("Bearer ")
+          return auth.delete_prefix("Bearer ").strip
+        end
+
+        return auth if auth.present?
+
+        request.headers["X-Api-Key"].to_s.strip.presence
+      end
+
+      def secure_compare(a, b)
+        ActiveSupport::SecurityUtils.secure_compare(
+          ::Digest::SHA256.hexdigest(a),
+          ::Digest::SHA256.hexdigest(b)
+        )
       end
     end
   end
