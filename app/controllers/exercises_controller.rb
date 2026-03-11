@@ -98,13 +98,10 @@ class ExercisesController < ApplicationController
   end
 
   def load_saved_answers
-    attempt = current_user.attempts.find_by(mockable: @exercise)
-    answers_by_question_id = attempt&.answers&.where(question_id: @questions.map(&:id))&.index_by(&:question_id) || {}
-
-    @attempt = attempt
-    @answers_by_question_id = answers_by_question_id
+    @attempt = current_user.attempts.find_by(mockable: @exercise)
+    @answers_by_question_id = {}
     @total_count = @questions.size
-    @answered_count = @questions.count { answers_by_question_id[_1.id]&.selected_choice.present? }
+    @answered_count = 0
   end
 
   def answers_params
