@@ -11,10 +11,6 @@
         <p class="mt-2 text-sm text-gray-600"><%= set_title %></p>
       </div>
 
-      <div class="flex flex-wrap items-center gap-3">
-        <%= link_to "もう一度解く", answer_exercise_path(@exercise), class: "inline-flex items-center rounded-lg border border-gray-300 px-5 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50 bg-white" %>
-        <%= link_to "一覧へ戻る", exercises_path, class: "inline-flex items-center rounded-lg bg-[#3B82F6] px-5 py-2 text-sm font-semibold text-white hover:bg-blue-600" %>
-      </div>
     </div>
 
     <!-- Score Card -->
@@ -113,6 +109,23 @@
             </div>
           </div>
         <% end %>
+      <% end %>
+    </div>
+
+    <!-- Bottom Buttons -->
+    <div class="flex flex-row items-stretch gap-3 sm:gap-6 mt-16 pb-20">
+      <%= link_to exercises_path, class: "group flex-1 flex items-center justify-center gap-2 sm:gap-3 rounded-2xl border-2 border-gray-200 bg-white px-4 sm:px-8 py-4 text-base sm:text-xl font-extrabold text-gray-700 transition-all duration-200 hover:border-gray-300 hover:bg-gray-50 hover:shadow-xl hover:shadow-gray-200 active:scale-[0.98]" do %>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6 transition-transform group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        </svg>
+        <span class="whitespace-nowrap">一覧へ戻る</span>
+      <% end %>
+      
+      <%= link_to answer_exercise_path(@exercise), class: "group flex-1 flex items-center justify-center gap-2 sm:gap-3 rounded-2xl bg-[#3B82F6] px-4 sm:px-8 py-4 text-base sm:text-xl font-extrabold text-white shadow-xl shadow-blue-100 transition-all duration-200 hover:bg-blue-600 hover:shadow-blue-200 hover:-translate-y-1 active:scale-[0.98]" do %>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6 transition-transform group-hover:rotate-45" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+        </svg>
+        <span class="whitespace-nowrap">もう一度解く</span>
       <% end %>
     </div>
   </div>
