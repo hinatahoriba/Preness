@@ -2,6 +2,7 @@
 <div
   class="min-h-screen bg-[#f4f5f7]"
   data-controller="exercise-progress"
+  data-exercise-progress-total-count-value="<%= @total_count %>"
 >
   <header class="sticky top-0 z-50 flex items-stretch bg-[#001c54] h-20 shadow-sm min-w-[1000px]">
     <div class="flex items-center px-8 border-r border-[#ffffff20] whitespace-nowrap">
@@ -62,7 +63,11 @@
       <% end %>
 
       <div class="mt-10 flex flex-wrap items-center justify-end gap-3">
-        <%= button_tag "採点する", type: :submit, class: "inline-flex items-center rounded-sm bg-[#0f2361] px-6 py-3 text-sm font-semibold text-white hover:bg-[#0a1845]" %>
+        <%= button_tag "採点する",
+              type: :submit,
+              disabled: true,
+              data: { "exercise-progress-target": "submitButton" },
+              class: "inline-flex items-center rounded-sm bg-[#0f2361] px-6 py-3 text-sm font-semibold text-white hover:bg-[#0a1845] disabled:opacity-40 disabled:cursor-not-allowed" %>
       </div>
     <% end %>
   </main>

@@ -23,13 +23,22 @@ module Exercises
       Answer.transaction do
         questions.each do |question|
           selected_choice = @answers_by_question_id.fetch(question.id.to_s, nil).presence
-          is_correct = selected_choice.present? ? (selected_choice == question.correct_choice) : nil
 
-          attempt.answers.create!(
-            question:,
-            selected_choice:,
-            is_correct:
-          )
+          if selected_choice == "skip"
+            attempt.answers.create!(
+              question:,
+              selected_choice: nil,
+              is_correct: false,
+              skipped: true
+            )
+          else
+            attempt.answers.create!(
+              question:,
+              selected_choice:,
+              is_correct: selected_choice == question.correct_choice,
+              skipped: false
+            )
+          end
         end
       end
 
@@ -37,4 +46,3 @@ module Exercises
     end
   end
 end
-

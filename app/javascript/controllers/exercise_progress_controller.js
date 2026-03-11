@@ -1,7 +1,8 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["answeredCount", "indicator"]
+  static targets = ["answeredCount", "indicator", "submitButton"]
+  static values = { totalCount: Number }
 
   connect() {
     this.update()
@@ -20,7 +21,7 @@ export default class extends Controller {
       this.indicatorTargets.forEach((indicator) => {
         const questionId = indicator.dataset.questionId
         const isAnswered = this.element.querySelector(`input[name="answers[${questionId}]"]:checked`)
-        
+
         if (isAnswered) {
           indicator.classList.remove("bg-white/30")
           indicator.classList.add("bg-white")
@@ -30,6 +31,10 @@ export default class extends Controller {
         }
       })
     }
+
+    if (this.hasSubmitButtonTarget) {
+      const allAnswered = answeredCount >= this.totalCountValue
+      this.submitButtonTarget.disabled = !allAnswered
+    }
   }
 }
-

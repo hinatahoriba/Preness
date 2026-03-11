@@ -4,6 +4,6 @@ class Answer < ApplicationRecord
   belongs_to :attempt
   belongs_to :question
 
-  validates :selected_choice, inclusion: { in: CHOICES }, allow_nil: true
+  validates :selected_choice, inclusion: { in: CHOICES }, unless: :skipped
+  validates :selected_choice, absence: true, if: :skipped
 end
-
