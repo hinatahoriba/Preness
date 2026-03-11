@@ -37,7 +37,7 @@
 
                 <%= link_to answer_exercise_path(exercise),
                   class: "group rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:border-preness-200 hover:shadow-md" do %>
-                  <p class="text-sm font-semibold text-slate-500">セット<%= set_number %></p>
+                  <p class="text-sm font-semibold text-slate-500">Set<%= set_number %></p>
                   <p class="mt-2 text-lg font-bold text-slate-900 group-hover:text-preness-700">
                     <%= exercise_set_title(section_type: entry.fetch(:section_type), part_type: entry.fetch(:part_type), set_number: set_number) %>
                   </p>

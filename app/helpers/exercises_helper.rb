@@ -1,8 +1,8 @@
 module ExercisesHelper
   SECTION_LABELS = {
-    "listening" => "リスニング",
-    "structure" => "文法",
-    "reading" => "読解"
+    "listening" => "Listening Comprehension",
+    "structure" => "Structure and Written Expression",
+    "reading" => "Reading Comprehension"
   }.freeze
 
   PART_LABELS = {
@@ -25,9 +25,9 @@ module ExercisesHelper
     part_label = exercise_part_label(part_type)
 
     if part_label.present? && section_type != "reading"
-      "#{section_label} #{part_label} - セット#{set_number}"
+      "#{section_label} #{part_label} - Set#{set_number}"
     else
-      "#{section_label} - セット#{set_number}"
+      "#{section_label} - Set#{set_number}"
     end
   end
 
