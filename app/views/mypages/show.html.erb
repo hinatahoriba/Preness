@@ -12,12 +12,12 @@
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
         <span class="text-sm">ダッシュボード</span>
       <% end %>
+<%# 模擬試験へのリンクは削除 %>
 
       <%= link_to "#", class: "flex items-center space-x-3 text-gray-400 hover:bg-gray-50 px-4 py-2.5 rounded-xl font-medium transition" do %>
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
         <span class="text-sm">学習履歴</span>
       <% end %>
-
       <%= link_to edit_user_registration_path, class: "flex items-center space-x-3 text-gray-400 hover:bg-gray-50 px-4 py-2.5 rounded-xl font-medium transition" do %>
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
         <span class="text-sm">アカウント設定</span>
@@ -77,7 +77,7 @@
           </div>
           <div class="p-4 bg-white border-t border-gray-50 flex flex-col items-center">
             <p class="text-xs font-bold mb-3 text-gray-500">模擬試験</p>
-            <%= link_to "#", class: "w-full bg-[#34a0a4] hover:bg-[#2d8b8e] text-white py-3 rounded-xl text-sm font-bold flex items-center justify-center space-x-2 transition shadow-sm" do %>
+            <%= link_to mocks_path, class: "w-full bg-[#34a0a4] hover:bg-[#2d8b8e] text-white py-3 rounded-xl text-sm font-bold flex items-center justify-center space-x-2 transition shadow-sm" do %>
               <span>試験を受験する</span>
               <span>→</span>
             <% end %>
