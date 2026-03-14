@@ -1,0 +1,126 @@
+<div class="bg-gray-100 min-h-screen py-10">
+  <div class="max-w-[960px] mx-auto bg-white shadow-sm">
+      
+      <header class="bg-[#001c54] text-white py-6 px-12">
+          <div class="font-bold tracking-wider text-lg">
+              Preness
+          </div>
+      </header>
+
+      <main class="px-12 py-16">
+          
+          <div class="mb-10">
+              <h1 class="text-[28px] font-bold text-gray-900 mb-2">受験上の注意</h1>
+              <p class="text-gray-400 tracking-widest text-sm font-medium"><%= @mock.title %> - FULL SESSION</p>
+          </div>
+
+          <hr class="border-gray-200 mb-10">
+
+          <div class="mb-14">
+              <h2 class="text-gray-400 font-bold text-sm mb-4 tracking-wide">試験構成</h2>
+              <div class="grid grid-cols-1 md:grid-cols-3 border border-gray-200 divide-y md:divide-y-0 md:divide-x divide-gray-200">
+                  <div class="text-center py-8 px-4 flex flex-col justify-center">
+                      <p class="text-gray-400 text-[11px] font-bold mb-2 tracking-wide">SECTION 1</p>
+                      <p class="text-gray-900 font-bold mb-3 text-[15px]">Listening Comprehension</p>
+                      <p class="text-gray-500 text-sm font-medium">35分 / 50問</p>
+                  </div>
+                  <div class="text-center py-8 px-4 flex flex-col justify-center">
+                      <p class="text-gray-400 text-[11px] font-bold mb-2 tracking-wide">SECTION 2</p>
+                      <p class="text-gray-900 font-bold mb-3 text-[15px]">Structure and Written Expression</p>
+                      <p class="text-gray-500 text-sm font-medium">25分 / 40問</p>
+                  </div>
+                  <div class="text-center py-8 px-4 flex flex-col justify-center">
+                      <p class="text-gray-400 text-[11px] font-bold mb-2 tracking-wide">SECTION 3</p>
+                      <p class="text-gray-900 font-bold mb-3 text-[15px]">Reading Comprehension</p>
+                      <p class="text-gray-500 text-sm font-medium">55分 / 50問</p>
+                  </div>
+              </div>
+          </div>
+
+          <div class="mb-14">
+              <h2 class="text-gray-400 font-bold text-sm mb-4 tracking-wide">試験前の注意事項</h2>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  <div class="bg-[#f9f9fb] p-7">
+                      <h3 class="font-bold text-gray-900 text-[15px] mb-3 flex items-center">
+                          <span class="text-[10px] mr-2 text-gray-800">■</span> 試験環境の確認
+                      </h3>
+                      <p class="text-gray-500 text-[13px] leading-relaxed">受験前に、デスク周辺に試験に不要な物品が置かれていないことを確認してください。</p>
+                  </div>
+                  <div class="bg-[#f9f9fb] p-7">
+                      <h3 class="font-bold text-gray-900 text-[15px] mb-3 flex items-center">
+                          <span class="text-[10px] mr-2 text-gray-800">■</span> セクション進行について
+                      </h3>
+                      <p class="text-gray-500 text-[13px] leading-relaxed">セクション間の移動は不可逆です。終了したセクションに戻ることはできません。</p>
+                  </div>
+                  <div class="bg-[#f9f9fb] p-7">
+                      <h3 class="font-bold text-gray-900 text-[15px] mb-3 flex items-center">
+                          <span class="text-[10px] mr-2 text-gray-800">■</span> 時間制限について
+                      </h3>
+                      <p class="text-gray-500 text-[13px] leading-relaxed">すべてのセクションにおいて一時停止は認められていません。制限時間終了後、解答は自動的に確定・保存されます。</p>
+                  </div>
+                  <div class="bg-[#f9f9fb] p-7">
+                      <h3 class="font-bold text-gray-900 text-[15px] mb-3 flex items-center">
+                          <span class="text-[10px] mr-2 text-gray-800">■</span> 受験の継続性について
+                      </h3>
+                      <p class="text-gray-500 text-[13px] leading-relaxed">試験中にブラウザの終了、更新、またはページ離脱を行った場合、受験は放棄とみなされます。再開はできません。</p>
+                  </div>
+              </div>
+          </div>
+
+          <hr class="border-gray-200 mb-10">
+
+          <div>
+              <label for="agree-checkbox" class="flex items-start cursor-pointer group mb-10">
+                  <div class="relative flex items-center justify-center mt-0.5 shrink-0">
+                      <input type="checkbox" id="agree-checkbox" class="peer sr-only" onchange="toggleAgreement()">
+                      <div id="checkbox-bg" class="w-6 h-6 border border-gray-300 bg-white transition-colors flex items-center justify-center">
+                          <svg id="check-icon" class="w-4 h-4 text-white hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                          </svg>
+                      </div>
+                  </div>
+                  <span class="ml-4 font-bold text-gray-900 text-[15px] pt-0.5 leading-snug">
+                      私は上記すべての規則および指示を読み、理解しました。実際の試験環境と同様の条件下で、誠実に受験することに同意します。
+                  </span>
+              </label>
+
+              <%= link_to ready_mock_path(@mock), id: "submit-btn", class: "w-full flex justify-center items-center py-4 bg-[#f3f4f6] text-[#9ca3af] font-bold text-lg tracking-wider transition-all duration-200 pointer-events-none cursor-not-allowed" do %>
+                  同意して進む
+                  <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                  </svg>
+              <% end %>
+          </div>
+
+      </main>
+  </div>
+</div>
+
+<script>
+  function toggleAgreement() {
+      const checkbox = document.getElementById('agree-checkbox');
+      const button = document.getElementById('submit-btn');
+      const checkIcon = document.getElementById('check-icon');
+      const checkboxBg = document.getElementById('checkbox-bg');
+
+      if (checkbox.checked) {
+          // チェックON: ボタンを有効化 (ダークグレー背景、白文字)
+          button.classList.remove('bg-[#f3f4f6]', 'text-[#9ca3af]', 'cursor-not-allowed', 'pointer-events-none');
+          button.classList.add('bg-[#222222]', 'text-white', 'hover:bg-black', 'cursor-pointer');
+          
+          // チェックON: チェックボックスをネイビーに
+          checkboxBg.classList.remove('bg-white', 'border-gray-300');
+          checkboxBg.classList.add('bg-[#001c54]', 'border-[#001c54]');
+          checkIcon.classList.remove('hidden');
+      } else {
+          // チェックOFF: ボタンを無効化 (グレー背景、グレー文字)
+          button.classList.remove('bg-[#222222]', 'text-white', 'hover:bg-black', 'cursor-pointer');
+          button.classList.add('bg-[#f3f4f6]', 'text-[#9ca3af]', 'cursor-not-allowed', 'pointer-events-none');
+          
+          // チェックOFF: チェックボックスを白に戻す
+          checkboxBg.classList.remove('bg-[#001c54]', 'border-[#001c54]');
+          checkboxBg.classList.add('bg-white', 'border-gray-300');
+          checkIcon.classList.add('hidden');
+      }
+  }
+</script>

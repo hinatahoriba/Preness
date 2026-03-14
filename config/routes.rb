@@ -31,6 +31,18 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :mocks, only: [:index] do
+    member do
+      get  :guideline
+      get  :ready
+      post :start
+      get  :direction
+      get  :answer
+      post :submit_part
+      get  :result
+    end
+  end
+
   namespace :api do
     namespace :v1 do
       resources :mocks, only: [:create]

@@ -1,0 +1,41 @@
+<% intro = mock_direction_intro(@section, @part) %>
+<div class="bg-white min-h-screen flex items-center justify-center p-4 font-sans text-gray-800"
+     data-controller="mock-direction"
+     data-mock-direction-answer-url-value="<%= @answer_url %>"
+     data-mock-direction-duration-value="<%= MocksHelper::DIRECTION_COUNTDOWN_SECONDS %>">
+
+    <div class="w-full max-w-2xl border border-gray-200 p-8 md:p-10">
+        
+        <h1 class="text-xl md:text-2xl font-bold text-[#11235A] tracking-wide mb-6">
+            <%= mock_section_part_title(@section, @part) %>
+        </h1>
+
+        <hr class="border-t border-gray-100 mb-6">
+
+        <div class="bg-[#F8F9FA] p-8 mb-6">
+            <h2 class="text-lg md:text-[22px] font-bold text-black mb-4">
+                <%= intro[:count] %>
+            </h2>
+            <p class="text-gray-600 text-sm md:text-base whitespace-pre-line">
+                <%= intro[:description] %>
+            </p>
+        </div>
+
+        <hr class="border-t border-gray-100 mb-10">
+
+        <div class="text-center mb-12">
+            <p class="text-xs md:text-sm font-bold text-gray-400 mb-2 tracking-widest">
+                試験開始まで
+            </p>
+            <div data-mock-direction-target="timer" class="text-[64px] md:text-[80px] leading-none font-bold text-[#1A1E29] timer-font tracking-[0.05em]">
+                00:40
+            </div>
+        </div>
+
+        <div class="flex justify-start">
+            <%= link_to "インストラクションをスキップ", @answer_url, data: { action: "click->mock-direction#skip" }, class: "text-[14px] md:text-[15px] font-bold text-[#11235A] underline underline-offset-4 decoration-2 hover:opacity-70 transition-opacity" %>
+        </div>
+
+    </div>
+
+</div>

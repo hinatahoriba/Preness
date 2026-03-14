@@ -1,0 +1,91 @@
+<% set_title = mock_section_part_title(@section, @part) %>
+<div
+  class="min-h-screen bg-[#f4f5f7]"
+  data-controller="exercise-progress mock-timer"
+  data-exercise-progress-total-count-value="<%= @total_count %>"
+  data-mock-timer-seconds-value="<%= mock_section_time_limit_seconds(@section.section_type) %>"
+>
+  <header class="sticky top-0 z-50 flex items-stretch bg-[#001c54] h-20 shadow-sm min-w-[1000px]">
+    <div class="flex items-center px-8 border-r border-[#ffffff20] whitespace-nowrap">
+      <h1 class="text-[15px] font-bold text-white tracking-wide uppercase">
+        <%= set_title %>
+      </h1>
+    </div>
+
+    <!-- Timer display -->
+    <div class="flex items-center px-6 border-r border-[#ffffff20] whitespace-nowrap">
+      <div class="flex flex-col items-center justify-center">
+        <span class="text-[11px] font-bold text-gray-400 tracking-wider mb-1">REMAINING TIME</span>
+        <span class="text-[18px] font-bold text-white" data-mock-timer-target="display">
+          <%= mock_section_time_limit_display(@section.section_type) %>
+        </span>
+      </div>
+    </div>
+
+    <div class="flex-1 flex flex-col items-center justify-center px-4">
+      <span class="text-[13px] font-bold text-white tracking-widest mb-2">
+        回答済み : <span data-exercise-progress-target="answeredCount"><%= @answered_count %></span>/<%= @total_count %>問
+      </span>
+      <div class="flex flex-wrap justify-center gap-[3px]">
+        <% @questions.each do |question| %>
+          <div class="w-[10px] h-[3px] bg-white/30" 
+               data-exercise-progress-target="indicator"
+               data-question-id="<%= question.id %>"></div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-3 px-6 border-l border-[#ffffff20] whitespace-nowrap">
+      <span class="text-sm text-white opacity-70">
+        ※途中で離脱すると記録は残りません
+      </span>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-5xl px-6 py-10 min-w-[1000px]">
+    <%= form_with url: submit_part_mock_path(@mock, section_id: @section.id, part_id: @part.id, attempt_id: @attempt.id), method: :post do %>
+
+      <!-- パート共通音声 -->
+      <% if @part.question_sets.any? { |qs| qs.audio_url.present? } %>
+        <% @part.question_sets.each do |qs| %>
+          <% if qs.audio_url.present? %>
+            <div class="mt-8 rounded-sm border border-gray-200 bg-white p-6">
+              <h2 class="text-sm font-bold text-gray-700">音声 (セット共通)</h2>
+              <audio class="mt-4 w-full" controls src="<%= qs.audio_url %>"></audio>
+            </div>
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <!-- 各設問の表示 (Readingは2カラム、他は1カラム) -->
+      <% if @section.section_type == "reading" && @part.question_sets.any? %>
+        <% @part.question_sets.each do |qs| %>
+          <div class="mt-8 flex flex-col gap-8 lg:flex-row">
+            <aside class="lg:w-5/12">
+              <div class="rounded-sm border border-gray-200 bg-white p-6 lg:sticky lg:top-8">
+                <h2 class="text-sm font-bold text-gray-700">Passage</h2>
+                <p class="mt-4 whitespace-pre-line text-sm leading-relaxed text-gray-700"><%= qs.passage %></p>
+              </div>
+            </aside>
+            <div class="space-y-6 lg:w-7/12">
+              <%= render partial: "exercises/question_cards", locals: { questions: qs.questions.order(:display_order), answers_by_question_id: {}, section_type: @section.section_type } %>
+            </div>
+          </div>
+        <% end %>
+      <% else %>
+        <div class="mt-8 space-y-6">
+          <%= render partial: "exercises/question_cards", locals: { questions: @questions, answers_by_question_id: {}, section_type: @section.section_type } %>
+        </div>
+      <% end %>
+
+      <!-- フッター（送信）ボタン -->
+      <div class="mt-10 flex flex-wrap items-center justify-end gap-3">
+        <%= button_tag mock_has_next_part?(@mock, @part) ? "次のパートへ進む" : "採点して結果を見る",
+              type: :submit,
+              disabled: true,
+              data: { "exercise-progress-target": "submitButton" },
+              class: "inline-flex items-center rounded-sm bg-[#0f2361] px-6 py-3 text-sm font-semibold text-white hover:bg-[#0a1845] disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer" %>
+      </div>
+    <% end %>
+  </main>
+</div>

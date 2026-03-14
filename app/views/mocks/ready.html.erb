@@ -1,0 +1,21 @@
+<div class="bg-[#f4f5f7] min-h-screen flex items-center justify-center p-4">
+
+  <div class="bg-white border border-gray-300 w-full max-w-[640px] px-10 py-14 text-center">
+      
+      <h1 class="text-[28px] font-bold text-[#0f2361] mb-8 tracking-widest">
+          システム準備完了
+      </h1>
+
+      <div class="text-[#555a66] text-[15px] leading-loose mb-10">
+          <p>受験準備完了。</p>
+          <p>「試験を開始する」ボタン押下後、Listening Comprehension</p>
+          <p>Part A が開始されます。</p>
+      </div>
+
+      <%= form_with url: start_mock_path(@mock), method: :post do |f| %>
+        <%= f.submit "試験を開始する", class: "w-full bg-[#0f2361] hover:bg-[#0a1845] text-white font-bold py-4 px-6 text-[17px] transition duration-200 cursor-pointer" %>
+      <% end %>
+      
+  </div>
+
+</div>
