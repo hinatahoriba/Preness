@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_14_021713) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_14_031305) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -145,6 +145,20 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_14_021713) do
     t.index ["user_id"], name: "index_subscriptions_on_user_id", unique: true
   end
 
+  create_table "user_profiles", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "full_name"
+    t.string "full_name_kana"
+    t.string "nickname"
+    t.integer "age"
+    t.string "affiliation"
+    t.boolean "study_abroad_plan"
+    t.boolean "data_usage_agreed"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_user_profiles_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -172,4 +186,5 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_14_021713) do
   add_foreign_key "question_sets", "parts"
   add_foreign_key "questions", "question_sets"
   add_foreign_key "subscriptions", "users"
+  add_foreign_key "user_profiles", "users"
 end
