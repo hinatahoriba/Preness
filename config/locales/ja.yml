@@ -3,8 +3,17 @@ ja:
   activerecord:
     models:
       user: "ユーザー"
+      user_profile: "プロフィール"
     attributes:
       user:
         email: "メールアドレス"
         password: "パスワード"
         terms_agreed: "利用規約への同意"
+      user_profile:
+        full_name: "氏名"
+        full_name_kana: "氏名（ふりがな）"
+        nickname: "ニックネーム"
+        age: "年齢"
+        affiliation: "所属"
+        study_abroad_plan: "留学予定"
+        data_usage_agreed: "データ利用への同意"

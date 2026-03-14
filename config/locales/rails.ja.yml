@@ -9,6 +9,11 @@ ja:
       too_long: "は%{count}文字以内で入力してください"
       taken: "はすでに存在します"
       invalid: "は不正な値です"
+      not_a_number: "は数値で入力してください"
+      not_an_integer: "は整数で入力してください"
+      greater_than: "は%{count}より大きい値にしてください"
+      less_than: "は%{count}より小さい値にしてください"
+      inclusion: "は一覧にありません"
 
   activerecord:
     errors:
