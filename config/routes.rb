@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   resource :initial_setting, only: [:new, :create]
   get "terms", to: "pages#terms", as: :terms
   get "privacy", to: "pages#privacy", as: :privacy
+  get "faq", to: "pages#faq", as: :faq
 
   resources :exercises, only: [:index] do
     member do
