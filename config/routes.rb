@@ -20,6 +20,7 @@ Rails.application.routes.draw do
 
   get "users/confirmation/pending", to: "auth#confirmation_pending", as: :user_confirmation_pending
   resource :mypage, only: [:show]
+  resource :initial_setting, only: [:new, :create]
   get "terms", to: "pages#terms", as: :terms
   get "privacy", to: "pages#privacy", as: :privacy
 

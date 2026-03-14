@@ -1,0 +1,93 @@
+<% content_for :body_class, "bg-gray-200 font-sans text-gray-800" %>
+
+<div class="fixed inset-0 bg-slate-800/40 flex items-center justify-center p-4 z-50">
+
+  <div class="bg-white rounded-[2rem] shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden">
+
+    <div class="pt-8 pb-4 text-center shrink-0">
+      <h2 class="text-xl font-bold text-gray-900">初期設定</h2>
+    </div>
+
+    <%= form_with model: @user_profile, url: initial_setting_path, class: "flex flex-col flex-1 overflow-hidden min-h-0", data: { controller: "initial-setting-form", action: "input->initial-setting-form#validate change->initial-setting-form#validate" } do |f| %>
+      <div class="flex-1 overflow-y-auto px-10 pb-10 space-y-10 custom-scrollbar">
+
+        <% if @user_profile.errors.any? %>
+          <div class="rounded-xl border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-700">
+            <ul class="list-disc list-inside space-y-1">
+              <% @user_profile.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <section>
+          <h3 class="text-xs font-bold text-[#5FB4A8] border-b border-gray-100 pb-2 mb-6 tracking-wide">基本情報</h3>
+          <div class="space-y-5">
+            <div>
+              <%= f.label :full_name, "氏名", class: "block text-sm font-bold mb-2" %>
+              <%= f.text_field :full_name, placeholder: "山田 太郎", class: "w-full border border-gray-300 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#5FB4A8] focus:border-transparent placeholder-gray-400 transition-shadow" %>
+            </div>
+            <div>
+              <%= f.label :full_name_kana, "氏名（ひらがな）", class: "block text-sm font-bold mb-2" %>
+              <%= f.text_field :full_name_kana, placeholder: "やまだ たろう", class: "w-full border border-gray-300 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#5FB4A8] focus:border-transparent placeholder-gray-400 transition-shadow" %>
+            </div>
+            <div>
+              <%= f.label :nickname, "ニックネーム", class: "block text-sm font-bold mb-2" %>
+              <%= f.text_field :nickname, placeholder: "たろう", class: "w-full border border-gray-300 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#5FB4A8] focus:border-transparent placeholder-gray-400 transition-shadow" %>
+            </div>
+            <div>
+              <%= f.label :age, "年齢", class: "block text-sm font-bold mb-2" %>
+              <div class="relative">
+                <%= f.number_field :age, min: 1, max: 120, placeholder: "例：25", class: "w-full border border-gray-300 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#5FB4A8] focus:border-transparent bg-white transition-shadow" %>
+                <span class="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-gray-500 pointer-events-none">歳</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h3 class="text-xs font-bold text-[#5FB4A8] border-b border-gray-100 pb-2 mb-6 tracking-wide">所属と学習目的</h3>
+          <div class="space-y-5">
+            <div>
+              <%= f.label :affiliation, "大学・組織名", class: "block text-sm font-bold mb-2" %>
+              <%= f.text_field :affiliation, placeholder: "○○大学、○○高校、語学学校、その他", class: "w-full border border-gray-300 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#5FB4A8] focus:border-transparent placeholder-gray-400 transition-shadow" %>
+            </div>
+
+            <div class="bg-[#F8FAFC] rounded-2xl p-6 border border-gray-100">
+              <div class="mb-6">
+                <%= f.label :study_abroad_plan, "留学予定の有無", class: "block text-sm font-bold mb-3" %>
+                <div class="grid grid-cols-2 gap-4">
+                  <label class="flex items-center justify-center border border-gray-300 bg-white rounded-xl py-3 cursor-pointer hover:border-[#5FB4A8] transition-colors has-[:checked]:border-[#5FB4A8] has-[:checked]:ring-1 has-[:checked]:ring-[#5FB4A8]">
+                    <%= f.radio_button :study_abroad_plan, "true", class: "w-4 h-4 text-[#5FB4A8] border-gray-300 focus:ring-[#5FB4A8]" %>
+                    <span class="ml-2 text-sm font-bold">あり</span>
+                  </label>
+                  <label class="flex items-center justify-center border border-gray-300 bg-white rounded-xl py-3 cursor-pointer hover:border-[#5FB4A8] transition-colors has-[:checked]:border-[#5FB4A8] has-[:checked]:ring-1 has-[:checked]:ring-[#5FB4A8]">
+                    <%= f.radio_button :study_abroad_plan, "false", class: "w-4 h-4 text-[#5FB4A8] border-gray-300 focus:ring-[#5FB4A8]" %>
+                    <span class="ml-2 text-sm font-bold">なし</span>
+                  </label>
+                </div>
+              </div>
+
+              <label class="flex items-start cursor-pointer group">
+                <div class="flex items-center h-5">
+                  <%= f.check_box :data_usage_agreed, { class: "w-5 h-5 text-[#5FB4A8] bg-white border-gray-300 rounded focus:ring-[#5FB4A8] focus:ring-2 transition-shadow" }, "1", "0" %>
+                </div>
+                <div class="ml-3 text-sm">
+                  <span class="font-bold">データの二次利用に同意する</span><br>
+                  <span class="text-xs text-gray-500 mt-1 block">（詳細は「<%= link_to "データ利用方針", privacy_path, class: "text-[#5FB4A8] hover:underline" %>」をご確認ください）</span>
+                </div>
+              </label>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <div class="px-8 pb-8 pt-4 shrink-0 bg-white">
+        <%= f.submit "設定を完了して開始", class: "w-full bg-[#5FB4A8] hover:bg-[#4FA498] text-white font-bold py-4 px-6 rounded-full transition-colors text-base shadow-sm cursor-pointer opacity-50", disabled: true, data: { initial_setting_form_target: "submit" } %>
+      </div>
+    <% end %>
+
+  </div>
+</div>
