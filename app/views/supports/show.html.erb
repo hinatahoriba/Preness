@@ -23,41 +23,49 @@
           </div>
 
           <div class="p-6 sm:p-8">
-            <form class="space-y-6">
+            <% if flash[:notice] %>
+              <div class="mb-6 bg-teal-50 border border-teal-200 text-teal-800 rounded-md px-4 py-3 text-sm">
+                <%= flash[:notice] %>
+              </div>
+            <% end %>
+            <% if flash[:alert] %>
+              <div class="mb-6 bg-red-50 border border-red-200 text-red-700 rounded-md px-4 py-3 text-sm">
+                <%= flash[:alert] %>
+              </div>
+            <% end %>
+
+            <%= form_with url: support_path, method: :post, class: "space-y-6" do |f| %>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
                   <label class="block text-sm font-medium text-gray-600 mb-2">お名前</label>
-                  <input type="text" value="<%= current_user.user_profile&.full_name %>" placeholder="プレネス 太郎" class="w-full border border-gray-300 rounded-md px-3 py-2.5 text-sm placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-[#479387] focus:border-[#479387]">
+                  <%= f.text_field :name, value: current_user.user_profile&.full_name, placeholder: "プレネス 太郎", class: "w-full border border-gray-300 rounded-md px-3 py-2.5 text-sm placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-[#479387] focus:border-[#479387]" %>
                 </div>
                 <div>
                   <label class="block text-sm font-medium text-gray-600 mb-2">メールアドレス</label>
-                  <input type="email" value="<%= current_user.email %>" placeholder="your-email@example.com" class="w-full border border-gray-300 rounded-md px-3 py-2.5 text-sm placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-[#479387] focus:border-[#479387]">
+                  <%= f.email_field :email, value: current_user.email, placeholder: "your-email@example.com", class: "w-full border border-gray-300 rounded-md px-3 py-2.5 text-sm placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-[#479387] focus:border-[#479387]" %>
                 </div>
               </div>
 
               <div>
                 <label class="block text-sm font-medium text-gray-600 mb-2">お問い合わせ件名</label>
-                <select class="w-full border border-gray-300 rounded-md px-3 py-2.5 text-sm text-gray-700 bg-white focus:outline-none focus:ring-1 focus:ring-[#479387] focus:border-[#479387]">
-                  <option>一般的なお問い合わせ</option>
-                  <option>模擬試験の予約・受験について</option>
-                  <option>プラン・お支払いについて</option>
-                  <option>不具合の報告</option>
-                  <option>その他</option>
-                </select>
+                <%= f.select :subject,
+                  ["一般的なお問い合わせ", "模擬試験の予約・受験について", "プラン・お支払いについて", "不具合の報告", "その他"],
+                  {},
+                  class: "w-full border border-gray-300 rounded-md px-3 py-2.5 text-sm text-gray-700 bg-white focus:outline-none focus:ring-1 focus:ring-[#479387] focus:border-[#479387]" %>
               </div>
 
               <div>
                 <label class="block text-sm font-medium text-gray-600 mb-2">お問い合わせ内容</label>
-                <textarea rows="6" placeholder="具体的にお書きください" class="w-full border border-gray-300 rounded-md px-3 py-2.5 text-sm placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-[#479387] focus:border-[#479387] resize-none"></textarea>
+                <%= f.text_area :body, rows: 6, placeholder: "具体的にお書きください", class: "w-full border border-gray-300 rounded-md px-3 py-2.5 text-sm placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-[#479387] focus:border-[#479387] resize-none" %>
               </div>
 
-              <button type="submit" class="w-full bg-[#429588] hover:bg-[#388075] text-white font-medium py-3 rounded-md flex justify-center items-center space-x-2 transition-colors duration-200">
+              <%= f.button type: "submit", class: "w-full bg-[#429588] hover:bg-[#388075] text-white font-medium py-3 rounded-md flex justify-center items-center space-x-2 transition-colors duration-200" do %>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
                 </svg>
                 <span class="text-sm">送信する</span>
-              </button>
-            </form>
+              <% end %>
+            <% end %>
           </div>
         </div>
 
