@@ -8,7 +8,7 @@
       <h2 class="text-xl font-bold text-gray-900">初期設定</h2>
     </div>
 
-    <%= form_with model: @user_profile, url: initial_setting_path, class: "flex flex-col flex-1 overflow-hidden min-h-0" do |f| %>
+    <%= form_with model: @user_profile, url: initial_setting_path, class: "flex flex-col flex-1 overflow-hidden min-h-0", data: { controller: "initial-setting-form", action: "input->initial-setting-form#validate change->initial-setting-form#validate" } do |f| %>
       <div class="flex-1 overflow-y-auto px-10 pb-10 space-y-10 custom-scrollbar">
 
         <% if @user_profile.errors.any? %>
@@ -85,7 +85,7 @@
       </div>
 
       <div class="px-8 pb-8 pt-4 shrink-0 bg-white">
-        <%= f.submit "設定を完了して開始", class: "w-full bg-[#5FB4A8] hover:bg-[#4FA498] text-white font-bold py-4 px-6 rounded-full transition-colors text-base shadow-sm cursor-pointer" %>
+        <%= f.submit "設定を完了して開始", class: "w-full bg-[#5FB4A8] hover:bg-[#4FA498] text-white font-bold py-4 px-6 rounded-full transition-colors text-base shadow-sm cursor-pointer opacity-50", disabled: true, data: { initial_setting_form_target: "submit" } %>
       </div>
     <% end %>
 
