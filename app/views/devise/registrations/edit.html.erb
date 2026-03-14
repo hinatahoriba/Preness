@@ -1,4 +1,4 @@
-<%= render "devise/shared/auth_shell", title: "アカウント設定", subtitle: "ユーザー名・メールアドレスを変更できます。メール変更時は再認証が必要です。" do %>
+<%= render "devise/shared/auth_shell", title: "アカウント設定", subtitle: "メールアドレスを変更できます。メール変更時は再認証が必要です。" do %>
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: "space-y-5" }) do |f| %>
     <%= render "devise/shared/error_messages", resource: resource %>
 
@@ -7,11 +7,6 @@
         新しいメールアドレス（<%= resource.unconfirmed_email %>）は認証待ちです。
       </div>
     <% end %>
-
-    <div>
-      <%= f.label :username, "ユーザー名", class: "text-sm font-medium text-slate-700" %>
-      <%= f.text_field :username, autofocus: true, autocomplete: "nickname", class: "mt-1 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder-slate-400 outline-none ring-0 transition focus:border-preness-400 focus:ring-2 focus:ring-preness-300/40" %>
-    </div>
 
     <div>
       <%= f.label :email, "メールアドレス", class: "text-sm font-medium text-slate-700" %>

@@ -5,6 +5,5 @@ class User < ApplicationRecord
 
   has_many :attempts, dependent: :destroy
 
-  validates :username, presence: true
   validates :terms_agreed, acceptance: { accept: true }, on: :create
 end

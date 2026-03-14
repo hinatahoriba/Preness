@@ -122,7 +122,6 @@ else
   end
 
   demo_user = User.find_or_initialize_by(email: "demo@example.com")
-  demo_user.username = "デモユーザー"
   demo_user.password = "password"
   demo_user.password_confirmation = "password"
   demo_user.terms_agreed = true
@@ -130,7 +129,6 @@ else
   demo_user.save!
 
   test_user = User.find_or_initialize_by(email: "test@gmail.com")
-  test_user.username = "テストユーザー"
   test_user.password = "testuser1234"
   test_user.password_confirmation = "testuser1234"
   test_user.terms_agreed = true

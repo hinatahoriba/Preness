@@ -7,5 +7,4 @@ ja:
       user:
         email: "メールアドレス"
         password: "パスワード"
-        username: "ユーザー名"
         terms_agreed: "利用規約への同意"
