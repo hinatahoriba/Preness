@@ -1,0 +1,123 @@
+<% content_for :body_class, "bg-[#f9fafb] text-[#374151] h-screen" %>
+
+<div class="flex h-full">
+  <%# サイドバー %>
+  <aside class="w-60 bg-white border-r border-gray-100 flex flex-col h-full">
+    <div class="p-6">
+      <h1 class="text-xl font-black italic text-gray-800 tracking-tighter text-center">Preness</h1>
+    </div>
+
+    <nav class="flex-1 px-3 space-y-1">
+      <%= link_to mypage_path, class: "flex items-center space-x-3 text-gray-400 hover:bg-gray-50 px-4 py-2.5 rounded-xl font-medium transition" do %>
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+        <span class="text-sm">ダッシュボード</span>
+      <% end %>
+
+      <%= link_to "#", class: "flex items-center space-x-3 text-gray-400 hover:bg-gray-50 px-4 py-2.5 rounded-xl font-medium transition" do %>
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <span class="text-sm">学習履歴</span>
+      <% end %>
+
+      <%= link_to account_setting_path, class: "flex items-center space-x-3 bg-blue-50 text-blue-600 px-4 py-2.5 rounded-xl font-bold" do %>
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+        <span class="text-sm">アカウント設定</span>
+      <% end %>
+
+      <%= link_to "#", class: "flex items-center space-x-3 text-gray-400 hover:bg-gray-50 px-4 py-2.5 rounded-xl font-medium transition" do %>
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+        <span class="text-sm">サポート・規約</span>
+      <% end %>
+    </nav>
+
+    <div class="p-6 border-t border-gray-50">
+      <%= link_to destroy_user_session_path, data: { turbo_method: :delete }, class: "flex items-center space-x-3 text-gray-400 hover:text-red-500 transition text-sm font-medium w-full px-4" do %>
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+        <span>ログアウト</span>
+      <% end %>
+    </div>
+  </aside>
+
+  <%# メインコンテンツ %>
+  <main class="flex-1 p-8 overflow-y-auto">
+    <div class="max-w-lg mx-auto">
+      <div class="mb-6">
+        <%= link_to account_setting_path, class: "inline-flex items-center space-x-1 text-sm text-gray-500 hover:text-gray-700 font-medium mb-4 transition" do %>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+          <span>アカウント設定に戻る</span>
+        <% end %>
+        <h2 class="text-2xl font-bold mb-2">プロフィール編集</h2>
+        <p class="text-sm text-gray-500">基本情報を編集できます。</p>
+      </div>
+
+      <div class="bg-white border border-gray-200 rounded-lg shadow-sm p-8">
+        <%= form_with model: @user_profile, url: user_profile_path, method: :patch, class: "space-y-6" do |f| %>
+          <% if @user_profile.errors.any? %>
+            <div class="rounded-xl border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-700">
+              <ul class="list-disc list-inside space-y-1">
+                <% @user_profile.errors.full_messages.each do |msg| %>
+                  <li><%= msg %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+
+          <%# 基本情報 %>
+          <div>
+            <h3 class="text-xs font-bold text-teal-600 border-b border-gray-100 pb-2 mb-5 tracking-wide">基本情報</h3>
+            <div class="space-y-5">
+              <div>
+                <%= f.label :full_name, "氏名", class: "block text-sm font-bold mb-2" %>
+                <%= f.text_field :full_name, placeholder: "山田 太郎", class: "w-full border border-gray-300 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent placeholder-gray-400 transition-shadow" %>
+              </div>
+              <div>
+                <%= f.label :full_name_kana, "氏名（ひらがな）", class: "block text-sm font-bold mb-2" %>
+                <%= f.text_field :full_name_kana, placeholder: "やまだ たろう", class: "w-full border border-gray-300 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent placeholder-gray-400 transition-shadow" %>
+              </div>
+              <div>
+                <%= f.label :nickname, "ニックネーム", class: "block text-sm font-bold mb-2" %>
+                <%= f.text_field :nickname, placeholder: "たろう", class: "w-full border border-gray-300 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent placeholder-gray-400 transition-shadow" %>
+              </div>
+              <div>
+                <%= f.label :age, "年齢", class: "block text-sm font-bold mb-2" %>
+                <div class="relative">
+                  <%= f.number_field :age, min: 1, max: 120, class: "w-full border border-gray-300 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent bg-white transition-shadow" %>
+                  <span class="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-gray-500 pointer-events-none">歳</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <%# 所属と学習目的 %>
+          <div>
+            <h3 class="text-xs font-bold text-teal-600 border-b border-gray-100 pb-2 mb-5 tracking-wide">所属と学習目的</h3>
+            <div class="space-y-5">
+              <div>
+                <%= f.label :affiliation, "大学・組織名", class: "block text-sm font-bold mb-2" %>
+                <%= f.text_field :affiliation, placeholder: "○○大学、○○高校、語学学校、その他", class: "w-full border border-gray-300 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent placeholder-gray-400 transition-shadow" %>
+              </div>
+
+              <div>
+                <%= f.label :study_abroad_plan, "留学予定の有無", class: "block text-sm font-bold mb-3" %>
+                <div class="grid grid-cols-2 gap-4">
+                  <label class="flex items-center justify-center border border-gray-300 bg-white rounded-xl py-3 cursor-pointer hover:border-teal-400 transition-colors has-[:checked]:border-teal-500 has-[:checked]:ring-1 has-[:checked]:ring-teal-500">
+                    <%= f.radio_button :study_abroad_plan, "true", class: "w-4 h-4 text-teal-500 border-gray-300 focus:ring-teal-400" %>
+                    <span class="ml-2 text-sm font-bold">あり</span>
+                  </label>
+                  <label class="flex items-center justify-center border border-gray-300 bg-white rounded-xl py-3 cursor-pointer hover:border-teal-400 transition-colors has-[:checked]:border-teal-500 has-[:checked]:ring-1 has-[:checked]:ring-teal-500">
+                    <%= f.radio_button :study_abroad_plan, "false", class: "w-4 h-4 text-teal-500 border-gray-300 focus:ring-teal-400" %>
+                    <span class="ml-2 text-sm font-bold">なし</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-4 pt-2">
+            <%= link_to "キャンセル", account_setting_path, class: "flex-1 text-center rounded-xl border border-gray-300 px-4 py-3 text-sm font-semibold text-gray-600 hover:bg-gray-50 transition" %>
+            <%= f.submit "保存する", class: "flex-1 rounded-xl bg-teal-500 hover:bg-teal-600 px-4 py-3 text-sm font-semibold text-white transition cursor-pointer" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </main>
+</div>

@@ -8,12 +8,7 @@ module Users
     end
 
     def after_update_path_for(resource)
-      if resource.pending_reconfirmation?
-        session[:pending_confirmation_email] = resource.unconfirmed_email
-        user_confirmation_pending_path
-      else
-        super
-      end
+      account_setting_path
     end
   end
 end
