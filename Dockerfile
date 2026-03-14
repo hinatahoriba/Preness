@@ -24,7 +24,7 @@ COPY . .
 RUN bundle exec bootsnap precompile app/ lib/
 
 # アセットをプリコンパイル
-RUN SECRET_KEY_BASE_DUMMY=1 RAILS_ENV=production ./bin/rails assets:precompile
+RUN SECRET_KEY_BASE_DUMMY=1 RESEND_API_KEY=dummy RAILS_ENV=production ./bin/rails assets:precompile
 
 EXPOSE 3000
 
