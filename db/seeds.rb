@@ -419,6 +419,134 @@ else
     ]
   )
 
+  # --- Fillers to reach 10 sets for each part ---
+
+  # Listening Part A (3-10)
+  (3..10).each do |i|
+    create_exercise_set!(
+      section_type: "listening",
+      part_type: "part_a",
+      set_number: i,
+      questions: 3.times.map { |j|
+        {
+          question_text: "Sample Listening Part A Question #{i}-#{j+1}",
+          audio_url: audio_url,
+          choice_a: "Option A",
+          choice_b: "Option B",
+          choice_c: "Option C",
+          choice_d: "Option D",
+          correct_choice: ["A", "B", "C", "D"].sample,
+          explanation: "Sample explanation for listening part a set #{i} question #{j+1}"
+        }
+      }
+    )
+  end
+
+  # Listening Part B (2-10)
+  (2..10).each do |i|
+    create_exercise_set!(
+      section_type: "listening",
+      part_type: "part_b",
+      set_number: i,
+      audio_url: audio_url,
+      questions: 2.times.map { |j|
+        {
+          question_text: "Sample Listening Part B Question #{i}-#{j+1}",
+          audio_url: audio_url,
+          choice_a: "Option A",
+          choice_b: "Option B",
+          choice_c: "Option C",
+          choice_d: "Option D",
+          correct_choice: ["A", "B", "C", "D"].sample,
+          explanation: "Sample explanation for listening part b set #{i} question #{j+1}"
+        }
+      }
+    )
+  end
+
+  # Listening Part C (2-10)
+  (2..10).each do |i|
+    create_exercise_set!(
+      section_type: "listening",
+      part_type: "part_c",
+      set_number: i,
+      audio_url: audio_url,
+      questions: 2.times.map { |j|
+        {
+          question_text: "Sample Listening Part C Question #{i}-#{j+1}",
+          audio_url: audio_url,
+          choice_a: "Option A",
+          choice_b: "Option B",
+          choice_c: "Option C",
+          choice_d: "Option D",
+          correct_choice: ["A", "B", "C", "D"].sample,
+          explanation: "Sample explanation for listening part c set #{i} question #{j+1}"
+        }
+      }
+    )
+  end
+
+  # Structure Part A (2-10)
+  (2..10).each do |i|
+    create_exercise_set!(
+      section_type: "structure",
+      part_type: "part_a",
+      set_number: i,
+      questions: 3.times.map { |j|
+        {
+          question_text: "Sample Structure Part A Question #{i}-#{j+1} -------",
+          choice_a: "Option A",
+          choice_b: "Option B",
+          choice_c: "Option C",
+          choice_d: "Option D",
+          correct_choice: ["A", "B", "C", "D"].sample,
+          explanation: "Sample explanation for structure part a set #{i} question #{j+1}"
+        }
+      }
+    )
+  end
+
+  # Structure Part B (2-10)
+  (2..10).each do |i|
+    create_exercise_set!(
+      section_type: "structure",
+      part_type: "part_b",
+      set_number: i,
+      questions: 3.times.map { |j|
+        {
+          question_text: "Sample Structure Part B (A) Question (B) #{i}-#{j+1} (C) identify (D) error.",
+          choice_a: "A",
+          choice_b: "B",
+          choice_c: "C",
+          choice_d: "D",
+          correct_choice: ["A", "B", "C", "D"].sample,
+          explanation: "Sample explanation for structure part b set #{i} question #{j+1}"
+        }
+      }
+    )
+  end
+
+  # Reading Passages (3..10)
+  (3..10).each do |i|
+    create_exercise_set!(
+      section_type: "reading",
+      part_type: "passages",
+      set_number: i,
+      passage: "Sample passage for Set #{i}. This is a placeholder text for reading comprehension exercise.",
+      questions: 3.times.map { |j|
+        {
+          question_text: "Sample Reading Question #{i}-#{j+1}",
+          choice_a: "Option A",
+          choice_b: "Option B",
+          choice_c: "Option C",
+          choice_d: "Option D",
+          correct_choice: ["A", "B", "C", "D"].sample,
+          explanation: "Sample explanation for reading comprehension set #{i} question #{j+1}"
+        }
+      }
+    )
+  end
+
   puts "Seeding mock exam data..."
   mock1 = Mock.create!(title: "第1回 模擬試験")
 
