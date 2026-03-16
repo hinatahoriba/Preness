@@ -1,7 +1,7 @@
 <% set_title = mock_section_part_title(@section, @part) %>
 <div
   class="min-h-screen bg-[#f4f5f7]"
-  data-controller="exercise-progress mock-timer"
+  data-controller="exercise-progress mock-timer audio-sequential"
   data-exercise-progress-total-count-value="<%= @total_count %>"
   data-mock-timer-seconds-value="<%= mock_section_time_limit_seconds(@section.section_type) %>"
 >
@@ -51,7 +51,7 @@
           <% if qs.audio_url.present? %>
             <div class="mt-8 rounded-sm border border-gray-200 bg-white p-6">
               <h2 class="text-sm font-bold text-gray-700">音声 (セット共通)</h2>
-              <audio class="mt-4 w-full" controls src="<%= qs.audio_url %>"></audio>
+              <audio class="mt-4 w-full" controls src="<%= qs.audio_url %>" data-audio-sequential-target="audio"></audio>
             </div>
           <% end %>
         <% end %>
