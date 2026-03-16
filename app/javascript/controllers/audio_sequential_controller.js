@@ -5,16 +5,35 @@ export default class extends Controller {
 
   connect() {
     this._handlers = this.audioTargets.map((audio, index) => {
-      const handler = () => this._playNext(index)
-      audio.addEventListener("ended", handler)
-      return { audio, handler }
+      const endedHandler = () => {
+        this._disableAudio(audio)
+        this._playNext(index)
+      }
+      const playHandler = () => {
+        if (audio.dataset.played) {
+          audio.pause()
+          audio.currentTime = 0
+        } else {
+          audio.dataset.played = "true"
+        }
+      }
+      audio.addEventListener("ended", endedHandler)
+      audio.addEventListener("play", playHandler)
+      return { audio, endedHandler, playHandler }
     })
   }
 
   disconnect() {
-    this._handlers?.forEach(({ audio, handler }) => {
-      audio.removeEventListener("ended", handler)
+    this._handlers?.forEach(({ audio, endedHandler, playHandler }) => {
+      audio.removeEventListener("ended", endedHandler)
+      audio.removeEventListener("play", playHandler)
     })
+  }
+
+  _disableAudio(audio) {
+    audio.controls = false
+    audio.style.pointerEvents = "none"
+    audio.style.opacity = "0.4"
   }
 
   _playNext(currentIndex) {
