@@ -5,7 +5,16 @@ export default class extends Controller {
   static values = { totalCount: Number }
 
   connect() {
+    this._storageKey = `form_answers:${window.location.pathname}${window.location.search}`
+    this._restoreAnswers()
     this.update()
+
+    const form = this.element.querySelector('form')
+    if (form) {
+      form.addEventListener('submit', () => {
+        localStorage.removeItem(this._storageKey)
+      })
+    }
   }
 
   update() {
@@ -35,6 +44,32 @@ export default class extends Controller {
     if (this.hasSubmitButtonTarget) {
       const allAnswered = answeredCount >= this.totalCountValue
       this.submitButtonTarget.disabled = !allAnswered
+    }
+
+    this._saveAnswers()
+  }
+
+  _saveAnswers() {
+    const checkedInputs = this.element.querySelectorAll('input[type="radio"]:checked')
+    const answers = {}
+    checkedInputs.forEach(input => {
+      answers[input.name] = input.value
+    })
+    localStorage.setItem(this._storageKey, JSON.stringify(answers))
+  }
+
+  _restoreAnswers() {
+    const saved = localStorage.getItem(this._storageKey)
+    if (!saved) return
+
+    try {
+      const answers = JSON.parse(saved)
+      Object.entries(answers).forEach(([name, value]) => {
+        const input = this.element.querySelector(`input[name="${name}"][value="${value}"]`)
+        if (input) input.checked = true
+      })
+    } catch (e) {
+      localStorage.removeItem(this._storageKey)
     }
   }
 }
