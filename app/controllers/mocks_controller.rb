@@ -1,6 +1,7 @@
 class MocksController < ApplicationController
   before_action :authenticate_user!
   before_action :set_mock, except: :index
+  before_action :ensure_can_start_mock, only: %i[ready start]
   before_action :set_attempt,       only: %i[direction answer submit_part result]
   before_action :set_section_part,  only: %i[direction answer submit_part]
 
@@ -122,6 +123,19 @@ class MocksController < ApplicationController
   def set_mock
     @mock = Mock.includes(sections: { parts: { question_sets: :questions } })
                 .find(params[:id])
+  end
+
+  def ensure_can_start_mock
+    attempt = current_user.attempts.find_by(mockable: @mock)
+
+    return if attempt.nil?
+
+    if attempt.completed_at.present?
+      redirect_to result_mock_path(@mock, attempt_id: attempt.id)
+      return
+    end
+
+    redirect_to mocks_path, alert: "この模擬試験は途中で中断されたため再開できません。"
   end
 
   def set_attempt

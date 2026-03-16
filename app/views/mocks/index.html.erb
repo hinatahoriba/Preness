@@ -26,7 +26,7 @@
             <% if attempt&.completed_at %>
               <span class="px-4 py-1.5 bg-green-50 text-green-600 text-xs font-bold rounded-full">完了</span>
             <% elsif attempt %>
-              <span class="px-4 py-1.5 bg-blue-50 text-blue-600 text-xs font-bold rounded-full">実施中</span>
+              <span class="px-4 py-1.5 bg-red-50 text-red-600 text-xs font-bold rounded-full">中断</span>
             <% else %>
               <span class="px-4 py-1.5 bg-gray-50 text-gray-400 text-xs font-bold rounded-full">未受験</span>
             <% end %>
@@ -39,6 +39,10 @@
             <div class="text-xs text-gray-500 bg-gray-50 p-3 rounded-xl border border-gray-100">
               <p class="font-medium">受験日: <span class="text-gray-700"><%= attempt.completed_at.strftime("%Y年%m月%d日") %></span></p>
             </div>
+          <% elsif attempt %>
+            <div class="text-xs text-red-700 bg-red-50 p-3 rounded-xl border border-red-100">
+              <p class="font-medium">途中で中断されたため、再開できません。</p>
+            </div>
           <% end %>
         </div>
 
@@ -48,10 +52,9 @@
               <span>結果を確認する</span>
             <% end %>
           <% elsif attempt %>
-            <%= link_to guideline_mock_path(mock), class: "w-full bg-[#34a0a4] hover:bg-[#2d8b8e] text-white py-3 rounded-2xl text-sm font-bold flex items-center justify-center space-x-2 transition-all shadow-lg hover:shadow-[#34a0a4]/30" do %>
-              <span>続きから再開する</span>
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-            <% end %>
+            <div class="w-full bg-gray-100 text-gray-500 py-3 rounded-2xl text-sm font-bold flex items-center justify-center space-x-2 cursor-not-allowed select-none">
+              <span>中断（再開できません）</span>
+            </div>
           <% else %>
             <%= link_to guideline_mock_path(mock), class: "w-full bg-[#34a0a4] hover:bg-[#2d8b8e] text-white py-3 rounded-2xl text-sm font-bold flex items-center justify-center space-x-2 transition-all shadow-lg hover:shadow-[#34a0a4]/30" do %>
               <span>受験を開始する</span>
@@ -63,4 +66,3 @@
     <% end %>
   </div>
 </main>
-
