@@ -1,65 +1,74 @@
-<div class="min-h-screen bg-[#f4f5f7]">
-  <header class="sticky top-0 z-50 flex items-stretch bg-[#001c54] h-20 shadow-sm min-w-[1000px]">
-    <div class="flex items-center px-8 border-r border-[#ffffff20] whitespace-nowrap">
-      <h1 class="text-[15px] font-bold text-white tracking-wide uppercase">
-        セクション別演習
-      </h1>
-    </div>
+<% content_for :title, "Preness - Exercises" %>
 
-    <div class="flex-1"></div>
-
-    <div class="flex items-center gap-3 px-6 border-l border-[#ffffff20] whitespace-nowrap">
-      <%= link_to "マイページ", mypage_path, class: "px-6 py-2.5 bg-white border border-gray-300 text-gray-800 text-[13px] font-bold rounded-sm hover:bg-gray-50 transition-colors duration-200" %>
+<div class="bg-white min-h-screen">
+  <header class="flex justify-between items-center py-4 px-8 border-b border-gray-100">
+    <%= link_to root_path, class: "text-[#4b9b94] text-xl font-bold tracking-tight" do %>
+      Preness
+    <% end %>
+    <div class="flex items-center gap-4">
+      <%= link_to "マイページ", mypage_path, class: "text-[13px] font-medium text-gray-600 hover:text-[#4b9b94] transition-colors" %>
     </div>
   </header>
 
-  <main class="mx-auto max-w-5xl px-6 py-10 min-w-[1000px]">
+  <main class="max-w-5xl mx-auto py-12 px-8">
     <% Section::SECTION_TYPES.each do |section_type| %>
       <% entries = @exercise_entries_by_section_type.fetch(section_type, []) %>
+      <% next if entries.empty? %>
 
-      <div class="mb-12 last:mb-0">
-        <h2 class="text-xl font-bold text-gray-900"><%= exercise_section_label(section_type) %></h2>
+      <div class="flex items-center mb-8 mt-16 first:mt-0">
+        <div class="w-[3px] h-6 bg-[#4b9b94] mr-3 rounded-sm"></div>
+        <h1 class="text-[24px] font-bold text-[#1a2f33]"><%= exercise_section_label(section_type) %></h1>
+      </div>
 
-        <% if entries.empty? %>
-          <p class="mt-3 text-sm text-gray-500">まだセットがありません。</p>
-        <% else %>
-          <% entries.group_by { _1.fetch(:part_type) }
-              .sort_by { |_, part_entries| part_entries.first.fetch(:part_display_order) }
-              .each do |part_type, part_entries| %>
-            <% part_label = exercise_part_label(part_type) %>
+      <% entries.group_by { _1.fetch(:part_type) }
+          .sort_by { |_, part_entries| part_entries.first.fetch(:part_display_order) }
+          .each do |part_type, part_entries| %>
+        <% part_label = exercise_part_label(part_type) %>
 
-            <% if part_label.present? && section_type != "reading" %>
-              <h3 class="mt-8 text-sm font-bold text-gray-700 tracking-wide"><%= part_label %></h3>
+        <section class="mb-10 last:mb-0">
+          <div class="flex justify-between items-center mb-4">
+            <h2 class="text-lg font-bold text-[#1a2f33]"><%= part_label || "Exercises" %></h2>
+            <% first_exercise = part_entries.sort_by { _1.fetch(:set_number) }.first.fetch(:exercise) %>
+            <%= link_to answer_exercise_path(first_exercise), class: "flex items-center text-[#4b9b94] font-bold text-sm tracking-widest hover:opacity-80 transition-opacity" do %>
+              START
+              <svg class="w-3 h-3 ml-2 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
             <% end %>
+          </div>
+          
+          <div class="flex flex-wrap gap-3">
+            <% part_entries.sort_by { _1.fetch(:set_number) }.each do |entry| %>
+              <% exercise = entry.fetch(:exercise) %>
+              <% set_number = entry.fetch(:set_number) %>
+              <% attempted = entry.fetch(:attempted) %>
+              <% correct_count = entry.fetch(:correct_count) %>
+              <% total_count = entry.fetch(:total_count) %>
 
-            <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <% part_entries.sort_by { _1.fetch(:set_number) }.each do |entry| %>
-                <% exercise = entry.fetch(:exercise) %>
-                <% set_number = entry.fetch(:set_number) %>
-                <% attempted = entry.fetch(:attempted) %>
-                <% correct_count = entry.fetch(:correct_count) %>
-                <% total_count = entry.fetch(:total_count) %>
+              <%
+                box_class = if attempted
+                              if correct_count == total_count
+                                "bg-[#f0fdf4] border border-[#bbf7d0] text-[#16a34a]"
+                              else
+                                "bg-[#fffcf0] border border-[#fde68a] text-[#d97706]"
+                              end
+                            else
+                              "bg-[#f8f9fa] text-gray-400"
+                            end
+              %>
 
-                <%= link_to answer_exercise_path(exercise),
-                  class: "group rounded-sm border p-6 shadow-sm transition hover:shadow-md #{attempted ? 'border-green-300 bg-green-50 hover:border-green-500' : 'border-gray-200 bg-white hover:border-[#0f2361]'}" do %>
-                  <div class="flex items-center justify-between">
-                    <p class="text-sm font-semibold <%= attempted ? 'text-green-600' : 'text-gray-400' %>">Set<%= set_number %></p>
-                    <% if attempted %>
-                      <span class="text-xs font-bold text-green-700 bg-green-100 px-2 py-0.5 rounded-full">
-                        <%= correct_count %> / <%= total_count %>
-                      </span>
-                    <% end %>
-                  </div>
-                  <p class="mt-2 text-lg font-bold <%= attempted ? 'text-green-900' : 'text-gray-900' %> group-hover:text-[#0f2361] transition-colors">
-                    <%= exercise_set_title(section_type: entry.fetch(:section_type), part_type: entry.fetch(:part_type), set_number: set_number) %>
-                  </p>
+              <%= link_to answer_exercise_path(exercise), 
+                  class: "w-14 h-12 flex flex-col items-center justify-center rounded-md transition-all duration-200 #{box_class} font-medium",
+                  title: exercise_set_title(section_type: section_type, part_type: part_type, set_number: set_number) do %>
+                <% if attempted %>
+                  <span class="text-[9px] font-medium leading-none mb-1">Set <%= set_number %></span>
+                  <span class="text-xs font-bold leading-none"><%= correct_count %>/<%= total_count %></span>
+                <% else %>
+                  <span class="text-sm"><%= set_number %></span>
                 <% end %>
               <% end %>
-            </div>
-          <% end %>
-        <% end %>
-      </div>
+            <% end %>
+          </div>
+        </section>
+      <% end %>
     <% end %>
   </main>
 </div>
-
