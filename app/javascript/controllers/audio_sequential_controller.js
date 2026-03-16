@@ -49,7 +49,11 @@ export default class extends Controller {
   }
 
   _disableAudio(audio) {
-    audio.controls = false
+    // Keep controls visible so the user can see the audio existed,
+    // while preventing re-play via pointer-events + the play handler.
+    audio.controls = true
+    audio.setAttribute("aria-disabled", "true")
+    audio.tabIndex = -1
     audio.style.pointerEvents = "none"
     audio.style.opacity = "0.4"
   }
