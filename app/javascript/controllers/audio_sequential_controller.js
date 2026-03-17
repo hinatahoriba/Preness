@@ -4,17 +4,7 @@ export default class extends Controller {
   static targets = ["audio"]
 
   connect() {
-    this._storageKeys = []
-
     this._handlers = this.audioTargets.map((audio, index) => {
-      const storageKey = `audio_played:${audio.src}`
-      this._storageKeys.push(storageKey)
-
-      if (localStorage.getItem(storageKey)) {
-        audio.dataset.played = "true"
-        this._disableAudio(audio)
-      }
-
       const endedHandler = () => {
         this._disableAudio(audio)
         this._playNext(index)
@@ -25,20 +15,12 @@ export default class extends Controller {
           audio.currentTime = 0
         } else {
           audio.dataset.played = "true"
-          localStorage.setItem(storageKey, "true")
         }
       }
       audio.addEventListener("ended", endedHandler)
       audio.addEventListener("play", playHandler)
       return { audio, endedHandler, playHandler }
     })
-
-    const form = this.element.querySelector('form')
-    if (form) {
-      form.addEventListener('submit', () => {
-        this._storageKeys.forEach(key => localStorage.removeItem(key))
-      })
-    }
   }
 
   disconnect() {
