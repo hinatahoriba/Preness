@@ -8,7 +8,7 @@ export default class extends Controller {
 
   connect() {
     this.secondsLeft = this.secondsValue
-    
+
     // 時間設定がある場合のみタイマーを稼働
     if (this.secondsLeft > 0) {
       this.timer = setInterval(() => {
@@ -21,10 +21,17 @@ export default class extends Controller {
         this.updateDisplay()
       }, 1000)
     }
+
+    this.beforeUnloadHandler = (e) => {
+      e.preventDefault()
+      e.returnValue = ''
+    }
+    window.addEventListener('beforeunload', this.beforeUnloadHandler)
   }
 
   disconnect() {
     this.stopTimer()
+    window.removeEventListener('beforeunload', this.beforeUnloadHandler)
   }
 
   updateDisplay() {
