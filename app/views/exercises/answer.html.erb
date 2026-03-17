@@ -1,7 +1,7 @@
 <% set_title = exercise_set_title(section_type: @section.section_type, part_type: @part.part_type, set_number: @question_set.display_order) %>
 <div
   class="min-h-screen bg-[#f4f5f7]"
-  data-controller="exercise-progress audio-sequential"
+  data-controller="exercise-progress exercise-audio-sequential"
   data-exercise-progress-total-count-value="<%= @total_count %>"
 >
   <header class="sticky top-0 z-50 flex items-stretch bg-[#001c54] h-20 shadow-sm min-w-[1000px]">
@@ -40,7 +40,7 @@
       <% if @question_set.audio_url.present? %>
         <div class="mt-8 rounded-sm border border-gray-200 bg-white p-6">
           <h2 class="text-sm font-bold text-gray-700">音声（セット共通）</h2>
-          <audio class="mt-4 w-full" controls src="<%= @question_set.audio_url %>" data-audio-sequential-target="audio"></audio>
+          <audio class="mt-4 w-full" controls src="<%= @question_set.audio_url %>" data-exercise-audio-sequential-target="audio"></audio>
         </div>
       <% end %>
 
