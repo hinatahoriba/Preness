@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_14_031305) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_18_160303) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -147,15 +147,22 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_14_031305) do
 
   create_table "user_profiles", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.string "full_name"
-    t.string "full_name_kana"
     t.string "nickname"
-    t.integer "age"
     t.string "affiliation"
     t.boolean "study_abroad_plan"
-    t.boolean "data_usage_agreed"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "last_name"
+    t.string "first_name"
+    t.string "last_name_kana"
+    t.string "first_name_kana"
+    t.date "date_of_birth"
+    t.integer "itp_current_score"
+    t.integer "itp_target_score"
+    t.string "eiken_grade"
+    t.integer "toeic_score"
+    t.integer "toefl_ibt_score"
+    t.decimal "ielts_score", precision: 2, scale: 1
     t.index ["user_id"], name: "index_user_profiles_on_user_id"
   end
 

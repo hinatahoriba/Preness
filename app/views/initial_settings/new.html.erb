@@ -1,93 +1,191 @@
-<% content_for :body_class, "bg-gray-200 font-sans text-gray-800" %>
+<% content_for :body_class, "bg-[#8c949d] font-sans text-gray-800 tracking-wide" %>
 
-<div class="fixed inset-0 bg-slate-800/40 flex items-center justify-center p-4 z-50">
+<div class="min-h-screen flex items-center justify-center p-4 md:p-8">
 
-  <div class="bg-white rounded-[2rem] shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden">
+  <div class="bg-white w-full max-w-[680px] rounded-3xl p-8 md:px-14 md:py-12 shadow-xl my-8">
 
-    <div class="pt-8 pb-4 text-center shrink-0">
-      <h2 class="text-xl font-bold text-gray-900">初期設定</h2>
-    </div>
+    <header class="text-center mb-10">
+      <h1 class="text-xl md:text-2xl font-bold mb-2">初期設定</h1>
+      <p class="text-sm text-gray-500">あなたの現在のレベルと目標を教えてください。</p>
+    </header>
 
-    <%= form_with model: @user_profile, url: initial_setting_path, class: "flex flex-col flex-1 overflow-hidden min-h-0", data: { controller: "initial-setting-form", action: "input->initial-setting-form#validate change->initial-setting-form#validate" } do |f| %>
-      <div class="flex-1 overflow-y-auto px-10 pb-10 space-y-10 custom-scrollbar">
+    <%= form_with model: @user_profile, url: initial_setting_path, class: "space-y-8", data: {
+      controller: "initial-setting-form",
+      action: "input->initial-setting-form#validate change->initial-setting-form#validate"
+    } do |f| %>
 
-        <% if @user_profile.errors.any? %>
-          <div class="rounded-xl border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-700">
-            <ul class="list-disc list-inside space-y-1">
-              <% @user_profile.errors.full_messages.each do |msg| %>
-                <li><%= msg %></li>
-              <% end %>
-            </ul>
-          </div>
-        <% end %>
+      <% if @user_profile.errors.any? %>
+        <div class="rounded-xl border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-700">
+          <ul class="list-disc list-inside space-y-1">
+            <% @user_profile.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
 
-        <section>
-          <h3 class="text-xs font-bold text-[#5FB4A8] border-b border-gray-100 pb-2 mb-6 tracking-wide">基本情報</h3>
-          <div class="space-y-5">
-            <div>
-              <%= f.label :full_name, "氏名", class: "block text-sm font-bold mb-2" %>
-              <%= f.text_field :full_name, placeholder: "山田 太郎", class: "w-full border border-gray-300 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#5FB4A8] focus:border-transparent placeholder-gray-400 transition-shadow" %>
-            </div>
-            <div>
-              <%= f.label :full_name_kana, "氏名（ひらがな）", class: "block text-sm font-bold mb-2" %>
-              <%= f.text_field :full_name_kana, placeholder: "やまだ たろう", class: "w-full border border-gray-300 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#5FB4A8] focus:border-transparent placeholder-gray-400 transition-shadow" %>
-            </div>
-            <div>
-              <%= f.label :nickname, "ニックネーム", class: "block text-sm font-bold mb-2" %>
-              <%= f.text_field :nickname, placeholder: "たろう", class: "w-full border border-gray-300 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#5FB4A8] focus:border-transparent placeholder-gray-400 transition-shadow" %>
-            </div>
-            <div>
-              <%= f.label :age, "年齢", class: "block text-sm font-bold mb-2" %>
-              <div class="relative">
-                <%= f.number_field :age, min: 1, max: 120, placeholder: "例：25", class: "w-full border border-gray-300 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#5FB4A8] focus:border-transparent bg-white transition-shadow" %>
-                <span class="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-gray-500 pointer-events-none">歳</span>
-              </div>
+      <%# ===== セクション 1: 基本プロフィール ===== %>
+      <section>
+        <div class="border-b border-gray-100 pb-2 mb-5">
+          <h2 class="text-xs font-bold text-[#4eb4a2] tracking-widest">1. 基本プロフィール</h2>
+        </div>
+
+        <div class="space-y-5">
+          <div>
+            <label class="block text-sm font-bold mb-2">姓名</label>
+            <div class="flex space-x-3">
+              <%= f.text_field :last_name, placeholder: "姓", autocomplete: "family-name",
+                class: "required-input w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#4eb4a2] focus:border-transparent placeholder-gray-400 bg-white transition-all" %>
+              <%= f.text_field :first_name, placeholder: "名", autocomplete: "given-name",
+                class: "required-input w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#4eb4a2] focus:border-transparent placeholder-gray-400 bg-white transition-all" %>
             </div>
           </div>
-        </section>
 
-        <section>
-          <h3 class="text-xs font-bold text-[#5FB4A8] border-b border-gray-100 pb-2 mb-6 tracking-wide">所属と学習目的</h3>
-          <div class="space-y-5">
-            <div>
-              <%= f.label :affiliation, "大学・組織名", class: "block text-sm font-bold mb-2" %>
-              <%= f.text_field :affiliation, placeholder: "○○大学、○○高校、語学学校、その他", class: "w-full border border-gray-300 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#5FB4A8] focus:border-transparent placeholder-gray-400 transition-shadow" %>
+          <div>
+            <label class="block text-sm font-bold mb-2">フリガナ</label>
+            <div class="flex space-x-3">
+              <%= f.text_field :last_name_kana, placeholder: "セイ",
+                class: "required-input w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#4eb4a2] focus:border-transparent placeholder-gray-400 bg-white transition-all" %>
+              <%= f.text_field :first_name_kana, placeholder: "メイ",
+                class: "required-input w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#4eb4a2] focus:border-transparent placeholder-gray-400 bg-white transition-all" %>
             </div>
+          </div>
 
-            <div class="bg-[#F8FAFC] rounded-2xl p-6 border border-gray-100">
-              <div class="mb-6">
-                <%= f.label :study_abroad_plan, "留学予定の有無", class: "block text-sm font-bold mb-3" %>
-                <div class="grid grid-cols-2 gap-4">
-                  <label class="flex items-center justify-center border border-gray-300 bg-white rounded-xl py-3 cursor-pointer hover:border-[#5FB4A8] transition-colors has-[:checked]:border-[#5FB4A8] has-[:checked]:ring-1 has-[:checked]:ring-[#5FB4A8]">
-                    <%= f.radio_button :study_abroad_plan, "true", class: "w-4 h-4 text-[#5FB4A8] border-gray-300 focus:ring-[#5FB4A8]" %>
-                    <span class="ml-2 text-sm font-bold">あり</span>
-                  </label>
-                  <label class="flex items-center justify-center border border-gray-300 bg-white rounded-xl py-3 cursor-pointer hover:border-[#5FB4A8] transition-colors has-[:checked]:border-[#5FB4A8] has-[:checked]:ring-1 has-[:checked]:ring-[#5FB4A8]">
-                    <%= f.radio_button :study_abroad_plan, "false", class: "w-4 h-4 text-[#5FB4A8] border-gray-300 focus:ring-[#5FB4A8]" %>
-                    <span class="ml-2 text-sm font-bold">なし</span>
-                  </label>
-                </div>
-              </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div>
+              <%= f.label :nickname, "ニックネーム", class: "block text-sm font-bold mb-2 cursor-pointer" %>
+              <%= f.text_field :nickname, placeholder: "ニックネーム", autocomplete: "nickname",
+                class: "required-input w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#4eb4a2] focus:border-transparent placeholder-gray-400 bg-white transition-all" %>
+            </div>
+            <div>
+              <%= f.label :date_of_birth, "生年月日", class: "block text-sm font-bold mb-2 cursor-pointer" %>
+              <%= f.date_field :date_of_birth, autocomplete: "bday",
+                class: "required-input w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#4eb4a2] focus:border-transparent text-gray-700 bg-white transition-all" %>
+            </div>
+          </div>
 
-              <label class="flex items-start cursor-pointer group">
-                <div class="flex items-center h-5">
-                  <%= f.check_box :data_usage_agreed, { class: "w-5 h-5 text-[#5FB4A8] bg-white border-gray-300 rounded focus:ring-[#5FB4A8] focus:ring-2 transition-shadow" }, "1", "0" %>
-                </div>
-                <div class="ml-3 text-sm">
-                  <span class="font-bold">データの二次利用に同意する</span><br>
-                  <span class="text-xs text-gray-500 mt-1 block">（詳細は「<%= link_to "データ利用方針", privacy_path, class: "text-[#5FB4A8] hover:underline" %>」をご確認ください）</span>
-                </div>
+          <div>
+            <%= f.label :affiliation, "大学名・所属組織名", class: "block text-sm font-bold mb-2 cursor-pointer" %>
+            <%= f.text_field :affiliation, placeholder: "〇〇大学 〇〇学部", autocomplete: "organization",
+              class: "required-input w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#4eb4a2] focus:border-transparent placeholder-gray-400 bg-white transition-all" %>
+          </div>
+        </div>
+      </section>
+
+      <%# ===== セクション 2: 留学の予定 ===== %>
+      <section class="pt-2">
+        <div class="border-b border-gray-100 pb-2 mb-5">
+          <h2 class="text-xs font-bold text-[#4eb4a2] tracking-widest">2. 留学の予定</h2>
+        </div>
+
+        <div class="space-y-4">
+          <label class="block text-sm font-bold mb-3">今後、留学する予定はありますか？</label>
+          <div class="grid grid-cols-2 gap-3">
+            <label class="cursor-pointer">
+              <%= f.radio_button :study_abroad_plan, "true", class: "hidden peer", data: { initial_setting_form_target: "studyAbroadRadio" } %>
+              <div class="text-center py-3 px-1 rounded-lg border border-gray-300 bg-white text-gray-500 peer-checked:border-[#4eb4a2] peer-checked:bg-teal-50 peer-checked:text-[#4eb4a2] font-bold transition-all text-sm">あり</div>
+            </label>
+            <label class="cursor-pointer">
+              <%= f.radio_button :study_abroad_plan, "false", class: "hidden peer", data: { initial_setting_form_target: "studyAbroadRadio" } %>
+              <div class="text-center py-3 px-1 rounded-lg border border-gray-300 bg-gray-50 text-gray-400 peer-checked:border-gray-600 peer-checked:bg-gray-600 peer-checked:text-white font-bold transition-all text-sm">なし</div>
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <%# ===== セクション 3: TOEFL ITP スコア目標 ===== %>
+      <section class="pt-2">
+        <div class="border-b border-gray-100 pb-2 mb-5">
+          <h2 class="text-xs font-bold text-[#4eb4a2] tracking-widest">3. TOEFL ITP スコア目標</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <div class="flex justify-between items-end mb-2">
+              <%= f.label :itp_current_score, "現在のスコア", class: "block text-sm font-bold cursor-pointer" %>
+              <label class="flex items-center text-xs text-gray-500 cursor-pointer hover:text-[#4eb4a2] transition">
+                <input type="checkbox" data-initial-setting-form-target="itpNeverTaken" data-action="change->initial-setting-form#toggleItpNeverTaken" class="accent-[#4eb4a2] w-4 h-4 cursor-pointer mr-1.5 border-gray-300"> 受験経験なし
               </label>
             </div>
+            <%= f.number_field :itp_current_score, min: 310, max: 677, inputmode: "numeric", placeholder: "310 - 677",
+              data: { initial_setting_form_target: "itpCurrent" },
+              class: "w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#4eb4a2] focus:border-transparent placeholder-gray-400 bg-white transition-all disabled:opacity-50 disabled:bg-gray-100 disabled:cursor-not-allowed" %>
           </div>
-        </section>
+          <div>
+            <%= f.label :itp_target_score, "目標スコア", class: "block text-sm font-bold mb-2 cursor-pointer" %>
+            <%= f.number_field :itp_target_score, min: 310, max: 677, inputmode: "numeric", placeholder: "例: 550",
+              class: "required-input w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#4eb4a2] focus:border-transparent placeholder-gray-400 bg-white transition-all" %>
+          </div>
+        </div>
+      </section>
 
+      <%# ===== セクション 4: 外部英語検定の保有状況 ===== %>
+      <section class="pt-2">
+        <div class="border-b border-gray-100 pb-2 mb-5">
+          <h2 class="text-xs font-bold text-[#4eb4a2] tracking-widest">4. 外部英語検定の保有状況</h2>
+        </div>
+
+        <div class="space-y-6">
+          <div class="grid grid-cols-3 md:grid-cols-5 gap-2 md:gap-3">
+            <label class="cursor-pointer">
+              <input type="checkbox" data-initial-setting-form-target="qualCheck" data-qual-target="area-eiken" data-action="change->initial-setting-form#toggleQual" class="hidden peer">
+              <div class="text-center py-3 px-1 rounded-lg border border-gray-300 bg-white text-gray-500 peer-checked:border-[#4eb4a2] peer-checked:bg-teal-50 peer-checked:text-[#4eb4a2] font-bold transition-all text-sm">英検</div>
+            </label>
+            <label class="cursor-pointer">
+              <input type="checkbox" data-initial-setting-form-target="qualCheck" data-qual-target="area-toeic" data-action="change->initial-setting-form#toggleQual" class="hidden peer">
+              <div class="text-center py-3 px-1 rounded-lg border border-gray-300 bg-white text-gray-500 peer-checked:border-[#4eb4a2] peer-checked:bg-teal-50 peer-checked:text-[#4eb4a2] font-bold transition-all text-sm">TOEIC</div>
+            </label>
+            <label class="cursor-pointer">
+              <input type="checkbox" data-initial-setting-form-target="qualCheck" data-qual-target="area-toefl" data-action="change->initial-setting-form#toggleQual" class="hidden peer">
+              <div class="text-center py-3 px-1 rounded-lg border border-gray-300 bg-white text-gray-500 peer-checked:border-[#4eb4a2] peer-checked:bg-teal-50 peer-checked:text-[#4eb4a2] font-bold transition-all text-sm">iBT</div>
+            </label>
+            <label class="cursor-pointer">
+              <input type="checkbox" data-initial-setting-form-target="qualCheck" data-qual-target="area-ielts" data-action="change->initial-setting-form#toggleQual" class="hidden peer">
+              <div class="text-center py-3 px-1 rounded-lg border border-gray-300 bg-white text-gray-500 peer-checked:border-[#4eb4a2] peer-checked:bg-teal-50 peer-checked:text-[#4eb4a2] font-bold transition-all text-sm">IELTS</div>
+            </label>
+            <label class="cursor-pointer">
+              <input type="checkbox" data-initial-setting-form-target="qualNone" data-action="change->initial-setting-form#toggleQualNone" class="hidden peer">
+              <div class="text-center py-3 px-1 rounded-lg border border-gray-300 bg-gray-50 text-gray-400 peer-checked:border-gray-600 peer-checked:bg-gray-600 peer-checked:text-white font-bold transition-all text-sm">なし</div>
+            </label>
+          </div>
+
+          <div data-initial-setting-form-target="scoreInputs" class="space-y-4">
+            <div id="area-eiken" class="hidden fade-in bg-[#f8f9fa] p-5 md:p-6 rounded-xl border border-gray-200">
+              <%= f.label :eiken_grade, "英検 取得級", class: "block text-xs font-bold text-[#4eb4a2] mb-3 uppercase tracking-wider cursor-pointer" %>
+              <%= f.select :eiken_grade, options_for_select([["1級", "1"], ["準1級", "p1"], ["2級", "2"], ["準2級", "p2"], ["3級", "3"]], @user_profile.eiken_grade),
+                { include_blank: "級を選択" }, class: "qual-detail w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#4eb4a2] focus:border-transparent bg-white" %>
+            </div>
+            <div id="area-toeic" class="hidden fade-in bg-[#f8f9fa] p-5 md:p-6 rounded-xl border border-gray-200">
+              <label class="block text-xs font-bold text-[#4eb4a2] mb-3 uppercase tracking-wider cursor-pointer">TOEIC L&R スコア</label>
+              <%= f.number_field :toeic_score, min: 10, max: 990, step: 5, inputmode: "numeric", placeholder: "10 - 990",
+                class: "qual-detail w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#4eb4a2] focus:border-transparent placeholder-gray-400 bg-white" %>
+            </div>
+            <div id="area-toefl" class="hidden fade-in bg-[#f8f9fa] p-5 md:p-6 rounded-xl border border-gray-200">
+              <label class="block text-xs font-bold text-[#4eb4a2] mb-3 uppercase tracking-wider cursor-pointer">TOEFL iBT スコア</label>
+              <%= f.number_field :toefl_ibt_score, min: 0, max: 120, inputmode: "numeric", placeholder: "0 - 120",
+                class: "qual-detail w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#4eb4a2] focus:border-transparent placeholder-gray-400 bg-white" %>
+            </div>
+            <div id="area-ielts" class="hidden fade-in bg-[#f8f9fa] p-5 md:p-6 rounded-xl border border-gray-200">
+              <label class="block text-xs font-bold text-[#4eb4a2] mb-3 uppercase tracking-wider cursor-pointer">IELTS バンドスコア</label>
+              <%= f.number_field :ielts_score, min: 0, max: 9.0, step: 0.5, inputmode: "decimal", placeholder: "0.0 - 9.0",
+                class: "qual-detail w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#4eb4a2] focus:border-transparent placeholder-gray-400 bg-white" %>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <%# ===== 送信ボタン ===== %>
+      <div class="pt-6">
+        <%= f.submit "設定を保存して次へ", disabled: true,
+          class: "w-full font-bold py-4 rounded-full text-[15px] transition-colors duration-200 bg-[#4eb4a2] text-white hover:bg-[#3ea08e] disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed",
+          data: { initial_setting_form_target: "submit" } %>
       </div>
 
-      <div class="px-8 pb-8 pt-4 shrink-0 bg-white">
-        <%= f.submit "設定を完了して開始", class: "w-full bg-[#5FB4A8] hover:bg-[#4FA498] text-white font-bold py-4 px-6 rounded-full transition-colors text-base shadow-sm cursor-pointer opacity-50", disabled: true, data: { initial_setting_form_target: "submit" } %>
-      </div>
     <% end %>
-
   </div>
 </div>
+
+<style>
+  .fade-in { animation: fadeIn 0.4s ease-out; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+</style>
