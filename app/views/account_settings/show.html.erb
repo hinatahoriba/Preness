@@ -51,6 +51,31 @@
             </div>
           </div>
 
+          <%# 資格・スコア %>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-y-8 gap-x-12 py-8 border-b border-gray-100">
+            <div>
+              <p class="text-xs text-gray-500 mb-2">英検</p>
+              <p class="font-bold">
+                <%= @user_profile&.eiken_grade.present? ? { "1" => "1級", "p1" => "準1級", "2" => "2級", "p2" => "準2級", "3" => "3級" }[@user_profile.eiken_grade] : "未設定" %>
+              </p>
+            </div>
+
+            <div>
+              <p class="text-xs text-gray-500 mb-2">TOEIC L&R</p>
+              <p class="font-bold"><%= @user_profile&.toeic_score.present? ? "#{@user_profile.toeic_score}点" : "未設定" %></p>
+            </div>
+
+            <div>
+              <p class="text-xs text-gray-500 mb-2">TOEFL iBT</p>
+              <p class="font-bold"><%= @user_profile&.toefl_ibt_score.present? ? "#{@user_profile.toefl_ibt_score}点" : "未設定" %></p>
+            </div>
+
+            <div>
+              <p class="text-xs text-gray-500 mb-2">IELTS</p>
+              <p class="font-bold"><%= @user_profile&.ielts_score.present? ? "#{@user_profile.ielts_score}点" : "未設定" %></p>
+            </div>
+          </div>
+
           <%# メールアドレス・パスワード %>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-y-8 gap-x-12 pt-8">
             <div>

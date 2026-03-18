@@ -32,23 +32,31 @@
             <h3 class="text-xs font-bold text-teal-600 border-b border-gray-100 pb-2 mb-5 tracking-wide">基本情報</h3>
             <div class="space-y-5">
               <div>
-                <%= f.label :full_name, "氏名", class: "block text-sm font-bold mb-2" %>
-                <%= f.text_field :full_name, placeholder: "山田 太郎", class: "w-full border border-gray-300 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent placeholder-gray-400 transition-shadow" %>
+                <label class="block text-sm font-bold mb-2">氏名</label>
+                <div class="flex space-x-3">
+                  <%= f.text_field :last_name, placeholder: "姓", autocomplete: "family-name",
+                    class: "w-full border border-gray-300 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent placeholder-gray-400 transition-shadow" %>
+                  <%= f.text_field :first_name, placeholder: "名", autocomplete: "given-name",
+                    class: "w-full border border-gray-300 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent placeholder-gray-400 transition-shadow" %>
+                </div>
               </div>
               <div>
-                <%= f.label :full_name_kana, "氏名（ひらがな）", class: "block text-sm font-bold mb-2" %>
-                <%= f.text_field :full_name_kana, placeholder: "やまだ たろう", class: "w-full border border-gray-300 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent placeholder-gray-400 transition-shadow" %>
+                <label class="block text-sm font-bold mb-2">フリガナ</label>
+                <div class="flex space-x-3">
+                  <%= f.text_field :last_name_kana, placeholder: "セイ",
+                    class: "w-full border border-gray-300 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent placeholder-gray-400 transition-shadow" %>
+                  <%= f.text_field :first_name_kana, placeholder: "メイ",
+                    class: "w-full border border-gray-300 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent placeholder-gray-400 transition-shadow" %>
+                </div>
               </div>
               <div>
                 <%= f.label :nickname, "ニックネーム", class: "block text-sm font-bold mb-2" %>
                 <%= f.text_field :nickname, placeholder: "たろう", class: "w-full border border-gray-300 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent placeholder-gray-400 transition-shadow" %>
               </div>
               <div>
-                <%= f.label :age, "年齢", class: "block text-sm font-bold mb-2" %>
-                <div class="relative">
-                  <%= f.number_field :age, min: 1, max: 120, class: "w-full border border-gray-300 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent bg-white transition-shadow" %>
-                  <span class="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-gray-500 pointer-events-none">歳</span>
-                </div>
+                <%= f.label :date_of_birth, "生年月日", class: "block text-sm font-bold mb-2" %>
+                <%= f.date_field :date_of_birth, autocomplete: "bday",
+                  class: "w-full border border-gray-300 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent text-gray-700 bg-white transition-shadow" %>
               </div>
             </div>
           </div>
@@ -74,6 +82,33 @@
                     <span class="ml-2 text-sm font-bold">なし</span>
                   </label>
                 </div>
+              </div>
+            </div>
+          </div>
+
+          <%# 資格・スコア %>
+          <div>
+            <h3 class="text-xs font-bold text-teal-600 border-b border-gray-100 pb-2 mb-5 tracking-wide">資格・スコア</h3>
+            <div class="space-y-5">
+              <div>
+                <%= f.label :eiken_grade, "英検 取得級", class: "block text-sm font-bold mb-2" %>
+                <%= f.select :eiken_grade, options_for_select([["1級", "1"], ["準1級", "p1"], ["2級", "2"], ["準2級", "p2"], ["3級", "3"]], @user_profile.eiken_grade),
+                  { include_blank: "級を選択" }, class: "w-full border border-gray-300 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent bg-white transition-shadow" %>
+              </div>
+              <div>
+                <%= f.label :toeic_score, "TOEIC L&R スコア", class: "block text-sm font-bold mb-2" %>
+                <%= f.number_field :toeic_score, min: 10, max: 990, step: 5, inputmode: "numeric", placeholder: "10 - 990",
+                  class: "w-full border border-gray-300 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent placeholder-gray-400 transition-shadow" %>
+              </div>
+              <div>
+                <%= f.label :toefl_ibt_score, "TOEFL iBT スコア", class: "block text-sm font-bold mb-2" %>
+                <%= f.number_field :toefl_ibt_score, min: 0, max: 120, inputmode: "numeric", placeholder: "0 - 120",
+                  class: "w-full border border-gray-300 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent placeholder-gray-400 transition-shadow" %>
+              </div>
+              <div>
+                <%= f.label :ielts_score, "IELTS バンドスコア", class: "block text-sm font-bold mb-2" %>
+                <%= f.number_field :ielts_score, min: 0, max: 9.0, step: 0.5, inputmode: "decimal", placeholder: "0.0 - 9.0",
+                  class: "w-full border border-gray-300 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent placeholder-gray-400 transition-shadow" %>
               </div>
             </div>
           </div>

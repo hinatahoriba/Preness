@@ -22,5 +22,33 @@ class UserProfile < ApplicationRecord
   validates :toeic_score, numericality: { only_integer: true, in: 10..990 }, allow_nil: true
   validates :toefl_ibt_score, numericality: { only_integer: true, in: 0..120 }, allow_nil: true
   validates :ielts_score, numericality: { in: 0..9.0 }, allow_nil: true
-end
 
+  def full_name
+    [last_name, first_name].compact.join(" ").strip
+  end
+
+  def full_name=(value)
+    parts = value.to_s.strip.split(/\s+/, 2)
+    self.last_name = parts[0]
+    self.first_name = parts[1]
+  end
+
+  def full_name_kana
+    [last_name_kana, first_name_kana].compact.join(" ").strip
+  end
+
+  def full_name_kana=(value)
+    parts = value.to_s.strip.split(/\s+/, 2)
+    self.last_name_kana = parts[0]
+    self.first_name_kana = parts[1]
+  end
+
+  def age
+    return if date_of_birth.blank?
+
+    today = Time.zone.today
+    years = today.year - date_of_birth.year
+    years -= 1 if today < date_of_birth.change(year: today.year)
+    years
+  end
+end
