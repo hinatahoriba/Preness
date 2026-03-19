@@ -1,21 +1,18 @@
 <%# Locals: questions (Array<Question>) - all questions in the Structure section %>
 
-<div class="pb-16 max-w-4xl mx-auto px-8">
+<div class="pb-16 max-w-5xl mx-auto px-8">
   <main class="pt-10">
-    <div class="border-y border-gray-300 py-3 mb-8">
-      <h1 class="text-2xl font-bold text-center tracking-widest text-gray-800">
-        STRUCTURE AND WRITTEN EXPRESSION
-      </h1>
-    </div>
-
-    <p class="text-[14px] leading-relaxed text-gray-700 mb-10">
-      <span class="font-bold underline underline-offset-2">Directions:</span>
-      Some questions are incomplete sentences. Choose the one word or phrase that best completes the sentence. Other questions each have four underlined words or phrases. Choose the one underlined word or phrase that must be changed for the sentence to be correct.
+    <h1 class="text-2xl font-bold text-center tracking-widest pb-5 border-b-[1.5px] border-black mb-10 font-serif">
+      STRUCTURE AND WRITTEN EXPRESSION
+    </h1>
+    <p class="text-[14px] leading-relaxed text-gray-800 mb-10 font-serif">
+      <span class="font-bold underline">Directions:</span>
+      Some questions are incomplete sentences. Beneath each sentence you will see four words or phrases, marked (A), (B), (C), and (D). Choose the one word or phrase that best completes the sentence. Other questions each have four underlined words or phrases. Choose the one underlined word or phrase that must be changed for the sentence to be correct.
     </p>
 
-    <div class="flex flex-col gap-5">
+    <div class="flex flex-col gap-10">
       <% questions.each_with_index do |question, index| %>
-        <div class="bg-white rounded-sm border border-gray-200 shadow-sm p-5">
+        <div class="question-block">
           <%= render "exercises/question_item", question: question, index: index %>
         </div>
       <% end %>
