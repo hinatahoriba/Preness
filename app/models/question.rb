@@ -1,5 +1,10 @@
 class Question < ApplicationRecord
   CHOICES = %w[A B C D].freeze
+  TAGS = %w[
+    shortConv longConv talk
+    sentenceStruct verbForm modifierConnect nounPronoun
+    vocab inference fact
+  ].freeze
 
   belongs_to :question_set
 
@@ -10,5 +15,6 @@ class Question < ApplicationRecord
   validates :choice_c, presence: true
   validates :choice_d, presence: true
   validates :correct_choice, presence: true, inclusion: { in: CHOICES }
+  validates :tag, inclusion: { in: TAGS }, allow_nil: true
 end
 

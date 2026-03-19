@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_19_000000) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_19_000001) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -114,6 +114,11 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_19_000000) do
     t.text "explanation"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "tag"
+    t.text "wrong_reason_a"
+    t.text "wrong_reason_b"
+    t.text "wrong_reason_c"
+    t.text "wrong_reason_d"
     t.index ["question_set_id"], name: "index_questions_on_question_set_id"
   end
 
