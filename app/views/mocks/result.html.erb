@@ -44,7 +44,8 @@ total_percent = total_questions.zero? ? 0 : ((total_correct.to_f / total_questio
       <div class="border-b border-gray-200 pb-2 flex flex-col sm:flex-row justify-between sm:items-center gap-4">
         <h2 class="text-lg font-bold text-gray-900">正誤/解説 詳細</h2>
 
-        <%= form_with url: result_mock_path(@mock, attempt_id: @attempt.id), method: :get, class: "m-0", data: { turbo: true } do |f| %>
+        <%= form_with url: result_mock_path(@mock), method: :get, class: "m-0", data: { turbo: true } do |f| %>
+          <%= f.hidden_field :attempt_id, value: @attempt.id %>
           <%= f.select :filter, 
                 options_for_select([['全問', 'all'], ['間違った問題', 'wrong'], ['あってた問題', 'correct']], @filter), 
                 {}, 
@@ -133,6 +134,18 @@ total_percent = total_questions.zero? ? 0 : ((total_correct.to_f / total_questio
                       </div>
                     </div>
                   </div>
+
+                  <% if !is_correct && selected_choice.present? && ["A", "B", "C", "D"].include?(selected_choice.upcase) %>
+                    <% wrong_reason = question.try("wrong_reason_#{selected_choice.downcase}") %>
+                    <% if wrong_reason.present? %>
+                      <div class="border border-red-100 rounded-sm p-4 bg-red-50/30 mt-3">
+                        <p class="text-[10px] text-red-500 font-semibold mb-1.5 uppercase">間違えた理由</p>
+                        <div class="text-sm text-gray-800 leading-relaxed whitespace-pre-line">
+                          <%= wrong_reason %>
+                        </div>
+                      </div>
+                    <% end %>
+                  <% end %>
 
                   <div class="border border-gray-100 rounded-sm p-4 bg-gray-50/50">
                     <p class="text-[10px] text-gray-400 font-semibold mb-1.5 uppercase">解説</p>
