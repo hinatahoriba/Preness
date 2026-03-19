@@ -25,9 +25,9 @@
         <hr class="border-t border-gray-300 mb-16">
       <% end %>
       <div class="mb-16">
-        <% if qs.audio_url.present? %>
+        <% if qs.conversation_audio_url.present? %>
           <%= render "mocks/audio_player",
-                url: qs.audio_url,
+                url: qs.conversation_audio_url,
                 label: "LISTENING AUDIO #{set_index + 1}",
                 status_text: "Click to play conversation for Questions #{q_offset + 1}–#{q_offset + qs.questions.count}" %>
         <% end %>

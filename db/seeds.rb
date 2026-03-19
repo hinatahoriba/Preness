@@ -56,14 +56,14 @@ else
     question_set = part.question_sets.create!(
       display_order: set_number,
       passage: passage,
-      audio_url: audio_url
+      conversation_audio_url: audio_url
     )
 
     questions.each_with_index do |question_data, index|
       question_set.questions.create!(
         display_order: index + 1,
         question_text: question_data.fetch(:question_text),
-        audio_url: question_data[:audio_url],
+        question_audio_url: question_data[:audio_url],
         choice_a: question_data.fetch(:choice_a),
         choice_b: question_data.fetch(:choice_b),
         choice_c: question_data.fetch(:choice_c),
@@ -90,14 +90,14 @@ else
     question_set = part.question_sets.create!(
       display_order: set_number,
       passage: passage,
-      audio_url: audio_url
+      conversation_audio_url: audio_url
     )
 
     questions.each_with_index do |question_data, index|
       question_set.questions.create!(
         display_order: index + 1,
         question_text: question_data.fetch(:question_text),
-        audio_url: question_data[:audio_url],
+        question_audio_url: question_data[:audio_url],
         choice_a: question_data.fetch(:choice_a),
         choice_b: question_data.fetch(:choice_b),
         choice_c: question_data.fetch(:choice_c),

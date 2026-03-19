@@ -21,7 +21,7 @@
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-14 gap-y-9">
       <% questions.each_with_index do |question, index| %>
-        <% audio_url = question.audio_url.presence || question.question_set&.audio_url %>
+        <% audio_url = question.question_audio_url.presence || question.question_set&.conversation_audio_url %>
         <div class="question-block">
           <% if audio_url.present? %>
             <%= render "mocks/audio_player",

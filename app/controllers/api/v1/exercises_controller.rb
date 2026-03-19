@@ -58,7 +58,7 @@ module Api
 
             question_set = part.question_sets.create!(
               passage: question_set_data[:passage],
-              audio_url: question_set_data[:audio_url],
+              conversation_audio_url: question_set_data[:conversation_audio_url],
               display_order: question_set_data.fetch(:display_order)
             )
 
@@ -66,7 +66,7 @@ module Api
               question_set.questions.create!(
                 display_order: question_data.fetch(:display_order),
                 question_text: question_data.fetch(:question_text),
-                audio_url: question_data[:audio_url],
+                question_audio_url: question_data[:question_audio_url],
                 choice_a: question_data.fetch(:choice_a),
                 choice_b: question_data.fetch(:choice_b),
                 choice_c: question_data.fetch(:choice_c),
@@ -94,11 +94,11 @@ module Api
           question_sets: [
             :display_order,
             :passage,
-            :audio_url,
+            :conversation_audio_url,
             { questions: [
               :display_order,
               :question_text,
-              :audio_url,
+              :question_audio_url,
               :choice_a,
               :choice_b,
               :choice_c,

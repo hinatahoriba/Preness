@@ -22,9 +22,9 @@
       In this part you will hear longer conversations. After each conversation, you will be asked some questions. The conversations and questions will be spoken just once. Listen carefully in order to understand and remember what the speaker says.
     </p>
 
-    <% if question_set.audio_url.present? %>
+    <% if question_set.conversation_audio_url.present? %>
       <%= render "exercises/audio_player",
-            url: question_set.audio_url,
+            url: question_set.conversation_audio_url,
             label: "LISTENING AUDIO",
             compact: false %>
     <% end %>

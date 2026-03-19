@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_18_160303) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_19_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -93,10 +93,11 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_18_160303) do
   create_table "question_sets", force: :cascade do |t|
     t.bigint "part_id", null: false
     t.text "passage"
-    t.string "audio_url"
+    t.string "conversation_audio_url"
     t.integer "display_order", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "conversation_text"
     t.index ["part_id"], name: "index_question_sets_on_part_id"
   end
 
@@ -104,7 +105,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_18_160303) do
     t.bigint "question_set_id", null: false
     t.integer "display_order", null: false
     t.text "question_text", null: false
-    t.string "audio_url"
+    t.string "question_audio_url"
     t.text "choice_a", null: false
     t.text "choice_b", null: false
     t.text "choice_c", null: false

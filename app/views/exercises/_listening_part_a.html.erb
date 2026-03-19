@@ -21,7 +21,7 @@
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-6">
       <% questions.each_with_index do |question, index| %>
-        <% audio_url = question.audio_url.presence || question.question_set&.audio_url %>
+        <% audio_url = question.question_audio_url.presence || question.question_set&.conversation_audio_url %>
         <div class="bg-white rounded-sm border border-gray-200 shadow-sm p-5">
           <% if audio_url.present? %>
             <%= render "exercises/audio_player", url: audio_url, label: "LISTENING AUDIO", compact: true %>
