@@ -72,7 +72,12 @@ module Api
                 choice_c: question_data.fetch(:choice_c),
                 choice_d: question_data.fetch(:choice_d),
                 correct_choice: question_data.fetch(:correct_choice),
-                explanation: question_data[:explanation]
+                explanation: question_data[:explanation],
+                tag: question_data[:tag],
+                wrong_reason_a: question_data[:wrong_reason_a],
+                wrong_reason_b: question_data[:wrong_reason_b],
+                wrong_reason_c: question_data[:wrong_reason_c],
+                wrong_reason_d: question_data[:wrong_reason_d]
               )
             end
           end
@@ -104,7 +109,12 @@ module Api
               :choice_c,
               :choice_d,
               :correct_choice,
-              :explanation
+              :explanation,
+              :tag,
+              :wrong_reason_a,
+              :wrong_reason_b,
+              :wrong_reason_c,
+              :wrong_reason_d
             ] }
           ]
         )
