@@ -42,9 +42,11 @@
 
     <%# Right: 中断ボタン + submit button %>
     <div class="flex items-center justify-end px-6 gap-4 w-1/3 text-sm">
-      <%= link_to "試験を中断する", mocks_path,
-            data: { turbo_confirm: "試験を中断しますか？回答内容は保存されません。" },
-            class: "px-5 py-2 border border-gray-300 hover:bg-gray-50 transition-colors text-gray-700" %>
+      <button type="button"
+              data-action="mock-progress#openModal"
+              class="px-5 py-2 border border-gray-300 hover:bg-gray-50 transition-colors text-gray-700">
+        試験を中断する
+      </button>
       <%= button_tag mock_has_next_part?(@mock, @part) ? "次のパートへ進む" : "採点して結果を見る",
             type: :submit,
             form: form_id,
@@ -53,6 +55,32 @@
             class: "px-8 py-2 bg-[#1a1b4b] text-white hover:bg-blue-900 transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer" %>
     </div>
   </header>
+
+  <%# ===== Interrupt Modal ===== %>
+  <div
+    class="hidden fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50 font-serif"
+    data-mock-progress-target="interruptModal"
+  >
+    <div class="bg-white w-full max-w-6xl px-8 py-16 md:py-20 shadow-2xl">
+      <h2 class="text-xl md:text-2xl font-bold text-center text-gray-900 mb-6 tracking-widest">
+        警告: 試験の中断
+      </h2>
+      <p class="text-sm md:text-base text-gray-500 text-center mb-12 leading-relaxed">
+        現在、試験を中断しようとしています。この操作を行うと現在のセッションは完了扱いとなり、未回答の問題は無効となります。本当によろしいですか？
+      </p>
+      <div class="flex flex-col sm:flex-row justify-center gap-4">
+        <button
+          type="button"
+          data-action="mock-progress#closeModal"
+          class="w-full sm:w-1/2 py-3.5 px-4 bg-[#f8f9fa] border border-gray-200 text-gray-700 font-medium hover:bg-gray-100 transition-colors duration-200 tracking-wider text-sm"
+        >
+          試験に戻る
+        </button>
+        <%= link_to "中断を確定する", mocks_path,
+              class: "w-full sm:w-1/2 py-3.5 px-4 bg-[#081f5c] text-white font-medium hover:bg-[#05143e] transition-colors duration-200 tracking-wider text-sm text-center" %>
+      </div>
+    </div>
+  </div>
 
   <%# ===== Form + Content ===== %>
   <%= form_with(

@@ -1,11 +1,19 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["answeredCount", "indicator", "submitButton"]
+  static targets = ["answeredCount", "indicator", "submitButton", "interruptModal"]
   static values = { totalCount: Number }
 
   connect() {
     this.update()
+  }
+
+  openModal() {
+    this.interruptModalTarget.classList.remove("hidden")
+  }
+
+  closeModal() {
+    this.interruptModalTarget.classList.add("hidden")
   }
 
   update() {
