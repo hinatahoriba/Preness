@@ -1,0 +1,49 @@
+<%# Locals: question_sets (Array<QuestionSet>) - each with passage + questions %>
+
+<div
+  class="flex-1 flex flex-col overflow-hidden"
+  data-controller="mock-passage-tab"
+>
+  <%# Passage tab navigation %>
+  <div class="flex flex-shrink-0 border-b border-gray-200 bg-white">
+    <% question_sets.each_with_index do |qs, i| %>
+      <button
+        type="button"
+        class="px-8 py-3 text-[10px] font-bold tracking-widest uppercase transition-colors"
+        data-mock-passage-tab-target="tab"
+        data-action="click->mock-passage-tab#switch"
+      >
+        PASSAGE <%= i + 1 %>
+      </button>
+    <% end %>
+  </div>
+
+  <%# Passage panels %>
+  <% q_offset = 0 %>
+  <% question_sets.each_with_index do |qs, i| %>
+    <div
+      class="flex flex-1 overflow-hidden"
+      data-mock-passage-tab-target="panel"
+    >
+      <%# Left: Passage text (scrollable) %>
+      <div class="w-1/2 overflow-y-auto px-10 pt-7 pb-24">
+        <h2 class="text-[10px] font-bold text-gray-400 tracking-widest mb-5 uppercase font-sans">
+          REFERENCE TEXT — PASSAGE <%= i + 1 %>
+        </h2>
+        <div class="text-[15.5px] leading-[2] text-gray-800 space-y-5 text-justify font-serif">
+          <%= simple_format(qs.passage.to_s) %>
+        </div>
+      </div>
+
+      <%# Right: Questions (scrollable) %>
+      <div class="w-1/2 border-l border-gray-100 overflow-y-auto px-10 pt-7 pb-24">
+        <% qs.questions.order(:display_order).each_with_index do |question, q_index| %>
+          <div class="mb-10 pb-10 border-b border-gray-100 last:border-0 last:mb-0">
+            <%= render "mocks/question_item", question: question, index: q_offset + q_index %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <% q_offset += qs.questions.count %>
+  <% end %>
+</div>

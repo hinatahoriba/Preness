@@ -1,0 +1,46 @@
+<%# Locals:
+#   question_sets (Array<QuestionSet>) - ordered sets, each with audio + multiple questions
+#   part_label    (String)             - e.g. "PART B" or "PART C"
+%>
+
+<div
+  class="pb-16 max-w-[1200px] mx-auto px-8"
+  data-controller="mock-audio-custom-player"
+>
+  <main class="pt-10">
+    <h1 class="text-3xl font-bold text-center tracking-[0.15em] pb-6 border-b-[1.5px] border-black mb-10 font-serif text-gray-800">
+      TOEFL ITP LISTENING COMPREHENSION
+    </h1>
+    <h2 class="text-xl font-bold tracking-wide pb-2 border-b-[1.5px] border-black mb-6 font-serif text-gray-800">
+      <%= local_assigns[:part_label] || "PART B" %>
+    </h2>
+    <p class="text-[15px] leading-relaxed text-gray-800 mb-12 font-serif">
+      <span class="font-bold underline decoration-1 underline-offset-2">Directions:</span>
+      In Part B you will hear longer conversations. After each conversation, you will be asked some questions. The conversations and questions will be spoken just once. They will not be written out for you, so you will have to listen carefully in order to understand and remember what the speaker says.
+    </p>
+
+    <% q_offset = 0 %>
+    <% question_sets.each_with_index do |qs, set_index| %>
+      <% unless set_index == 0 %>
+        <hr class="border-t border-gray-300 mb-16">
+      <% end %>
+      <div class="mb-16">
+        <% if qs.audio_url.present? %>
+          <%= render "mocks/audio_player",
+                url: qs.audio_url,
+                label: "LISTENING AUDIO #{set_index + 1}",
+                status_text: "Click to play conversation for Questions #{q_offset + 1}–#{q_offset + qs.questions.count}" %>
+        <% end %>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-12">
+          <% qs.questions.order(:display_order).each_with_index do |question, q_index| %>
+            <div class="question-block">
+              <%= render "mocks/question_item", question: question, index: q_offset + q_index %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+      <% q_offset += qs.questions.count %>
+    <% end %>
+  </main>
+</div>

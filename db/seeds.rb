@@ -591,6 +591,66 @@ else
 
   create_mock_set!(
     mock: mock1,
+    section_type: "listening",
+    part_type: "part_b",
+    set_number: 1,
+    audio_url: audio_url,
+    questions: [
+      {
+        question_text: "What are the students mainly discussing?",
+        audio_url: audio_url,
+        choice_a: "Weekend plans.",
+        choice_b: "A research project.",
+        choice_c: "A scholarship requirement.",
+        choice_d: "How to start a club.",
+        correct_choice: "B",
+        explanation: "会話の中心は授業のプロジェクトです。"
+      },
+      {
+        question_text: "What does the woman offer to do?",
+        audio_url: audio_url,
+        choice_a: "Collect the data.",
+        choice_b: "Write the introduction.",
+        choice_c: "Make the slides.",
+        choice_d: "Present alone.",
+        correct_choice: "C",
+        explanation: "発表用のスライド作成を引き受けています。"
+      }
+    ]
+  )
+
+  create_mock_set!(
+    mock: mock1,
+    section_type: "listening",
+    part_type: "part_c",
+    set_number: 1,
+    audio_url: audio_url,
+    questions: [
+      {
+        question_text: "What is the purpose of the talk?",
+        audio_url: audio_url,
+        choice_a: "To introduce the library services.",
+        choice_b: "To explain campus history.",
+        choice_c: "To describe a new major.",
+        choice_d: "To announce new graduation rules.",
+        correct_choice: "A",
+        explanation: "図書館の使い方を案内しています。"
+      },
+      {
+        question_text: "What does the speaker recommend?",
+        audio_url: audio_url,
+        choice_a: "Borrowing only one book at a time.",
+        choice_b: "Using the online catalog.",
+        choice_c: "Avoiding group study rooms.",
+        choice_d: "Buying textbooks immediately.",
+        correct_choice: "B",
+        explanation: "オンラインカタログの利用が推奨されています。"
+      }
+    ]
+  )
+
+  create_mock_set!(
+    mock: mock1,
     section_type: "structure",
     part_type: "part_a",
     set_number: 1,
