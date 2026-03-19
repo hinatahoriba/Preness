@@ -82,12 +82,19 @@ total_percent = total_questions.zero? ? 0 : ((total_correct.to_f / total_questio
 
               <div class="bg-white border border-gray-200 rounded-sm overflow-hidden shadow-sm">
                 <div class="border-b border-gray-100 px-5 py-3 flex justify-between items-center bg-gray-50">
-                  <span class="text-sm font-bold text-gray-700">Q<%= question.display_order %></span>
-                  <% if is_correct %>
-                    <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-sm">正解</span>
-                  <% else %>
-                    <span class="text-xs font-bold text-red-500 bg-red-50 px-2.5 py-1 rounded-sm">不正解</span>
-                  <% end %>
+                  <div class="flex items-center gap-3">
+                    <span class="text-sm font-bold text-gray-700">Q<%= question.display_order %></span>
+                    <% if question.tag.present? %>
+                      <span class="text-[10px] font-semibold text-[#0f2361] bg-[#0f2361]/10 border border-[#0f2361]/20 px-2 py-0.5 rounded-sm"><%= question_tag_label(question.tag) %></span>
+                    <% end %>
+                  </div>
+                  <div>
+                    <% if is_correct %>
+                      <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-sm">正解</span>
+                    <% else %>
+                      <span class="text-xs font-bold text-red-500 bg-red-50 px-2.5 py-1 rounded-sm">不正解</span>
+                    <% end %>
+                  </div>
                 </div>
 
                 <div class="p-5 space-y-5">
