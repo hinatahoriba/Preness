@@ -1,0 +1,40 @@
+<%# Locals:
+#   question_set (QuestionSet) - single question set with audio + questions
+#   part_label   (String)      - e.g. "PART B" or "PART C"
+%>
+
+<div
+  class="pb-16 max-w-[1200px] mx-auto px-8"
+  data-controller="exercise-audio-custom-player"
+>
+  <main class="pt-10">
+    <div class="border-y border-gray-300 py-3 mb-8">
+      <h1 class="text-2xl font-bold text-center tracking-[0.15em] text-gray-800">
+        LISTENING COMPREHENSION
+      </h1>
+    </div>
+
+    <h2 class="text-xl font-bold tracking-wide pb-2 border-b border-gray-300 mb-6">
+      <%= part_label || "PART B" %>
+    </h2>
+    <p class="text-[14px] leading-relaxed text-gray-700 mb-10">
+      <span class="font-bold underline underline-offset-2">Directions:</span>
+      In this part you will hear longer conversations. After each conversation, you will be asked some questions. The conversations and questions will be spoken just once. Listen carefully in order to understand and remember what the speaker says.
+    </p>
+
+    <% if question_set.audio_url.present? %>
+      <%= render "exercises/audio_player",
+            url: question_set.audio_url,
+            label: "LISTENING AUDIO",
+            compact: false %>
+    <% end %>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
+      <% question_set.questions.order(:display_order).each_with_index do |question, index| %>
+        <div class="bg-white rounded-sm border border-gray-200 shadow-sm p-5">
+          <%= render "exercises/question_item", question: question, index: index %>
+        </div>
+      <% end %>
+    </div>
+  </main>
+</div>

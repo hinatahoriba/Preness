@@ -1,74 +1,71 @@
 <% set_title = exercise_set_title(section_type: @section.section_type, part_type: @part.part_type, set_number: @question_set.display_order) %>
+<% is_reading = @section.section_type == "reading" %>
+<% form_id = "exercise-answer-form" %>
+
 <div
-  class="min-h-screen bg-[#f4f5f7]"
-  data-controller="exercise-progress exercise-audio-sequential"
+  class="<%= is_reading ? 'h-screen flex flex-col overflow-hidden' : 'min-h-screen' %> bg-[#f4f5f7]"
+  data-controller="exercise-progress"
   data-exercise-progress-total-count-value="<%= @total_count %>"
 >
-  <header class="sticky top-0 z-50 flex items-stretch bg-[#001c54] h-20 shadow-sm min-w-[1000px]">
-    <div class="flex items-center px-8 border-r border-[#ffffff20] whitespace-nowrap">
-      <h1 class="text-[15px] font-bold text-white tracking-wide uppercase">
+  <%# ===== Header ===== %>
+  <header class="sticky top-0 z-50 flex items-stretch bg-[#001c54] h-16 shadow-sm">
+    <%# Left: title %>
+    <div class="flex items-center px-6 border-r border-[#ffffff20] whitespace-nowrap">
+      <h1 class="text-[13px] font-bold text-white tracking-wide uppercase">
         <%= set_title %>
       </h1>
     </div>
 
+    <%# Center: progress indicator %>
     <div class="flex-1 flex flex-col items-center justify-center px-4">
-      <span class="text-[13px] font-bold text-white tracking-widest mb-2">
-        回答済み : <span data-exercise-progress-target="answeredCount"><%= @answered_count %></span>/<%= @total_count %>問
+      <span class="text-xs font-bold text-white tracking-widest mb-1">
+        回答済み :
+        <span data-exercise-progress-target="answeredCount"><%= @answered_count %></span>/<%= @total_count %>問
       </span>
       <div class="flex flex-wrap justify-center gap-[3px]">
         <% @questions.each do |question| %>
-          <% is_answered = @answers_by_question_id[question.id]&.selected_choice.present? %>
-          <div class="w-[10px] h-[3px] <%= is_answered ? 'bg-white' : 'bg-white/30' %>" 
-               data-exercise-progress-target="indicator"
-               data-question-id="<%= question.id %>"></div>
+          <div
+            class="w-[10px] h-[3px] bg-white/30"
+            data-exercise-progress-target="indicator"
+            data-question-id="<%= question.id %>"
+          ></div>
         <% end %>
       </div>
     </div>
 
+    <%# Right: nav + submit %>
     <div class="flex items-center gap-3 px-6 border-l border-[#ffffff20] whitespace-nowrap">
-      <%= link_to "一覧に戻る", exercises_path, class: "px-6 py-2.5 bg-white border border-gray-300 text-gray-800 text-[13px] font-bold rounded-sm hover:bg-gray-50 transition-colors duration-200" %>
+      <%= link_to "一覧に戻る", exercises_path,
+            class: "px-5 py-2 bg-white border border-gray-300 text-gray-800 text-[12px] font-bold rounded-sm hover:bg-gray-50 transition-colors" %>
       <% if @attempt.present? %>
-        <%= link_to "結果履歴を見る", history_exercise_path(@exercise), class: "px-6 py-2.5 bg-white border border-gray-300 text-gray-800 text-[13px] font-bold rounded-sm hover:bg-gray-50 transition-colors duration-200" %>
+        <%= link_to "結果履歴を見る", history_exercise_path(@exercise),
+              class: "px-5 py-2 bg-white border border-gray-300 text-gray-800 text-[12px] font-bold rounded-sm hover:bg-gray-50 transition-colors" %>
       <% end %>
+      <%= button_tag "採点する",
+            type: :submit,
+            form: form_id,
+            disabled: true,
+            data: { "exercise-progress-target": "submitButton" },
+            class: "px-6 py-2 bg-white text-[#001c54] text-[12px] font-bold rounded-sm hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer" %>
     </div>
   </header>
 
-  <main class="mx-auto max-w-5xl px-6 py-10 min-w-[1000px]">
+  <%# ===== Form + Content ===== %>
+  <%= form_with url: answer_exercise_path(@exercise), method: :post, id: form_id,
+        class: is_reading ? "flex-1 flex flex-col overflow-hidden" : "" do %>
+    <% if @section.section_type == "listening" && @part.part_type == "part_a" %>
+      <%= render "exercises/listening_part_a", questions: @questions %>
 
-    <%= form_with url: answer_exercise_path(@exercise), method: :post do %>
+    <% elsif @section.section_type == "listening" %>
+      <%= render "exercises/listening_part_bc",
+            question_set: @question_set,
+            part_label: exercise_part_label(@part.part_type)&.upcase %>
 
-      <% if @question_set.audio_url.present? %>
-        <div class="mt-8 rounded-sm border border-gray-200 bg-white p-6">
-          <h2 class="text-sm font-bold text-gray-700">音声（セット共通）</h2>
-          <audio class="mt-4 w-full" controls src="<%= @question_set.audio_url %>" data-exercise-audio-sequential-target="audio"></audio>
-        </div>
-      <% end %>
+    <% elsif @section.section_type == "structure" %>
+      <%= render "exercises/structure", questions: @questions %>
 
-      <% if @section.section_type == "reading" %>
-        <div class="mt-8 flex flex-col gap-8 lg:flex-row">
-          <aside class="lg:w-5/12">
-            <div class="rounded-sm border border-gray-200 bg-white p-6 lg:sticky lg:top-8">
-              <h2 class="text-sm font-bold text-gray-700">Passage</h2>
-              <p class="mt-4 whitespace-pre-line text-sm leading-relaxed text-gray-700"><%= @question_set.passage %></p>
-            </div>
-          </aside>
-          <div class="space-y-6 lg:w-7/12">
-            <%= render partial: "question_cards", locals: { questions: @questions, answers_by_question_id: @answers_by_question_id, section_type: @section.section_type } %>
-          </div>
-        </div>
-      <% else %>
-        <div class="mt-8 space-y-6">
-          <%= render partial: "question_cards", locals: { questions: @questions, answers_by_question_id: @answers_by_question_id, section_type: @section.section_type } %>
-        </div>
-      <% end %>
-
-      <div class="mt-10 flex flex-wrap items-center justify-end gap-3">
-        <%= button_tag "採点する",
-              type: :submit,
-              disabled: true,
-              data: { "exercise-progress-target": "submitButton" },
-              class: "inline-flex items-center rounded-sm bg-[#0f2361] px-6 py-3 text-sm font-semibold text-white hover:bg-[#0a1845] disabled:opacity-40 disabled:cursor-not-allowed" %>
-      </div>
+    <% elsif @section.section_type == "reading" %>
+      <%= render "exercises/reading", question_set: @question_set %>
     <% end %>
-  </main>
+  <% end %>
 </div>
