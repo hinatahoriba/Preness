@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_19_000001) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_22_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -45,23 +45,11 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_19_000001) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "mock_tests", force: :cascade do |t|
-    t.string "title", null: false
-    t.text "description"
-    t.integer "price_cents", null: false
-    t.string "stripe_price_id"
-    t.string "difficulty", default: "medium", null: false
-    t.integer "time_limit_minutes", default: 180, null: false
-    t.boolean "published", default: false, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["published"], name: "index_mock_tests_on_published"
-  end
-
   create_table "mocks", force: :cascade do |t|
     t.string "title", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "stripe_price_id"
   end
 
   create_table "parts", force: :cascade do |t|
@@ -75,7 +63,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_19_000001) do
 
   create_table "purchases", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.bigint "mock_test_id", null: false
+    t.bigint "mock_id", null: false
     t.string "stripe_payment_intent_id"
     t.string "stripe_checkout_session_id"
     t.integer "amount_cents", null: false
@@ -83,10 +71,10 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_19_000001) do
     t.string "status", default: "pending", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["mock_test_id"], name: "index_purchases_on_mock_test_id"
+    t.index ["mock_id"], name: "index_purchases_on_mock_id"
     t.index ["status"], name: "index_purchases_on_status"
     t.index ["stripe_payment_intent_id"], name: "index_purchases_on_stripe_payment_intent_id"
-    t.index ["user_id", "mock_test_id"], name: "index_purchases_on_user_id_and_mock_test_id", unique: true
+    t.index ["user_id", "mock_id"], name: "index_purchases_on_user_id_and_mock_id", unique: true
     t.index ["user_id"], name: "index_purchases_on_user_id"
   end
 
@@ -194,7 +182,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_19_000001) do
   add_foreign_key "answers", "questions"
   add_foreign_key "attempts", "users"
   add_foreign_key "parts", "sections"
-  add_foreign_key "purchases", "mock_tests"
+  add_foreign_key "purchases", "mocks"
   add_foreign_key "purchases", "users"
   add_foreign_key "question_sets", "parts"
   add_foreign_key "questions", "question_sets"
