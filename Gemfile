@@ -53,3 +53,5 @@ group :development do
   gem "web-console"
   gem "letter_opener_web"
 end
+
+gem "stripe", "~> 19.0"

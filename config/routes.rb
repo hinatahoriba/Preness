@@ -36,6 +36,15 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :purchases, only: [:create] do
+    collection do
+      get :success
+      get :cancel
+    end
+  end
+
+  post "stripe/webhooks", to: "stripe_webhooks#create"
+
   resources :mocks, only: [:index] do
     member do
       get  :guideline

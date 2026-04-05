@@ -11,6 +11,8 @@ services:
       DB_PASSWORD: postgres
       DB_NAME: preness_development
       DB_TEST_NAME: preness_test
+    env_file:
+      - .env
     volumes:
       - .:/app
       - bundle_data:/usr/local/bundle

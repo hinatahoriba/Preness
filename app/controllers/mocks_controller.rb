@@ -1,6 +1,7 @@
 class MocksController < ApplicationController
   before_action :authenticate_user!
   before_action :set_mock, except: :index
+  before_action :ensure_purchased, only: %i[guideline ready start direction answer submit_part result]
   before_action :ensure_can_start_mock, only: %i[ready start]
   before_action :set_attempt,       only: %i[direction answer submit_part result]
   before_action :set_section_part,  only: %i[direction answer submit_part]
@@ -9,6 +10,7 @@ class MocksController < ApplicationController
   def index
     @mocks = Mock.all.order(:created_at)
     @attempts_by_mock_id = current_user.attempts.where(mockable: @mocks).index_by(&:mockable_id)
+    @purchased_mock_ids  = current_user.purchases.completed.pluck(:mock_id).to_set
   end
 
   # GET /mocks/:id/guideline
@@ -156,5 +158,11 @@ class MocksController < ApplicationController
 
   def answers_params
     params.permit(answers: {}).fetch(:answers, {}).to_h
+  end
+
+  def ensure_purchased
+    return if current_user.purchases.completed.exists?(mock: @mock)
+
+    redirect_to mocks_path, alert: "この模擬試験を受験するには購入が必要です。"
   end
 end

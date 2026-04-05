@@ -55,10 +55,15 @@
             <div class="w-full bg-gray-100 text-gray-500 py-3 rounded-2xl text-sm font-bold flex items-center justify-center space-x-2 cursor-not-allowed select-none">
               <span>中断（再開できません）</span>
             </div>
-          <% else %>
+          <% elsif @purchased_mock_ids.include?(mock.id) %>
             <%= link_to guideline_mock_path(mock), class: "w-full bg-[#34a0a4] hover:bg-[#2d8b8e] text-white py-3 rounded-2xl text-sm font-bold flex items-center justify-center space-x-2 transition-all shadow-lg hover:shadow-[#34a0a4]/30" do %>
               <span>受験を開始する</span>
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+            <% end %>
+          <% else %>
+            <%= button_to purchases_path(mock_id: mock.id), data: { turbo: false }, class: "w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-2xl text-sm font-bold flex items-center justify-center space-x-2 transition-all shadow-lg hover:shadow-indigo-600/30" do %>
+              <span>購入する</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
             <% end %>
           <% end %>
         </div>
