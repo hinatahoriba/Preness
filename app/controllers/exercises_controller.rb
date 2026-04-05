@@ -2,6 +2,7 @@ class ExercisesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_exercise, only: %i[answer history result]
   before_action :set_exercise_content, only: %i[answer history result]
+  before_action :check_exercise_limit, only: %i[answer]
 
   def index
     exercises = Exercise.includes(sections: { parts: { question_sets: :questions } }).to_a
@@ -133,6 +134,16 @@ class ExercisesController < ApplicationController
     @answers_by_question_id = {}
     @total_count = @questions.size
     @answered_count = 0
+  end
+
+  def check_exercise_limit
+    return if current_user.can_start_exercise?
+    
+    # すでに今日開始している演習であれば、継続して回答できるようにする
+    # (A案: 開始した瞬間にカウントだが、同じ演習をリロードしただけで制限に掛かるのを防ぐ)
+    return if current_user.attempts.where(mockable: @exercise, created_at: Time.current.in_time_zone('Tokyo').all_day).exists?
+
+    redirect_to subscriptions_path, alert: "無料プランでは1日3セットまでです。プレミアム会員になると無制限に解くことができます。"
   end
 
   def answers_params

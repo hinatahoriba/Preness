@@ -1,0 +1,115 @@
+<% content_for :title, "Premium Plan - Preness" %>
+
+<div class="bg-gray-50 min-h-screen font-sans">
+  <%# Header %>
+  <header class="bg-white border-b border-gray-100 py-4 px-8 flex justify-between items-center sticky top-0 z-50">
+    <%= link_to root_path, class: "text-[#4b9b94] text-xl font-bold tracking-tight" do %>
+      Preness
+    <% end %>
+    <%= link_to "一覧に戻る", exercises_path, class: "text-sm font-medium text-gray-500 hover:text-gray-800 transition-colors" %>
+  </header>
+
+  <main class="max-w-4xl mx-auto py-16 px-6">
+    <div class="text-center mb-16">
+      <h1 class="text-4xl font-extrabold text-[#1a2f33] mb-4">Preness Premium</h1>
+      <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+        TOEIC対策をより効率的に。プレミアムプランで全ての機能を無制限に活用しましょう。
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-8 items-stretch">
+      <%# Free Plan %>
+      <div class="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm flex flex-col">
+        <div class="mb-8">
+          <h2 class="text-xl font-bold text-gray-400 mb-1">FREE</h2>
+          <div class="flex items-baseline">
+            <span class="text-3xl font-black text-gray-400">¥0</span>
+            <span class="text-sm text-gray-400 ml-1">/ 月</span>
+          </div>
+        </div>
+
+        <ul class="space-y-4 mb-12 flex-grow">
+          <li class="flex items-center text-gray-500">
+            <svg class="w-5 h-5 mr-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            セクション演習 (1日3セットまで)
+          </li>
+          <li class="flex items-center text-gray-500">
+            <svg class="w-5 h-5 mr-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            模擬試験 (単発購入が必要)
+          </li>
+          <li class="flex items-center text-gray-400 line-through">
+            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            演習無制限
+          </li>
+        </ul>
+
+        <div class="w-full py-4 text-center text-gray-400 font-bold border-2 border-gray-100 rounded-xl">
+          現在のプラン
+        </div>
+      </div>
+
+      <%# Premium Plan %>
+      <div class="bg-white rounded-3xl p-8 border-2 border-[#4b9b94] shadow-xl relative overflow-hidden flex flex-col transform md:scale-105">
+        <div class="absolute top-0 right-0 bg-[#4b9b94] text-white text-[10px] font-black px-4 py-1 rounded-bl-xl tracking-widest">
+          RECOMMENDED
+        </div>
+
+        <div class="mb-8">
+          <h2 class="text-xl font-bold text-[#4b9b94] mb-1">PREMIUM</h2>
+          <div class="flex items-baseline">
+            <span class="text-3xl font-black text-[#1a2f33]">¥2,980</span>
+            <span class="text-sm text-gray-500 ml-1">/ 月</span>
+          </div>
+        </div>
+
+        <ul class="space-y-4 mb-12 flex-grow">
+          <li class="flex items-center text-gray-700">
+            <div class="bg-[#f0fdf4] p-1 rounded-full mr-3">
+              <svg class="w-4 h-4 text-[#16a34a]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            </div>
+            セクション演習 <span class="font-bold ml-1 text-[#4b9b94]">無制限解き放題</span>
+          </li>
+          <li class="flex items-center text-gray-700">
+            <div class="bg-[#f0fdf4] p-1 rounded-full mr-3">
+              <svg class="w-4 h-4 text-[#16a34a]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            </div>
+            AIによる詳細な解答分析
+          </li>
+          <li class="flex items-center text-gray-700">
+            <div class="bg-[#f0fdf4] p-1 rounded-full mr-3">
+              <svg class="w-4 h-4 text-[#16a34a]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            </div>
+            広告なし・快適な学習
+          </li>
+          <li class="flex items-center text-gray-700 font-medium">
+            <div class="bg-[#f0fdf4] p-1 rounded-full mr-3 text-xs flex items-center justify-center font-bold text-[#16a34a]">
+              +
+            </div>
+            今後追加される全ての機能
+          </li>
+        </ul>
+
+        <%= button_to checkout_subscriptions_path, method: :post, class: "w-full bg-[#1a2f33] hover:bg-[#2c4a50] text-white py-4 rounded-xl font-bold transition-all shadow-lg shadow-gray-200 active:scale-95", form: { data: { turbo: false } } do %>
+          プレミアムにアップグレード
+        <% end %>
+        <p class="text-[10px] text-gray-400 mt-4 text-center">
+          いつでもキャンセル可能です。決済はStripeで安全に行われます。
+        </p>
+      </div>
+    </div>
+
+    <section class="mt-24">
+      <h3 class="text-2xl font-bold text-center text-[#1a2f33] mb-12">よくある質問</h3>
+      <div class="grid md:grid-cols-2 gap-8">
+        <div>
+          <h4 class="font-bold text-[#1a2f33] mb-2">解約はいつでもできますか？</h4>
+          <p class="text-sm text-gray-600">はい、マイページからいつでも解約手続きが可能です。解約後も現在の利用期間終了までプレミアム機能をご利用いただけます。</p>
+        </div>
+        <div>
+          <h4 class="font-bold text-[#1a2f33] mb-2">支払い方法は何がありますか？</h4>
+          <p class="text-sm text-gray-600">各種クレジットカードおよびStripeが対応している決済手段（Apple Pay / Google Pay等）をご利用いただけます。</p>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>

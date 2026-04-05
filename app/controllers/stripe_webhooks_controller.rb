@@ -18,7 +18,12 @@ class StripeWebhooksController < ActionController::Base
 
     case event.type
     when "checkout.session.completed"
-      Purchases::FulfillCheckout.call(event.data.object)
+      session = event.data.object
+      if session.mode == "subscription"
+        Subscriptions::FulfillCheckout.call(session)
+      else
+        Purchases::FulfillCheckout.call(session)
+      end
     end
 
     render json: { received: true }

@@ -5,7 +5,14 @@
     <%= link_to root_path, class: "text-[#4b9b94] text-xl font-bold tracking-tight" do %>
       Preness
     <% end %>
-    <div class="flex items-center gap-4">
+    <div class="flex items-center gap-6">
+      <% unless current_user.premium? %>
+        <div class="flex items-center bg-[#f0fdf4] border border-[#bbf7d0] px-3 py-1 rounded-full shadow-sm">
+          <span class="text-[11px] font-bold text-[#16a34a] mr-2">今日の残り</span>
+          <span class="text-sm font-extrabold text-[#15803d]"><%= [0, 3 - current_user.today_exercise_count].max %></span>
+          <span class="text-[11px] font-bold text-[#16a34a] ml-0.5">/ 3</span>
+        </div>
+      <% end %>
       <%= link_to "マイページ", mypage_path, class: "text-[13px] font-medium text-gray-600 hover:text-[#4b9b94] transition-colors" %>
     </div>
   </header>
