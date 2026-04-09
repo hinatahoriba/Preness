@@ -59,6 +59,7 @@ module Api
             question_set = part.question_sets.create!(
               passage: question_set_data[:passage],
               conversation_audio_url: question_set_data[:conversation_audio_url],
+              scripts: question_set_data[:scripts],
               display_order: question_set_data.fetch(:display_order)
             )
 
@@ -66,6 +67,7 @@ module Api
               question_set.questions.create!(
                 display_order: question_data.fetch(:display_order),
                 question_text: question_data.fetch(:question_text),
+                conversation_audio_url: question_data[:conversation_audio_url],
                 question_audio_url: question_data[:question_audio_url],
                 choice_a: question_data.fetch(:choice_a),
                 choice_b: question_data.fetch(:choice_b),
@@ -100,22 +102,27 @@ module Api
             :display_order,
             :passage,
             :conversation_audio_url,
-            { questions: [
-              :display_order,
-              :question_text,
-              :question_audio_url,
-              :choice_a,
-              :choice_b,
-              :choice_c,
-              :choice_d,
-              :correct_choice,
-              :explanation,
-              :tag,
-              :wrong_reason_a,
-              :wrong_reason_b,
-              :wrong_reason_c,
-              :wrong_reason_d
-            ] }
+            :scripts,
+            {
+              questions: [
+                :display_order,
+                :question_text,
+                :conversation_audio_url,
+                :question_audio_url,
+                :scripts,
+                :choice_a,
+                :choice_b,
+                :choice_c,
+                :choice_d,
+                :correct_choice,
+                :explanation,
+                :tag,
+                :wrong_reason_a,
+                :wrong_reason_b,
+                :wrong_reason_c,
+                :wrong_reason_d
+              ]
+            }
           ]
         )
       end

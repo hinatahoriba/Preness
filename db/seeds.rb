@@ -33,6 +33,13 @@ else
     "reading" => 3
   }.freeze
 
+  DEFAULT_SCRIPTS = [
+    { speaker: "narrator", text: "Question 7." },
+    { speaker: "man", text: "I'd like to check out these journals, but the self-checkout machine isn't taking my student ID." },
+    { speaker: "woman", text: "It looks like you've got an outstanding fine on your account. You'll need to clear that up before borrowing anything." },
+    { speaker: "narrator", text: "What does the woman imply?" }
+  ].freeze
+
   PART_DISPLAY_ORDERS = {
     "part_a" => 1,
     "part_b" => 2,
@@ -40,7 +47,7 @@ else
     "passages" => 1
   }.freeze
 
-  def create_exercise_set!(section_type:, part_type:, set_number:, passage: nil, audio_url: nil, questions:)
+  def create_exercise_set!(section_type:, part_type:, set_number:, passage: nil, audio_url: nil, scripts: DEFAULT_SCRIPTS, questions:)
     exercise = Exercise.create!
 
     section = exercise.sections.create!(
@@ -56,14 +63,21 @@ else
     question_set = part.question_sets.create!(
       display_order: set_number,
       passage: passage,
-      conversation_audio_url: audio_url
+      conversation_audio_url: audio_url,
+      scripts: scripts
     )
 
     questions.each_with_index do |question_data, index|
+      question_conversation_audio_url = if part_type == "part_a"
+        question_data[:conversation_audio_url] || question_data[:question_audio_url] || audio_url
+      end
+
       question_set.questions.create!(
         display_order: index + 1,
         question_text: question_data.fetch(:question_text),
-        question_audio_url: question_data[:audio_url],
+        conversation_audio_url: question_conversation_audio_url,
+        question_audio_url: question_data[:question_audio_url] || question_data[:audio_url],
+        scripts: question_data[:scripts] || DEFAULT_SCRIPTS,
         choice_a: question_data.fetch(:choice_a),
         choice_b: question_data.fetch(:choice_b),
         choice_c: question_data.fetch(:choice_c),
@@ -81,7 +95,7 @@ else
     exercise
   end
 
-  def create_mock_set!(mock:, section_type:, part_type:, set_number:, passage: nil, audio_url: nil, questions:)
+  def create_mock_set!(mock:, section_type:, part_type:, set_number:, passage: nil, audio_url: nil, scripts: DEFAULT_SCRIPTS, questions:)
     section = mock.sections.find_or_create_by!(
       section_type: section_type,
       display_order: SECTION_DISPLAY_ORDERS.fetch(section_type)
@@ -95,14 +109,21 @@ else
     question_set = part.question_sets.create!(
       display_order: set_number,
       passage: passage,
-      conversation_audio_url: audio_url
+      conversation_audio_url: audio_url,
+      scripts: scripts
     )
 
     questions.each_with_index do |question_data, index|
+      question_conversation_audio_url = if part_type == "part_a"
+        question_data[:conversation_audio_url] || question_data[:question_audio_url] || audio_url
+      end
+
       question_set.questions.create!(
         display_order: index + 1,
         question_text: question_data.fetch(:question_text),
-        question_audio_url: question_data[:audio_url],
+        conversation_audio_url: question_conversation_audio_url,
+        question_audio_url: question_data[:question_audio_url] || question_data[:audio_url],
+        scripts: question_data[:scripts] || DEFAULT_SCRIPTS,
         choice_a: question_data.fetch(:choice_a),
         choice_b: question_data.fetch(:choice_b),
         choice_c: question_data.fetch(:choice_c),
@@ -150,7 +171,7 @@ else
       {
         tag: "shortConv",
         question_text: "What does the woman imply?",
-        audio_url: audio_url,
+        question_audio_url: audio_url,
         choice_a: "She will return the book today.",
         choice_b: "The book may be kept at the front desk.",
         choice_c: "The library is closed for research.",
@@ -164,7 +185,7 @@ else
       {
         tag: "shortConv",
         question_text: "What will the man probably do next?",
-        audio_url: audio_url,
+        question_audio_url: audio_url,
         choice_a: "Ask at the front desk.",
         choice_b: "Go to the dormitory.",
         choice_c: "Buy the book online.",
@@ -178,7 +199,7 @@ else
       {
         tag: "shortConv",
         question_text: "Where does the conversation most likely take place?",
-        audio_url: audio_url,
+        question_audio_url: audio_url,
         choice_a: "At a café.",
         choice_b: "In a classroom.",
         choice_c: "At a library.",
@@ -200,7 +221,7 @@ else
       {
         tag: "shortConv",
         question_text: "What is the man concerned about?",
-        audio_url: audio_url,
+        question_audio_url: audio_url,
         choice_a: "Missing the deadline.",
         choice_b: "Forgetting his umbrella.",
         choice_c: "Losing his student ID.",
@@ -214,7 +235,7 @@ else
       {
         tag: "shortConv",
         question_text: "What does the woman suggest?",
-        audio_url: audio_url,
+        question_audio_url: audio_url,
         choice_a: "Submitting online.",
         choice_b: "Waiting until tomorrow.",
         choice_c: "Asking for a refund.",
@@ -228,7 +249,7 @@ else
       {
         tag: "shortConv",
         question_text: "What will they do later?",
-        audio_url: audio_url,
+        question_audio_url: audio_url,
         choice_a: "Meet at the library.",
         choice_b: "Go to the gym.",
         choice_c: "Visit the museum.",
@@ -251,7 +272,7 @@ else
       {
         tag: "longConv",
         question_text: "What are the students mainly discussing?",
-        audio_url: audio_url,
+        question_audio_url: audio_url,
         choice_a: "Weekend plans.",
         choice_b: "A research project.",
         choice_c: "A scholarship requirement.",
@@ -265,7 +286,7 @@ else
       {
         tag: "longConv",
         question_text: "What does the woman offer to do?",
-        audio_url: audio_url,
+        question_audio_url: audio_url,
         choice_a: "Collect the data.",
         choice_b: "Write the introduction.",
         choice_c: "Make the slides.",
@@ -288,7 +309,7 @@ else
       {
         tag: "talk",
         question_text: "What is the purpose of the talk?",
-        audio_url: audio_url,
+        question_audio_url: audio_url,
         choice_a: "To introduce the library services.",
         choice_b: "To explain campus history.",
         choice_c: "To describe a new major.",
@@ -302,7 +323,7 @@ else
       {
         tag: "talk",
         question_text: "What does the speaker recommend?",
-        audio_url: audio_url,
+        question_audio_url: audio_url,
         choice_a: "Borrowing only one book at a time.",
         choice_b: "Using the online catalog.",
         choice_c: "Avoiding group study rooms.",
@@ -658,7 +679,7 @@ else
       {
         tag: "shortConv",
         question_text: "What does the woman imply?",
-        audio_url: audio_url,
+        question_audio_url: audio_url,
         choice_a: "She will return the book today.",
         choice_b: "The book may be kept at the front desk.",
         choice_c: "The library is closed for research.",
@@ -672,7 +693,7 @@ else
       {
         tag: "shortConv",
         question_text: "What will the man probably do next?",
-        audio_url: audio_url,
+        question_audio_url: audio_url,
         choice_a: "Ask at the front desk.",
         choice_b: "Go to the dormitory.",
         choice_c: "Buy the book online.",
@@ -686,7 +707,7 @@ else
       {
         tag: "shortConv",
         question_text: "Where does the conversation most likely take place?",
-        audio_url: audio_url,
+        question_audio_url: audio_url,
         choice_a: "At a café.",
         choice_b: "In a classroom.",
         choice_c: "At a library.",
@@ -710,7 +731,7 @@ else
       {
         tag: "longConv",
         question_text: "What are the students mainly discussing?",
-        audio_url: audio_url,
+        question_audio_url: audio_url,
         choice_a: "Weekend plans.",
         choice_b: "A research project.",
         choice_c: "A scholarship requirement.",
@@ -724,7 +745,7 @@ else
       {
         tag: "longConv",
         question_text: "What does the woman offer to do?",
-        audio_url: audio_url,
+        question_audio_url: audio_url,
         choice_a: "Collect the data.",
         choice_b: "Write the introduction.",
         choice_c: "Make the slides.",
@@ -748,7 +769,7 @@ else
       {
         tag: "talk",
         question_text: "What is the purpose of the talk?",
-        audio_url: audio_url,
+        question_audio_url: audio_url,
         choice_a: "To introduce the library services.",
         choice_b: "To explain campus history.",
         choice_c: "To describe a new major.",
@@ -762,7 +783,7 @@ else
       {
         tag: "talk",
         question_text: "What does the speaker recommend?",
-        audio_url: audio_url,
+        question_audio_url: audio_url,
         choice_a: "Borrowing only one book at a time.",
         choice_b: "Using the online catalog.",
         choice_c: "Avoiding group study rooms.",
@@ -890,7 +911,7 @@ else
       {
         tag: "shortConv",
         question_text: "What does the man suggest the woman do?",
-        audio_url: audio_url,
+        question_audio_url: audio_url,
         choice_a: "Apply for a scholarship.",
         choice_b: "Talk to the professor directly.",
         choice_c: "Drop the course.",
@@ -904,7 +925,7 @@ else
       {
         tag: "shortConv",
         question_text: "What is the woman's problem?",
-        audio_url: audio_url,
+        question_audio_url: audio_url,
         choice_a: "She lost her textbook.",
         choice_b: "She missed the midterm.",
         choice_c: "She is struggling with chemistry.",
@@ -918,7 +939,7 @@ else
       {
         tag: "shortConv",
         question_text: "What will the woman probably do next?",
-        audio_url: audio_url,
+        question_audio_url: audio_url,
         choice_a: "Go to the library.",
         choice_b: "Call her parents.",
         choice_c: "Visit the tutoring center.",
@@ -941,7 +962,7 @@ else
       {
         tag: "shortConv",
         question_text: "What does the woman mean?",
-        audio_url: audio_url,
+        question_audio_url: audio_url,
         choice_a: "She is very hungry.",
         choice_b: "The cafeteria is not open yet.",
         choice_c: "She would rather not eat at the cafeteria.",
@@ -955,7 +976,7 @@ else
       {
         tag: "shortConv",
         question_text: "What does the man suggest?",
-        audio_url: audio_url,
+        question_audio_url: audio_url,
         choice_a: "Trying a restaurant nearby.",
         choice_b: "Cooking at home.",
         choice_c: "Skipping lunch.",
@@ -969,7 +990,7 @@ else
       {
         tag: "shortConv",
         question_text: "How does the woman feel at the end?",
-        audio_url: audio_url,
+        question_audio_url: audio_url,
         choice_a: "Disappointed.",
         choice_b: "Uncertain.",
         choice_c: "Agreeable.",
@@ -992,7 +1013,7 @@ else
       {
         tag: "shortConv",
         question_text: "What does the professor imply?",
-        audio_url: audio_url,
+        question_audio_url: audio_url,
         choice_a: "The assignment is due today.",
         choice_b: "Students should start early.",
         choice_c: "The exam has been cancelled.",
@@ -1006,7 +1027,7 @@ else
       {
         tag: "shortConv",
         question_text: "What is the student's concern?",
-        audio_url: audio_url,
+        question_audio_url: audio_url,
         choice_a: "Finding a study partner.",
         choice_b: "Understanding the assignment topic.",
         choice_c: "Meeting the word count requirement.",
@@ -1020,7 +1041,7 @@ else
       {
         tag: "shortConv",
         question_text: "What does the professor offer?",
-        audio_url: audio_url,
+        question_audio_url: audio_url,
         choice_a: "To extend the deadline.",
         choice_b: "To provide a sample paper.",
         choice_c: "To hold office hours tomorrow.",
@@ -1044,7 +1065,7 @@ else
       {
         tag: "longConv",
         question_text: "What is the main topic of the conversation?",
-        audio_url: audio_url,
+        question_audio_url: audio_url,
         choice_a: "Planning a campus event.",
         choice_b: "Choosing a major.",
         choice_c: "Applying for graduate school.",
@@ -1058,7 +1079,7 @@ else
       {
         tag: "longConv",
         question_text: "What problem does the man mention?",
-        audio_url: audio_url,
+        question_audio_url: audio_url,
         choice_a: "A class he wants is already full.",
         choice_b: "He forgot his student ID.",
         choice_c: "His advisor is unavailable.",
@@ -1072,7 +1093,7 @@ else
       {
         tag: "longConv",
         question_text: "What does the woman recommend?",
-        audio_url: audio_url,
+        question_audio_url: audio_url,
         choice_a: "Contacting the registrar's office.",
         choice_b: "Joining the waitlist.",
         choice_c: "Taking an equivalent online course.",
@@ -1096,7 +1117,7 @@ else
       {
         tag: "longConv",
         question_text: "What are the speakers preparing for?",
-        audio_url: audio_url,
+        question_audio_url: audio_url,
         choice_a: "A science fair.",
         choice_b: "A group presentation.",
         choice_c: "A study abroad application.",
@@ -1110,7 +1131,7 @@ else
       {
         tag: "longConv",
         question_text: "Who will handle the data analysis?",
-        audio_url: audio_url,
+        question_audio_url: audio_url,
         choice_a: "The woman.",
         choice_b: "Both of them together.",
         choice_c: "The man.",
@@ -1124,7 +1145,7 @@ else
       {
         tag: "longConv",
         question_text: "When will they meet again?",
-        audio_url: audio_url,
+        question_audio_url: audio_url,
         choice_a: "Tomorrow morning.",
         choice_b: "Friday afternoon.",
         choice_c: "Next Monday.",
@@ -1148,7 +1169,7 @@ else
       {
         tag: "talk",
         question_text: "What is the lecture mainly about?",
-        audio_url: audio_url,
+        question_audio_url: audio_url,
         choice_a: "The history of the printing press.",
         choice_b: "How the internet changed communication.",
         choice_c: "The development of written language.",
@@ -1162,7 +1183,7 @@ else
       {
         tag: "talk",
         question_text: "According to the speaker, what was significant about cuneiform?",
-        audio_url: audio_url,
+        question_audio_url: audio_url,
         choice_a: "It was used only by rulers.",
         choice_b: "It was one of the earliest writing systems.",
         choice_c: "It was invented in Egypt.",
@@ -1176,7 +1197,7 @@ else
       {
         tag: "talk",
         question_text: "What will the professor likely discuss next?",
-        audio_url: audio_url,
+        question_audio_url: audio_url,
         choice_a: "The spread of literacy in Europe.",
         choice_b: "Modern digital writing tools.",
         choice_c: "The alphabet's origin.",
@@ -1200,7 +1221,7 @@ else
       {
         tag: "talk",
         question_text: "What is the main point of the talk?",
-        audio_url: audio_url,
+        question_audio_url: audio_url,
         choice_a: "How to reduce plastic waste on campus.",
         choice_b: "The importance of recycling programs.",
         choice_c: "New environmental policies at the university.",
@@ -1214,7 +1235,7 @@ else
       {
         tag: "talk",
         question_text: "What action does the speaker encourage students to take?",
-        audio_url: audio_url,
+        question_audio_url: audio_url,
         choice_a: "Bring reusable containers to the dining hall.",
         choice_b: "Attend an upcoming environmental workshop.",
         choice_c: "Sign a petition for solar panels.",

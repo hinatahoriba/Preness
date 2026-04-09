@@ -28,13 +28,19 @@
         <% if qs.conversation_audio_url.present? %>
           <%= render "mocks/audio_player",
                 url: qs.conversation_audio_url,
-                label: "LISTENING AUDIO #{set_index + 1}",
+                label: "CONVERSATION AUDIO #{set_index + 1}",
                 status_text: "Click to play conversation for Questions #{q_offset + 1}–#{q_offset + qs.questions.count}" %>
         <% end %>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-12">
           <% qs.questions.order(:display_order).each_with_index do |question, q_index| %>
             <div class="question-block">
+              <% if question.question_audio_url.present? %>
+                <%= render "mocks/audio_player",
+                      url: question.question_audio_url,
+                      label: "QUESTION AUDIO",
+                      status_text: "Click to play question" %>
+              <% end %>
               <%= render "mocks/question_item", question: question, index: q_offset + q_index %>
             </div>
           <% end %>

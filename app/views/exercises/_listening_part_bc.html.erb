@@ -23,13 +23,19 @@
       <% if question_set.conversation_audio_url.present? %>
         <%= render "exercises/audio_player",
               url: question_set.conversation_audio_url,
-              label: "LISTENING AUDIO",
+              label: "CONVERSATION AUDIO",
               status_text: "Click to play conversation" %>
       <% end %>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-12">
         <% question_set.questions.order(:display_order).each_with_index do |question, index| %>
           <div class="question-block">
+            <% if question.question_audio_url.present? %>
+              <%= render "exercises/audio_player",
+                    url: question.question_audio_url,
+                    label: "QUESTION AUDIO",
+                    status_text: "Click to play question" %>
+            <% end %>
             <%= render "exercises/question_item", question: question, index: index %>
           </div>
         <% end %>
