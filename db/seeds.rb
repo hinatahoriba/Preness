@@ -152,14 +152,7 @@ else
     Mock.delete_all if ActiveRecord::Base.connection.data_source_exists?("mocks")
   end
 
-  (1..10).each do |i|
-    user = User.find_or_initialize_by(email: "testuser#{i}@gmail.com")
-    user.password = "testuser#{i}"
-    user.password_confirmation = "testuser#{i}"
-    user.terms_agreed = true
-    user.confirmed_at ||= Time.current
-    user.save!
-  end
+  
 
   audio_url = "https://preness-listening-audio.s3.ap-northeast-1.amazonaws.com/PartB_02.wav"
 
@@ -212,56 +205,7 @@ else
       }
     ]
   )
-
-  create_exercise_set!(
-    section_type: "listening",
-    part_type: "part_a",
-    set_number: 2,
-    questions: [
-      {
-        tag: "shortConv",
-        question_text: "What is the man concerned about?",
-        question_audio_url: audio_url,
-        choice_a: "Missing the deadline.",
-        choice_b: "Forgetting his umbrella.",
-        choice_c: "Losing his student ID.",
-        choice_d: "Getting a lower grade.",
-        correct_choice: "A",
-        explanation: "期限に間に合うかどうかを気にしています。",
-        wrong_reason_b: "傘についての言及は会話に全くありません。",
-        wrong_reason_c: "学生証の紛失は会話の話題ではありません。",
-        wrong_reason_d: "成績への不安は会話から読み取れません。"
-      },
-      {
-        tag: "shortConv",
-        question_text: "What does the woman suggest?",
-        question_audio_url: audio_url,
-        choice_a: "Submitting online.",
-        choice_b: "Waiting until tomorrow.",
-        choice_c: "Asking for a refund.",
-        choice_d: "Changing the course.",
-        correct_choice: "A",
-        explanation: "オンライン提出が可能だと示しています。",
-        wrong_reason_b: "明日まで待つという提案は会話中にありません。",
-        wrong_reason_c: "払い戻しの話題は全く出ていません。",
-        wrong_reason_d: "授業を変更するという選択肢は提案されていません。"
-      },
-      {
-        tag: "shortConv",
-        question_text: "What will they do later?",
-        question_audio_url: audio_url,
-        choice_a: "Meet at the library.",
-        choice_b: "Go to the gym.",
-        choice_c: "Visit the museum.",
-        choice_d: "Take a taxi.",
-        correct_choice: "A",
-        explanation: "後で図書館で会う流れです。",
-        wrong_reason_b: "ジムに行くという計画は会話に出てきません。",
-        wrong_reason_c: "博物館を訪れるという話題は会話中にありません。",
-        wrong_reason_d: "タクシーに乗るという話は会話に含まれていません。"
-      }
-    ]
-  )
+  
 
   create_exercise_set!(
     section_type: "listening",
@@ -344,7 +288,7 @@ else
     questions: [
       {
         tag: "verbForm",
-        question_text: "The Eiffel Tower ------- in 1889 for the World's Fair.",
+        question_text: "The Eiffel Tower ______ in 1889 for the World's Fair.",
         choice_a: "was built",
         choice_b: "building",
         choice_c: "built",
@@ -357,7 +301,7 @@ else
       },
       {
         tag: "verbForm",
-        question_text: "If I ------- more time, I would travel more often.",
+        question_text: "If I ______ more time, I would travel more often.",
         choice_a: "have",
         choice_b: "had",
         choice_c: "will have",
@@ -370,7 +314,7 @@ else
       },
       {
         tag: "verbForm",
-        question_text: "The report must ------- by Friday.",
+        question_text: "The report must ______ by Friday.",
         choice_a: "submit",
         choice_b: "submitted",
         choice_c: "be submitted",
@@ -391,7 +335,7 @@ else
     questions: [
       {
         tag: "modifierConnect",
-        question_text: "The (A) beautifully flowers (B) in the garden (C) are blooming (D) now.",
+        question_text: "The [A]beautifully[/A] flowers [B]in the garden[/B] [C]are blooming[/C] [D]now[/D].",
         choice_a: "A",
         choice_b: "B",
         choice_c: "C",
@@ -404,7 +348,7 @@ else
       },
       {
         tag: "verbForm",
-        question_text: "She (A) suggested me (B) to take (C) a short break (D).",
+        question_text: "She [A]suggested me[/A] [B]to take[/B] [C]a short break[/C] [D].",
         choice_a: "A",
         choice_b: "B",
         choice_c: "C",
@@ -417,7 +361,7 @@ else
       },
       {
         tag: "modifierConnect",
-        question_text: "I (A) have lived (B) here (C) since five years (D).",
+        question_text: "I [A]have lived[/A] [B]here[/B] [C]since[/C] [D]five years[/D].",
         choice_a: "A",
         choice_b: "B",
         choice_c: "C",
@@ -482,190 +426,7 @@ else
     ]
   )
 
-  create_exercise_set!(
-    section_type: "reading",
-    part_type: "passages",
-    set_number: 2,
-    passage: <<~TEXT,
-      Many people find that establishing a regular study routine improves retention.
-      Short, consistent sessions often lead to better results than infrequent long sessions.
-    TEXT
-    questions: [
-      {
-        tag: "inference",
-        question_text: "What does the passage suggest about study routines?",
-        choice_a: "They do not affect retention.",
-        choice_b: "Long sessions are always best.",
-        choice_c: "Regular routines can improve retention.",
-        choice_d: "Studying should be avoided.",
-        correct_choice: "C",
-        explanation: "定期的な学習が定着に役立つと述べています。",
-        wrong_reason_a: "本文は学習ルーティンが定着に影響すると明確に述べており、影響なしとは逆の内容です。",
-        wrong_reason_b: "本文は長時間の学習より短く継続的な学習を推奨しており、正反対の内容です。",
-        wrong_reason_d: "学習を避けるよう勧める内容は本文に全くありません。"
-      },
-      {
-        tag: "fact",
-        question_text: "What kind of sessions are recommended?",
-        choice_a: "Short and consistent",
-        choice_b: "Only long sessions",
-        choice_c: "Only weekend sessions",
-        choice_d: "Late-night sessions",
-        correct_choice: "A",
-        explanation: "短く継続的な学習が良いと説明しています。",
-        wrong_reason_b: "本文は長時間のセッションより短く継続的なものを勧めており、長時間のみとは逆です。",
-        wrong_reason_c: "週末だけの学習については本文中に言及がありません。",
-        wrong_reason_d: "深夜の学習セッションは本文のテーマではありません。"
-      },
-      {
-        tag: "fact",
-        question_text: "Which is contrasted in the passage?",
-        choice_a: "Morning vs night",
-        choice_b: "Short consistent vs infrequent long",
-        choice_c: "Reading vs listening",
-        choice_d: "Online vs offline",
-        correct_choice: "B",
-        explanation: "短く継続 vs 長く不定期 の対比です。",
-        wrong_reason_a: "朝と夜の対比は本文中に示されていません。",
-        wrong_reason_c: "読むことと聴くことの対比は本文のテーマではありません。",
-        wrong_reason_d: "オンラインとオフラインの対比は本文に含まれていません。"
-      }
-    ]
-  )
-
-  # --- Fillers to reach 10 sets for each part ---
-
-  # Listening Part A (3-10)
-  (3..10).each do |i|
-    create_exercise_set!(
-      section_type: "listening",
-      part_type: "part_a",
-      set_number: i,
-      questions: 3.times.map { |j|
-        {
-          tag: "shortConv",
-          question_text: "Sample Listening Part A Question #{i}-#{j+1}",
-          audio_url: audio_url,
-          choice_a: "Option A",
-          choice_b: "Option B",
-          choice_c: "Option C",
-          choice_d: "Option D",
-          correct_choice: ["A", "B", "C", "D"].sample,
-          explanation: "Sample explanation for listening part a set #{i} question #{j+1}"
-        }
-      }
-    )
-  end
-
-  # Listening Part B (2-10)
-  (2..10).each do |i|
-    create_exercise_set!(
-      section_type: "listening",
-      part_type: "part_b",
-      set_number: i,
-      audio_url: audio_url,
-      questions: 2.times.map { |j|
-        {
-          tag: "longConv",
-          question_text: "Sample Listening Part B Question #{i}-#{j+1}",
-          audio_url: audio_url,
-          choice_a: "Option A",
-          choice_b: "Option B",
-          choice_c: "Option C",
-          choice_d: "Option D",
-          correct_choice: ["A", "B", "C", "D"].sample,
-          explanation: "Sample explanation for listening part b set #{i} question #{j+1}"
-        }
-      }
-    )
-  end
-
-  # Listening Part C (2-10)
-  (2..10).each do |i|
-    create_exercise_set!(
-      section_type: "listening",
-      part_type: "part_c",
-      set_number: i,
-      audio_url: audio_url,
-      questions: 2.times.map { |j|
-        {
-          tag: "talk",
-          question_text: "Sample Listening Part C Question #{i}-#{j+1}",
-          audio_url: audio_url,
-          choice_a: "Option A",
-          choice_b: "Option B",
-          choice_c: "Option C",
-          choice_d: "Option D",
-          correct_choice: ["A", "B", "C", "D"].sample,
-          explanation: "Sample explanation for listening part c set #{i} question #{j+1}"
-        }
-      }
-    )
-  end
-
-  # Structure Part A (2-10)
-  (2..10).each do |i|
-    create_exercise_set!(
-      section_type: "structure",
-      part_type: "part_a",
-      set_number: i,
-      questions: 3.times.map { |j|
-        {
-          tag: "verbForm",
-          question_text: "Sample Structure Part A Question #{i}-#{j+1} -------",
-          choice_a: "Option A",
-          choice_b: "Option B",
-          choice_c: "Option C",
-          choice_d: "Option D",
-          correct_choice: ["A", "B", "C", "D"].sample,
-          explanation: "Sample explanation for structure part a set #{i} question #{j+1}"
-        }
-      }
-    )
-  end
-
-  # Structure Part B (2-10)
-  (2..10).each do |i|
-    create_exercise_set!(
-      section_type: "structure",
-      part_type: "part_b",
-      set_number: i,
-      questions: 3.times.map { |j|
-        {
-          tag: "sentenceStruct",
-          question_text: "Sample Structure Part B (A) Question (B) #{i}-#{j+1} (C) identify (D) error.",
-          choice_a: "A",
-          choice_b: "B",
-          choice_c: "C",
-          choice_d: "D",
-          correct_choice: ["A", "B", "C", "D"].sample,
-          explanation: "Sample explanation for structure part b set #{i} question #{j+1}"
-        }
-      }
-    )
-  end
-
-  # Reading Passages (3..10)
-  (3..10).each do |i|
-    create_exercise_set!(
-      section_type: "reading",
-      part_type: "passages",
-      set_number: i,
-      passage: "Sample passage for Set #{i}. This is a placeholder text for reading comprehension exercise.",
-      questions: 3.times.map { |j|
-        {
-          tag: "fact",
-          question_text: "Sample Reading Question #{i}-#{j+1}",
-          choice_a: "Option A",
-          choice_b: "Option B",
-          choice_c: "Option C",
-          choice_d: "Option D",
-          correct_choice: ["A", "B", "C", "D"].sample,
-          explanation: "Sample explanation for reading comprehension set #{i} question #{j+1}"
-        }
-      }
-    )
-  end
+  
 
   puts "Seeding mock exam data..."
   mock1 = Mock.create!(title: "第1回 模擬試験")
@@ -805,7 +566,7 @@ else
     questions: [
       {
         tag: "verbForm",
-        question_text: "The Eiffel Tower ------- in 1889 for the World's Fair.",
+        question_text: "The Eiffel Tower _______ in 1889 for the World's Fair.",
         choice_a: "was built",
         choice_b: "building",
         choice_c: "built",
@@ -818,7 +579,7 @@ else
       },
       {
         tag: "verbForm",
-        question_text: "If I ------- more time, I would travel more often.",
+        question_text: "If I _______ more time, I would travel more often.",
         choice_a: "have",
         choice_b: "had",
         choice_c: "will have",
@@ -831,7 +592,7 @@ else
       },
       {
         tag: "verbForm",
-        question_text: "The report must ------- by Friday.",
+        question_text: "The report must _______ by Friday.",
         choice_a: "submit",
         choice_b: "submitted",
         choice_c: "be submitted",
@@ -1257,7 +1018,7 @@ else
     questions: [
       {
         tag: "sentenceStruct",
-        question_text: "Neither the students nor the teacher ------- aware of the schedule change.",
+        question_text: "Neither the students nor the teacher ______ aware of the schedule change.",
         choice_a: "were",
         choice_b: "was",
         choice_c: "are",
@@ -1270,7 +1031,7 @@ else
       },
       {
         tag: "verbForm",
-        question_text: "The committee ------- a decision by the end of the week.",
+        question_text: "The committee ______ a decision by the end of the week.",
         choice_a: "will have reached",
         choice_b: "reach",
         choice_c: "has reached",
@@ -1283,7 +1044,7 @@ else
       },
       {
         tag: "sentenceStruct",
-        question_text: "Rarely ------- such a talented musician in this small town.",
+        question_text: "Rarely ______ such a talented musician in this small town.",
         choice_a: "we have seen",
         choice_b: "have we seen",
         choice_c: "we had seen",
@@ -1296,7 +1057,7 @@ else
       },
       {
         tag: "verbForm",
-        question_text: "The results of the experiment ------- published in a scientific journal.",
+        question_text: "The results of the experiment ______ published in a scientific journal.",
         choice_a: "was",
         choice_b: "were",
         choice_c: "is",
@@ -1309,7 +1070,7 @@ else
       },
       {
         tag: "verbForm",
-        question_text: "By the time she arrived, the meeting -------.",
+        question_text: "By the time she arrived, the meeting ______.",
         choice_a: "already ended",
         choice_b: "has already ended",
         choice_c: "had already ended",
@@ -1331,7 +1092,7 @@ else
     questions: [
       {
         tag: "verbForm",
-        question_text: "The (A) amount of (B) students enrolling in online courses (C) have (D) increased significantly.",
+        question_text: "The [A]amount of[/A] [B]students[/B] enrolling in online courses [C]have[/C] [D]increased[/D] significantly.",
         choice_a: "A",
         choice_b: "B",
         choice_c: "C",
@@ -1344,7 +1105,7 @@ else
       },
       {
         tag: "modifierConnect",
-        question_text: "(A) Despite of (B) the heavy rain, the outdoor concert (C) continued (D) as planned.",
+        question_text: "[A]Despite of[/A] [B]the heavy rain[/B], the outdoor concert [C]continued[/C] [D]as planned[/D].",
         choice_a: "A",
         choice_b: "B",
         choice_c: "C",
@@ -1357,7 +1118,7 @@ else
       },
       {
         tag: "nounPronoun",
-        question_text: "The scientist (A) which (B) discovered the vaccine (C) was awarded (D) the Nobel Prize.",
+        question_text: "The scientist [A]which[/A] [B]discovered[/B] the vaccine [C]was awarded[/C] [D]the Nobel Prize[/D].",
         choice_a: "A",
         choice_b: "B",
         choice_c: "C",
@@ -1370,7 +1131,7 @@ else
       },
       {
         tag: "modifierConnect",
-        question_text: "She (A) has been working (B) on the project (C) since (D) three months.",
+        question_text: "She [A]has been working[/A] [B]on the project[/B] [C]since[/C] [D]three months[/D].",
         choice_a: "A",
         choice_b: "B",
         choice_c: "C",
@@ -1383,7 +1144,7 @@ else
       },
       {
         tag: "verbForm",
-        question_text: "The manager (A) asked the employees (B) to completed (C) the report (D) before noon.",
+        question_text: "The manager [A]asked the employees[/A] [B]to completed[/B] [C]the report[/C] [D]before noon[/D].",
         choice_a: "A",
         choice_b: "B",
         choice_c: "C",
@@ -1562,5 +1323,28 @@ else
     ]
   )
 
+  # Create test user
+  test_user = User.find_or_create_by!(email: "testuser@gmail.com") do |user|
+    user.password = "testuser"
+    user.password_confirmation = "testuser"
+    user.terms_agreed = true
+    user.confirmed_at = Time.current
+  end
+
+  # Create initial settings for test user
+  test_user_profile = test_user.user_profile || test_user.build_user_profile
+  test_user_profile.update!(
+    last_name: "Test",
+    first_name: "User",
+    last_name_kana: "テスト",
+    first_name_kana: "ユーザー",
+    nickname: "testuser",
+    date_of_birth: Date.new(2000, 1, 1),
+    affiliation: "Test Company",
+    study_abroad_plan: false,
+    itp_target_score: 500
+  )
+
+  puts "Test user created: testuser@gmail.com"
   puts "Seed finished."
 end

@@ -16,4 +16,26 @@ module ApplicationHelper
     }
     labels[tag] || tag
   end
+
+  def question_choice_text(question, choice)
+    case choice
+    when "A" then question.choice_a
+    when "B" then question.choice_b
+    when "C" then question.choice_c
+    when "D" then question.choice_d
+    end
+  end
+
+  def question_text_with_tags(question)
+    text = question.question_text
+    # Replace [A]...[/A] with stylized span
+    text.gsub(/\[([A-D])\](.*?)\[\/\1\]/) do
+      choice = $1
+      content = $2
+      content_tag(:span, class: "relative inline-block border-b-2 border-gray-800 px-1 pb-1 mx-1 mb-4") do
+        concat content
+        concat content_tag(:span, choice, class: "absolute -bottom-5 left-1/2 -translate-x-1/2 text-[10px] font-bold text-gray-700")
+      end
+    end.html_safe
+  end
 end

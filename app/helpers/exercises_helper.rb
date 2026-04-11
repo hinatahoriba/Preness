@@ -31,12 +31,4 @@ module ExercisesHelper
     end
   end
 
-  def question_choice_text(question, choice)
-    case choice
-    when "A" then question.choice_a
-    when "B" then question.choice_b
-    when "C" then question.choice_c
-    when "D" then question.choice_d
-    end
-  end
 end
