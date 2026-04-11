@@ -24,21 +24,11 @@ module Exercises
         questions.each do |question|
           selected_choice = @answers_by_question_id.fetch(question.id.to_s, nil).presence
 
-          if selected_choice == "skip"
-            attempt.answers.create!(
-              question:,
-              selected_choice: nil,
-              is_correct: false,
-              skipped: true
-            )
-          else
-            attempt.answers.create!(
-              question:,
-              selected_choice:,
-              is_correct: selected_choice == question.correct_choice,
-              skipped: false
-            )
-          end
+          attempt.answers.create!(
+            question:,
+            selected_choice:,
+            is_correct: selected_choice == question.correct_choice
+          )
         end
       end
 

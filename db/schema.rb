@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_04_09_000002) do
+ActiveRecord::Schema[8.0].define(version: 2026_04_11_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -21,7 +21,6 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_09_000002) do
     t.boolean "is_correct"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "skipped", default: false, null: false
     t.index ["attempt_id", "question_id"], name: "index_answers_on_attempt_id_and_question_id", unique: true
     t.index ["attempt_id"], name: "index_answers_on_attempt_id"
     t.index ["question_id"], name: "index_answers_on_question_id"

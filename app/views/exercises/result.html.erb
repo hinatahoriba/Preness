@@ -52,7 +52,6 @@
         <% @display_questions.each do |question| %>
           <% answer = @answers_by_question_id[question.id] %>
           <% selected_choice = answer&.selected_choice %>
-          <% is_skipped = answer&.skipped? %>
           <% correct_choice = question.correct_choice %>
           <% is_correct = answer&.is_correct == true %>
 
@@ -83,10 +82,10 @@
                   <p class="text-[10px] text-gray-400 font-semibold mb-2 uppercase">あなたの解答</p>
                   <div class="flex items-center gap-3">
                     <div class="w-7 h-7 rounded-sm <%= is_correct ? 'bg-emerald-500' : 'bg-red-500' %> text-white flex justify-center items-center text-xs font-bold">
-                      <%= is_skipped ? "?" : (selected_choice.present? ? selected_choice.upcase : "-") %>
+                      <%= selected_choice == "UNKNOWN" ? "?" : (selected_choice.present? ? selected_choice.upcase : "-") %>
                     </div>
                     <span class="text-sm text-gray-800">
-                      <% if is_skipped %>
+                      <% if selected_choice == "UNKNOWN" %>
                         わからない
                       <% elsif selected_choice.present? %>
                         <%= question_choice_text(question, selected_choice) %>
@@ -110,7 +109,7 @@
                 </div>
               </div>
 
-              <% if !is_correct && selected_choice.present? && ["A", "B", "C", "D"].include?(selected_choice.upcase) %>
+              <% if !is_correct && Answer::CHOICES.first(4).include?(selected_choice) %>
                 <% wrong_reason = question.try("wrong_reason_#{selected_choice.downcase}") %>
                 <% if wrong_reason.present? %>
                   <div class="border border-red-100 rounded-sm p-4 bg-red-50/30 mt-3">
