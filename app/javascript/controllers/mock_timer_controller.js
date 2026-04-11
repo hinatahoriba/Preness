@@ -49,8 +49,14 @@ export default class extends Controller {
 
   showWarning() {
     // 0になったら赤字にして警告
-    this.displayTarget.classList.remove('text-white')
-    this.displayTarget.classList.add('text-red-400')
-    alert('このセクションの制限時間が終了しました。')
+    this.displayTarget.classList.remove('text-gray-700')
+    this.displayTarget.classList.add('text-red-600')
+    alert('制限時間が終了したため、次の画面へ移動します。')
+    
+    // フォームを強制的に送信
+    const form = this.element.querySelector('form')
+    if (form) {
+      form.requestSubmit()
+    }
   }
 }

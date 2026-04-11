@@ -40,9 +40,5 @@ export default class extends Controller {
       })
     }
 
-    if (this.hasSubmitButtonTarget) {
-      const allAnswered = answeredCount >= this.totalCountValue
-      this.submitButtonTarget.disabled = !allAnswered
-    }
   }
 }

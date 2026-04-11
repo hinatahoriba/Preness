@@ -25,6 +25,12 @@ module Mocks
               is_correct: false,
               skipped: true
             )
+          elsif selected_choice.blank?
+            answer.update!(
+              selected_choice: nil,
+              is_correct: false,
+              skipped: false
+            )
           else
             answer.update!(
               selected_choice: selected_choice,

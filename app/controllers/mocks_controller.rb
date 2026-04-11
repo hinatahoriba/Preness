@@ -155,6 +155,7 @@ class MocksController < ApplicationController
   end
 
   def answers_params
-    params.permit(answers: {}).fetch(:answers, {}).to_h
+    return {} if params[:answers].blank?
+    params[:answers].permit!.to_h
   end
 end

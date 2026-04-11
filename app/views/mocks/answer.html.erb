@@ -50,9 +50,8 @@
       <%= button_tag mock_has_next_part?(@mock, @part) ? "次のパートへ進む" : "採点して結果を見る",
             type: :submit,
             form: form_id,
-            disabled: true,
             data: { "mock-progress-target": "submitButton" },
-            class: "px-8 py-2 bg-[#1a1b4b] text-white hover:bg-blue-900 transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer" %>
+            class: "px-8 py-2 bg-[#1a1b4b] text-white hover:bg-blue-900 transition-colors cursor-pointer" %>
     </div>
   </header>
 
