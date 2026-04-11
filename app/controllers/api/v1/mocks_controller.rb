@@ -33,6 +33,7 @@ module Api
               part_data.fetch(:question_sets).each do |question_set_data|
                 question_set = part.question_sets.create!(
                   passage: question_set_data[:passage],
+                  passage_thema: question_set_data[:passage_thema],
                   conversation_audio_url: question_set_data[:conversation_audio_url],
                   scripts: question_set_data[:scripts],
                   display_order: question_set_data.fetch(:display_order)
@@ -82,6 +83,7 @@ module Api
               { question_sets: [
                 :display_order,
                 :passage,
+                :passage_thema,
                 :conversation_audio_url,
                 :scripts,
                 { questions: [

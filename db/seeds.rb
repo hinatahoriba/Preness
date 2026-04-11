@@ -47,7 +47,7 @@ else
     "passages" => 1
   }.freeze
 
-  def create_exercise_set!(section_type:, part_type:, set_number:, passage: nil, audio_url: nil, scripts: DEFAULT_SCRIPTS, questions:)
+  def create_exercise_set!(section_type:, part_type:, set_number:, passage: nil, passage_thema: nil, audio_url: nil, scripts: DEFAULT_SCRIPTS, questions:)
     exercise = Exercise.create!
 
     section = exercise.sections.create!(
@@ -63,6 +63,7 @@ else
     question_set = part.question_sets.create!(
       display_order: set_number,
       passage: passage,
+      passage_thema: passage_thema,
       conversation_audio_url: audio_url,
       scripts: scripts
     )
@@ -95,7 +96,7 @@ else
     exercise
   end
 
-  def create_mock_set!(mock:, section_type:, part_type:, set_number:, passage: nil, audio_url: nil, scripts: DEFAULT_SCRIPTS, questions:)
+  def create_mock_set!(mock:, section_type:, part_type:, set_number:, passage: nil, passage_thema: nil, audio_url: nil, scripts: DEFAULT_SCRIPTS, questions:)
     section = mock.sections.find_or_create_by!(
       section_type: section_type,
       display_order: SECTION_DISPLAY_ORDERS.fetch(section_type)
@@ -109,6 +110,7 @@ else
     question_set = part.question_sets.create!(
       display_order: set_number,
       passage: passage,
+      passage_thema: passage_thema,
       conversation_audio_url: audio_url,
       scripts: scripts
     )
