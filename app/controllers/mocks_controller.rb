@@ -85,6 +85,7 @@ class MocksController < ApplicationController
       )
     else
       @attempt.update!(completed_at: Time.current)
+      Mocks::AnalyzeMockResultJob.perform_later(@attempt.id)
       redirect_to result_mock_path(@mock, attempt_id: @attempt.id)
     end
   end

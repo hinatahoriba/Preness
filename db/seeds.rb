@@ -381,6 +381,7 @@ else
     section_type: "reading",
     part_type: "passages",
     set_number: 1,
+    passage_thema: "Modern Computers",
     passage: <<~TEXT,
       Modern computers are capable of performing billions of operations per second.
       This remarkable speed has revolutionized many fields, including science, engineering, and finance.
@@ -613,6 +614,7 @@ else
     section_type: "reading",
     part_type: "passages",
     set_number: 1,
+    passage_thema: "Modern Computers",
     passage: <<~TEXT,
       Modern computers are capable of performing billions of operations per second, a feat that would have seemed impossible just a few decades ago. This remarkable speed has revolutionized many fields, including science, engineering, and finance. In scientific research, computers allow scientists to model complex systems such as climate patterns, protein structures, and the behavior of subatomic particles. Engineers use computing power to simulate designs and test them virtually before physical prototypes are ever built, reducing both cost and time. In finance, high-speed computers execute trades in fractions of a second, analyze market trends, and manage risk across enormous datasets.
 
@@ -1165,6 +1167,7 @@ else
     section_type: "reading",
     part_type: "passages",
     set_number: 1,
+    passage_thema: "Ocean and Climate",
     passage: <<~TEXT,
       The ocean covers more than 70 percent of Earth's surface and plays a crucial role in regulating the planet's climate. Without the ocean, life as we know it would not exist. It absorbs a significant portion of the solar energy that reaches Earth and redistributes that heat through a global system of currents known as thermohaline circulation. This process helps stabilize temperatures across continents, keeping coastal regions warmer in winter and cooler in summer than they would otherwise be.
 
@@ -1220,6 +1223,7 @@ else
     section_type: "reading",
     part_type: "passages",
     set_number: 2,
+    passage_thema: "The Renaissance",
     passage: <<~TEXT,
       The Renaissance, which began in Italy during the 14th century, marked a profound transformation in European art, science, and philosophy. The word "Renaissance" comes from the French term meaning "rebirth," reflecting the era's emphasis on reviving the intellectual and cultural achievements of ancient Greece and Rome. This movement gradually spread from the Italian city-states — such as Florence, Venice, and Rome — northward into France, Germany, England, and the rest of Europe over the following two centuries.
 
@@ -1275,6 +1279,7 @@ else
     section_type: "reading",
     part_type: "passages",
     set_number: 3,
+    passage_thema: "Sleep and Health",
     passage: <<~TEXT,
       Sleep is essential for maintaining both physical and mental health, yet it is one of the most commonly neglected aspects of modern life. In many cultures, long working hours and constant connectivity through digital devices have contributed to widespread sleep deprivation. While individuals may adapt to reduced sleep over time, research consistently shows that the body and brain suffer significant consequences when deprived of adequate rest.
 

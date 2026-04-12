@@ -16,6 +16,8 @@ services:
     volumes:
       - .:/app
       - bundle_data:/usr/local/bundle
+    env_file:
+      - .env
     depends_on:
       - db
 
