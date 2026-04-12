@@ -116,6 +116,10 @@ class MocksController < ApplicationController
     end
 
     @filter = params[:filter].presence || "wrong"
+    @part_filter = params[:part_filter].presence || "all"
+    @available_sections = @mock.sections.order(:display_order).map do |s|
+      [helpers.mock_section_label(s.section_type), s.section_type]
+    end
   end
 
   private
