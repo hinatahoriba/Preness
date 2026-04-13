@@ -1,0 +1,9 @@
+<div class="bg-[#1e3a5f] text-white px-12 py-7">
+  <h1 class="font-serif text-[26px] tracking-[0.02em] mb-3">TOEFL ITP® 模試分析レポート</h1>
+  <div class="flex flex-wrap gap-8 text-[13px] text-[#c8d8ee]">
+    <span>受験者: <strong class="text-white font-medium"><%= current_user.user_profile&.nickname %></strong></span>
+    <span>模試受験日: <strong class="text-white font-medium"><%= attempt.completed_at.strftime("%Y-%m-%d") %></strong></span>
+    <span>模試形式: <strong class="text-white font-medium">TOEFL ITP®</strong></span>
+    <span>作成日: <strong class="text-white font-medium"><%= Time.current.strftime("%Y-%m-%d") %></strong></span>
+  </div>
+</div>

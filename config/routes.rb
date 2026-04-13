@@ -20,6 +20,7 @@ Rails.application.routes.draw do
 
   get "users/confirmation/pending", to: "auth#confirmation_pending", as: :user_confirmation_pending
   resource :mypage, only: [:show]
+  resources :histories, only: [:index]
   resource :account_setting, only: [:show]
   resource :support, only: [:show, :create]
   resource :user_profile, only: [:edit, :update]
@@ -45,6 +46,7 @@ Rails.application.routes.draw do
       get  :answer
       post :submit_part
       get  :result
+      get  :report
     end
   end
 

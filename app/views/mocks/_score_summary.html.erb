@@ -1,0 +1,67 @@
+<%
+  # 他の模試の結果を取得して初期スコアなどを計算する想定
+  all_reports = current_user.attempts.joins(:mock_analysis_report)
+                           .where.not(completed_at: nil)
+                           .where(mock_analysis_reports: { status: :completed })
+                           .order(completed_at: :asc)
+                           .pluck('mock_analysis_reports.total_score')
+
+  initial_score = all_reports.first || 0
+  latest_score = report.total_score || 0
+  target_score = target_score || 0
+  diff_score = (all_reports.size > 1) ? (latest_score - (all_reports[-2] || 0)) : 0
+%>
+
+<div class="text-[11px] font-bold text-[#e8703a] tracking-[0.12em] uppercase mb-1.5">概要</div>
+<div class="text-[20px] font-bold text-[#1e3a5f] border-l-4 border-[#e8703a] pl-3 mb-6">01．成績サマリ</div>
+
+<div class="grid grid-cols-3 gap-4 mb-6">
+  <div class="bg-white border border-[#dde3ed] rounded-[10px] p-6">
+    <div class="text-[12px] text-[#6b7c93] mb-2">開始時点でのスコア</div>
+    <div class="text-[36px] font-bold text-[#1e3a5f] leading-none"><%= initial_score %></div>
+  </div>
+  <div class="bg-white border border-[#dde3ed] rounded-[10px] p-6">
+    <div class="text-[12px] text-[#6b7c93] mb-2">最新スコア</div>
+    <div class="text-[36px] font-bold text-[#e8703a] leading-none">
+      <%= latest_score %>
+      <span class="text-[20px] text-[#6b7c93]">/ 677</span>
+    </div>
+    <% if diff_score != 0 %>
+      <div class="inline-block bg-[#fff0e8] text-[#e8703a] text-[13px] font-semibold px-2.5 py-[3px] rounded-full mt-2">
+        <%= diff_score > 0 ? "+#{diff_score}" : diff_score %>点
+      </div>
+    <% end %>
+  </div>
+  <div class="bg-white border border-[#dde3ed] rounded-[10px] p-6">
+    <div class="text-[12px] text-[#6b7c93] mb-2">目標点数</div>
+    <div class="text-[36px] font-bold text-[#1e3a5f] leading-none"><%= target_score %></div>
+    <% if target_score > 0 %>
+      <div class="text-[13px] text-[#6b7c93] mt-1.5">
+        <% gap = target_score - latest_score %>
+        <% if gap > 0 %>
+          目標まであと<%= gap %>点
+        <% else %>
+          <span class="text-[#27ae60] font-bold">目標達成！</span>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div class="bg-white border border-[#dde3ed] rounded-[10px] p-6 mb-10">
+  <h3 class="text-[13px] font-bold text-[#e8703a] mb-2.5">総評</h3>
+  <ul class="list-none mb-3.5 space-y-[4px]">
+    <li class="text-[13px] text-[#2c3e50] before:content-['・'] before:text-[#1e3a5f]">総合: <%= latest_score %>点 / 677点</li>
+    <% if target_score > 0 %>
+      <li class="text-[13px] text-[#2c3e50] before:content-['・'] before:text-[#1e3a5f]">目標(<%= target_score %>点): あと<%= [target_score - latest_score, 0].max %>点</li>
+    <% end %>
+    <% if diff_score != 0 %>
+      <li class="text-[13px] text-[#2c3e50] before:content-['・'] before:text-[#1e3a5f]">直近推移: <%= diff_score > 0 ? "+#{diff_score}" : diff_score %>点</li>
+    <% end %>
+  </ul>
+  <p class="text-[13px] text-[#2c3e50] leading-[1.8]">
+    <%= report.summary_closing.presence || "現在、あなたの回答データを元に総評を分析しています。数分後にページを更新してご確認ください。" %>
+  </p>
+</div>
+
+<hr class="border-0 border-t border-[#dde3ed] my-10">
