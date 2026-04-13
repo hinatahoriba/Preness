@@ -34,7 +34,8 @@
               <%= render "exercises/audio_player",
                     url: question.question_audio_url,
                     label: "QUESTION AUDIO",
-                    status_text: "Click to play question" %>
+                    status_text: "Click to play question",
+                    hide_ui: true %>
             <% end %>
             <%= render "exercises/question_item", question: question, index: index %>
           </div>

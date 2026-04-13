@@ -33,6 +33,21 @@ export default class extends Controller {
 
   _onEnded(index) {
     const label = this.statusLabelTargets[index]
-    if (label) label.textContent = "もう一度再生できます"
+    if (label) label.textContent = "再生終了"
+
+    const nextIndex = index + 1
+    const nextAudio = this.audioTargets[nextIndex]
+    
+    if (nextAudio) {
+      // 5秒待機
+      const nextLabel = this.statusLabelTargets[nextIndex]
+      if (nextLabel) nextLabel.textContent = "5秒後に再生します..."
+      
+      setTimeout(() => {
+        nextAudio.play()
+      }, 5000)
+    } else {
+      if (label) label.textContent = "すべての再生が終了しました"
+    }
   }
 }

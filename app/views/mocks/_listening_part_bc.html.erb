@@ -39,7 +39,8 @@
                 <%= render "mocks/audio_player",
                       url: question.question_audio_url,
                       label: "QUESTION AUDIO",
-                      status_text: "Click to play question" %>
+                      status_text: "Click to play question",
+                      hide_ui: true %>
               <% end %>
               <%= render "mocks/question_item", question: question, index: q_offset + q_index %>
             </div>

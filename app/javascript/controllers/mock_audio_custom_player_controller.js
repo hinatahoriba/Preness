@@ -42,11 +42,17 @@ export default class extends Controller {
     const label = this.statusLabelTargets[index]
     if (label) label.textContent = "再生済み"
 
-    // Auto-play next audio sequentially
-    const next = this.audioTargets[index + 1]
+    // Auto-play next audio sequentially with 5s delay
+    const nextIndex = index + 1
+    const next = this.audioTargets[nextIndex]
     if (next && !next.dataset.played) {
-      next.dataset.played = "true"
-      next.play()
+      const nextLabel = this.statusLabelTargets[nextIndex]
+      if (nextLabel) nextLabel.textContent = "5秒後に再生します..."
+
+      setTimeout(() => {
+        next.dataset.played = "true"
+        next.play()
+      }, 5000)
     }
   }
 }

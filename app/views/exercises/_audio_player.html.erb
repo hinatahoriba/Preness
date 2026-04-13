@@ -14,9 +14,10 @@
 <% content_cls = compact ? "ml-4 font-sans flex flex-col justify-center" : "flex flex-col" %>
 <% label_cls   = compact ? "text-[#1a1b4b] font-bold text-sm tracking-wider" : "text-[#0f2361] font-bold text-xs tracking-widest font-sans" %>
 <% status_cls  = compact ? "font-mono" : "font-sans" %>
+<% hide_ui = local_assigns.fetch(:hide_ui, false) %>
 <% status_text = local_assigns.fetch(:status_text, "クリックして再生") %>
 
-<div class="<%= outer_cls %>">
+<div class="<%= outer_cls %> <%= 'hidden' if hide_ui %>">
   <button
     type="button"
     class="<%= btn_cls %> transition cursor-pointer"

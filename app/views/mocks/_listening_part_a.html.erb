@@ -34,7 +34,8 @@
                   url: question.question_audio_url,
                   label: "QUESTION AUDIO",
                   status_text: "Click to play question",
-                  compact: true %>
+                  compact: true,
+                  hide_ui: true %>
           <% end %>
           <%= render "mocks/question_item", question: question, index: index %>
         </div>
