@@ -665,447 +665,24 @@ else
     ]
   )
 
-  mock2 = Mock.create!(title: "第2回 模擬試験")
-
   create_mock_set!(
-    mock: mock2,
-    section_type: "listening",
-    part_type: "part_a",
-    set_number: 1,
-    questions: [
-      {
-        tag: "shortConv",
-        question_text: "What does the man suggest the woman do?",
-        question_audio_url: audio_url,
-        choice_a: "Apply for a scholarship.",
-        choice_b: "Talk to the professor directly.",
-        choice_c: "Drop the course.",
-        choice_d: "Visit the tutoring center.",
-        correct_choice: "D",
-        explanation: "男性はチュータリングセンターの利用を勧めています。",
-        wrong_reason_a: "奨学金の申請を勧める発言は会話中にありません。",
-        wrong_reason_b: "教授に直接話すよう提案したという内容は会話に含まれていません。",
-        wrong_reason_c: "授業を取り消すよう勧める発言は会話にありません。"
-      },
-      {
-        tag: "shortConv",
-        question_text: "What is the woman's problem?",
-        question_audio_url: audio_url,
-        choice_a: "She lost her textbook.",
-        choice_b: "She missed the midterm.",
-        choice_c: "She is struggling with chemistry.",
-        choice_d: "She cannot register for classes.",
-        correct_choice: "C",
-        explanation: "化学の授業に苦労していることが会話から分かります。",
-        wrong_reason_a: "教科書を失くしたという話は会話中に出てきません。",
-        wrong_reason_b: "中間試験を欠席したという内容は会話にありません。",
-        wrong_reason_d: "授業登録ができないという問題は会話のテーマではありません。"
-      },
-      {
-        tag: "shortConv",
-        question_text: "What will the woman probably do next?",
-        question_audio_url: audio_url,
-        choice_a: "Go to the library.",
-        choice_b: "Call her parents.",
-        choice_c: "Visit the tutoring center.",
-        choice_d: "Study alone in her room.",
-        correct_choice: "C",
-        explanation: "男性の提案を受け入れてチュータリングセンターへ向かうと考えられます。",
-        wrong_reason_a: "図書館に行くという流れは会話から読み取れません。",
-        wrong_reason_b: "親に電話するという話は会話に全く出てきません。",
-        wrong_reason_d: "一人で部屋で勉強するという意図は会話から示されていません。"
-      }
-    ]
-  )
-
-  create_mock_set!(
-    mock: mock2,
-    section_type: "listening",
-    part_type: "part_a",
-    set_number: 2,
-    questions: [
-      {
-        tag: "shortConv",
-        question_text: "What does the woman mean?",
-        question_audio_url: audio_url,
-        choice_a: "She is very hungry.",
-        choice_b: "The cafeteria is not open yet.",
-        choice_c: "She would rather not eat at the cafeteria.",
-        choice_d: "The food at the cafeteria is expensive.",
-        correct_choice: "C",
-        explanation: "発言から、カフェテリアへの否定的なニュアンスが読み取れます。",
-        wrong_reason_a: "非常に空腹だという感情は会話中で明示されていません。",
-        wrong_reason_b: "カフェテリアがまだ開いていないという情報は会話中に含まれていません。",
-        wrong_reason_d: "食事が高いという話は会話の中で触れられていません。"
-      },
-      {
-        tag: "shortConv",
-        question_text: "What does the man suggest?",
-        question_audio_url: audio_url,
-        choice_a: "Trying a restaurant nearby.",
-        choice_b: "Cooking at home.",
-        choice_c: "Skipping lunch.",
-        choice_d: "Ordering delivery.",
-        correct_choice: "A",
-        explanation: "近くのレストランを試すことを提案しています。",
-        wrong_reason_b: "家で料理することを提案したという内容は会話にありません。",
-        wrong_reason_c: "昼食を抜くよう勧める発言は会話中にありません。",
-        wrong_reason_d: "デリバリーを注文する提案は会話に登場しません。"
-      },
-      {
-        tag: "shortConv",
-        question_text: "How does the woman feel at the end?",
-        question_audio_url: audio_url,
-        choice_a: "Disappointed.",
-        choice_b: "Uncertain.",
-        choice_c: "Agreeable.",
-        choice_d: "Frustrated.",
-        correct_choice: "C",
-        explanation: "会話の最後で女性は提案に同意しています。",
-        wrong_reason_a: "失望した様子は会話の最後に表れていません。",
-        wrong_reason_b: "迷っている様子ではなく、はっきりと同意しています。",
-        wrong_reason_d: "苛立ちの感情は会話の終わりには見られません。"
-      }
-    ]
-  )
-
-  create_mock_set!(
-    mock: mock2,
-    section_type: "listening",
-    part_type: "part_a",
-    set_number: 3,
-    questions: [
-      {
-        tag: "shortConv",
-        question_text: "What does the professor imply?",
-        question_audio_url: audio_url,
-        choice_a: "The assignment is due today.",
-        choice_b: "Students should start early.",
-        choice_c: "The exam has been cancelled.",
-        choice_d: "Extra credit is not available.",
-        correct_choice: "B",
-        explanation: "早めに始めるべきだという示唆が含まれています。",
-        wrong_reason_a: "課題が今日締め切りとは述べられていません。",
-        wrong_reason_c: "試験のキャンセルについては会話中で全く触れられていません。",
-        wrong_reason_d: "追加点の有無は会話の話題に含まれていません。"
-      },
-      {
-        tag: "shortConv",
-        question_text: "What is the student's concern?",
-        question_audio_url: audio_url,
-        choice_a: "Finding a study partner.",
-        choice_b: "Understanding the assignment topic.",
-        choice_c: "Meeting the word count requirement.",
-        choice_d: "Accessing the online library.",
-        correct_choice: "B",
-        explanation: "課題のトピックについて理解できていないことを心配しています。",
-        wrong_reason_a: "学習パートナーを探すことは会話の悩みとして示されていません。",
-        wrong_reason_c: "文字数の要件については会話で言及されていません。",
-        wrong_reason_d: "オンライン図書館へのアクセス問題は会話のテーマではありません。"
-      },
-      {
-        tag: "shortConv",
-        question_text: "What does the professor offer?",
-        question_audio_url: audio_url,
-        choice_a: "To extend the deadline.",
-        choice_b: "To provide a sample paper.",
-        choice_c: "To hold office hours tomorrow.",
-        choice_d: "To assign a different topic.",
-        correct_choice: "C",
-        explanation: "翌日のオフィスアワーを設けると申し出ています。",
-        wrong_reason_a: "締め切りの延長を申し出る発言は会話中にありません。",
-        wrong_reason_b: "サンプル論文を提供するという申し出は会話に含まれていません。",
-        wrong_reason_d: "別のトピックを割り当てるという提案は会話中で出てきません。"
-      }
-    ]
-  )
-
-  create_mock_set!(
-    mock: mock2,
-    section_type: "listening",
-    part_type: "part_b",
-    set_number: 1,
-    audio_url: audio_url,
-    questions: [
-      {
-        tag: "longConv",
-        question_text: "What is the main topic of the conversation?",
-        question_audio_url: audio_url,
-        choice_a: "Planning a campus event.",
-        choice_b: "Choosing a major.",
-        choice_c: "Applying for graduate school.",
-        choice_d: "Registering for next semester's classes.",
-        correct_choice: "D",
-        explanation: "来学期の履修登録について話し合っています。",
-        wrong_reason_a: "キャンパスイベントの計画は会話のテーマではありません。",
-        wrong_reason_b: "専攻の選択は会話の主題として示されていません。",
-        wrong_reason_c: "大学院の出願については会話で触れられていません。"
-      },
-      {
-        tag: "longConv",
-        question_text: "What problem does the man mention?",
-        question_audio_url: audio_url,
-        choice_a: "A class he wants is already full.",
-        choice_b: "He forgot his student ID.",
-        choice_c: "His advisor is unavailable.",
-        choice_d: "The online portal is down.",
-        correct_choice: "A",
-        explanation: "希望するクラスが満員であることを問題として挙げています。",
-        wrong_reason_b: "学生証を忘れたという話は会話中に出てきません。",
-        wrong_reason_c: "指導教員が不在という問題は会話で言及されていません。",
-        wrong_reason_d: "オンラインポータルの障害については会話中で触れられていません。"
-      },
-      {
-        tag: "longConv",
-        question_text: "What does the woman recommend?",
-        question_audio_url: audio_url,
-        choice_a: "Contacting the registrar's office.",
-        choice_b: "Joining the waitlist.",
-        choice_c: "Taking an equivalent online course.",
-        choice_d: "Asking the professor for permission.",
-        correct_choice: "B",
-        explanation: "ウェイティングリストに登録することを勧めています。",
-        wrong_reason_a: "教務課に連絡することは女性の提案として示されていません。",
-        wrong_reason_c: "同等のオンラインコースを受けるよう勧める発言はありません。",
-        wrong_reason_d: "教授に許可を求めることは女性の推奨内容ではありません。"
-      }
-    ]
-  )
-
-  create_mock_set!(
-    mock: mock2,
-    section_type: "listening",
-    part_type: "part_b",
-    set_number: 2,
-    audio_url: audio_url,
-    questions: [
-      {
-        tag: "longConv",
-        question_text: "What are the speakers preparing for?",
-        question_audio_url: audio_url,
-        choice_a: "A science fair.",
-        choice_b: "A group presentation.",
-        choice_c: "A study abroad application.",
-        choice_d: "A campus orientation.",
-        correct_choice: "B",
-        explanation: "グループ発表の準備について話し合っています。",
-        wrong_reason_a: "科学展示会の準備は会話のテーマではありません。",
-        wrong_reason_c: "留学の申請は会話中で触れられていません。",
-        wrong_reason_d: "キャンパスオリエンテーションの準備とは異なる内容です。"
-      },
-      {
-        tag: "longConv",
-        question_text: "Who will handle the data analysis?",
-        question_audio_url: audio_url,
-        choice_a: "The woman.",
-        choice_b: "Both of them together.",
-        choice_c: "The man.",
-        choice_d: "A third group member.",
-        correct_choice: "C",
-        explanation: "男性がデータ分析を担当することになりました。",
-        wrong_reason_a: "女性がデータ分析を担当するとは会話中で述べられていません。",
-        wrong_reason_b: "二人で共同作業をするという合意は示されていません。",
-        wrong_reason_d: "グループの3人目のメンバーが分析を担当するという内容はありません。"
-      },
-      {
-        tag: "longConv",
-        question_text: "When will they meet again?",
-        question_audio_url: audio_url,
-        choice_a: "Tomorrow morning.",
-        choice_b: "Friday afternoon.",
-        choice_c: "Next Monday.",
-        choice_d: "Over the weekend.",
-        correct_choice: "D",
-        explanation: "週末に再び集まることで合意しています。",
-        wrong_reason_a: "明日の朝に会う約束は会話中で交わされていません。",
-        wrong_reason_b: "金曜日の午後に会うという予定は会話に示されていません。",
-        wrong_reason_c: "次の月曜日に会うという合意は会話に含まれていません。"
-      }
-    ]
-  )
-
-  create_mock_set!(
-    mock: mock2,
-    section_type: "listening",
-    part_type: "part_c",
-    set_number: 1,
-    audio_url: audio_url,
-    questions: [
-      {
-        tag: "talk",
-        question_text: "What is the lecture mainly about?",
-        question_audio_url: audio_url,
-        choice_a: "The history of the printing press.",
-        choice_b: "How the internet changed communication.",
-        choice_c: "The development of written language.",
-        choice_d: "Modern journalism techniques.",
-        correct_choice: "C",
-        explanation: "文字言語の発展について概説しています。",
-        wrong_reason_a: "印刷機の歴史はトークのテーマではありません。",
-        wrong_reason_b: "インターネットが通信を変えた話は講義の主題に含まれていません。",
-        wrong_reason_d: "現代のジャーナリズム技術はトークのテーマではありません。"
-      },
-      {
-        tag: "talk",
-        question_text: "According to the speaker, what was significant about cuneiform?",
-        question_audio_url: audio_url,
-        choice_a: "It was used only by rulers.",
-        choice_b: "It was one of the earliest writing systems.",
-        choice_c: "It was invented in Egypt.",
-        choice_d: "It used an alphabetic system.",
-        correct_choice: "B",
-        explanation: "楔形文字は最古の文字体系のひとつとして重要です。",
-        wrong_reason_a: "楔形文字が支配者だけに使われたという内容は述べられていません。",
-        wrong_reason_c: "楔形文字はエジプトではなくメソポタミアで発明されました。",
-        wrong_reason_d: "楔形文字はアルファベット体系を使っておらず、表意・音節文字です。"
-      },
-      {
-        tag: "talk",
-        question_text: "What will the professor likely discuss next?",
-        question_audio_url: audio_url,
-        choice_a: "The spread of literacy in Europe.",
-        choice_b: "Modern digital writing tools.",
-        choice_c: "The alphabet's origin.",
-        choice_d: "Ancient oral traditions.",
-        correct_choice: "C",
-        explanation: "アルファベットの起源に話題が移ると示唆されています。",
-        wrong_reason_a: "ヨーロッパにおける識字率の普及については次のテーマとして示されていません。",
-        wrong_reason_b: "現代のデジタルライティングツールは古代文字の講義に続く話題として示唆されていません。",
-        wrong_reason_d: "古代の口承伝統は次の話題として講義中で示されていません。"
-      }
-    ]
-  )
-
-  create_mock_set!(
-    mock: mock2,
-    section_type: "listening",
-    part_type: "part_c",
-    set_number: 2,
-    audio_url: audio_url,
-    questions: [
-      {
-        tag: "talk",
-        question_text: "What is the main point of the talk?",
-        question_audio_url: audio_url,
-        choice_a: "How to reduce plastic waste on campus.",
-        choice_b: "The importance of recycling programs.",
-        choice_c: "New environmental policies at the university.",
-        choice_d: "The effects of climate change on local weather.",
-        correct_choice: "A",
-        explanation: "キャンパス内のプラスチックごみ削減が主題です。",
-        wrong_reason_b: "リサイクルプログラムの重要性はトークの主旨ではなく、手段の一つとして触れられる程度です。",
-        wrong_reason_c: "大学の新しい環境方針はトークの中心テーマとして明示されていません。",
-        wrong_reason_d: "気候変動が地域の天候に与える影響はトークのテーマではありません。"
-      },
-      {
-        tag: "talk",
-        question_text: "What action does the speaker encourage students to take?",
-        question_audio_url: audio_url,
-        choice_a: "Bring reusable containers to the dining hall.",
-        choice_b: "Attend an upcoming environmental workshop.",
-        choice_c: "Sign a petition for solar panels.",
-        choice_d: "Volunteer for a campus clean-up event.",
-        correct_choice: "A",
-        explanation: "再利用可能な容器を食堂に持参することを促しています。",
-        wrong_reason_b: "環境ワークショップへの参加を促す発言はトーク中にありません。",
-        wrong_reason_c: "太陽光パネルの請願書への署名を求める内容はトークに含まれていません。",
-        wrong_reason_d: "キャンパスの清掃活動へのボランティア参加はトークで呼びかけられていません。"
-      }
-    ]
-  )
-
-  create_mock_set!(
-    mock: mock2,
-    section_type: "structure",
-    part_type: "part_a",
-    set_number: 1,
-    questions: [
-      {
-        tag: "sentenceStruct",
-        question_text: "Neither the students nor the teacher ______ aware of the schedule change.",
-        choice_a: "were",
-        choice_b: "was",
-        choice_c: "are",
-        choice_d: "have been",
-        correct_choice: "B",
-        explanation: "Neither A nor B の場合、動詞はBに一致します。teacher が単数なので was。",
-        wrong_reason_a: "were は複数形で、直近の主語 teacher（単数）に一致しません。",
-        wrong_reason_c: "are は現在形ですが、文脈は過去の出来事を指しており時制が合いません。",
-        wrong_reason_d: "have been は現在完了形で、過去の特定の出来事を述べるこの文には合いません。"
-      },
-      {
-        tag: "verbForm",
-        question_text: "The committee ______ a decision by the end of the week.",
-        choice_a: "will have reached",
-        choice_b: "reach",
-        choice_c: "has reached",
-        choice_d: "reaching",
-        correct_choice: "A",
-        explanation: "by the end of the week という期限があるため未来完了形が適切です。",
-        wrong_reason_b: "reach は単純現在形で、未来の期限を持つ文には合いません。",
-        wrong_reason_c: "has reached は現在完了形で、未来の期限「週末まで」と矛盾します。",
-        wrong_reason_d: "reaching は動名詞・現在分詞で、述語動詞として使えません。"
-      },
-      {
-        tag: "sentenceStruct",
-        question_text: "Rarely ______ such a talented musician in this small town.",
-        choice_a: "we have seen",
-        choice_b: "have we seen",
-        choice_c: "we had seen",
-        choice_d: "did we see",
-        correct_choice: "B",
-        explanation: "否定副詞 Rarely が文頭に来ると倒置が起きます。",
-        wrong_reason_a: "倒置が起きていないため文法的に誤りです。Rarely が文頭の場合、助動詞が主語の前に来なければなりません。",
-        wrong_reason_c: "倒置が起きておらず、かつ過去完了形は文脈に合いません。",
-        wrong_reason_d: "did を使った倒置は可能ですが、現在完了の文脈（これまでに見たことがない）には have を使った倒置が適切です。"
-      },
-      {
-        tag: "verbForm",
-        question_text: "The results of the experiment ______ published in a scientific journal.",
-        choice_a: "was",
-        choice_b: "were",
-        choice_c: "is",
-        choice_d: "has been",
-        correct_choice: "B",
-        explanation: "results は複数形なので were が正しいです。",
-        wrong_reason_a: "was は単数形で、主語 results（複数）に一致しません。",
-        wrong_reason_c: "is は単数・現在形で、複数の主語かつ過去の文脈に合いません。",
-        wrong_reason_d: "has been は単数の現在完了形で、複数の主語 results には使えません。"
-      },
-      {
-        tag: "verbForm",
-        question_text: "By the time she arrived, the meeting ______.",
-        choice_a: "already ended",
-        choice_b: "has already ended",
-        choice_c: "had already ended",
-        choice_d: "will already end",
-        correct_choice: "C",
-        explanation: "過去のある時点より前に完了していた出来事には過去完了形を使います。",
-        wrong_reason_a: "already ended は単純過去形で、「到着した時点」より前に完了していたことを表すには不十分です。",
-        wrong_reason_b: "has already ended は現在完了形で、過去の基準時点より前の出来事を表せません。",
-        wrong_reason_d: "will already end は未来形で、過去の文脈に全く合いません。"
-      }
-    ]
-  )
-
-  create_mock_set!(
-    mock: mock2,
+    mock: mock1,
     section_type: "structure",
     part_type: "part_b",
     set_number: 1,
     questions: [
       {
-        tag: "verbForm",
-        question_text: "The [A]amount of[/A] [B]students[/B] enrolling in online courses [C]have[/C] [D]increased[/D] significantly.",
+        tag: "sentenceStruct",
+        question_text: "Neither the manager nor the employees [A]was[/A] [B]informed[/B] about [C]the[/C] [D]policy change[/D].",
         choice_a: "A",
         choice_b: "B",
         choice_c: "C",
         choice_d: "D",
-        correct_choice: "C",
-        explanation: "amount of ではなく number of を使う場合は複数扱いですが、amount は不可算名詞と共に使うため、正しくは number of students → has increased となるべきです。ここでは have → has が誤りです。",
-        wrong_reason_a: "amount of は不可算名詞に使うのが本来の用法ですが、ここでは誤りの場所ではありません。",
-        wrong_reason_b: "students という名詞自体の使い方は文中で問題ありません。",
-        wrong_reason_d: "increased は動詞の過去分詞として正しく使われています。"
+        correct_choice: "A",
+        explanation: "Neither A nor B の場合、動詞は B（employees）に一致するため were が正しいです。",
+        wrong_reason_b: "informed は受動態の過去分詞として正しく使われています。",
+        wrong_reason_c: "the は定冠詞として正しく機能しています。",
+        wrong_reason_d: "policy change という名詞句は文法的に問題ありません。"
       },
       {
         tag: "modifierConnect",
@@ -1122,210 +699,266 @@ else
       },
       {
         tag: "nounPronoun",
-        question_text: "The scientist [A]which[/A] [B]discovered[/B] the vaccine [C]was awarded[/C] [D]the Nobel Prize[/D].",
+        question_text: "The committee [A]which[/A] [B]was formed[/B] last year [C]has made[/C] [D]their[/D] final decision.",
+        choice_a: "A",
+        choice_b: "B",
+        choice_c: "C",
+        choice_d: "D",
+        correct_choice: "D",
+        explanation: "committee は単数の集合名詞なので、代名詞は their ではなく its が正しいです。",
+        wrong_reason_a: "which は先行詞 committee（組織）を受ける正しい関係代名詞です。",
+        wrong_reason_b: "was formed は受動態として正しく使われています。",
+        wrong_reason_c: "has made は現在完了形として正しいです。"
+      },
+      {
+        tag: "verbForm",
+        question_text: "The data [A]collected[/A] during the study [B]suggests[/B] that the treatment [C]is[/C] [D]highly effective[/D].",
+        choice_a: "A",
+        choice_b: "B",
+        choice_c: "C",
+        choice_d: "D",
+        correct_choice: "B",
+        explanation: "data は複数形なので suggest が正しいです。",
+        wrong_reason_a: "collected は過去分詞として data を修飾する正しい用法です。",
+        wrong_reason_c: "is は that 節内の述語動詞として正しく機能しています。",
+        wrong_reason_d: "highly effective は形容詞句として正しいです。"
+      },
+      {
+        tag: "sentenceStruct",
+        question_text: "Not only [A]she studied[/A] hard, [B]but[/B] she also [C]volunteered[/C] at the [D]local shelter[/D].",
         choice_a: "A",
         choice_b: "B",
         choice_c: "C",
         choice_d: "D",
         correct_choice: "A",
-        explanation: "人を指す関係代名詞は which ではなく who を使います。",
-        wrong_reason_b: "discovered は関係節内の動詞として文法的に正しいです。",
-        wrong_reason_c: "was awarded は受動態として正しく使われています。",
-        wrong_reason_d: "the Nobel Prize は was awarded の目的語として正しいです。"
-      },
-      {
-        tag: "modifierConnect",
-        question_text: "She [A]has been working[/A] [B]on the project[/B] [C]since[/C] [D]three months[/D].",
-        choice_a: "A",
-        choice_b: "B",
-        choice_c: "C",
-        choice_d: "D",
-        correct_choice: "C",
-        explanation: "期間を表す場合は since ではなく for を使います。",
-        wrong_reason_a: "has been working は現在完了進行形として正しい形です。",
-        wrong_reason_b: "on the project は正しい前置詞句です。",
-        wrong_reason_d: "three months という期間の表現自体は問題ありません。誤りは前置詞 since にあります。"
-      },
-      {
-        tag: "verbForm",
-        question_text: "The manager [A]asked the employees[/A] [B]to completed[/B] [C]the report[/C] [D]before noon[/D].",
-        choice_a: "A",
-        choice_b: "B",
-        choice_c: "C",
-        choice_d: "D",
-        correct_choice: "B",
-        explanation: "asked to の後は原形���定詞が必要です。to completed → to complete が正しいです。",
-        wrong_reason_a: "asked は過去形の動詞として正しく使われています。",
-        wrong_reason_c: "the report は complete の目的語として正しいです。",
-        wrong_reason_d: "before noon は時間の前置詞句として文法的に問題ありません。"
+        explanation: "Not only が文頭に来る場合、倒置が必要です。Not only did she study が正しい形です。",
+        wrong_reason_b: "but は not only...but also の相関接続詞として正しく使われています。",
+        wrong_reason_c: "volunteered は過去形の動詞として正しいです。",
+        wrong_reason_d: "local shelter は名詞句として正しいです。"
       }
     ]
   )
 
   create_mock_set!(
-    mock: mock2,
-    section_type: "reading",
-    part_type: "passages",
-    set_number: 1,
-    passage_thema: "Ocean and Climate",
-    passage: <<~TEXT,
-      The ocean covers more than 70 percent of Earth's surface and plays a crucial role in regulating the planet's climate. Without the ocean, life as we know it would not exist. It absorbs a significant portion of the solar energy that reaches Earth and redistributes that heat through a global system of currents known as thermohaline circulation. This process helps stabilize temperatures across continents, keeping coastal regions warmer in winter and cooler in summer than they would otherwise be.
-
-      Ocean currents also distribute heat around the globe, influencing weather patterns and making many regions habitable. For example, the Gulf Stream carries warm water from the Gulf of Mexico northward along the eastern coast of North America and across the Atlantic to Western Europe, giving countries like the United Kingdom a much milder climate than their latitude would otherwise suggest. Disruptions to such currents, potentially caused by climate change, could have far-reaching consequences for global weather systems.
-
-      Beyond climate regulation, the ocean supports an extraordinary diversity of life, from microscopic phytoplankton to the blue whale, the largest animal on Earth. Coral reefs, often called the "rainforests of the sea," provide habitat for roughly 25 percent of all marine species despite covering less than one percent of the ocean floor. Despite its importance, much of the deep ocean remains unexplored due to the extreme pressures and darkness found at great depths. Scientists estimate that more than 80 percent of the ocean has never been mapped or directly observed, suggesting that many species and geological features have yet to be discovered.
-    TEXT
-    questions: [
-      {
-        tag: "fact",
-        question_text: "What percentage of Earth's surface does the ocean cover?",
-        choice_a: "More than 50 percent.",
-        choice_b: "Exactly 70 percent.",
-        choice_c: "More than 70 percent.",
-        choice_d: "Less than 60 percent.",
-        correct_choice: "C",
-        explanation: "本文に「more than 70 percent」と明記されています。",
-        wrong_reason_a: "50パーセント以上という記述は本文にありません。正確な表現は「more than 70 percent」です。",
-        wrong_reason_b: "「ちょうど70パーセント」とは書かれておらず、「70パーセント以上」が正しい記述です。",
-        wrong_reason_d: "60パーセント未満という情報は本文に含まれておらず、実際の数値と大きく異なります。"
-      },
-      {
-        tag: "fact",
-        question_text: "According to the passage, what do ocean currents do?",
-        choice_a: "Create earthquakes.",
-        choice_b: "Distribute heat around the globe.",
-        choice_c: "Cause extreme weather events.",
-        choice_d: "Provide fresh water to coastlines.",
-        correct_choice: "B",
-        explanation: "海流が地球全体に熱を分配すると説明されています。",
-        wrong_reason_a: "海流が地震を引き起こすという内容は本文に一切記載されていません。",
-        wrong_reason_c: "極端な気象現象を引き起こすとは本文には書かれていません（気候変動による影響の可能性は触れられていますが）。",
-        wrong_reason_d: "海流が海岸線に淡水を供給するという記述は本文にありません。"
-      },
-      {
-        tag: "fact",
-        question_text: "Why does much of the deep ocean remain unexplored?",
-        choice_a: "It is too expensive to study.",
-        choice_b: "Scientists are not interested in it.",
-        choice_c: "It is protected by international law.",
-        choice_d: "Extreme pressures and darkness make exploration difficult.",
-        correct_choice: "D",
-        explanation: "極端な圧力と暗さが探索を困難にしていると述べられています。",
-        wrong_reason_a: "費用が高すぎるという理由は本文中に示されていません。",
-        wrong_reason_b: "科学者が興味を持っていないとは本文に書かれておらず、実際には逆の内容が示唆されています。",
-        wrong_reason_c: "国際法で保護されているという理由は本文中に全く記載されていません。"
-      }
-    ]
-  )
-
-  create_mock_set!(
-    mock: mock2,
+    mock: mock1,
     section_type: "reading",
     part_type: "passages",
     set_number: 2,
-    passage_thema: "The Renaissance",
+    passage_thema: "The Water Cycle",
     passage: <<~TEXT,
-      The Renaissance, which began in Italy during the 14th century, marked a profound transformation in European art, science, and philosophy. The word "Renaissance" comes from the French term meaning "rebirth," reflecting the era's emphasis on reviving the intellectual and cultural achievements of ancient Greece and Rome. This movement gradually spread from the Italian city-states — such as Florence, Venice, and Rome — northward into France, Germany, England, and the rest of Europe over the following two centuries.
+      The water cycle, also known as the hydrological cycle, describes the continuous movement of water through Earth's systems. Water evaporates from oceans, lakes, and rivers when heat from the sun causes liquid water to transform into water vapor. This vapor rises into the atmosphere, cools, and condenses to form clouds through a process called condensation. Eventually, the water returns to Earth's surface as precipitation in the form of rain, snow, sleet, or hail.
 
-      Scholars rediscovered ancient Greek and Roman texts, which inspired new ways of thinking about the human experience. This intellectual shift, known as humanism, placed greater emphasis on the individual, critical reasoning, and the value of earthly life rather than solely focusing on religious doctrine. Humanist thinkers such as Erasmus and Petrarch encouraged education based on classical literature, rhetoric, and moral philosophy, laying the groundwork for modern academic traditions.
+      Once precipitation reaches the ground, it follows several different paths. Some water flows over the surface as runoff, feeding streams and rivers that eventually return water to the ocean. Other water seeps into the soil and becomes groundwater, which can be stored in underground reservoirs called aquifers for thousands of years. Plants also play a role by absorbing groundwater through their roots and releasing it back into the atmosphere through transpiration, a process that contributes significantly to the water cycle in forested regions.
 
-      In the visual arts, a commitment to realism and the study of anatomy transformed the way artists portrayed the human body. Artists such as Leonardo da Vinci and Michelangelo produced works that celebrated both human beauty and intellectual achievement. Leonardo's meticulous notebooks blended art with scientific observation, while Michelangelo's sculptures and frescoes conveyed emotional depth and physical power that had rarely been seen before. The development of linear perspective by architects and painters such as Brunelleschi and Alberti gave artworks a convincing sense of three-dimensional space, fundamentally changing European visual culture.
+      Human activities have increasingly disrupted the natural water cycle. Deforestation reduces transpiration and alters local rainfall patterns. Urbanization replaces permeable soil with concrete and asphalt, increasing runoff and reducing groundwater recharge. Climate change is intensifying the water cycle, making droughts more severe in some regions while causing heavier rainfall and flooding in others. Understanding the water cycle is essential for managing water resources sustainably and responding to the challenges posed by a changing climate.
     TEXT
     questions: [
       {
         tag: "fact",
-        question_text: "Where did the Renaissance begin?",
-        choice_a: "France.",
-        choice_b: "Italy.",
-        choice_c: "Greece.",
-        choice_d: "England.",
-        correct_choice: "B",
-        explanation: "本文冒頭に「began in Italy」と明記されています。",
-        wrong_reason_a: "フランスにはルネサンスが広まりましたが、発祥の地ではありません。",
-        wrong_reason_c: "ギリシャはルネサンスが復興しようとした古典文化の源ですが、運動の発祥地ではありません。",
-        wrong_reason_d: "イングランドにもルネサンスは広まりましたが、始まりの地ではありません。"
+        question_text: "What happens to water vapor as it rises into the atmosphere?",
+        choice_a: "It evaporates again.",
+        choice_b: "It turns into groundwater.",
+        choice_c: "It cools and condenses to form clouds.",
+        choice_d: "It is absorbed by plants.",
+        correct_choice: "C",
+        explanation: "本文に「cools, and condenses to form clouds」と明記されています。",
+        wrong_reason_a: "水蒸気は大気中で再び蒸発するとは書かれていません。",
+        wrong_reason_b: "地下水になるのは降水後の地面への浸透であり、水蒸気が直接地下水になるとは書かれていません。",
+        wrong_reason_d: "植物が水蒸気を吸収するという記述は本文にありません。"
       },
       {
         tag: "fact",
-        question_text: "What inspired new ways of thinking during the Renaissance?",
-        choice_a: "Religious reforms.",
-        choice_b: "Industrial inventions.",
-        choice_c: "Rediscovered ancient Greek and Roman texts.",
-        choice_d: "Trade with Asia.",
-        correct_choice: "C",
-        explanation: "古代ギリシャ・ローマのテキストの再発見が新思想を促しました。",
-        wrong_reason_a: "宗教改革はルネサンスと同時期の動きですが、新しい思考の直接の触発源として本文に示されていません。",
-        wrong_reason_b: "産業的発明はルネサンスの文脈で本文中に言及されていません。",
-        wrong_reason_d: "アジアとの貿易は本文で新思想の源として示されていません。"
+        question_text: "What is an aquifer?",
+        choice_a: "A type of cloud formation.",
+        choice_b: "An underground reservoir of groundwater.",
+        choice_c: "A surface river fed by runoff.",
+        choice_d: "A measurement of rainfall.",
+        correct_choice: "B",
+        explanation: "「underground reservoirs called aquifers」と本文に定義されています。",
+        wrong_reason_a: "雲の形成とアクアファーは無関係です。",
+        wrong_reason_c: "地表の川は runoff が流れ込むもので、aquifer とは異なります。",
+        wrong_reason_d: "降雨量の測定単位はアクアファーとは関係ありません。"
       },
       {
         tag: "inference",
-        question_text: "Which of the following best describes the Renaissance?",
-        choice_a: "A period of political revolution.",
-        choice_b: "A transformation in art, science, and philosophy.",
-        choice_c: "A religious movement against the Church.",
-        choice_d: "A period of economic decline.",
-        correct_choice: "B",
-        explanation: "芸術・科学・哲学の深い変革と本文で説明されています。",
-        wrong_reason_a: "政治革命については本文で主要なテーマとして示されていません。",
-        wrong_reason_c: "教会への反発を目的とした宗教運動とは本文に描かれていません。ヒューマニズムは宗教を否定したわけではありません。",
-        wrong_reason_d: "経済的衰退はルネサンスの特徴として本文に示されておらず、むしろ都市国家の隆盛が示されています。"
+        question_text: "What can be inferred about deforestation's effect on the water cycle?",
+        choice_a: "It increases transpiration.",
+        choice_b: "It has no effect on rainfall.",
+        choice_c: "It reduces the return of water to the atmosphere.",
+        choice_d: "It improves groundwater recharge.",
+        correct_choice: "C",
+        explanation: "森林破壊は蒸散を減少させ、大気への水の還元を減らすと推測できます。",
+        wrong_reason_a: "森林破壊は蒸散を増加ではなく減少させます。",
+        wrong_reason_b: "本文では森林破壊が地域の降雨パターンを変えると述べています。",
+        wrong_reason_d: "都市化が地下水涵養を減少させると述べられており、森林破壊が改善するとは書かれていません。"
       }
     ]
   )
 
   create_mock_set!(
-    mock: mock2,
+    mock: mock1,
     section_type: "reading",
     part_type: "passages",
     set_number: 3,
-    passage_thema: "Sleep and Health",
+    passage_thema: "The Industrial Revolution",
     passage: <<~TEXT,
-      Sleep is essential for maintaining both physical and mental health, yet it is one of the most commonly neglected aspects of modern life. In many cultures, long working hours and constant connectivity through digital devices have contributed to widespread sleep deprivation. While individuals may adapt to reduced sleep over time, research consistently shows that the body and brain suffer significant consequences when deprived of adequate rest.
+      The Industrial Revolution, which began in Britain in the mid-18th century, fundamentally transformed how goods were produced and how people lived and worked. Before this period, most manufacturing took place in homes or small workshops using hand tools and human or animal power. The invention of steam-powered machinery allowed factories to produce goods on a scale previously unimaginable, dramatically increasing the output of textiles, iron, and coal.
 
-      During sleep, the body carries out a range of vital restorative processes. It repairs damaged tissues, consolidates memories formed during the day, and releases hormones that support growth and immune function. The brain, in particular, uses sleep to clear metabolic waste products that accumulate during waking hours. Scientists believe this cleaning process, driven by the glymphatic system, may play a role in reducing the risk of neurodegenerative diseases such as Alzheimer's.
+      The revolution spread from Britain to Europe and North America over the following century, reshaping economies and societies along the way. Urbanization accelerated as workers left rural areas to find employment in factories, leading to the rapid growth of industrial cities. These cities often struggled to accommodate the influx of workers, resulting in overcrowded housing, poor sanitation, and long working hours under dangerous conditions. Child labor was widespread, with many factories employing young children for tasks that adults could not easily perform.
 
-      Research suggests that adults need between seven and nine hours of sleep per night to function optimally, though individual needs vary based on age, genetics, and lifestyle. Children and teenagers require considerably more sleep to support their developing brains and bodies. Chronic sleep deprivation has been linked to a range of serious health problems, including obesity, type 2 diabetes, cardiovascular disease, and weakened immunity. Mental health is also affected; insufficient sleep is associated with increased risk of anxiety, depression, and impaired emotional regulation. Despite this evidence, many people continue to view sleep as a luxury rather than a biological necessity.
+      Despite its social costs, the Industrial Revolution laid the foundation for modern economic systems. It drove technological innovation, expanded global trade networks, and raised living standards over the long term. The legal and social reforms that followed — including labor laws, public health regulations, and universal education — were in many ways a direct response to the challenges created by rapid industrialization.
     TEXT
     questions: [
       {
         tag: "fact",
-        question_text: "What is one thing the body does during sleep?",
-        choice_a: "Increases blood pressure.",
-        choice_b: "Repairs tissues.",
-        choice_c: "Reduces hormone production.",
-        choice_d: "Burns more calories.",
-        correct_choice: "B",
-        explanation: "「repairs tissues」と本文に明記されています。",
-        wrong_reason_a: "睡眠中に血圧が上昇するとは本文に書かれていません。",
-        wrong_reason_c: "ホルモン分泌が減少するとは書かれておらず、むしろ成長・免疫を支えるホルモンを放出すると述べられています。",
-        wrong_reason_d: "睡眠中のカロリー消費については本文中に言及がありません。"
+        question_text: "Where did the Industrial Revolution begin?",
+        choice_a: "France.",
+        choice_b: "The United States.",
+        choice_c: "Germany.",
+        choice_d: "Britain.",
+        correct_choice: "D",
+        explanation: "本文冒頭に「began in Britain」と明記されています。",
+        wrong_reason_a: "フランスには後に広まりましたが、始まりの地ではありません。",
+        wrong_reason_b: "アメリカには19世紀に広まりましたが、発祥の地ではありません。",
+        wrong_reason_c: "ドイツはその後工業化しましたが、産業革命の発祥地ではありません。"
       },
       {
         tag: "fact",
-        question_text: "How many hours of sleep do adults need per night?",
-        choice_a: "Five to seven hours.",
-        choice_b: "Six to eight hours.",
-        choice_c: "Seven to nine hours.",
-        choice_d: "Eight to ten hours.",
-        correct_choice: "C",
-        explanation: "本文に「between seven and nine hours」と記載されています。",
-        wrong_reason_a: "5〜7時間という数値は本文に示されておらず、推奨より少ない睡眠時間です。",
-        wrong_reason_b: "6〜8時間という記述は本文にありません。正しくは7〜9時間です。",
-        wrong_reason_d: "8〜10時間という数値は本文に記載されておらず、推奨より多い範囲です。"
+        question_text: "What caused rapid urban growth during the Industrial Revolution?",
+        choice_a: "Government relocation programs.",
+        choice_b: "Workers moving from rural areas to factories.",
+        choice_c: "The decline of international trade.",
+        choice_d: "Agricultural improvements increasing food supply.",
+        correct_choice: "B",
+        explanation: "農村部から工場での雇用を求めた労働者の移動が都市化を加速させました。",
+        wrong_reason_a: "政府による移住プログラムは本文に記載されていません。",
+        wrong_reason_c: "国際貿易の衰退は本文と逆の内容です。実際には拡大しました。",
+        wrong_reason_d: "農業改善は本文の都市化の説明に含まれていません。"
       },
       {
         tag: "vocab",
-        question_text: "What does the word 'chronic' most nearly mean?",
-        choice_a: "Temporary.",
-        choice_b: "Severe.",
-        choice_c: "Persistent.",
-        choice_d: "Occasional.",
+        question_text: "What does 'influx' most nearly mean?",
+        choice_a: "Departure.",
+        choice_b: "A large arrival.",
+        choice_c: "A gradual decline.",
+        choice_d: "A financial investment.",
+        correct_choice: "B",
+        explanation: "influx は「大量の流入」を意味します。",
+        wrong_reason_a: "departure は「出発・退去」でinfluxの反対に近いです。",
+        wrong_reason_c: "gradual decline（緩やかな減少）はinfluxの意味と正反対です。",
+        wrong_reason_d: "financial investment（財務投資）は文脈と無関係です。"
+      }
+    ]
+  )
+
+  create_mock_set!(
+    mock: mock1,
+    section_type: "reading",
+    part_type: "passages",
+    set_number: 4,
+    passage_thema: "Biodiversity and Ecosystems",
+    passage: <<~TEXT,
+      Biodiversity refers to the variety of life on Earth, encompassing the diversity of species, genes, and ecosystems. It is a measure of the health and complexity of natural systems and is essential for the functioning of ecosystems. Each species within an ecosystem plays a specific role — whether as a producer, consumer, or decomposer — and the loss of any one species can trigger cascading effects throughout the food web.
+
+      Ecosystems provide a wide range of services that human societies depend on, often called ecosystem services. These include the purification of air and water, pollination of crops, decomposition of waste, regulation of climate, and the provision of food and raw materials. Forests, wetlands, coral reefs, and grasslands are among the most productive ecosystems in terms of the services they provide, yet they are also among the most threatened by human activity.
+
+      The current rate of species extinction is estimated to be between 1,000 and 10,000 times higher than natural background rates, largely due to habitat destruction, pollution, invasive species, excessive hunting, and climate change. This rapid loss of biodiversity threatens not only wildlife but also the long-term resilience of human civilization. Conservation efforts, including protected areas, habitat restoration, and international agreements, are critical for reversing these trends.
+    TEXT
+    questions: [
+      {
+        tag: "fact",
+        question_text: "What is biodiversity?",
+        choice_a: "The study of ecosystems.",
+        choice_b: "The variety of species, genes, and ecosystems on Earth.",
+        choice_c: "The number of plants in a given area.",
+        choice_d: "A type of environmental policy.",
+        correct_choice: "B",
+        explanation: "本文冒頭に「variety of life on Earth, encompassing the diversity of species, genes, and ecosystems」と定義されています。",
+        wrong_reason_a: "生態系の研究は生態学であり、生物多様性の定義ではありません。",
+        wrong_reason_c: "植物の数だけを指すものではなく、全ての生命の多様性を指します。",
+        wrong_reason_d: "環境政策の一種とは本文に書かれていません。"
+      },
+      {
+        tag: "inference",
+        question_text: "What can be inferred about the loss of a single species?",
+        choice_a: "It rarely affects other species.",
+        choice_b: "It can have widespread effects throughout an ecosystem.",
+        choice_c: "It only impacts producers in the food web.",
+        choice_d: "It always leads to ecosystem collapse.",
+        correct_choice: "B",
+        explanation: "本文に「cascading effects throughout the food web」と述べられており、広範な影響が推測されます。",
+        wrong_reason_a: "本文の「cascading effects」の記述から、1種の消失が他に影響しないとは言えません。",
+        wrong_reason_c: "生産者だけでなく、消費者・分解者全てに影響が及ぶ可能性があります。",
+        wrong_reason_d: "必ずしも完全な崩壊につながるとは本文に書かれていません。"
+      },
+      {
+        tag: "fact",
+        question_text: "What is one major cause of species extinction mentioned in the passage?",
+        choice_a: "Volcanic eruptions.",
+        choice_b: "Natural predation.",
+        choice_c: "Habitat destruction.",
+        choice_d: "Solar activity.",
         correct_choice: "C",
-        explanation: "chronic は「慢性的な・持続的な」という意味です。",
-        wrong_reason_a: "temporary は「一時的な」という意味で、chronic（慢性的な）の反意語に近いです。",
-        wrong_reason_b: "severe は「深刻な・重度の」という意味で、chronic の本来の意味とは異なります。",
-        wrong_reason_d: "occasional は「時折の」という意味で、chronic の意味と正反対です。"
+        explanation: "本文に「habitat destruction」が主要原因のひとつとして明記されています。",
+        wrong_reason_a: "火山噴火は本文中に原因として挙げられていません。",
+        wrong_reason_b: "自然の捕食は生態系の正常な機能であり、絶滅の主要原因として本文では挙げられていません。",
+        wrong_reason_d: "太陽活動は本文に記載されていません。"
+      }
+    ]
+  )
+
+  create_mock_set!(
+    mock: mock1,
+    section_type: "reading",
+    part_type: "passages",
+    set_number: 5,
+    passage_thema: "Artificial Intelligence",
+    passage: <<~TEXT,
+      Artificial intelligence, commonly abbreviated as AI, refers to the simulation of human intelligence processes by computer systems. These processes include learning, reasoning, problem-solving, perception, and language understanding. While the concept of thinking machines has existed for centuries in folklore and philosophy, modern AI emerged as a formal field of study in the mid-20th century, fueled by advances in computing power and the development of foundational algorithms.
+
+      Today, AI encompasses a broad range of technologies, from rule-based expert systems to machine learning models that can identify patterns in enormous datasets. Deep learning, a subset of machine learning, uses artificial neural networks modeled loosely on the human brain to achieve breakthroughs in image recognition, natural language processing, and game playing. Systems such as large language models can generate fluent text, translate languages, and answer questions with remarkable accuracy, though they still lack genuine understanding or consciousness.
+
+      The rapid advancement of AI raises important ethical and social questions. Concerns about job displacement, algorithmic bias, privacy, and the concentration of power among a small number of technology companies are widely debated. Governments and international organizations are working to develop regulatory frameworks to govern the development and deployment of AI responsibly. Despite these challenges, AI has the potential to accelerate scientific discovery, improve healthcare outcomes, and address complex global problems.
+    TEXT
+    questions: [
+      {
+        tag: "fact",
+        question_text: "When did modern AI emerge as a formal field of study?",
+        choice_a: "In the early 19th century.",
+        choice_b: "In the mid-20th century.",
+        choice_c: "In the late 18th century.",
+        choice_d: "At the beginning of the 21st century.",
+        correct_choice: "B",
+        explanation: "本文に「mid-20th century」と明記されています。",
+        wrong_reason_a: "19世紀初頭は現代AIの誕生より100年以上前であり、本文の記述と異なります。",
+        wrong_reason_c: "18世紀後半はAI研究が存在しなかった時代で、本文とは異なります。",
+        wrong_reason_d: "21世紀初頭ではなく、20世紀中頃と本文に書かれています。"
+      },
+      {
+        tag: "vocab",
+        question_text: "What does 'simulate' most nearly mean?",
+        choice_a: "To destroy.",
+        choice_b: "To imitate or replicate.",
+        choice_c: "To measure accurately.",
+        choice_d: "To suppress.",
+        correct_choice: "B",
+        explanation: "simulate は「模倣する・再現する」という意味です。",
+        wrong_reason_a: "destroy（破壊する）はsimulateとは全く逆の意味です。",
+        wrong_reason_c: "measure accurately（正確に測定する）はsimulateの意味とは異なります。",
+        wrong_reason_d: "suppress（抑制する）はsimulateの意味とは無関係です。"
+      },
+      {
+        tag: "inference",
+        question_text: "What does the passage suggest about large language models?",
+        choice_a: "They fully understand language.",
+        choice_b: "They are conscious like humans.",
+        choice_c: "They can produce fluent text but lack true understanding.",
+        choice_d: "They are no longer being developed.",
+        correct_choice: "C",
+        explanation: "「generate fluent text...though they still lack genuine understanding or consciousness」と本文に述べられています。",
+        wrong_reason_a: "「lack genuine understanding」とあるため、完全な言語理解はないとされています。",
+        wrong_reason_b: "「lack...consciousness」とあり、意識があるとは述べられていません。",
+        wrong_reason_d: "開発が止まっているという記述は本文にありません。"
       }
     ]
   )

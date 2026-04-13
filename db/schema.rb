@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_04_12_110000) do
+ActiveRecord::Schema[8.0].define(version: 2026_04_13_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -46,14 +46,18 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_12_110000) do
 
   create_table "mock_analysis_reports", force: :cascade do |t|
     t.bigint "attempt_id", null: false
-    t.text "overall"
-    t.text "strengths"
-    t.text "challenges"
     t.string "status", default: "pending", null: false
     t.integer "retry_count", default: 0, null: false
     t.text "error_message"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "summary_closing"
+    t.text "strength"
+    t.text "challenge"
+    t.integer "listening_score"
+    t.integer "structure_score"
+    t.integer "reading_score"
+    t.integer "total_score"
     t.index ["attempt_id"], name: "index_mock_analysis_reports_on_attempt_id", unique: true
     t.index ["status"], name: "index_mock_analysis_reports_on_status"
   end

@@ -26,11 +26,18 @@ module Mocks
         payload = Mocks::BuildAnalysisPayload.call(attempt)
         result  = Mocks::AnalysisApiClient.call(payload)
 
+        scores     = result["scores"] || {}
+        narratives = result["narratives"] || {}
+
         report.update!(
-          overall:    result["overall"],
-          strengths:  result["strengths"],
-          challenges: result["challenges"],
-          status:     "completed"
+          listening_score: scores["listening"],
+          structure_score: scores["structure"],
+          reading_score:   scores["reading"],
+          total_score:     scores["total"],
+          summary_closing: narratives["summary_closing"],
+          strength:        narratives["strength"],
+          challenge:       narratives["challenge"],
+          status:          "completed"
         )
 
         Rails.logger.info "[AnalyzeMockResultJob] attempt_id=#{attempt_id} → completed"
