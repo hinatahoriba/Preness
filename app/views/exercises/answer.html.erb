@@ -64,7 +64,7 @@
             part_label: exercise_part_label(@part.part_type)&.upcase %>
 
     <% elsif @section.section_type == "structure" %>
-      <%= render "exercises/structure", questions: @questions %>
+      <%= render "exercises/structure", questions: @questions, part_label: exercise_part_label(@part.part_type)&.upcase %>
 
     <% elsif @section.section_type == "reading" %>
       <%= render "exercises/reading", question_set: @question_set %>

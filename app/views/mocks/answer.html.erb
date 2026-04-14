@@ -97,7 +97,7 @@
             part_label: mock_part_label(@part.part_type)&.upcase %>
 
     <% elsif @section.section_type == "structure" %>
-      <%= render "mocks/structure", questions: @questions %>
+      <%= render "mocks/structure", questions: @questions, part_label: mock_part_label(@part.part_type)&.upcase %>
 
     <% elsif @section.section_type == "reading" %>
       <%= render "mocks/reading", question_sets: @part.question_sets.order(:display_order) %>
