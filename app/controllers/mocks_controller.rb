@@ -2,7 +2,7 @@ class MocksController < ApplicationController
   before_action :authenticate_user!
   before_action :set_mock, except: :index
   before_action :ensure_can_start_mock, only: %i[ready start]
-  before_action :set_attempt,       only: %i[direction answer submit_part result report]
+  before_action :set_attempt,       only: %i[direction answer submit_part result]
   before_action :set_section_part,  only: %i[direction answer submit_part]
 
   # GET /mocks
@@ -90,18 +90,6 @@ class MocksController < ApplicationController
     end
   end
 
-  # GET /mocks/:id/report?attempt_id=Z
-  def report
-    @report = @attempt.mock_analysis_report
-
-    if @report&.completed?
-      answers_map = @attempt.answers.includes(:question).index_by(&:question_id)
-      @parts_accuracy = build_report_parts_accuracy(@mock, answers_map)
-      @tag_accuracy   = build_report_tag_accuracy(@mock, answers_map)
-      @target_score   = @attempt.user.user_profile&.itp_target_score
-    end
-  end
-
   # GET /mocks/:id/result?attempt_id=Z
   def result
     @section_results = @mock.sections.order(:display_order).map do |section|
@@ -176,81 +164,4 @@ class MocksController < ApplicationController
     params[:answers].permit!.to_h
   end
 
-  LISTENING_PART_TOTALS = { "part_a" => 30, "part_b" => 8, "part_c" => 12 }.freeze
-  STRUCTURE_PART_TOTALS = { "part_a" => 15, "part_b" => 25 }.freeze
-  READING_QUESTIONS_PER_SET = 10
-  READING_SET_COUNT = 5
-
-  def build_report_parts_accuracy(mock, answers_map)
-    {
-      listening: build_report_listening(mock, answers_map),
-      structure: build_report_structure(mock, answers_map),
-      reading:   build_report_reading(mock, answers_map)
-    }
-  end
-
-  def build_report_listening(mock, answers_map)
-    section = mock.sections.find { |s| s.section_type == "listening" }
-    return nil unless section
-
-    result = {}
-    LISTENING_PART_TOTALS.each_key do |pt|
-      part = section.parts.find { |p| p.part_type == pt }
-      questions = part ? part.question_sets.flat_map(&:questions) : []
-      correct = questions.count { |q| answers_map[q.id]&.is_correct == true }
-      total = LISTENING_PART_TOTALS[pt]
-      result[pt.to_sym] = { correct: correct, total: total, pct: total > 0 ? (correct * 100.0 / total).round : 0 }
-    end
-    result
-  end
-
-  def build_report_structure(mock, answers_map)
-    section = mock.sections.find { |s| s.section_type == "structure" }
-    return nil unless section
-
-    result = {}
-    STRUCTURE_PART_TOTALS.each_key do |pt|
-      part = section.parts.find { |p| p.part_type == pt }
-      questions = part ? part.question_sets.flat_map(&:questions) : []
-      correct = questions.count { |q| answers_map[q.id]&.is_correct == true }
-      total = STRUCTURE_PART_TOTALS[pt]
-      result[pt.to_sym] = { correct: correct, total: total, pct: total > 0 ? (correct * 100.0 / total).round : 0 }
-    end
-    result
-  end
-
-  def build_report_reading(mock, answers_map)
-    section = mock.sections.find { |s| s.section_type == "reading" }
-    return nil unless section
-
-    part = section.parts.find { |p| p.part_type == "passages" }
-    return nil unless part
-
-    question_sets = part.question_sets.sort_by(&:display_order).first(READING_SET_COUNT)
-    question_sets.each_with_index.map do |qs, idx|
-      questions = qs.questions
-      correct = questions.count { |q| answers_map[q.id]&.is_correct == true }
-      {
-        label:         "Reading %02d" % (idx + 1),
-        passage_thema: qs.passage_thema.presence,
-        correct:       correct,
-        total:         READING_QUESTIONS_PER_SET,
-        pct:           (correct * 100.0 / READING_QUESTIONS_PER_SET).round
-      }
-    end
-  end
-
-  def build_report_tag_accuracy(mock, answers_map)
-    all_questions = mock.sections.flat_map do |section|
-      section.parts.flat_map do |part|
-        part.question_sets.flat_map(&:questions)
-      end
-    end
-
-    all_questions.select(&:tag).group_by(&:tag).transform_values do |questions|
-      correct = questions.count { |q| answers_map[q.id]&.is_correct == true }
-      total = questions.size
-      { correct: correct, total: total, pct: total > 0 ? (correct * 100.0 / total).round : 0 }
-    end
-  end
 end

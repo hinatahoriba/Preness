@@ -46,7 +46,7 @@ Rails.application.routes.draw do
       get  :answer
       post :submit_part
       get  :result
-      get  :report
+      get  :report, to: "mock_reports#show"
     end
   end
 
