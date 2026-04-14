@@ -13,7 +13,11 @@
     </h2>
     <p class="text-[15px] leading-relaxed text-gray-800 mb-12 font-serif">
       <span class="font-bold underline decoration-1 underline-offset-2">Directions:</span>
-      In Part B you will hear longer conversations. After each conversation, you will be asked some questions. The conversations and questions will be spoken just once. They will not be written out for you, so you will have to listen carefully in order to understand and remember what the speaker says.
+      <% if (local_assigns[:part_label] || "PART B").include?("C") %>
+        In Part C, you will hear several talks. After each talk, you will hear several questions. The talks and questions will not be repeated. After you hear a question, read the four possible answers and choose the best answer.
+      <% else %>
+        In Part B you will hear longer conversations. After each conversation, you will be asked some questions. The conversations and questions will be spoken just once. They will not be written out for you, so you will have to listen carefully in order to understand and remember what the speaker says.
+      <% end %>
     </p>
 
     <div class="mb-16">
