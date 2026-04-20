@@ -14,6 +14,7 @@ module Mocks
 
     READING_QUESTIONS_PER_SET = 10
     READING_SET_COUNT = 5
+    TAGS = Question::TAGS.freeze
 
     def self.call(attempt)
       new(attempt).call
@@ -42,6 +43,8 @@ module Mocks
 
     def build_goal
       target_score = @attempt.user.user_profile&.itp_target_score
+      return nil if target_score.nil?
+
       { target_score: target_score }
     end
 
@@ -94,7 +97,7 @@ module Mocks
           passage_thema: qs.passage_thema.presence,
           correct:       correct,
           total:         READING_QUESTIONS_PER_SET
-        }.compact]
+        }]
       end
     end
 
@@ -108,12 +111,18 @@ module Mocks
         end
       end
 
+      stats = TAGS.each_with_object({}) do |tag, result|
+        result[tag] = { correct: 0, total: 0 }
+      end
+
       tagged_questions = all_questions.select(&:tag)
 
-      tagged_questions.group_by(&:tag).transform_values do |questions|
+      tagged_questions.group_by(&:tag).each do |tag, questions|
         correct = questions.count { |q| correct_answer?(q) }
-        { correct: correct, total: questions.size }
+        stats[tag] = { correct: correct, total: questions.size }
       end
+
+      stats
     end
 
     # ── helpers ─────────────────────────────────────────────────────────────
