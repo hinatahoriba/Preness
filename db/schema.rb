@@ -46,33 +46,20 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_13_000000) do
 
   create_table "mock_analysis_reports", force: :cascade do |t|
     t.bigint "attempt_id", null: false
+    t.text "summary_closing"
+    t.text "strength"
+    t.text "challenge"
     t.string "status", default: "pending", null: false
     t.integer "retry_count", default: 0, null: false
     t.text "error_message"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.text "summary_closing"
-    t.text "strength"
-    t.text "challenge"
     t.integer "listening_score"
     t.integer "structure_score"
     t.integer "reading_score"
     t.integer "total_score"
     t.index ["attempt_id"], name: "index_mock_analysis_reports_on_attempt_id", unique: true
     t.index ["status"], name: "index_mock_analysis_reports_on_status"
-  end
-
-  create_table "mock_tests", force: :cascade do |t|
-    t.string "title", null: false
-    t.text "description"
-    t.integer "price_cents", null: false
-    t.string "stripe_price_id"
-    t.string "difficulty", default: "medium", null: false
-    t.integer "time_limit_minutes", default: 180, null: false
-    t.boolean "published", default: false, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["published"], name: "index_mock_tests_on_published"
   end
 
   create_table "mocks", force: :cascade do |t|
@@ -90,31 +77,14 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_13_000000) do
     t.index ["section_id"], name: "index_parts_on_section_id"
   end
 
-  create_table "purchases", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "mock_test_id", null: false
-    t.string "stripe_payment_intent_id"
-    t.string "stripe_checkout_session_id"
-    t.integer "amount_cents", null: false
-    t.string "currency", default: "jpy", null: false
-    t.string "status", default: "pending", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["mock_test_id"], name: "index_purchases_on_mock_test_id"
-    t.index ["status"], name: "index_purchases_on_status"
-    t.index ["stripe_payment_intent_id"], name: "index_purchases_on_stripe_payment_intent_id"
-    t.index ["user_id", "mock_test_id"], name: "index_purchases_on_user_id_and_mock_test_id", unique: true
-    t.index ["user_id"], name: "index_purchases_on_user_id"
-  end
-
   create_table "question_sets", force: :cascade do |t|
     t.bigint "part_id", null: false
     t.text "passage"
     t.string "conversation_audio_url"
-    t.jsonb "scripts"
     t.integer "display_order", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.jsonb "scripts"
     t.string "passage_thema"
     t.index ["part_id"], name: "index_question_sets_on_part_id"
   end
@@ -122,7 +92,6 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_13_000000) do
   create_table "questions", force: :cascade do |t|
     t.bigint "question_set_id", null: false
     t.integer "display_order", null: false
-    t.jsonb "scripts"
     t.text "question_text", null: false
     t.string "question_audio_url"
     t.text "choice_a", null: false
@@ -138,6 +107,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_13_000000) do
     t.text "wrong_reason_b"
     t.text "wrong_reason_c"
     t.text "wrong_reason_d"
+    t.jsonb "scripts"
     t.string "conversation_audio_url"
     t.index ["question_set_id"], name: "index_questions_on_question_set_id"
   end
@@ -150,25 +120,6 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_13_000000) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["sectionable_type", "sectionable_id"], name: "index_sections_on_sectionable"
-  end
-
-  create_table "subscriptions", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.string "stripe_customer_id"
-    t.string "stripe_subscription_id"
-    t.string "stripe_price_id"
-    t.string "status", default: "inactive", null: false
-    t.datetime "trial_ends_at"
-    t.datetime "current_period_start"
-    t.datetime "current_period_end"
-    t.datetime "canceled_at"
-    t.datetime "ends_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["status"], name: "index_subscriptions_on_status"
-    t.index ["stripe_customer_id"], name: "index_subscriptions_on_stripe_customer_id"
-    t.index ["stripe_subscription_id"], name: "index_subscriptions_on_stripe_subscription_id"
-    t.index ["user_id"], name: "index_subscriptions_on_user_id", unique: true
   end
 
   create_table "user_profiles", force: :cascade do |t|
@@ -202,9 +153,9 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_13_000000) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
+    t.boolean "terms_agreed", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "terms_agreed", default: false, null: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
@@ -215,10 +166,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_13_000000) do
   add_foreign_key "attempts", "users"
   add_foreign_key "mock_analysis_reports", "attempts"
   add_foreign_key "parts", "sections"
-  add_foreign_key "purchases", "mock_tests"
-  add_foreign_key "purchases", "users"
   add_foreign_key "question_sets", "parts"
   add_foreign_key "questions", "question_sets"
-  add_foreign_key "subscriptions", "users"
   add_foreign_key "user_profiles", "users"
 end
