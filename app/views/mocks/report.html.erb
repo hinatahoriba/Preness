@@ -48,21 +48,23 @@
       完了済みレポート本体
   ────────────────────────────────────────────────────────────────── %>
 
-  <%= render 'report_header', attempt: @attempt %>
+  <%# NOTE: This template is rendered from MockReportsController, so prefix-based partial lookup
+      would otherwise search under app/views/mock_reports/. Use explicit paths under mocks/. %>
+  <%= render 'mocks/report_header', attempt: @attempt %>
 
   <div class="max-w-[1000px] mx-auto px-6 pt-10 pb-16">
 
-    <%= render 'score_summary', report: @report, target_score: @target_score %>
+    <%= render 'mocks/score_summary', report: @report, target_score: @target_score %>
 
-    <%= render 'listening_analysis', parts_accuracy: @parts_accuracy %>
+    <%= render 'mocks/listening_analysis', parts_accuracy: @parts_accuracy %>
 
-    <%= render 'structure_analysis', parts_accuracy: @parts_accuracy, tag_accuracy: @tag_accuracy %>
+    <%= render 'mocks/structure_analysis', parts_accuracy: @parts_accuracy, tag_accuracy: @tag_accuracy %>
 
-    <%= render 'reading_analysis', parts_accuracy: @parts_accuracy, tag_accuracy: @tag_accuracy %>
+    <%= render 'mocks/reading_analysis', parts_accuracy: @parts_accuracy, tag_accuracy: @tag_accuracy %>
 
     <hr class="border-0 border-t border-[#dde3ed] my-10">
 
-    <%= render 'strengths_challenges', report: @report %>
+    <%= render 'mocks/strengths_challenges', report: @report %>
 
     <div class="text-center mt-12 pb-10">
       <%= link_to mypage_path,
@@ -80,6 +82,6 @@
     © <%= Time.current.year %> Preness TOEFL ITP® 模擬試験 分析レポート
   </div>
 
-  <%= render 'report_scripts' %>
+  <%= render 'mocks/report_scripts' %>
 
 <% end %>
