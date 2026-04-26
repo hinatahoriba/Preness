@@ -4,6 +4,6 @@ class QuestionSet < ApplicationRecord
 
   validates :display_order, presence: true, numericality: { only_integer: true, greater_than: 0 }
   validates :passage, presence: true, if: -> { part&.part_type == "passages" }
-  validates :passage_thema, presence: true, if: -> { part&.part_type == "passages" }
+  validates :passage_theme, presence: true, if: -> { part&.part_type == "passages" }
 end
 

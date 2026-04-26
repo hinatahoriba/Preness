@@ -5,7 +5,7 @@
     <% reading_sets.each do |rs| %>
       <div class="bg-white border border-[#dde3ed] rounded-lg p-3.5 text-center">
         <div class="text-[11px] text-[#6b7c93] mb-2 leading-[1.4] min-h-[32px]">
-          <%= rs[:passage_thema].presence || rs[:label] %>
+          <%= rs[:passage_theme].presence || rs[:label] %>
         </div>
         <div class="bg-[#eef3fa] rounded h-[6px] overflow-hidden mb-1.5">
           <div class="h-full rounded <%= rs[:pct] < 70 ? 'bg-[#e8703a]' : 'bg-[#1e3a5f]' %>" style="width: <%= rs[:pct] %>%"></div>

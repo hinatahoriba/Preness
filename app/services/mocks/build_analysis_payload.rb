@@ -94,7 +94,7 @@ module Mocks
         correct   = questions.count { |q| correct_answer?(q) }
 
         [key, {
-          passage_thema: qs.passage_thema.presence,
+          passage_theme: qs.passage_theme.presence,
           correct:       correct,
           total:         READING_QUESTIONS_PER_SET
         }]

@@ -96,7 +96,7 @@ class MockReportsController < ApplicationController
       correct = questions.count { |q| answers_map[q.id]&.is_correct == true }
       {
         label:         "Reading %02d" % (idx + 1),
-        passage_thema: qs.passage_thema.presence,
+        passage_theme: qs.passage_theme.presence,
         correct:       correct,
         total:         READING_QUESTIONS_PER_SET,
         pct:           (correct * 100.0 / READING_QUESTIONS_PER_SET).round

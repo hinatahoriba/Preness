@@ -47,7 +47,7 @@ else
     "passages" => 1
   }.freeze
 
-  def create_exercise_set!(section_type:, part_type:, set_number:, passage: nil, passage_thema: nil, audio_url: nil, scripts: DEFAULT_SCRIPTS, questions:)
+  def create_exercise_set!(section_type:, part_type:, set_number:, passage: nil, passage_theme: nil, audio_url: nil, scripts: DEFAULT_SCRIPTS, questions:)
     exercise = Exercise.create!
 
     section = exercise.sections.create!(
@@ -63,7 +63,7 @@ else
     question_set = part.question_sets.create!(
       display_order: set_number,
       passage: passage,
-      passage_thema: passage_thema,
+      passage_theme: passage_theme,
       conversation_audio_url: audio_url,
       scripts: scripts
     )
@@ -96,7 +96,7 @@ else
     exercise
   end
 
-  def create_mock_set!(mock:, section_type:, part_type:, set_number:, passage: nil, passage_thema: nil, audio_url: nil, scripts: DEFAULT_SCRIPTS, questions:)
+  def create_mock_set!(mock:, section_type:, part_type:, set_number:, passage: nil, passage_theme: nil, audio_url: nil, scripts: DEFAULT_SCRIPTS, questions:)
     section = mock.sections.find_or_create_by!(
       section_type: section_type,
       display_order: SECTION_DISPLAY_ORDERS.fetch(section_type)
@@ -110,7 +110,7 @@ else
     question_set = part.question_sets.create!(
       display_order: set_number,
       passage: passage,
-      passage_thema: passage_thema,
+      passage_theme: passage_theme,
       conversation_audio_url: audio_url,
       scripts: scripts
     )
@@ -381,7 +381,7 @@ else
     section_type: "reading",
     part_type: "passages",
     set_number: 1,
-    passage_thema: "Modern Computers",
+    passage_theme: "Modern Computers",
     passage: <<~TEXT,
       Modern computers are capable of performing billions of operations per second.
       This remarkable speed has revolutionized many fields, including science, engineering, and finance.
@@ -614,7 +614,7 @@ else
     section_type: "reading",
     part_type: "passages",
     set_number: 1,
-    passage_thema: "Modern Computers",
+    passage_theme: "Modern Computers",
     passage: <<~TEXT,
       Modern computers are capable of performing billions of operations per second, a feat that would have seemed impossible just a few decades ago. This remarkable speed has revolutionized many fields, including science, engineering, and finance. In scientific research, computers allow scientists to model complex systems such as climate patterns, protein structures, and the behavior of subatomic particles. Engineers use computing power to simulate designs and test them virtually before physical prototypes are ever built, reducing both cost and time. In finance, high-speed computers execute trades in fractions of a second, analyze market trends, and manage risk across enormous datasets.
 
@@ -744,7 +744,7 @@ else
     section_type: "reading",
     part_type: "passages",
     set_number: 2,
-    passage_thema: "The Water Cycle",
+    passage_theme: "The Water Cycle",
     passage: <<~TEXT,
       The water cycle, also known as the hydrological cycle, describes the continuous movement of water through Earth's systems. Water evaporates from oceans, lakes, and rivers when heat from the sun causes liquid water to transform into water vapor. This vapor rises into the atmosphere, cools, and condenses to form clouds through a process called condensation. Eventually, the water returns to Earth's surface as precipitation in the form of rain, snow, sleet, or hail.
 
@@ -800,7 +800,7 @@ else
     section_type: "reading",
     part_type: "passages",
     set_number: 3,
-    passage_thema: "The Industrial Revolution",
+    passage_theme: "The Industrial Revolution",
     passage: <<~TEXT,
       The Industrial Revolution, which began in Britain in the mid-18th century, fundamentally transformed how goods were produced and how people lived and worked. Before this period, most manufacturing took place in homes or small workshops using hand tools and human or animal power. The invention of steam-powered machinery allowed factories to produce goods on a scale previously unimaginable, dramatically increasing the output of textiles, iron, and coal.
 
@@ -856,7 +856,7 @@ else
     section_type: "reading",
     part_type: "passages",
     set_number: 4,
-    passage_thema: "Biodiversity and Ecosystems",
+    passage_theme: "Biodiversity and Ecosystems",
     passage: <<~TEXT,
       Biodiversity refers to the variety of life on Earth, encompassing the diversity of species, genes, and ecosystems. It is a measure of the health and complexity of natural systems and is essential for the functioning of ecosystems. Each species within an ecosystem plays a specific role — whether as a producer, consumer, or decomposer — and the loss of any one species can trigger cascading effects throughout the food web.
 
@@ -912,7 +912,7 @@ else
     section_type: "reading",
     part_type: "passages",
     set_number: 5,
-    passage_thema: "Artificial Intelligence",
+    passage_theme: "Artificial Intelligence",
     passage: <<~TEXT,
       Artificial intelligence, commonly abbreviated as AI, refers to the simulation of human intelligence processes by computer systems. These processes include learning, reasoning, problem-solving, perception, and language understanding. While the concept of thinking machines has existed for centuries in folklore and philosophy, modern AI emerged as a formal field of study in the mid-20th century, fueled by advances in computing power and the development of foundational algorithms.
 
