@@ -1,0 +1,45 @@
+<% content_for :body_class, "bg-[#f9fafb] text-[#374151] min-h-screen" %>
+
+<main class="max-w-2xl mx-auto p-8 mt-16">
+  <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-10 text-center">
+    <!-- 成功アイコン -->
+    <div class="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-6">
+      <svg class="w-10 h-10 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+      </svg>
+    </div>
+
+    <h1 class="text-2xl font-extrabold text-gray-900 mb-3">購入が完了しました！</h1>
+    <p class="text-gray-500 mb-2">
+      <span class="font-bold text-gray-700"><%= @mock.title %></span> の購入手続きが完了しました。
+    </p>
+    <p class="text-sm text-gray-400 mb-8">決済処理が完了次第、模擬試験を受験できるようになります。</p>
+
+    <% if @purchase&.completed? %>
+      <%= link_to guideline_mock_path(@mock),
+            class: "inline-flex items-center space-x-2 bg-[#34a0a4] hover:bg-[#2d8b8e] text-white px-8 py-3 rounded-2xl text-sm font-bold transition-all shadow-lg hover:shadow-[#34a0a4]/30" do %>
+        <span>受験を開始する</span>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+        </svg>
+      <% end %>
+    <% else %>
+      <div class="bg-amber-50 border border-amber-100 rounded-2xl p-4 mb-6">
+        <p class="text-sm text-amber-700 font-medium">
+          <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          決済処理中です。しばらくお待ちください。
+        </p>
+      </div>
+      <%= link_to mocks_path,
+            class: "inline-flex items-center space-x-2 bg-white border-2 border-gray-200 text-gray-700 hover:border-[#34a0a4] hover:text-[#34a0a4] px-8 py-3 rounded-2xl text-sm font-bold transition-all" do %>
+        <span>模擬試験一覧へ戻る</span>
+      <% end %>
+    <% end %>
+
+    <div class="mt-6">
+      <%= link_to "マイページに戻る", mypage_path, class: "text-sm text-gray-500 hover:text-gray-700 underline font-medium transition-colors" %>
+    </div>
+  </div>
+</main>

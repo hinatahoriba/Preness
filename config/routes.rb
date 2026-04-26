@@ -50,6 +50,19 @@ Rails.application.routes.draw do
     end
   end
 
+  # Stripe Checkout
+  resources :checkouts, only: [:create] do
+    collection do
+      get :success
+      get :cancel
+    end
+  end
+
+  # Stripe Webhook
+  namespace :webhooks do
+    resource :stripe, only: [:create], controller: "stripe"
+  end
+
   namespace :api do
     namespace :v1 do
       resources :mocks, only: [:create]
