@@ -101,6 +101,26 @@
         </div>
 
       </div>
+
+      <%# LINE連携 %>
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mt-6">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-base font-semibold text-gray-800">LINE連携</h2>
+          <% if current_user.line_linked? %>
+            <span class="text-xs text-green-600 font-medium">連携済み</span>
+          <% end %>
+        </div>
+        <% if current_user.line_linked? %>
+          <p class="text-sm text-gray-500 mb-4">PrenessとLINEが連携されています. 学習通知をLINEで受け取れます.</p>
+          <%= button_to "LINE連携を解除する", line_disconnect_path, method: :delete,
+                        class: "text-sm text-red-500 hover:text-red-700 underline bg-transparent border-0 cursor-pointer p-0",
+                        data: { turbo_confirm: "LINE連携を解除しますか?" } %>
+        <% else %>
+          <p class="text-sm text-gray-500 mb-4">LINEと連携すると, 学習通知をLINEで受け取ることができます.</p>
+          <%= link_to "LINEと連携する", line_connect_path,
+                      class: "inline-block bg-[#06C755] hover:bg-[#05b34c] text-white text-sm font-bold px-5 py-2.5 rounded-xl transition" %>
+        <% end %>
+      </div>
     </div>
   </main>
 </div>
