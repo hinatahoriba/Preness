@@ -1,1152 +1,364 @@
-<% content_for :head do %>
-<style>
+<div class="bg-gradient-to-br from-[#0e448b] to-[#4684b5] text-white overflow-visible pb-[60px] md:pb-[120px] font-['Yu_Gothic',YuGothic,'Helvetica_Neue',Arial,sans-serif]">
+    <div class="max-w-[1100px] mx-auto px-5">
+        <header class="flex items-center justify-between py-[25px]">
+            <a href="#" class="flex items-center">
+                <%= image_tag "preness_logo.svg", alt: "Preness", class: "h-[40px] w-auto block" %>
+            </a>
+            <div class="flex gap-[15px]">
+                <%= link_to "アカウント登録", new_user_registration_path, class: "inline-block px-[20px] md:px-[35px] py-[10px] md:py-[12px] text-[13px] md:text-[15px] font-bold text-center cursor-pointer transition-all duration-300 rounded-[40px] bg-[#279ea6] text-white hover:opacity-90" %>
+                <%= link_to "ログイン", new_user_session_path, class: "inline-block px-[20px] md:px-[35px] py-[10px] md:py-[12px] text-[13px] md:text-[15px] font-bold text-center cursor-pointer transition-all duration-300 rounded-[40px] bg-[#279ea6] text-white hover:opacity-90" %>
+            </div>
+        </header>
 
-        /* =========================================
-           1. CSS Variables (Theme Settings)
-        ========================================= */
-        :root {
-            /* Brand Colors */
-            --color-teal: #279ea6;
-            --color-teal-dark: #1b99a6;
-            --color-teal-light: #75c4c9;
-            --color-teal-accent: #38b1ba;
+        <section class="flex flex-col md:flex-row items-center md:items-stretch justify-between mt-[20px] md:mt-[40px] mb-[40px] gap-[40px] pt-[60px] md:pt-[60px] text-center md:text-left">
+            <div class="flex-1">
+                <p class="text-[18px] md:text-[30px] font-bold tracking-[2px] mb-[30px] md:whitespace-nowrap">精密分析 × 圧倒的な演習量でスコアを伸ばす</p>
+                <h1 class="text-[28px] md:text-[38px] font-bold leading-[1.6] tracking-[2.5px]">“なんとなくの勉強”から、<br>“結果につながる学習”へ。</h1>
+            </div>
             
-            --color-navy: #1f3b60;
-            --color-navy-dark: #1a2b4c;
-            --color-navy-hero: #2b5f93;
-            --color-navy-diagnosis: #256496;
-            
-            --color-orange: #d87b3e;
-            --color-orange-bright: #ef7b2c;
-            --color-orange-diagnosis: #ea762a;
-            --color-yellow: #d8ce2b;
-            
-            /* Backgrounds */
-            --bg-main: #eef3f7;
-            --bg-alt: #f0f4f8;
-            --bg-white: #ffffff;
-            
-            /* Text Colors */
-            --text-main: #333333;
-            --text-dark: #000000;
-            --text-light: #ffffff;
-            
-            /* Typography */
-            --font-primary: 'Yu Gothic', YuGothic, 'Helvetica Neue', Arial, sans-serif;
-            --font-serif: Georgia, serif;
-        }
-
-        /* =========================================
-           2. Base Styles & Resets
-        ========================================= */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            background-color: var(--bg-main);
-            color: var(--text-main);
-            font-family: var(--font-primary);
-            line-height: 1.6;
-            overflow-x: hidden;     /* <-- ADD THIS: Prevents horizontal scrolling */
-        }
-
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        ul {
-            list-style: none;
-        }
-
-        img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        /* =========================================
-           3. Global Utility Components
-        ========================================= */
-        
-        /* Layout */
-        .section {
-            padding: 20px 0;
-        }
-
-        .section--bg-alt {
-            background-color: var(--bg-alt);
-        }
-
-        .section--bg-navy {
-            background-color: var(--color-navy);
-            color: var(--text-light);
-        }
-
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .container--sm {
-            max-width: 900px;
-        }
-
-        /* Typography */
-        .section-title {
-            text-align: center;
-            font-size: 28px;
-            font-weight: bold;
-            color: var(--color-navy);
-            margin-bottom: 30px;
-            letter-spacing: 1.5px;
-        }
-
-        .section-title--light {
-            color: var(--text-light);
-        }
-
-        /* Button System */
-        .btn {
-            display: inline-block;
-            padding: 12px 35px;
-            font-size: 15px;
-            font-weight: bold;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-            border-radius: 40px; /* Default Pill */
-        }
-
-        .btn--radius-sm {
-            border-radius: 6px;
-        }
-
-        .btn--primary {
-            background-color: var(--color-teal);
-            color: var(--text-light);
-        }
-        .btn--primary:hover {
-            opacity: 0.9;
-        }
-
-        .btn--outline {
-            background-color: transparent;
-            border-color: var(--color-teal);
-            color: var(--color-teal);
-        }
-        .btn--outline:hover {
-            background-color: var(--color-teal);
-            color: var(--text-light);
-        }
-
-        .btn--accent {
-            background-color: #f2f5f9;
-            color: var(--color-teal);
-            border: 4px solid var(--color-teal-accent);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .btn--accent:hover {
-            background-color: var(--bg-white);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        .btn--block {
-            display: block;
-            width: 100%;
-            margin-bottom: 15px;
-        }
-        .btn--block:last-child {
-            margin-bottom: 0;
-        }
-
-        /* =========================================
-           4. Section-Specific Styles
-        ========================================= */
-
-        /* --- Header & Hero --- */
-/* Find this block and modify the padding-bottom */
-.top-section-wrapper {
-    background: linear-gradient(135deg, #0e448b 0%, #4684b5 100%);
-    color: var(--text-light);
-    overflow: visible;
-    padding-bottom: 120px; 
-}
-
-        .new-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 25px 0;
-        }
-
-        .new-logo {
-            display: flex;
-            align-items: center;
-        }
-
-        .logo-img {
-            height: 40px;
-            width: auto;
-        }
-
-        .new-header-actions {
-            display: flex;
-            gap: 15px;
-        }
-
-        .new-hero {
-            display: flex;
-            align-items: stretch;
-            justify-content: space-between;
-            margin-top: 40px;
-            gap: 40px;
-            margin-bottom: 40px;
-        }
-
-        .new-hero-text {
-            flex: 1;
-        }
-
-        .new-hero-sub {
-            font-size: 30px;
-            margin-bottom: 30px;
-            font-weight: bold;
-            letter-spacing: 2px;
-            white-space: nowrap;
-        }
-
-        .new-hero-main {
-            font-size: 38px;
-            line-height: 1.6;
-            font-weight: bold;
-            letter-spacing: 2.5px;
-        }
-
-        .new-hero-visual {
-            flex: 1;
-            position: relative;
-            /* display: flex;
-            justify-content: flex-end;
-            align-items: flex-end; */
-            /* min-height: 350px; */
-        }
-
-        /* Find this block and modify it */
-.img-laptop {
-    position: absolute;     /* <-- ADDED: Allows it to ignore container boundaries */
-    top: 0;                 /* <-- ADDED: Aligns to the top of the text */
-    left: 0;                /* <-- ADDED: Starts exactly where the visual column begins */
-    height: 200%;           /* <-- CHANGED: Forces the image to be exactly as tall as the text */
-    width: auto;            /* <-- CHANGED: Maintains the image's original aspect ratio */
-    max-width: none;        /* <-- CHANGED: Removes the 650px limit so it can bleed off-screen */
-    z-index: 1;
-    top: 80%;
-    transform: translate(15%, -50%);
-}
-
-        .img-mobile {
-            position: absolute;
-            left: -20px;
-            bottom: -30px;
-            width: 28%;
-            max-width: 180px;
-            z-index: 2;
-            border-radius: 12px;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
-        }
-
-        /* --- Global Grid Layouts --- */
-        .grid-cards {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            flex-wrap: wrap;
-        }
-
-        /* --- Exam Target Cards --- */
-        .exam-card {
-            background-color: transparent;
-            border: 2px solid var(--color-teal);
-            border-radius: 20px;
-            width: 320px;
-            padding: 60px 30px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 300px;
-        }
-
-        .exam-card h2 {
-            font-size: 26px;
-            margin-bottom: auto;
-            color: var(--text-dark);
-            letter-spacing: 1px;
-        }
-
-        .exam-card-actions {
-            width: 100%;
-            margin-top: auto;
-        }
-
-        /* --- Merits Section --- */
-        .merit-item {
-            max-width: 800px;
-            margin: 0 auto 50px auto;
-            text-align: center;
-        }
-
-        .merit-item:last-child {
-            margin-bottom: 0;
-        }
-
-        .merit-header {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            margin-bottom: 30px;
-        }
-
-        .merit-number {
-            font-size: 64px;
-            font-weight: bold;
-            color: var(--color-yellow);
-            position: absolute;
-            left: 20px;
-        }
-
-        .merit-heading {
-            font-size: 22px;
-            font-weight: bold;
-            color: var(--text-dark);
-        }
-
-        .merit-text {
-            font-size: 14px;
-            margin-bottom: 40px;
-        }
-
-        .merit-illustration {
-            width: 450px;
-            margin: 0 auto;
-        }
-
-        /* --- Diagnosis Section --- */
-        .diagnosis-card {
-            background-color: var(--bg-white);
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-        }
-
-        .diagnosis-header {
-            background-color: var(--bg-alt);
-            color: #2b4566;
-            text-align: center;
-            padding: 22px;
-            font-size: 20px;
-            font-weight: bold;
-            letter-spacing: 2px;
-            border-bottom: 2px solid var(--color-navy-diagnosis);
-        }
-
-        .diagnosis-body {
-            background-color: var(--color-navy-diagnosis);
-            padding: 30px 30px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .diagnosis-flow {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 40px;
-            margin-bottom: 50px;
-            width: 100%;
-        }
-
-        .diagnosis-step {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .step-ring {
-            width: 160px;
-            height: 160px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: var(--bg-white);
-        }
-
-        .ring-step-1 { background: conic-gradient(var(--color-orange-diagnosis) 0deg 120deg, transparent 120deg 360deg); }
-        .ring-step-2 { background: conic-gradient(var(--color-orange-diagnosis) 0deg 240deg, transparent 240deg 360deg); }
-        .ring-step-3 { background-color: var(--color-orange-diagnosis); }
-
-        .step-inner {
-            width: 146px;
-            height: 146px;
-            background-color: #f2f5f9;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .step-icon {
-            width: 45px;
-            height: 45px;
-            color: #1a1a1a;
-        }
-
-        .step-label {
-            color: var(--text-light);
-            font-weight: bold;
-            letter-spacing: 1px;
-        }
-
-        .step-arrow {
-            color: var(--color-orange-diagnosis);
-            margin-top: -40px;
-        }
-
-        .step-arrow svg {
-            width: 28px;
-            height: 40px;
-        }
-
-        /* --- Recommendation Cards --- */
-        .rec-card {
-            flex: 1;
-            min-width: 300px;
-            background-color: var(--bg-white);
-            border: 1px solid var(--color-teal-light);
-            border-radius: 8px;
-            padding: 30px 10px;
-            text-align: center;
-        }
-
-        .rec-title {
-            font-size: 20px;
-            margin-bottom: 30px;
-        }
-
-        .rec-subtitle {
-            font-size: 15px;
-            margin-bottom: 10px;
-        }
-
-        .rec-divider {
-            border: none;
-            border-top: 1px solid var(--text-dark);
-            width: 75%;
-            margin: 0 auto 30px auto;
-        }
-
-        .rec-list li {
-            color: var(--color-teal-dark);
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-
-        /* --- New Flow Section (ご利用の流れ) --- */
-        .flow-container-new {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 50px;
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 20px 0;
-        }
-
-        .flow-panel {
-            background-color: #ede2d7; /* Light beige matching the image */
-            border-radius: 28px;
-            width: 360px;
-            min-height: 320px;
-            padding: 30px 30px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
-        }
-
-        .flow-panel-title {
-            color: var(--color-navy);
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 20px;
-            letter-spacing: 1px;
-        }
-
-        .flow-options {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            width: 100%;
-            margin-bottom: 10px;
-        }
-
-        .flow-pill {
-            padding: 14px 20px;
-            border-radius: 30px;
-            text-align: center;
-            font-weight: bold;
-            font-size: 14px;
-            border: 1px solid transparent;
-        }
-
-        .flow-pill--active {
-            background-color: var(--color-teal);
-            color: var(--text-light);
-        }
-
-        .flow-pill--inactive {
-            background-color: #f6f7f8;
-            color: #9a9a9a;
-            border-color: #e2e2e2;
-        }
-
-        .flow-note {
-            font-size: 11px;
-            color: var(--color-navy);
-            font-weight: bold;
-            text-align: center;
-        }
-
-        .flow-arrow {
-            width: 0;
-            height: 0;
-            border-top: 70px solid transparent;
-            border-bottom: 70px solid transparent;
-            border-left: 35px solid var(--color-teal);
-        }
-
-        /* --- VOICE Section --- */
-        .voice-section {
-            background: linear-gradient(135deg, #0e448b 0%, #4684b5 100%);
-            color: var(--text-light);
-        }
-
-        .voice-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 40px;
-        }
-
-        .voice-header-line {
-            height: 1px;
-            background-color: var(--bg-white);
-            width: 15%;
-            margin-right: 30px;
-        }
-
-        .voice-item {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 80px;
-            margin-bottom: 30px;
-        }
-
-        .voice-item-reverse {
-            flex-direction: row-reverse;
-        }
-
-        .voice-profile {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            width: 220px;
-            flex-shrink: 0;
-        }
-
-        .voice-avatar {
-            width: 220px;
-            height: 220px;
-            background-color: #e0e0e0;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: var(--text-main);
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 25px;
-        }
-
-        .voice-name, .voice-role {
-            font-size: 18px;
-            letter-spacing: 2px;
-        }
-
-        .voice-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 35px;
-            margin-top: 50px;
-        }
-
-        .voice-line {
-            width: 100%;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.7);
-            padding-bottom: 5px;
-        }
-
-        /* --- FAQ Accordion --- */
-        .faq-item {
-            margin-bottom: 20px; 
-            background-color: var(--bg-white);
-            border: 1.5px solid var(--color-navy);
-            border-radius: 50px;
-            overflow: hidden; 
-        }
-
-        .faq-question {
-            color: var(--color-navy);
-            font-weight: bold;
-            text-align: center;
-            padding: 20px 60px;
-            margin: 0;
-            cursor: pointer;
-            list-style: none;
-            position: relative;
-        }
-
-        .faq-question::-webkit-details-marker { display: none; }
-
-        .faq-question::after {
-            content: '+';
-            position: absolute;
-            right: 30px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 28px;
-        }
-
-        .faq-item[open] .faq-question::after { content: '−'; }
-        .faq-item[open] .faq-question { border-bottom: 1px dashed #ccc; }
-
-        .faq-answer {
-            padding: 25px 40px 30px;
-            background-color: var(--bg-white); 
-        }
-
-        /* --- Support Section --- */
-        .support-content {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            gap: 60px;
-            margin-bottom: 10px;
-        }
-
-        .support-image {
-            width: 280px;
-            transform: translateX(-20%);
-        }
-        .support-text-container { flex: 0 0 50%; }
-        
-        /* Add a relative position to the section so the absolute image positions correctly against the screen edge */
-        .support-section-wrapper {
-            position: relative;
-            overflow: hidden; /* Prevents horizontal scrolling if the image bleeds off */
-        }
-
-        /* Style for the new image */
-        .support-deco-img {
-            position: absolute;
-            right: 20px; /* Aligns to the right-most side of the screen */
-            top: 50px; /* Adjust this value to vertically align it perfectly */
-            width: 150px; /* Adjust to match the actual image size */
-            z-index: 0; 
-            transform: translateY(-20px);
-        }
-
-        /* Ensure the main content stays above the decorative image if they overlap */
-        .support-content {
-            position: relative;
-            z-index: 1; 
-        }
-
-        .support-disclaimer {
-            font-size: 11px;
-            color: #dbe4eb;
-            text-align: center;
-            padding-top: 40px;
-            line-height: 1.8;
-        }
-
-        .btn--gray {
-            background-color: #9e9e9e;
-            color: var(--text-light);
-            border: none;
-            box-shadow: none;
-        }
-        .btn--gray:hover {
-            background-color: #888888;
-        }
-
-        /* --- Footer --- */
-        .footer-divider {
-            height: 1px;
-            background-color: #ffffff;
-            margin-bottom: 20px;
-        }
-
-        .footer-bottom {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 12px;
-            color: #dbe4eb;
-        }
-        
-        .footer-legal { 
-            display: flex; 
-            gap: 25px; 
-        }
-
-        .footer-legal a {
-            color: #dbe4eb;
-            transition: color 0.3s ease;
-        }
-        .footer-legal a:hover { 
-            color: var(--text-light); 
-        }
-
-        /* =========================================
-           5. Responsive Breakpoints
-        ========================================= */
-        @media (max-width: 1000px) {
-            .new-hero {
-                flex-direction: column;
-                text-align: center;
-            }
-            .new-hero-visual {
-                justify-content: center;
-                margin-top: 60px;
-            }
-            .img-laptop { transform: translateX(0); }
-            .img-mobile { left: 10%; }
-            
-            .diagnosis-flow { gap: 20px; }
-            .step-ring { width: 120px; height: 120px; }
-            .step-inner { width: 110px; height: 110px; }
-            
-            .flow-container-new { gap: 30px; }
-            
-            .support-deco-text { display: none; }
-
-            .support-deco-img { 
-                display: none;    /* <-- Hides the image completely on smaller screens */
-            }
-        }
-
-        @media (max-width: 768px) {
-            .section { padding: 50px 0; }
-            .section-title { font-size: 24px; margin-bottom: 30px; }
-            
-            .voice-item, .voice-item-reverse {
-                flex-direction: column;
-                align-items: center;
-                gap: 50px;
-            }
-            .voice-content { margin-top: 20px; }
-            
-            .faq-item { border-radius: 30px; }
-            .faq-question { padding: 15px 45px 15px 15px; text-align: left; }
-            .faq-question::after { right: 15px; font-size: 24px; }
-            .faq-answer { padding: 20px; }
-            
-            .support-content, .footer-bottom {
-                flex-direction: column;
-                text-align: center;
-                gap: 30px;
-            }
-            .support-text-container { flex: 1; }
-            .footer-legal { flex-wrap: wrap; justify-content: center; }
-            
-            .flow-container-new {
-                flex-direction: column;
-            }
-            .flow-arrow {
-                transform: rotate(90deg);
-            }
-            .flow-panel {
-                width: 100%;
-                max-width: 360px;
-            }
-        }
-
-        @media (max-width: 600px) {
-            .new-header { flex-direction: column; gap: 20px; }
-            .new-hero-main { font-size: 28px; }
-            
-            .diagnosis-body { padding: 40px 20px; }
-            .diagnosis-flow { flex-direction: column; gap: 30px; }
-            .step-arrow { transform: rotate(90deg); margin-top: 0; }
-            .btn--accent { width: 100%; }
-        }
-    
-</style>
-<% end %>
-
-
-    <div class="top-section-wrapper">
-        <div class="container">
-            <header class="new-header">
-                <a href="#" class="new-logo">
-                    <%= image_tag "preness_logo.svg", alt: "Preness", class: "logo-img" %>
-                </a>
-                <div class="new-header-actions">
-                    <%= link_to "アカウント登録", new_user_registration_path, class: "btn btn--primary" %>
-                    <%= link_to "ログイン", new_user_session_path, class: "btn btn--primary" %>
-                </div>
-            </header>
-
-            <section class="new-hero">
-                <div class="new-hero-text">
-                    <p class="new-hero-sub">精密分析 × 圧倒的な演習量でスコアを伸ばす</p>
-                    <h1 class="new-hero-main">“なんとなくの勉強”から、<br>“結果につながる学習”へ。</h1>
-                </div>
-                
-                <div class="new-hero-visual">
-                    <%= image_tag "laptop.svg", alt: "Preness Dashboard on Laptop", class: "img-laptop" %>
-                </div>
-            </section>
-        </div>
+            <div class="flex-1 relative w-full md:w-auto mt-[30px] md:mt-0">
+                <%= image_tag "laptop.svg", alt: "Preness Dashboard on Laptop", class: "static md:absolute top-auto md:top-[80%] left-0 h-auto md:h-[200%] w-full md:w-auto max-w-none z-[1] transform-none md:transform md:translate-x-[15%] md:-translate-y-[50%] block" %>
+            </div>
+        </section>
     </div>
+</div>
 
-    <main>
-        <section class="section">
-            <div class="container grid-cards">
-                <div class="exam-card">
-                    <h2>TOEFL ITP</h2>
-                    <div class="exam-card-actions">
-                        <%= link_to "アカウント登録", new_user_registration_path, class: "btn btn--primary btn--block" %>
-                        <%= link_to "ログイン", new_user_session_path, class: "btn btn--primary btn--block" %>
-                    </div>
-                </div>
-
-                <div class="exam-card">
-                    <h2>TOEFL iBT</h2>
-                    <div class="exam-card-actions">
-                        <a href="#" class="btn btn--outline btn--block">Coming Soon...</a>
-                    </div>
-                </div>
-
-                <div class="exam-card">
-                    <h2>IELTS</h2>
-                    <div class="exam-card-actions">
-                        <a href="#" class="btn btn--outline btn--block">Coming Soon...</a>
-                    </div>
+<main class="font-['Yu_Gothic',YuGothic,'Helvetica_Neue',Arial,sans-serif] bg-[#eef3f7] text-[#333333]">
+    <section class="py-[20px] md:py-[60px]">
+        <div class="max-w-[1100px] mx-auto px-5 flex justify-center gap-[30px] flex-wrap">
+            <div class="bg-transparent border-2 border-[#279ea6] rounded-[20px] w-[320px] px-[30px] py-[60px] flex flex-col items-center min-h-[300px]">
+                <h2 class="text-[26px] mb-auto text-black tracking-[1px] font-bold">TOEFL ITP</h2>
+                <div class="w-full mt-auto">
+                    <%= link_to "アカウント登録", new_user_registration_path, class: "inline-block px-[35px] py-[12px] text-[15px] font-bold text-center cursor-pointer transition-all duration-300 rounded-[40px] bg-[#279ea6] text-white hover:opacity-90 block w-full mb-[15px]" %>
+                    <%= link_to "ログイン", new_user_session_path, class: "inline-block px-[35px] py-[12px] text-[15px] font-bold text-center cursor-pointer transition-all duration-300 rounded-[40px] bg-[#279ea6] text-white hover:opacity-90 block w-full" %>
                 </div>
             </div>
-        </section>
 
-        <section class="section section--bg-alt">
-            <div class="container container--sm">
-                <div class="diagnosis-card">
-                    <div class="diagnosis-header">
-                        無料弱点診断 実施中！
-                    </div>
-                    <div class="diagnosis-body">
-                        <div class="diagnosis-flow">
-                            <div class="diagnosis-step">
-                                <div class="step-ring ring-step-1">
-                                    <div class="step-inner">
-                                        <svg class="step-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path>
-                                            <path d="m15 5 4 4"></path>
-                                        </svg>
-                                    </div>
+            <div class="bg-transparent border-2 border-[#279ea6] rounded-[20px] w-[320px] px-[30px] py-[60px] flex flex-col items-center min-h-[300px]">
+                <h2 class="text-[26px] mb-auto text-black tracking-[1px] font-bold">TOEFL iBT</h2>
+                <div class="w-full mt-auto">
+                    <a href="#" class="inline-block px-[35px] py-[12px] text-[15px] font-bold text-center cursor-pointer transition-all duration-300 rounded-[40px] bg-transparent border-2 border-[#279ea6] text-[#279ea6] hover:bg-[#279ea6] hover:text-white block w-full">Coming Soon...</a>
+                </div>
+            </div>
+
+            <div class="bg-transparent border-2 border-[#279ea6] rounded-[20px] w-[320px] px-[30px] py-[60px] flex flex-col items-center min-h-[300px]">
+                <h2 class="text-[26px] mb-auto text-black tracking-[1px] font-bold">IELTS</h2>
+                <div class="w-full mt-auto">
+                    <a href="#" class="inline-block px-[35px] py-[12px] text-[15px] font-bold text-center cursor-pointer transition-all duration-300 rounded-[40px] bg-transparent border-2 border-[#279ea6] text-[#279ea6] hover:bg-[#279ea6] hover:text-white block w-full">Coming Soon...</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-[20px] md:py-[60px] bg-[#f0f4f8]">
+        <div class="max-w-[900px] mx-auto px-5">
+            <div class="bg-white rounded-[10px] overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
+                <div class="bg-[#f0f4f8] text-[#2b4566] text-center p-[22px] text-[20px] font-bold tracking-[2px] border-b-2 border-[#256496]">
+                    無料弱点診断 実施中！
+                </div>
+                <div class="bg-[#256496] px-[20px] md:px-[30px] py-[40px] md:py-[30px] flex flex-col items-center">
+                    <div class="flex flex-col md:flex-row items-center justify-center gap-[30px] md:gap-[40px] mb-[50px] w-full">
+                        <div class="flex flex-col items-center gap-[20px]">
+                            <div class="w-[160px] h-[160px] rounded-full flex items-center justify-center bg-white bg-[conic-gradient(#ea762a_0deg_120deg,transparent_120deg_360deg)]">
+                                <div class="w-[146px] h-[146px] bg-[#f2f5f9] rounded-full flex items-center justify-center">
+                                    <svg class="w-[45px] h-[45px] text-[#1a1a1a]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path>
+                                        <path d="m15 5 4 4"></path>
+                                    </svg>
                                 </div>
-                                <div class="step-label">弱点診断</div>
                             </div>
-                            <div class="step-arrow">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                    <polyline points="9 18 15 12 9 6"></polyline>
-                                </svg>
-                            </div>
-                            <div class="diagnosis-step">
-                                <div class="step-ring ring-step-2">
-                                    <div class="step-inner">
-                                        <svg class="step-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <circle cx="11" cy="11" r="8"></circle>
-                                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                                        </svg>
-                                    </div>
-                                </div>
-                                <div class="step-label">弱点分析</div>
-                            </div>
-                            <div class="step-arrow">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                    <polyline points="9 18 15 12 9 6"></polyline>
-                                </svg>
-                            </div>
-                            <div class="diagnosis-step">
-                                <div class="step-ring ring-step-3">
-                                    <div class="step-inner">
-                                        <svg class="step-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                                            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-                                        </svg>
-                                    </div>
-                                </div>
-                                <div class="step-label">セクション対策</div>
-                            </div>
+                            <div class="text-white font-bold tracking-[1px]">弱点診断</div>
                         </div>
-                        <a href="#" class="btn btn--accent">弱点診断を受験する</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="section section--bg-alt">
-            <div class="container">
-                <h2 class="section-title">ご利用料金</h2>
-                <%= image_tag "price_table.png", alt: "Pricing table", class: "pricing-table-image" %>
-            </div>
-        </section>
-
-        <section class="section section--bg-alt">
-            <div class="container container--sm grid-cards">
-                <div class="rec-card">
-                    <h3 class="rec-title">模擬試験</h3>
-                    <p class="rec-subtitle">こんな人におススメ</p>
-                    <hr class="rec-divider">
-                    <ul class="rec-list">
-                        <li>今のスコアを知りたい</li>
-                        <li>試験前に腕試しをしたい</li>
-                        <li>苦手分野を明確にしたい</li>
-                    </ul>
-                </div>
-
-                <div class="rec-card">
-                    <h3 class="rec-title">セクション解き放題プラン</h3>
-                    <p class="rec-subtitle">こんな人におススメ</p>
-                    <hr class="rec-divider">
-                    <ul class="rec-list">
-                        <li>弱点を集中的に対策したい</li>
-                        <li>解答スピードを上げたい</li>
-                        <li>隙間時間で対策したい</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <section class="section">
-            <div class="container">
-                <h2 class="section-title">ご利用の流れ</h2>
-                <div class="flow-container-new">
-                    
-                    <div class="flow-panel">
-                        <h3 class="flow-panel-title">アカウント登録</h3>
-                        <div class="flow-options">
-                            <div class="flow-pill flow-pill--active">TOEFL ITP</div>
-                            <div class="flow-pill flow-pill--inactive">TOEFL iBT</div>
-                            <div class="flow-pill flow-pill--inactive">IELTS</div>
+                        <div class="text-[#ea762a] transform rotate-90 md:rotate-0 mt-0 md:-mt-[40px]">
+                            <svg class="w-[28px] h-[40px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="9 18 15 12 9 6"></polyline>
+                            </svg>
                         </div>
-                        <p class="flow-note">※各試験ごとに事前のご登録が必要です。</p>
+                        <div class="flex flex-col items-center gap-[20px]">
+                            <div class="w-[160px] h-[160px] rounded-full flex items-center justify-center bg-white bg-[conic-gradient(#ea762a_0deg_240deg,transparent_240deg_360deg)]">
+                                <div class="w-[146px] h-[146px] bg-[#f2f5f9] rounded-full flex items-center justify-center">
+                                    <svg class="w-[45px] h-[45px] text-[#1a1a1a]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="11" cy="11" r="8"></circle>
+                                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="text-white font-bold tracking-[1px]">弱点分析</div>
+                        </div>
+                        <div class="text-[#ea762a] transform rotate-90 md:rotate-0 mt-0 md:-mt-[40px]">
+                            <svg class="w-[28px] h-[40px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="9 18 15 12 9 6"></polyline>
+                            </svg>
+                        </div>
+                        <div class="flex flex-col items-center gap-[20px]">
+                            <div class="w-[160px] h-[160px] rounded-full flex items-center justify-center bg-white bg-[#ea762a]">
+                                <div class="w-[146px] h-[146px] bg-[#f2f5f9] rounded-full flex items-center justify-center">
+                                    <svg class="w-[45px] h-[45px] text-[#1a1a1a]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                                        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="text-white font-bold tracking-[1px]">セクション対策</div>
+                        </div>
                     </div>
-
-                    <div class="flow-arrow"></div>
-
-                    <div class="flow-panel">
-                        <h3 class="flow-panel-title">学習開始</h3>
-                    </div>
-                    
+                    <a href="#" class="inline-block px-[35px] py-[12px] text-[15px] font-bold text-center cursor-pointer transition-all duration-300 rounded-[40px] bg-[#f2f5f9] text-[#279ea6] border-4 border-[#38b1ba] shadow-[0_4px_6px_rgba(0,0,0,0.1)] hover:bg-white hover:-translate-y-[2px] hover:shadow-[0_6px_12px_rgba(0,0,0,0.15)] w-full md:w-auto">弱点診断を受験する</a>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section class="section">
-            <div class="container">
-                <h2 class="section-title">Prenessを使う3つのメリット</h2>
+    <section class="py-[20px] md:py-[60px] bg-[#f0f4f8]">
+        <div class="max-w-[1100px] mx-auto px-5">
+            <h2 class="text-center text-[28px] font-bold text-[#1f3b60] mb-[30px] tracking-[1.5px]">ご利用料金</h2>
+            <%= image_tag "price_table.png", alt: "Pricing table", class: "max-w-full h-auto block mx-auto" %>
+        </div>
+    </section>
 
-                <div class="merit-item">
-                    <div class="merit-header">
-                        <span class="merit-number">01</span>
-                        <h3 class="merit-heading">問題がなくならない。だから、好きなだけ解ける。</h3>
-                    </div>
-                    <p class="merit-text">
-                        常に新しい模擬試験・セクション別問題を提供するため、同じ問題を繰り返し解く必要はありません。<br>
-                        Listening・Structure・Readingの全形式に対応し、本番を想定した演習量を確保できます。
-                    </p>
-                    <%= image_tag "man_reading_arrow.png", alt: "Preness Illustration", class: "merit-illustration" %>
-                </div>
-
-                <div class="merit-item">
-                    <div class="merit-header">
-                        <span class="merit-number">02</span>
-                        <h3 class="merit-heading">何を伸ばせばいいか、一目でわかる。</h3>
-                    </div>
-                    <p class="merit-text">
-                        AIが解答データを分析し、セクション別・設問タイプ別に弱点を可視化します。<br>
-                        感覚ではなく、データに基づいた戦略的な学習が可能になります。
-                    </p>
-                    <a href="#" class="btn btn--outline">分析レポートについて詳しくみる</a>
-                </div>
-
-                <div class="merit-item">
-                    <div class="merit-header">
-                        <span class="merit-number">03</span>
-                        <h3 class="merit-heading">スコアの先に、つながりがある。</h3>
-                    </div>
-                    <p class="merit-text">
-                        アカウント登録済みの方には、Prenessコミュニティへの参加機会をご案内しています。<br>
-                        スコア獲得を“ゴール”ではなく、“次のステージへの通過点”にします。
-                    </p>
-                    </div>
+    <section class="py-[20px] md:py-[60px] bg-[#f0f4f8]">
+        <div class="max-w-[900px] mx-auto px-5 flex flex-col md:flex-row justify-center gap-[30px]">
+            <div class="flex-1 min-w-[300px] bg-white border border-[#75c4c9] rounded-[8px] px-[10px] py-[30px] text-center">
+                <h3 class="text-[20px] mb-[30px] font-bold text-[#333]">模擬試験</h3>
+                <p class="text-[15px] mb-[10px] text-[#333]">こんな人におススメ</p>
+                <hr class="border-t border-black w-[75%] mx-auto mb-[30px]">
+                <ul class="list-none">
+                    <li class="text-[#1b99a6] font-bold mb-[20px]">今のスコアを知りたい</li>
+                    <li class="text-[#1b99a6] font-bold mb-[20px]">試験前に腕試しをしたい</li>
+                    <li class="text-[#1b99a6] font-bold mb-[20px]">苦手分野を明確にしたい</li>
+                </ul>
             </div>
-        </section>
 
-        <section class="section voice-section">
-            <div class="container">
-                <div class="voice-header">
-                    <div class="voice-header-line"></div>
-                    <h2 class="section-title section-title--light" style="margin-bottom:0;">VOICE</h2>
+            <div class="flex-1 min-w-[300px] bg-white border border-[#75c4c9] rounded-[8px] px-[10px] py-[30px] text-center">
+                <h3 class="text-[20px] mb-[30px] font-bold text-[#333]">セクション解き放題プラン</h3>
+                <p class="text-[15px] mb-[10px] text-[#333]">こんな人におススメ</p>
+                <hr class="border-t border-black w-[75%] mx-auto mb-[30px]">
+                <ul class="list-none">
+                    <li class="text-[#1b99a6] font-bold mb-[20px]">弱点を集中的に対策したい</li>
+                    <li class="text-[#1b99a6] font-bold mb-[20px]">解答スピードを上げたい</li>
+                    <li class="text-[#1b99a6] font-bold mb-[20px]">隙間時間で対策したい</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-[20px] md:py-[60px]">
+        <div class="max-w-[1100px] mx-auto px-5">
+            <h2 class="text-center text-[28px] font-bold text-[#1f3b60] mb-[30px] tracking-[1.5px]">ご利用の流れ</h2>
+            <div class="flex flex-col md:flex-row items-center justify-center gap-[50px] max-w-[1000px] mx-auto py-[20px]">
+                
+                <div class="bg-[#ede2d7] rounded-[28px] w-[360px] min-h-[320px] p-[30px] flex flex-col items-center shadow-[0_4px_15px_rgba(0,0,0,0.06)]">
+                    <h3 class="text-[#1f3b60] text-[18px] font-bold mb-[20px] tracking-[1px]">アカウント登録</h3>
+                    <div class="flex flex-col gap-[15px] w-full mb-[10px]">
+                        <div class="px-[20px] py-[14px] rounded-[30px] text-center font-bold text-[14px] border border-transparent bg-[#279ea6] text-white">TOEFL ITP</div>
+                        <div class="px-[20px] py-[14px] rounded-[30px] text-center font-bold text-[14px] border border-[#e2e2e2] bg-[#f6f7f8] text-[#9a9a9a]">TOEFL iBT</div>
+                        <div class="px-[20px] py-[14px] rounded-[30px] text-center font-bold text-[14px] border border-[#e2e2e2] bg-[#f6f7f8] text-[#9a9a9a]">IELTS</div>
+                    </div>
+                    <p class="text-[11px] text-[#1f3b60] font-bold text-center">※各試験ごとに事前のご登録が必要です。</p>
+                </div>
+
+                <div class="w-0 h-0 border-t-[70px] border-t-transparent border-b-[70px] border-b-transparent border-l-[35px] border-l-[#279ea6] transform rotate-90 md:rotate-0"></div>
+
+                <div class="bg-[#ede2d7] rounded-[28px] w-[360px] min-h-[320px] p-[30px] flex flex-col items-center shadow-[0_4px_15px_rgba(0,0,0,0.06)] justify-center">
+                    <h3 class="text-[#1f3b60] text-[18px] font-bold tracking-[1px]">学習開始</h3>
                 </div>
                 
-                <div class="voice-item">
-                    <div class="voice-profile">
-                        <div class="voice-avatar">写真</div>
-                        <div class="voice-name">氏名</div>
-                        <div class="voice-role">肩書</div>
-                    </div>
-                    <div class="voice-content">
-                        <div class="voice-line">Lorem Ipsum Dolor Sit Amet</div>
-                        <div class="voice-line">Lorem Ipsum Dolor Sit Amet</div>
-                        <div class="voice-line">Lorem Ipsum Dolor Sit Amet</div>
-                    </div>
-                </div>
+            </div>
+        </div>
+    </section>
 
-                <div class="voice-item voice-item-reverse">
-                    <div class="voice-profile">
-                        <div class="voice-avatar">写真</div>
-                        <div class="voice-name">氏名</div>
-                        <div class="voice-role">肩書</div>
-                    </div>
-                    <div class="voice-content">
-                        <div class="voice-line">Lorem Ipsum Dolor Sit Amet</div>
-                        <div class="voice-line">Lorem Ipsum Dolor Sit Amet</div>
-                        <div class="voice-line">Lorem Ipsum Dolor Sit Amet</div>
-                    </div>
+    <section class="py-[20px] md:py-[60px]">
+        <div class="max-w-[1100px] mx-auto px-5">
+            <h2 class="text-center text-[28px] font-bold text-[#1f3b60] mb-[30px] tracking-[1.5px]">Prenessを使う3つのメリット</h2>
+
+            <div class="max-w-[800px] mx-auto mb-[50px] text-center last:mb-0">
+                <div class="flex items-center justify-center relative mb-[30px]">
+                    <span class="text-[64px] font-bold text-[#d8ce2b] absolute left-[20px] md:left-0">01</span>
+                    <h3 class="text-[18px] md:text-[22px] font-bold text-black pl-[60px] md:pl-0">問題がなくならない。だから、好きなだけ解ける。</h3>
+                </div>
+                <p class="text-[14px] mb-[40px] text-left md:text-center px-[20px]">
+                    常に新しい模擬試験・セクション別問題を提供するため、同じ問題を繰り返し解く必要はありません。<br class="hidden md:inline">
+                    Listening・Structure・Readingの全形式に対応し、本番を想定した演習量を確保できます。
+                </p>
+                <%= image_tag "man_reading_arrow.png", alt: "Preness Illustration", class: "w-[450px] mx-auto block max-w-full h-auto" %>
+            </div>
+
+            <div class="max-w-[800px] mx-auto mb-[50px] text-center last:mb-0">
+                <div class="flex items-center justify-center relative mb-[30px]">
+                    <span class="text-[64px] font-bold text-[#d8ce2b] absolute left-[20px] md:left-0">02</span>
+                    <h3 class="text-[18px] md:text-[22px] font-bold text-black pl-[60px] md:pl-0">何を伸ばせばいいか、一目でわかる。</h3>
+                </div>
+                <p class="text-[14px] mb-[40px] text-left md:text-center px-[20px]">
+                    AIが解答データを分析し、セクション別・設問タイプ別に弱点を可視化します。<br class="hidden md:inline">
+                    感覚ではなく、データに基づいた戦略的な学習が可能になります。
+                </p>
+                <a href="#" class="inline-block px-[35px] py-[12px] text-[15px] font-bold text-center cursor-pointer transition-all duration-300 rounded-[40px] bg-transparent border-2 border-[#279ea6] text-[#279ea6] hover:bg-[#279ea6] hover:text-white">分析レポートについて詳しくみる</a>
+            </div>
+
+            <div class="max-w-[800px] mx-auto mb-[50px] text-center last:mb-0">
+                <div class="flex items-center justify-center relative mb-[30px]">
+                    <span class="text-[64px] font-bold text-[#d8ce2b] absolute left-[20px] md:left-0">03</span>
+                    <h3 class="text-[18px] md:text-[22px] font-bold text-black pl-[60px] md:pl-0">スコアの先に、つながりがある。</h3>
+                </div>
+                <p class="text-[14px] mb-[40px] text-left md:text-center px-[20px]">
+                    アカウント登録済みの方には、Prenessコミュニティへの参加機会をご案内しています。<br class="hidden md:inline">
+                    スコア獲得を“ゴール”ではなく、“次のステージへの通過点”にします。
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-[20px] md:py-[60px] bg-gradient-to-br from-[#0e448b] to-[#4684b5] text-white">
+        <div class="max-w-[1100px] mx-auto px-5">
+            <div class="flex items-center mb-[40px]">
+                <div class="h-[1px] bg-white w-[15%] mr-[30px]"></div>
+                <h2 class="text-white text-left text-[28px] font-bold mb-0 tracking-[1.5px]">VOICE</h2>
+            </div>
+            
+            <div class="flex flex-col md:flex-row items-center md:items-start justify-between gap-[40px] md:gap-[80px] mb-[50px]">
+                <div class="flex flex-col items-center text-center w-[220px] shrink-0">
+                    <div class="w-[220px] h-[220px] bg-[#e0e0e0] rounded-full flex justify-center items-center text-[#333333] text-[18px] font-bold mb-[25px]">写真</div>
+                    <div class="text-[18px] tracking-[2px] font-bold">氏名</div>
+                    <div class="text-[18px] tracking-[2px]">肩書</div>
+                </div>
+                <div class="flex-1 flex flex-col justify-center gap-[20px] py-[10px] md:py-[30px] w-full">
+                    <div class="h-[40px] bg-white bg-opacity-20 rounded-[4px] px-[20px] flex items-center">Lorem Ipsum Dolor Sit Amet</div>
+                    <div class="h-[40px] bg-white bg-opacity-20 rounded-[4px] px-[20px] flex items-center">Lorem Ipsum Dolor Sit Amet</div>
+                    <div class="h-[40px] bg-white bg-opacity-20 rounded-[4px] px-[20px] flex items-center">Lorem Ipsum Dolor Sit Amet</div>
                 </div>
             </div>
-        </section>
 
-        <section class="section section--bg-alt">
-            <div class="container container--sm">
-            <h2 class="section-title">よくあるご質問</h2>
+            <div class="flex flex-col md:flex-row-reverse items-center md:items-start justify-between gap-[40px] md:gap-[80px] mb-[30px]">
+                <div class="flex flex-col items-center text-center w-[220px] shrink-0">
+                    <div class="w-[220px] h-[220px] bg-[#e0e0e0] rounded-full flex justify-center items-center text-[#333333] text-[18px] font-bold mb-[25px]">写真</div>
+                    <div class="text-[18px] tracking-[2px] font-bold">氏名</div>
+                    <div class="text-[18px] tracking-[2px]">肩書</div>
+                </div>
+                <div class="flex-1 flex flex-col justify-center gap-[20px] py-[10px] md:py-[30px] w-full">
+                    <div class="h-[40px] bg-white bg-opacity-20 rounded-[4px] px-[20px] flex items-center">Lorem Ipsum Dolor Sit Amet</div>
+                    <div class="h-[40px] bg-white bg-opacity-20 rounded-[4px] px-[20px] flex items-center">Lorem Ipsum Dolor Sit Amet</div>
+                    <div class="h-[40px] bg-white bg-opacity-20 rounded-[4px] px-[20px] flex items-center">Lorem Ipsum Dolor Sit Amet</div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-            <details class="faq-item">
-                <summary class="faq-question">市販の問題集や他の学習アプリと何が違うのですか？</summary>
-                <p class="faq-answer">
+    <section class="py-[20px] md:py-[60px] bg-[#f0f4f8]">
+        <div class="max-w-[900px] mx-auto px-5">
+            <h2 class="text-center text-[28px] font-bold text-[#1f3b60] mb-[30px] tracking-[1.5px]">よくあるご質問</h2>
+
+            <details class="bg-white mb-[20px] rounded-[8px] overflow-hidden shadow-[0_5px_15px_rgba(0,0,0,0.05)] border border-[#e2e2e2] group">
+                <summary class="p-[25px] font-bold text-[16px] text-black cursor-pointer bg-[#f8f9fa] list-none relative pr-[50px] outline-none hover:bg-[#f0f4f8]">
+                    市販の問題集や他の学習アプリと何が違うのですか？
+                    <span class="absolute right-[25px] top-[50%] -translate-y-[50%] text-[#279ea6] text-[20px] font-bold group-open:hidden">+</span>
+                    <span class="absolute right-[25px] top-[50%] -translate-y-[50%] text-[#279ea6] text-[20px] font-bold hidden group-open:inline">-</span>
+                </summary>
+                <p class="p-[25px] pt-[20px] text-[15px] leading-[1.8] text-[#333333] border-t border-[#f0f0f0]">
                     最大の違いは、「低コストで、無制限に新しい問題演習ができる点」です。<br>
                     Prenessでは、分析レポートによって明らかになった弱点を、セクション演習で集中的に対策することができます。これにより、模擬試験から弱点の把握、対策までを、低コストかつスムーズに一貫して進めることが可能です。
                 </p>
             </details>
 
-            <details class="faq-item">
-                <summary class="faq-question">スマートフォンでも模擬試験を受験できますか？</summary>
-                <p class="faq-answer">
+            <details class="bg-white mb-[20px] rounded-[8px] overflow-hidden shadow-[0_5px_15px_rgba(0,0,0,0.05)] border border-[#e2e2e2] group">
+                <summary class="p-[25px] font-bold text-[16px] text-black cursor-pointer bg-[#f8f9fa] list-none relative pr-[50px] outline-none hover:bg-[#f0f4f8]">
+                    スマートフォンでも模擬試験を受験できますか？
+                    <span class="absolute right-[25px] top-[50%] -translate-y-[50%] text-[#279ea6] text-[20px] font-bold group-open:hidden">+</span>
+                    <span class="absolute right-[25px] top-[50%] -translate-y-[50%] text-[#279ea6] text-[20px] font-bold hidden group-open:inline">-</span>
+                </summary>
+                <p class="p-[25px] pt-[20px] text-[15px] leading-[1.8] text-[#333333] border-t border-[#f0f0f0]">
                     本番と同様の環境および緊張感を再現するため、受験はPC（パソコン）で行っていただいております。<br>
                     試験中は机の上にPC以外のものを置かず、スマートフォンは通知をオフにしたうえで手の届かない場所に置くことを推奨しています。ただし、セクション演習についてはスマートフォンでもご利用いただけます。
                 </p>
             </details>
 
-            <details class="faq-item">
-                <summary class="faq-question">模擬試験の途中で一時停止することはできますか？</summary>
-                <p class="faq-answer">
+            <details class="bg-white mb-[20px] rounded-[8px] overflow-hidden shadow-[0_5px_15px_rgba(0,0,0,0.05)] border border-[#e2e2e2] group">
+                <summary class="p-[25px] font-bold text-[16px] text-black cursor-pointer bg-[#f8f9fa] list-none relative pr-[50px] outline-none hover:bg-[#f0f4f8]">
+                    模擬試験の途中で一時停止することはできますか？
+                    <span class="absolute right-[25px] top-[50%] -translate-y-[50%] text-[#279ea6] text-[20px] font-bold group-open:hidden">+</span>
+                    <span class="absolute right-[25px] top-[50%] -translate-y-[50%] text-[#279ea6] text-[20px] font-bold hidden group-open:inline">-</span>
+                </summary>
+                <p class="p-[25px] pt-[20px] text-[15px] leading-[1.8] text-[#333333] border-t border-[#f0f0f0]">
                     いいえ、できません。本番のルールを完全再現しているため、一時停止機能はありません。<br>
                     「一度次のセクションに進むと前の問題に戻れない」「途中でブラウザを閉じると無効になる」といった厳しいルールも本番通りです。本番と同じプレッシャーの中で場数を踏むための仕様ですので、まとまった時間を確保してご受験ください。
                 </p>
             </details>
 
-            <details class="faq-item">
-                <summary class="faq-question">「分析レポート」では具体的に何が分かるのですか？</summary>
-                <p class="faq-answer">
+            <details class="bg-white mb-[20px] rounded-[8px] overflow-hidden shadow-[0_5px_15px_rgba(0,0,0,0.05)] border border-[#e2e2e2] group">
+                <summary class="p-[25px] font-bold text-[16px] text-black cursor-pointer bg-[#f8f9fa] list-none relative pr-[50px] outline-none hover:bg-[#f0f4f8]">
+                    「分析レポート」では具体的に何が分かるのですか？
+                    <span class="absolute right-[25px] top-[50%] -translate-y-[50%] text-[#279ea6] text-[20px] font-bold group-open:hidden">+</span>
+                    <span class="absolute right-[25px] top-[50%] -translate-y-[50%] text-[#279ea6] text-[20px] font-bold hidden group-open:inline">-</span>
+                </summary>
+                <p class="p-[25px] pt-[20px] text-[15px] leading-[1.8] text-[#333333] border-t border-[#f0f0f0]">
                     単なるスコアの提示にとどまらず、誤答傾向（Part別・出題形式別）を可視化します。<br>
                     例えば、「文法問題の『S/Vの一致』の正答率が30％と低い」「読解の『推論問題』で誤答が多い」といったように、文法カテゴリ別の正答率や出題形式別の弱点を明確に把握できます。
                 </p>
             </details>
 
-            <details class="faq-item">
-                <summary class="faq-question">無料で試すことはできますか？</summary>
-                <p class="faq-answer">
+            <details class="bg-white mb-[20px] rounded-[8px] overflow-hidden shadow-[0_5px_15px_rgba(0,0,0,0.05)] border border-[#e2e2e2] group">
+                <summary class="p-[25px] font-bold text-[16px] text-black cursor-pointer bg-[#f8f9fa] list-none relative pr-[50px] outline-none hover:bg-[#f0f4f8]">
+                    無料で試すことはできますか？
+                    <span class="absolute right-[25px] top-[50%] -translate-y-[50%] text-[#279ea6] text-[20px] font-bold group-open:hidden">+</span>
+                    <span class="absolute right-[25px] top-[50%] -translate-y-[50%] text-[#279ea6] text-[20px] font-bold hidden group-open:inline">-</span>
+                </summary>
+                <p class="p-[25px] pt-[20px] text-[15px] leading-[1.8] text-[#333333] border-t border-[#f0f0f0]">
                     セクション別演習は無料でご利用いただけます。また、弱点診断（ショート模試）も無料で受験可能です。<br>
                     さらに、弱点を可視化する分析レポートも発行されるため、本番さながらの操作画面をご体験いただきながら、ご自身の課題を明確に把握していただけます。
                 </p>
             </details>
 
-            <details class="faq-item">
-                <summary class="faq-question">出てくるスコアは、本番のスコアと同じくらいになりますか？</summary>
-                <p class="faq-answer">
+            <details class="bg-white mb-[20px] rounded-[8px] overflow-hidden shadow-[0_5px_15px_rgba(0,0,0,0.05)] border border-[#e2e2e2] group">
+                <summary class="p-[25px] font-bold text-[16px] text-black cursor-pointer bg-[#f8f9fa] list-none relative pr-[50px] outline-none hover:bg-[#f0f4f8]">
+                    出てくるスコアは、本番のスコアと同じくらいになりますか？
+                    <span class="absolute right-[25px] top-[50%] -translate-y-[50%] text-[#279ea6] text-[20px] font-bold group-open:hidden">+</span>
+                    <span class="absolute right-[25px] top-[50%] -translate-y-[50%] text-[#279ea6] text-[20px] font-bold hidden group-open:inline">-</span>
+                </summary>
+                <p class="p-[25px] pt-[20px] text-[15px] leading-[1.8] text-[#333333] border-t border-[#f0f0f0]">
                     Prenessの分析レポートでは、高度なAI解析に基づき、本番に近い「推定スコア」を算出します。<br>
                     ただし、あくまで推定値となるため、目標達成に向けた学習の現在地を把握するための目安としてご活用ください。
                 </p>
             </details>
         </div>
-        </section>
+    </section>
 
-        <section class="section section--bg-navy support-section-wrapper" style="padding-top: 50px;">
-            
-            <%= image_tag "preness_logo.svg", alt: "Preness", class: "support-deco-img" %>
+    <section class="py-[50px] bg-[#1f3b60] text-white relative overflow-hidden">
+        <%= image_tag "preness_logo.svg", alt: "Preness", class: "absolute right-[5%] bottom-[-50px] h-[300px] opacity-5 pointer-events-none" %>
 
-            <div class="container">
-                <div class="support-content">
-                    <div class="support-image-container">
-                        <%= image_tag "woman_sitting.png", alt: "Student studying", class: "support-image" %>
+        <div class="max-w-[1100px] mx-auto px-5">
+            <div class="flex flex-col md:flex-row items-center gap-[50px] mb-[60px]">
+                <div class="w-full md:w-[40%] flex justify-center">
+                    <%= image_tag "woman_sitting.png", alt: "Student studying", class: "max-w-[280px] w-full h-auto" %>
+                </div>
+                <div class="w-full md:w-[60%] flex flex-col justify-center">
+                    <h2 class="text-white text-left text-[28px] font-bold mb-[20px] tracking-[1.5px]">Prenessで、学習環境を整えたい方へ</h2>
+                    <p class="mb-[30px] text-[15px] leading-[1.8]">
+                        ご不明な点はお気軽にお問い合わせください。専門スタッフがさらに詳しく機能についてご説明いたします。
+                    </p>
+                    <div class="mt-4">
+                        <a href="#" class="inline-block px-[50px] py-[12px] text-[15px] font-bold text-center cursor-pointer transition-all duration-300 rounded-[40px] bg-[#f0f4f8] text-[#1f3b60] hover:bg-white hover:shadow-[0_4px_12px_rgba(0,0,0,0.15)]">お問い合わせ</a>
                     </div>
-                    <div class="support-text-container">
-                        <h2 class="section-title section-title--light" style="text-align:left; margin-bottom:20px; font-size: 28px;">Prenessで、学習環境を整えたい方へ</h2>
-                        <p style="margin-bottom: 30px; font-size: 15px; line-height: 1.8;">
-                            ご不明な点はお気軽にお問い合わせください。専門スタッフがさらに詳しく機能についてご説明いたします。
-                        </p>
-                        <a href="#" class="btn btn--gray" style="padding: 12px 50px;">お問い合わせ</a>
-                    </div>
-                    
-                    </div>
-                
-                <div class="support-disclaimer">
-                    <p>本サービスは、ETS（Educational Testing Service）が実施・運営するTOEFL®またはTOEFL ITP®の公式教材・公式模擬試験ではありません。また、ETSとの提携・承認・後援関係はありません。</p>
-                    <p>本サービスは、学習者の英語力向上を目的として、TOEFL ITP®の試験形式を参考に独自に設計・開発した問題を生成・提供するものです。TOEFL®およびTOEFL ITP®はETSの登録商標です。</p>
                 </div>
             </div>
-        </section>
-    </main>
-
-    <footer class="section section--bg-navy" style="padding-top: 10px; padding-bottom: 40px;">
-        <div class="container">
-            <div class="footer-divider"></div>
             
-            <div class="footer-bottom">
-                <div>&copy; 2026 Preness. All rights reserved.</div>
-                <div class="footer-legal">
-                    <a href="https://docs.google.com/document/d/e/2PACX-1vSQ8CFIjitA_ye3lrPdL9Q0RxyPQ3pMJ19QJgxYh5zgT9ljDFsD6sLXyv01k9DjbnEAhzTlpUprqBbZ/pub" target="_blank" rel="noopener noreferrer">運営会社</a>
-                    <a href="https://docs.google.com/document/d/e/2PACX-1vTsmnWO02zfch0626m6WJDS8Tx5hqIYKLM9bjqgjRxyEpYAnb-p6cebKQG6tkMfIA/pub" target="_blank" rel="noopener noreferrer">プライバシーポリシー</a>
-                    <a href="https://docs.google.com/document/d/e/2PACX-1vQbmQMyjWPX-EfyA6vDInu-aM0tcyjVBE-cnMMQTuB8Iv6YRxGxXwxrvr39SyJYcg/pub" target="_blank" rel="noopener noreferrer">利用規約</a>
-                    <a href="https://docs.google.com/document/d/e/2PACX-1vS9wnZa0dSaRwT1g6cKV2YMch5Enhugjh6Dwk5OTCEGUdj0p0dYEEb36q9P3mi5d2Wpx8QQmNiHqT-4/pub" target="_blank" rel="noopener noreferrer">特定商取引法に基づく表記</a>
-                </div>
+            <div class="border-t border-white border-opacity-20 pt-[30px] text-[12px] leading-[1.6] opacity-80 text-center">
+                <p class="mb-[10px]">本サービスは、ETS（Educational Testing Service）が実施・運営するTOEFL®またはTOEFL ITP®の公式教材・公式模擬試験ではありません。また、ETSとの提携・承認・後援関係はありません。</p>
+                <p>本サービスは、学習者の英語力向上を目的として、TOEFL ITP®の試験形式を参考に独自に設計・開発した問題を生成・提供するものです。TOEFL®およびTOEFL ITP®はETSの登録商標です。</p>
             </div>
         </div>
-    </footer>
+    </section>
+</main>
 
+<footer class="pt-[10px] pb-[40px] bg-[#1f3b60] text-white font-['Yu_Gothic',YuGothic,'Helvetica_Neue',Arial,sans-serif]">
+    <div class="max-w-[1100px] mx-auto px-5">
+        <div class="h-[1px] bg-white bg-opacity-20 mb-[20px]"></div>
+        
+        <div class="flex flex-col md:flex-row justify-between items-center gap-[20px] text-[13px] text-[#cccccc]">
+            <div>&copy; 2026 Preness. All rights reserved.</div>
+            <div class="flex flex-wrap justify-center gap-[20px]">
+                <a href="https://docs.google.com/document/d/e/2PACX-1vSQ8CFIjitA_ye3lrPdL9Q0RxyPQ3pMJ19QJgxYh5zgT9ljDFsD6sLXyv01k9DjbnEAhzTlpUprqBbZ/pub" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors duration-300">運営会社</a>
+                <a href="https://docs.google.com/document/d/e/2PACX-1vTsmnWO02zfch0626m6WJDS8Tx5hqIYKLM9bjqgjRxyEpYAnb-p6cebKQG6tkMfIA/pub" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors duration-300">プライバシーポリシー</a>
+                <a href="https://docs.google.com/document/d/e/2PACX-1vQbmQMyjWPX-EfyA6vDInu-aM0tcyjVBE-cnMMQTuB8Iv6YRxGxXwxrvr39SyJYcg/pub" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors duration-300">利用規約</a>
+                <a href="https://docs.google.com/document/d/e/2PACX-1vS9wnZa0dSaRwT1g6cKV2YMch5Enhugjh6Dwk5OTCEGUdj0p0dYEEb36q9P3mi5d2Wpx8QQmNiHqT-4/pub" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors duration-300">特定商取引法に基づく表記</a>
+            </div>
+        </div>
+    </div>
+</footer>
