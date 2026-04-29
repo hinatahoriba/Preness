@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   resource :user_profile, only: [:edit, :update]
   resource :initial_setting, only: [:new, :create]
   get "faq", to: "pages#faq", as: :faq
+  get "analysis_report", to: "pages#analysis_report", as: :analysis_report_page
 
   resources :exercises, only: [:index] do
     member do
