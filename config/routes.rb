@@ -25,8 +25,6 @@ Rails.application.routes.draw do
   resource :support, only: [:show, :create]
   resource :user_profile, only: [:edit, :update]
   resource :initial_setting, only: [:new, :create]
-  get "terms", to: "pages#terms", as: :terms
-  get "privacy", to: "pages#privacy", as: :privacy
   get "faq", to: "pages#faq", as: :faq
 
   resources :exercises, only: [:index] do
