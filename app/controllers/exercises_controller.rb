@@ -1,6 +1,7 @@
 class ExercisesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_exercise, only: %i[answer history result]
+  before_action :set_flow, only: %i[answer history result]
   before_action :set_exercise_content, only: %i[answer history result]
 
   def index
@@ -15,48 +16,18 @@ class ExercisesController < ApplicationController
       hash[attempt.mockable_id] ||= attempt
     end
 
-    @exercise_entries = exercises.filter_map do |exercise|
-      section = exercise.sections.first
-      part = section&.parts&.first
-      question_set = part&.question_sets&.first
-
-      next if section.blank? || part.blank? || question_set.blank?
-
-      attempt = latest_attempt_by_exercise_id[exercise.id]
-      total_count = question_set.questions.size
-      correct_count = attempt ? attempt.answers.count(&:is_correct) : nil
-
-      {
-        exercise: exercise,
-        section_type: section.section_type,
-        section_display_order: section.display_order,
-        part_type: part.part_type,
-        part_display_order: part.display_order,
-        set_number: question_set.display_order,
-        attempted: attempt.present?,
-        correct_count: correct_count,
-        total_count: total_count
-      }
-    end
-
-    @exercise_entries.sort_by! do |entry|
-      [
-        entry.fetch(:section_display_order),
-        entry.fetch(:part_display_order),
-        entry.fetch(:set_number),
-        entry.fetch(:exercise).id
-      ]
-    end
-
-    @exercise_entries_by_section_type = @exercise_entries.group_by { _1.fetch(:section_type) }
+    @index_presenter = ::Exercises::IndexPresenter.new(
+      exercises: exercises,
+      latest_attempt_by_exercise_id: latest_attempt_by_exercise_id
+    )
   end
 
   def answer
     if request.post?
-      Exercises::GradeAttempt.call(
-        user: current_user,
-        exercise: @exercise,
-        question_set: @question_set,
+      @attempt = Attempt.create!(user: current_user, mockable: @exercise, completed_at: Time.current)
+      ExamSessions::PersistAnswers.call(
+        attempt: @attempt,
+        questions: @questions,
         answers_by_question_id: answers_params
       )
 
@@ -65,28 +36,36 @@ class ExercisesController < ApplicationController
     end
 
     load_saved_answers
+    @answer_presenter = build_answer_presenter
   rescue ActiveRecord::RecordInvalid => e
     load_saved_answers
+    @answer_presenter = build_answer_presenter
     flash.now[:alert] = e.message
     render :answer, status: :unprocessable_entity
   end
 
   def history
-    @attempts = current_user.attempts
-      .where(mockable: @exercise)
-      .order(created_at: :desc)
-      .includes(:answers)
+    @attempts = @flow.attempts_for(current_user)
 
     if @attempts.empty?
       redirect_to answer_exercise_path(@exercise), alert: "まだ採点されていません。"
+      return
     end
+
+    @history_presenter = ::Exercises::HistoryPresenter.new(
+      attempts: @attempts,
+      total_questions: @questions.size,
+      section: @section,
+      part: @part,
+      question_set: @question_set
+    )
   end
 
   def result
     @attempt = if params[:attempt_id].present?
                  current_user.attempts.find(params[:attempt_id])
                else
-                 current_user.attempts.where(mockable: @exercise).order(created_at: :desc).first
+                 @flow.latest_attempt_for(current_user)
                end
 
     if @attempt.blank?
@@ -94,23 +73,20 @@ class ExercisesController < ApplicationController
       return
     end
 
-    @answers_by_question_id = @attempt.answers.where(question_id: @questions.map(&:id)).index_by(&:question_id)
-
-    @total_count = @questions.size
-    @correct_count = @questions.count { @answers_by_question_id[_1.id]&.is_correct == true }
-    @answered_count = @questions.count { (a = @answers_by_question_id[_1.id]) && a.selected_choice.present? }
-
-    @filter = params[:filter].presence || 'wrong'
-    @display_questions = case @filter
-                         when 'all'
-                           @questions
-                         when 'correct'
-                           @questions.select { @answers_by_question_id[_1.id]&.is_correct == true }
-                         when 'wrong'
-                           @questions.select { @answers_by_question_id[_1.id]&.is_correct != true }
-                         else
-                           @questions.select { @answers_by_question_id[_1.id]&.is_correct != true }
-                         end
+    result = @flow.build_result(@attempt, @questions, filter: params[:filter])
+    @answers_by_question_id = result.answers_by_question_id
+    @total_count = result.total_count
+    @correct_count = result.correct_count
+    @answered_count = result.answered_count
+    @filter = result.filter
+    @display_questions = result.display_questions
+    @result_presenter = ::Exercises::ResultPresenter.new(
+      correct_count: @correct_count,
+      total_count: @total_count,
+      section: @section,
+      part: @part,
+      question_set: @question_set
+    )
   end
 
   private
@@ -119,24 +95,39 @@ class ExercisesController < ApplicationController
     @exercise = Exercise.includes(sections: { parts: { question_sets: :questions } }).find(params[:id])
   end
 
-  def set_exercise_content
-    @section = @exercise.sections.first
-    @part = @section&.parts&.first
-    @question_set = @part&.question_sets&.first
-    @questions = @question_set&.questions&.to_a || []
+  def set_flow
+    @flow = ExamSessions::Flow::Exercise.new(@exercise)
+  end
 
-    raise ActiveRecord::RecordNotFound, "Exercise content is missing" if @section.blank? || @part.blank? || @question_set.blank?
+  def set_exercise_content
+    content = @flow.content!
+    @section = content.section
+    @part = content.part
+    @question_set = content.question_set
+    @questions = content.questions
   end
 
   def load_saved_answers
-    @attempt = current_user.attempts.where(mockable: @exercise).order(created_at: :desc).first
+    @attempt = @flow.latest_attempt_for(current_user)
     @answers_by_question_id = {}
     @total_count = @questions.size
     @answered_count = 0
+  end
+
+  def build_answer_presenter
+    ExamSessions::AnswerPresenter.for_exercise(
+      exercise: @exercise,
+      section: @section,
+      part: @part,
+      question_set: @question_set,
+      questions: @questions,
+      total_count: @total_count,
+      answered_count: @answered_count,
+      attempt: @attempt
+    )
   end
 
   def answers_params
     params.permit(answers: {}).fetch(:answers, {}).to_h
   end
 end
-

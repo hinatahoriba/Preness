@@ -1,12 +1,5 @@
-<% 
-total_correct = @section_results.sum { |s| s[:correct_count] }
-total_questions = @section_results.sum { |s| s[:total_count] }
-total_percent = total_questions.zero? ? 0 : ((total_correct.to_f / total_questions) * 100).round(1) 
-%>
-
 <section class="min-h-screen bg-gray-50 px-6 py-8 flex justify-center" data-controller="modal">
   <div class="w-full max-w-4xl space-y-6">
-    <!-- Header -->
     <div class="flex flex-wrap items-start justify-between gap-4">
       <div>
         <p class="text-xs font-semibold uppercase tracking-[0.2em] text-gray-400">Result</p>
@@ -15,31 +8,25 @@ total_percent = total_questions.zero? ? 0 : ((total_correct.to_f / total_questio
       </div>
     </div>
 
-    <!-- Total Score Card -->
     <div class="bg-white border border-gray-200 rounded-sm p-6 flex flex-col md:flex-row justify-between md:items-center shadow-sm gap-6 md:gap-12">
       <div class="flex flex-col gap-1 w-full md:w-auto text-center md:text-left">
         <span class="text-xs text-gray-500 font-medium tracking-wide">トータル正答率</span>
-        <span class="text-5xl font-semibold text-blue-500"><%= total_percent %>%</span>
+        <span class="text-5xl font-semibold text-blue-500"><%= @result_presenter.total_percent %>%</span>
       </div>
-      
+
       <div class="flex flex-col gap-3 flex-1 border-t md:border-t-0 md:border-l border-gray-100 pt-4 md:pt-0 md:pl-8">
-        <% @section_results.each do |result| %>
-          <% 
-            sec_percent = result[:total_count].zero? ? 0 : ((result[:correct_count].to_f / result[:total_count]) * 100).round(1)
-            sec_name = mock_section_label(result[:section].section_type)
-          %>
+        <% @result_presenter.section_summaries.each do |summary| %>
           <div class="flex justify-between items-center text-sm">
-            <span class="text-gray-700 font-medium"><%= sec_name %></span>
+            <span class="text-gray-700 font-medium"><%= summary[:section_name] %></span>
             <div class="text-right whitespace-nowrap">
-              <span class="text-gray-900 font-bold mr-3 inline-block w-16"><%= result[:correct_count] %> / <%= result[:total_count] %></span>
-              <span class="text-blue-500 font-semibold w-12 inline-block text-right"><%= sec_percent %>%</span>
+              <span class="text-gray-900 font-bold mr-3 inline-block w-16"><%= summary[:correct_count] %> / <%= summary[:total_count] %></span>
+              <span class="text-blue-500 font-semibold w-12 inline-block text-right"><%= summary[:percent] %>%</span>
             </div>
           </div>
         <% end %>
       </div>
     </div>
 
-    <!-- Questions Details -->
     <div class="space-y-6 pt-6">
       <div class="border-b border-gray-200 pb-2 flex flex-col sm:flex-row justify-between sm:items-center gap-4">
         <div class="flex items-center">
@@ -49,34 +36,20 @@ total_percent = total_questions.zero? ? 0 : ((total_correct.to_f / total_questio
 
         <%= form_with url: result_mock_path(@mock), method: :get, class: "m-0 flex flex-wrap gap-2 justify-end", data: { turbo: true } do |f| %>
           <%= f.hidden_field :attempt_id, value: @attempt.id %>
-          <%= f.select :part_filter, 
-                options_for_select([['全てのPart', 'all']] + @available_sections, @part_filter), 
-                {}, 
-                onchange: "this.form.submit()", 
+          <%= f.select :part_filter,
+                options_for_select([["全てのPart", "all"]] + @available_sections, @part_filter),
+                {},
+                onchange: "this.form.submit()",
                 class: "block w-40 rounded-sm border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm py-1.5 px-3 bg-white text-gray-700 cursor-pointer" %>
-          <%= f.select :filter, 
-                options_for_select([['全問', 'all'], ['間違った問題', 'wrong'], ['あってた問題', 'correct']], @filter), 
-                {}, 
-                onchange: "this.form.submit()", 
+          <%= f.select :filter,
+                options_for_select([["全問", "all"], ["間違った問題", "wrong"], ["あってた問題", "correct"]], @filter),
+                {},
+                onchange: "this.form.submit()",
                 class: "block w-36 rounded-sm border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm py-1.5 px-3 bg-white text-gray-700 cursor-pointer" %>
         <% end %>
       </div>
 
-      <%
-      # フィルタリング後の問題が存在するかチェック
-        has_display_questions = @section_results.any? do |r| 
-          next false if @part_filter != 'all' && r[:section].section_type != @part_filter
-          if @filter == 'all' 
-            r[:questions].any?
-          elsif @filter == 'correct' 
-            r[:questions].any?{|q| r[:answers_by_question_id][q.id]&.is_correct} 
-          else 
-            r[:questions].any?{|q| r[:answers_by_question_id][q.id]&.is_correct != true}
-          end
-        end
-      %>
-      
-      <% if !has_display_questions %>
+      <% if !@result_presenter.has_display_questions? %>
         <div class="bg-white border border-gray-200 rounded-sm p-6 flex justify-center items-center shadow-sm mt-4">
           <p class="text-base font-semibold text-gray-400">
             該当する問題がありません。
@@ -96,46 +69,20 @@ total_percent = total_questions.zero? ? 0 : ((total_correct.to_f / total_questio
                 </tr>
               </thead>
               <tbody>
-                <% problem_number = 1 %>
-                <% @section_results.each do |result| %>
-                  <% next if @part_filter != 'all' && result[:section].section_type != @part_filter %>
-                  <%
-                    display_questions = case @filter
-                                        when 'all'
-                                          result[:questions]
-                                        when 'correct'
-                                          result[:questions].select { |q| result[:answers_by_question_id][q.id]&.is_correct == true }
-                                        when 'wrong'
-                                          result[:questions].select { |q| result[:answers_by_question_id][q.id]&.is_correct != true }
-                                        else
-                                          result[:questions].select { |q| result[:answers_by_question_id][q.id]&.is_correct != true }
-                                        end
-                  %>
-                  
-                  <% if display_questions.any? %>
-                    <% section_name = mock_section_label(result[:section].section_type) %>
-                    <% display_questions.each do |question| %>
-                      <% answer = result[:answers_by_question_id][question.id] %>
-                      <% selected_choice = answer&.selected_choice %>
-                      <% correct_choice = question.correct_choice %>
-                      <% is_correct = answer&.is_correct == true %>
-                      
-                      <tr class="even:bg-gray-50 odd:bg-white hover:bg-blue-50/50 transition-colors cursor-pointer" data-action="click->modal#open" data-modal-id="modal-question-<%= question.id %>">
-                        <td class="px-4 py-3 text-slate-500 text-center border border-slate-200"><%= problem_number %></td>
-                        <% problem_number += 1 %>
-                        <td class="px-4 py-3 text-slate-600 border border-slate-200"><%= section_name %></td>
-                        <td class="px-4 py-3 text-slate-500 text-center font-bold text-[#1a365d] border border-slate-200">
-                          <%= correct_choice.upcase %>
-                        </td>
-                        <td class="px-4 py-3 text-slate-500 text-center border border-slate-200">
-                          <%= selected_choice == "UNKNOWN" ? "?" : (selected_choice.present? ? selected_choice.upcase : "-") %>
-                        </td>
-                        <td class="px-4 py-3 text-center <%= is_correct ? 'text-emerald-600' : 'text-red-500' %> font-bold border border-slate-200">
-                          <%= is_correct ? '◯' : '×' %>
-                        </td>
-                      </tr>
-                    <% end %>
-                  <% end %>
+                <% @result_presenter.table_rows.each do |row| %>
+                  <tr class="even:bg-gray-50 odd:bg-white hover:bg-blue-50/50 transition-colors cursor-pointer" data-action="click->modal#open" data-modal-id="modal-question-<%= row[:question].id %>">
+                    <td class="px-4 py-3 text-slate-500 text-center border border-slate-200"><%= row[:number] %></td>
+                    <td class="px-4 py-3 text-slate-600 border border-slate-200"><%= row[:section_name] %></td>
+                    <td class="px-4 py-3 text-slate-500 text-center font-bold text-[#1a365d] border border-slate-200">
+                      <%= row[:review].correct_choice.upcase %>
+                    </td>
+                    <td class="px-4 py-3 text-slate-500 text-center border border-slate-200">
+                      <%= row[:review].selected_choice_display %>
+                    </td>
+                    <td class="px-4 py-3 text-center <%= row[:review].correct? ? 'text-emerald-600' : 'text-red-500' %> font-bold border border-slate-200">
+                      <%= row[:review].correct? ? "◯" : "×" %>
+                    </td>
+                  </tr>
                 <% end %>
               </tbody>
             </table>
@@ -144,7 +91,6 @@ total_percent = total_questions.zero? ? 0 : ((total_correct.to_f / total_questio
       <% end %>
     </div>
 
-    <!-- Bottom Buttons -->
     <div class="flex flex-row items-stretch gap-4 mt-8 pb-12">
       <%= link_to mypage_path, class: "group w-full flex items-center justify-center gap-2 rounded-sm bg-[#0f2361] px-4 py-3 text-sm font-bold text-white transition-all hover:bg-[#0a1845] active:scale-[0.98]" do %>
         <span>マイページへ戻る</span>
@@ -156,138 +102,22 @@ total_percent = total_questions.zero? ? 0 : ((total_correct.to_f / total_questio
   </div>
 </section>
 
-<!-- Modals -->
-<% @section_results.each do |result| %>
-  <% next if @part_filter != 'all' && result[:section].section_type != @part_filter %>
-  <%
-    display_questions = case @filter
-                        when 'all'
-                          result[:questions]
-                        when 'correct'
-                          result[:questions].select { |q| result[:answers_by_question_id][q.id]&.is_correct == true }
-                        when 'wrong'
-                          result[:questions].select { |q| result[:answers_by_question_id][q.id]&.is_correct != true }
-                        else
-                          result[:questions].select { |q| result[:answers_by_question_id][q.id]&.is_correct != true }
-                        end
-  %>
-  <% display_questions.each do |question| %>
-    <% answer = result[:answers_by_question_id][question.id] %>
-    <% selected_choice = answer&.selected_choice %>
-    <% correct_choice = question.correct_choice %>
-    <% is_correct = answer&.is_correct == true %>
+<% @result_presenter.filtered_sections.each do |result| %>
+  <% result[:display_questions].each do |question| %>
+    <% review = ExamSessions::QuestionReviewPresenter.new(question: question, answer: result[:answers_by_question_id][question.id], section_type: result[:section].section_type) %>
 
     <div id="modal-question-<%= question.id %>" data-controller="modal" class="hidden fixed inset-0 bg-slate-900/50 flex justify-center items-center z-50 p-4 modal-container" data-action="click->modal#closeBackground">
-        <div class="bg-white rounded shadow-xl w-full max-w-[700px] max-h-[90vh] flex flex-col">
-            <div class="flex justify-between items-center px-8 py-5 border-b border-gray-100 shrink-0">
-                <h2 class="text-[1.1rem] font-bold text-[#2C3358]">問題詳細 (Q<%= question.display_order %>)</h2>
-                <button class="text-gray-400 hover:text-gray-600 transition-colors" data-action="click->modal#close">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
-
-            <div class="px-8 py-6 space-y-7 overflow-y-auto">
-                <% audio_url = question.question_set.conversation_audio_url.presence || question.conversation_audio_url.presence || question.question_audio_url.presence %>
-                <% if audio_url.present? %>
-                  <div>
-                    <h3 class="text-xs font-bold text-gray-500 mb-3">音声</h3>
-                    <div class="bg-gray-50 p-4 rounded border border-gray-200">
-                      <audio controls src="<%= audio_url %>" class="w-full h-10 outline-none"></audio>
-                    </div>
-                  </div>
-                <% end %>
-
-                <% passage = question.question_set.passage %>
-                <% scripts = question.question_set.scripts.presence || question.scripts.presence %>
-                
-                <% if passage.present? %>
-                  <div>
-                    <h3 class="text-xs font-bold text-gray-500 mb-3"><%= result[:section].section_type.include?('listening') ? 'リスニング原稿' : '本文・問題背景' %></h3>
-                    <div class="bg-[#F8F9FA] border-l-[3px] border-[#6b7280] py-4 px-5">
-                      <p class="font-mono text-[14px] text-gray-800 tracking-tight whitespace-pre-wrap leading-relaxed"><%= passage %></p>
-                    </div>
-                  </div>
-                <% elsif scripts.present? %>
-                  <div>
-                    <h3 class="text-xs font-bold text-gray-500 mb-3">リスニング原稿</h3>
-                    <div class="bg-[#F8F9FA] border-l-[3px] border-[#6b7280] py-4 px-5 space-y-2">
-                      <% scripts.each do |script| %>
-                        <p class="font-mono text-[14px] text-gray-800 leading-relaxed">
-                          <span class="font-bold uppercase text-gray-500 mr-2 text-[12px]"><%= script["speaker"] || script[:speaker] %>:</span> 
-                          <%= script["text"] || script[:text] %>
-                        </p>
-                      <% end %>
-                    </div>
-                  </div>
-                <% end %>
-
-                <div>
-                    <h3 class="text-xs font-bold text-gray-500 mb-3">問題文</h3>
-                    <div class="bg-[#F8F9FA] border-l-[3px] border-[#2C3358] py-4 px-5">
-                        <p class="font-mono text-[15px] text-gray-800 tracking-tight"><%= question.question_text %></p>
-                    </div>
-                </div>
-
-                <div>
-                    <h3 class="text-xs font-bold text-gray-500 mb-3">選択肢</h3>
-                    <div class="space-y-3">
-                        <% Answer::CHOICES.first(4).each do |choice| %>
-                          <% is_selected = (choice == selected_choice) %>
-                          <% is_correct_choice = (choice == correct_choice) %>
-                          
-                          <% if is_correct_choice %>
-                            <div class="bg-[#E6F9EA] border border-[#4CAF50] rounded-sm py-3 px-5">
-                                <p class="font-mono text-[14px] text-gray-800"><span class="font-bold mr-1"><%= choice %>.</span> <%= question_choice_text(question, choice) %></p>
-                            </div>
-                          <% elsif is_selected %>
-                            <div class="bg-[#EDF1F7] border border-[#2C3358] rounded-sm py-3 px-5">
-                                <p class="font-mono text-[14px] text-gray-800"><span class="font-bold mr-1"><%= choice %>.</span> <%= question_choice_text(question, choice) %></p>
-                            </div>
-                          <% else %>
-                            <div class="border border-gray-200 rounded-sm py-3 px-5">
-                                <p class="font-mono text-[14px] text-gray-800"><span class="font-bold mr-1"><%= choice %>.</span> <%= question_choice_text(question, choice) %></p>
-                            </div>
-                          <% end %>
-                        <% end %>
-                    </div>
-                </div>
-
-                <div class="flex gap-28 pb-2">
-                    <div>
-                        <h3 class="text-[13px] font-bold text-gray-500 mb-2">あなたの解答</h3>
-                        <p class="font-bold <%= is_correct ? 'text-[#2E7D32]' : 'text-red-600' %> text-sm">
-                          <%= selected_choice == "UNKNOWN" ? "?" : (selected_choice.present? ? selected_choice.upcase : "未回答") %>
-                        </p>
-                    </div>
-                    <div>
-                        <h3 class="text-[13px] font-bold text-gray-500 mb-2">正解</h3>
-                        <p class="font-bold text-[#2E7D32] text-sm"><%= correct_choice.upcase %></p>
-                    </div>
-                </div>
-
-                <% if !is_correct && Answer::CHOICES.first(4).include?(selected_choice) %>
-                  <% wrong_reason = question.try("wrong_reason_#{selected_choice.downcase}") %>
-                  <% if wrong_reason.present? %>
-                    <div>
-                        <h3 class="text-xs font-bold text-gray-500 mb-3">間違えた理由</h3>
-                        <div class="bg-[#FFFCE8] border-l-[3px] border-red-400 py-4 px-5">
-                            <p class="font-mono text-[14px] text-gray-800 leading-relaxed whitespace-pre-line"><%= wrong_reason %></p>
-                        </div>
-                    </div>
-                  <% end %>
-                <% end %>
-
-                <div>
-                    <h3 class="text-xs font-bold text-gray-500 mb-3">解説</h3>
-                    <div class="bg-[#FFFCE8] border-l-[3px] border-[#8D6E63] py-4 px-5">
-                        <p class="font-mono text-[14px] text-gray-800 leading-relaxed whitespace-pre-line"><%= question.explanation.presence || "解説はありません。" %></p>
-                    </div>
-                </div>
-
-            </div>
+      <div class="bg-white rounded shadow-xl w-full max-w-[700px] max-h-[90vh] flex flex-col">
+        <div class="flex justify-between items-center px-8 py-5 border-b border-gray-100 shrink-0">
+          <h2 class="text-[1.1rem] font-bold text-[#2C3358]">問題詳細 (Q<%= question.display_order %>)</h2>
+          <button class="text-gray-400 hover:text-gray-600 transition-colors" data-action="click->modal#close">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
         </div>
+        <%= render "shared/exam/result/review_detail_content", question: question, review: review %>
+      </div>
     </div>
   <% end %>
 <% end %>

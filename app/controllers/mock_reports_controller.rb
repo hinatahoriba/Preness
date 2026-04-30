@@ -40,11 +40,6 @@ class MockReportsController < ApplicationController
     @attempt = current_user.attempts.find(attempt_id)
   end
 
-  LISTENING_PART_TOTALS = { "part_a" => 30, "part_b" => 8, "part_c" => 12 }.freeze
-  STRUCTURE_PART_TOTALS = { "part_a" => 15, "part_b" => 25 }.freeze
-  READING_QUESTIONS_PER_SET = 10
-  READING_SET_COUNT = 5
-
   def build_report_parts_accuracy(mock, answers_map)
     {
       listening: build_report_listening(mock, answers_map),
@@ -57,30 +52,23 @@ class MockReportsController < ApplicationController
     section = mock.sections.find { |s| s.section_type == "listening" }
     return nil unless section
 
-    result = {}
-    LISTENING_PART_TOTALS.each_key do |pt|
-      part = section.parts.find { |p| p.part_type == pt }
-      questions = part ? part.question_sets.flat_map(&:questions) : []
-      correct = questions.count { |q| answers_map[q.id]&.is_correct == true }
-      total = LISTENING_PART_TOTALS[pt]
-      result[pt.to_sym] = { correct: correct, total: total, pct: total > 0 ? (correct * 100.0 / total).round : 0 }
-    end
-    result
+    build_report_part_accuracy(section, "listening", answers_map)
   end
 
   def build_report_structure(mock, answers_map)
     section = mock.sections.find { |s| s.section_type == "structure" }
     return nil unless section
 
-    result = {}
-    STRUCTURE_PART_TOTALS.each_key do |pt|
+    build_report_part_accuracy(section, "structure", answers_map)
+  end
+
+  def build_report_part_accuracy(section, section_type, answers_map)
+    ExamCatalog.part_totals(section_type).each_with_object({}) do |(pt, total), result|
       part = section.parts.find { |p| p.part_type == pt }
       questions = part ? part.question_sets.flat_map(&:questions) : []
       correct = questions.count { |q| answers_map[q.id]&.is_correct == true }
-      total = STRUCTURE_PART_TOTALS[pt]
       result[pt.to_sym] = { correct: correct, total: total, pct: total > 0 ? (correct * 100.0 / total).round : 0 }
     end
-    result
   end
 
   def build_report_reading(mock, answers_map)
@@ -90,7 +78,7 @@ class MockReportsController < ApplicationController
     part = section.parts.find { |p| p.part_type == "passages" }
     return nil unless part
 
-    question_sets = part.question_sets.sort_by(&:display_order).first(READING_SET_COUNT)
+    question_sets = part.question_sets.sort_by(&:display_order).first(ExamCatalog::READING_SET_COUNT)
     question_sets.each_with_index.map do |qs, idx|
       questions = qs.questions
       correct = questions.count { |q| answers_map[q.id]&.is_correct == true }
@@ -98,8 +86,8 @@ class MockReportsController < ApplicationController
         label:         "Reading %02d" % (idx + 1),
         passage_theme: qs.passage_theme.presence,
         correct:       correct,
-        total:         READING_QUESTIONS_PER_SET,
-        pct:           (correct * 100.0 / READING_QUESTIONS_PER_SET).round
+        total:         ExamCatalog::READING_QUESTIONS_PER_SET,
+        pct:           (correct * 100.0 / ExamCatalog::READING_QUESTIONS_PER_SET).round
       }
     end
   end

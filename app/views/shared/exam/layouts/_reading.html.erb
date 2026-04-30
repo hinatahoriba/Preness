@@ -1,0 +1,49 @@
+<%# Locals:
+#   question_sets (Array<QuestionSet>)
+#   tabbed (Boolean)
+%>
+<% tabbed = local_assigns.fetch(:tabbed, false) %>
+<% wrapper_classes = tabbed ? "flex-1 flex flex-col overflow-hidden" : "flex-1 flex overflow-hidden" %>
+
+<div
+  class="<%= wrapper_classes %>"
+  <%= 'data-controller="exam-passage-tab"'.html_safe if tabbed %>
+>
+  <% if tabbed %>
+    <div class="flex flex-shrink-0 border-b border-gray-200 bg-white">
+      <% question_sets.each_with_index do |_question_set, index| %>
+        <button
+          type="button"
+          class="px-8 py-3 text-[10px] font-bold tracking-widest uppercase transition-colors"
+          data-exam-passage-tab-target="tab"
+          data-action="click->exam-passage-tab#switch"
+        >
+          PASSAGE <%= index + 1 %>
+        </button>
+      <% end %>
+    </div>
+  <% end %>
+
+  <% q_offset = 0 %>
+  <% question_sets.each do |question_set| %>
+    <div
+      class="flex <%= tabbed ? 'flex-1 overflow-hidden' : '' %>"
+      <%= 'data-exam-passage-tab-target="panel"'.html_safe if tabbed %>
+    >
+      <div class="w-1/2 overflow-y-auto px-10 pt-7 pb-24">
+        <div class="text-[15.5px] leading-[2] text-gray-800 space-y-5 text-justify font-serif">
+          <%= format_vocab_tags(simple_format(question_set.passage.to_s)) %>
+        </div>
+      </div>
+
+      <div class="w-1/2 border-l border-gray-100 overflow-y-auto px-10 pt-7 pb-24">
+        <% question_set.questions.order(:display_order).each_with_index do |question, question_index| %>
+          <div class="mb-10 pb-10 border-b border-gray-100 last:border-0 last:mb-0">
+            <%= render "shared/exam/question_item", question: question, index: q_offset + question_index %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <% q_offset += question_set.questions.count %>
+  <% end %>
+</div>
