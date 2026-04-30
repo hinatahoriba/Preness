@@ -13,29 +13,25 @@
 
     <!-- Attempts List -->
     <div class="space-y-3">
-      <% @attempts.each_with_index do |attempt, index| %>
-        <% total = @questions.size %>
-        <% correct = attempt.answers.count(&:is_correct) %>
-        <% score_percent = total.zero? ? 0 : ((correct.to_f / total) * 100).round(1) %>
-
-        <%= link_to result_exercise_path(@exercise, attempt_id: attempt.id),
+      <% @history_presenter.rows.each do |row| %>
+        <%= link_to result_exercise_path(@exercise, attempt_id: row[:attempt].id),
               class: "block bg-white border border-gray-200 rounded-sm p-5 shadow-sm hover:bg-gray-50 transition-colors" do %>
           <div class="flex items-center justify-between">
             <div class="flex items-center gap-4">
-              <span class="text-xs font-semibold text-gray-400 w-6 text-right"><%= @attempts.size - index %></span>
+              <span class="text-xs font-semibold text-gray-400 w-6 text-right"><%= row[:number_label] %></span>
               <div>
                 <p class="text-sm font-bold text-gray-800">
-                  <%= attempt.created_at.strftime("%Y/%m/%d %H:%M") %>
+                  <%= row[:attempt].created_at.strftime("%Y/%m/%d %H:%M") %>
                 </p>
                 <p class="text-xs text-gray-500 mt-0.5">
-                  正解数: <%= correct %> / <%= total %>
+                  正解数: <%= row[:correct_count] %> / <%= row[:total_questions] %>
                 </p>
               </div>
             </div>
 
             <div class="flex items-center gap-4">
-              <span class="text-2xl font-semibold <%= score_percent >= 80 ? 'text-emerald-500' : score_percent >= 60 ? 'text-yellow-500' : 'text-red-500' %>">
-                <%= score_percent %>%
+              <span class="text-2xl font-semibold <%= row[:score_class] %>">
+                <%= row[:score_percent] %>%
               </span>
               <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />

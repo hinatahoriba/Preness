@@ -16,40 +16,10 @@ class ExercisesController < ApplicationController
       hash[attempt.mockable_id] ||= attempt
     end
 
-    @exercise_entries = exercises.filter_map do |exercise|
-      section = exercise.sections.first
-      part = section&.parts&.first
-      question_set = part&.question_sets&.first
-
-      next if section.blank? || part.blank? || question_set.blank?
-
-      attempt = latest_attempt_by_exercise_id[exercise.id]
-      total_count = question_set.questions.size
-      correct_count = attempt ? attempt.answers.count(&:is_correct) : nil
-
-      {
-        exercise: exercise,
-        section_type: section.section_type,
-        section_display_order: section.display_order,
-        part_type: part.part_type,
-        part_display_order: part.display_order,
-        set_number: question_set.display_order,
-        attempted: attempt.present?,
-        correct_count: correct_count,
-        total_count: total_count
-      }
-    end
-
-    @exercise_entries.sort_by! do |entry|
-      [
-        entry.fetch(:section_display_order),
-        entry.fetch(:part_display_order),
-        entry.fetch(:set_number),
-        entry.fetch(:exercise).id
-      ]
-    end
-
-    @exercise_entries_by_section_type = @exercise_entries.group_by { _1.fetch(:section_type) }
+    @index_presenter = Exercises::IndexPresenter.new(
+      exercises: exercises,
+      latest_attempt_by_exercise_id: latest_attempt_by_exercise_id
+    )
   end
 
   def answer
@@ -77,7 +47,13 @@ class ExercisesController < ApplicationController
 
     if @attempts.empty?
       redirect_to answer_exercise_path(@exercise), alert: "まだ採点されていません。"
+      return
     end
+
+    @history_presenter = Exercises::HistoryPresenter.new(
+      attempts: @attempts,
+      total_questions: @questions.size
+    )
   end
 
   def result
@@ -99,6 +75,10 @@ class ExercisesController < ApplicationController
     @answered_count = result.answered_count
     @filter = result.filter
     @display_questions = result.display_questions
+    @result_presenter = Exercises::ResultPresenter.new(
+      correct_count: @correct_count,
+      total_count: @total_count
+    )
   end
 
   private
