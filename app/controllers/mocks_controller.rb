@@ -9,9 +9,14 @@ class MocksController < ApplicationController
 
   # GET /mocks
   def index
-    @mocks = Mock.all.order(:created_at)
-    @attempts_by_mock_id = current_user.attempts.where(mockable: @mocks).index_by(&:mockable_id)
-    @purchased_mock_ids = current_user.purchases.completed.where(mock: @mocks).pluck(:mock_id).to_set
+    mocks = Mock.all.order(:created_at)
+    attempts_by_mock_id = current_user.attempts.where(mockable: mocks).index_by(&:mockable_id)
+    purchased_mock_ids = current_user.purchases.completed.where(mock: mocks).pluck(:mock_id).to_set
+    @index_presenter = Mocks::IndexPresenter.new(
+      mocks: mocks,
+      attempts_by_mock_id: attempts_by_mock_id,
+      purchased_mock_ids: purchased_mock_ids
+    )
   end
 
   # GET /mocks/:id/guideline

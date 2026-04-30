@@ -29,8 +29,20 @@ module Mocks
 
         result.merge(
           display_questions: display_questions,
-          section_name: ExamCatalog.section_label(result[:section].section_type)
+          section_name: ExamCatalog.section_label(result[:section].section_type),
+          section_percent: percentage(result[:correct_count], result[:total_count])
         )
+      end
+    end
+
+    def section_summaries
+      @section_results.map do |result|
+        {
+          section_name: ExamCatalog.section_label(result[:section].section_type),
+          correct_count: result[:correct_count],
+          total_count: result[:total_count],
+          percent: percentage(result[:correct_count], result[:total_count])
+        }
       end
     end
 

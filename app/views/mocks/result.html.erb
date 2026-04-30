@@ -15,13 +15,12 @@
       </div>
 
       <div class="flex flex-col gap-3 flex-1 border-t md:border-t-0 md:border-l border-gray-100 pt-4 md:pt-0 md:pl-8">
-        <% @section_results.each do |result| %>
-          <% section_percent = result[:total_count].zero? ? 0 : ((result[:correct_count].to_f / result[:total_count]) * 100).round(1) %>
+        <% @result_presenter.section_summaries.each do |summary| %>
           <div class="flex justify-between items-center text-sm">
-            <span class="text-gray-700 font-medium"><%= mock_section_label(result[:section].section_type) %></span>
+            <span class="text-gray-700 font-medium"><%= summary[:section_name] %></span>
             <div class="text-right whitespace-nowrap">
-              <span class="text-gray-900 font-bold mr-3 inline-block w-16"><%= result[:correct_count] %> / <%= result[:total_count] %></span>
-              <span class="text-blue-500 font-semibold w-12 inline-block text-right"><%= section_percent %>%</span>
+              <span class="text-gray-900 font-bold mr-3 inline-block w-16"><%= summary[:correct_count] %> / <%= summary[:total_count] %></span>
+              <span class="text-blue-500 font-semibold w-12 inline-block text-right"><%= summary[:percent] %>%</span>
             </div>
           </div>
         <% end %>
