@@ -1,5 +1,7 @@
-<%# Locals: questions (Array<Question>) - all questions in the Structure section %>
-
+<%# Locals:
+#   questions (Array<Question>)
+#   part_label (String)
+%>
 <div class="pb-16 max-w-5xl mx-auto px-8">
   <main class="pt-10">
     <% if local_assigns[:part_label].present? %>
@@ -17,7 +19,7 @@
     <div class="flex flex-col gap-10">
       <% questions.each_with_index do |question, index| %>
         <div class="question-block">
-          <%= render "exercises/question_item", question: question, index: index %>
+          <%= render "shared/exam/question_item", question: question, index: index %>
         </div>
       <% end %>
     </div>

@@ -57,18 +57,18 @@
   <%= form_with url: answer_exercise_path(@exercise), method: :post, id: form_id,
         class: is_reading ? "flex-1 flex flex-col overflow-hidden" : "" do %>
     <% if @section.section_type == "listening" && @part.part_type == "part_a" %>
-      <%= render "exercises/listening_part_a", questions: @questions %>
+      <%= render "shared/exam/layouts/listening_part_a", questions: @questions, single_use_audio: false %>
 
     <% elsif @section.section_type == "listening" %>
-      <%= render "exercises/listening_part_bc",
-            question_set: @question_set,
+      <%= render "shared/exam/layouts/listening_part_bc",
+            question_sets: [@question_set],
             part_label: exercise_part_label(@part.part_type)&.upcase %>
 
     <% elsif @section.section_type == "structure" %>
-      <%= render "exercises/structure", questions: @questions, part_label: exercise_part_label(@part.part_type)&.upcase %>
+      <%= render "shared/exam/layouts/structure", questions: @questions, part_label: exercise_part_label(@part.part_type)&.upcase %>
 
     <% elsif @section.section_type == "reading" %>
-      <%= render "exercises/reading", question_set: @question_set %>
+      <%= render "shared/exam/layouts/reading", question_sets: [@question_set], tabbed: false %>
     <% end %>
   <% end %>
 </div>

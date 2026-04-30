@@ -1,12 +1,12 @@
 <%# Locals:
-#   question_sets (Array<QuestionSet>) - ordered sets, each with audio + multiple questions
-#   part_label    (String)             - e.g. "PART B" or "PART C"
+#   question_sets (Array<QuestionSet>)
+#   part_label (String)
+#   single_use_audio (Boolean)
 %>
-
 <div
   class="pb-16 max-w-[1200px] mx-auto px-8"
   data-controller="exam-audio-player"
-  data-exam-audio-player-single-use-value="true"
+  data-exam-audio-player-single-use-value="<%= local_assigns.fetch(:single_use_audio, false) %>"
 >
   <main class="pt-10">
     <h2 class="text-xl font-bold tracking-wide pb-2 border-b-[1.5px] border-black mb-6 font-serif text-gray-800">
@@ -22,34 +22,36 @@
     </p>
 
     <% q_offset = 0 %>
-    <% question_sets.each_with_index do |qs, set_index| %>
+    <% question_sets.each_with_index do |question_set, set_index| %>
       <% unless set_index == 0 %>
         <hr class="border-t border-gray-300 mb-16">
       <% end %>
       <div class="mb-16">
-        <% if qs.conversation_audio_url.present? %>
-          <%= render "mocks/audio_player",
-                url: qs.conversation_audio_url,
-                label: "CONVERSATION AUDIO #{set_index + 1}",
-                status_text: "Click to play conversation for Questions #{q_offset + 1}–#{q_offset + qs.questions.count}" %>
+        <% if question_set.conversation_audio_url.present? %>
+          <% audio_label = question_sets.size > 1 ? "CONVERSATION AUDIO #{set_index + 1}" : "CONVERSATION AUDIO" %>
+          <% audio_status = question_sets.size > 1 ? "Click to play conversation for Questions #{q_offset + 1}–#{q_offset + question_set.questions.count}" : "Click to play conversation" %>
+          <%= render "shared/exam/audio_player",
+                url: question_set.conversation_audio_url,
+                label: audio_label,
+                status_text: audio_status %>
         <% end %>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-12">
-          <% qs.questions.order(:display_order).each_with_index do |question, q_index| %>
+          <% question_set.questions.order(:display_order).each_with_index do |question, question_index| %>
             <div class="question-block">
               <% if question.question_audio_url.present? %>
-                <%= render "mocks/audio_player",
+                <%= render "shared/exam/audio_player",
                       url: question.question_audio_url,
                       label: "QUESTION AUDIO",
                       status_text: "Click to play question",
                       hide_ui: true %>
               <% end %>
-              <%= render "mocks/question_item", question: question, index: q_offset + q_index %>
+              <%= render "shared/exam/question_item", question: question, index: q_offset + question_index %>
             </div>
           <% end %>
         </div>
       </div>
-      <% q_offset += qs.questions.count %>
+      <% q_offset += question_set.questions.count %>
     <% end %>
   </main>
 </div>

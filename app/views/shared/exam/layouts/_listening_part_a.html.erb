@@ -1,9 +1,11 @@
-<%# Locals: questions (Array<Question>) - all questions in Part A, ordered %>
-
+<%# Locals:
+#   questions (Array<Question>)
+#   single_use_audio (Boolean)
+%>
 <div
   class="pb-16 max-w-[1400px] mx-auto px-10"
   data-controller="exam-audio-player"
-  data-exam-audio-player-single-use-value="false"
+  data-exam-audio-player-single-use-value="<%= local_assigns.fetch(:single_use_audio, false) %>"
 >
   <main class="pt-12">
     <div class="mb-12">
@@ -18,21 +20,21 @@
       <% questions.each_with_index do |question, index| %>
         <div class="question-block">
           <% if question.conversation_audio_url.present? %>
-            <%= render "exercises/audio_player",
+            <%= render "shared/exam/audio_player",
                   url: question.conversation_audio_url,
                   label: "CONVERSATION AUDIO",
                   status_text: "Click to play conversation",
                   compact: true %>
           <% end %>
           <% if question.question_audio_url.present? %>
-            <%= render "exercises/audio_player",
+            <%= render "shared/exam/audio_player",
                   url: question.question_audio_url,
                   label: "QUESTION AUDIO",
                   status_text: "Click to play question",
                   compact: true,
                   hide_ui: true %>
           <% end %>
-          <%= render "exercises/question_item", question: question, index: index %>
+          <%= render "shared/exam/question_item", question: question, index: index %>
         </div>
       <% end %>
     </div>

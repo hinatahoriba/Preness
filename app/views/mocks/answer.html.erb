@@ -89,18 +89,19 @@
     class: is_reading ? "flex-1 flex flex-col overflow-hidden" : ""
   ) do %>
     <% if @section.section_type == "listening" && @part.part_type == "part_a" %>
-      <%= render "mocks/listening_part_a", questions: @questions %>
+      <%= render "shared/exam/layouts/listening_part_a", questions: @questions, single_use_audio: true %>
 
     <% elsif @section.section_type == "listening" %>
-      <%= render "mocks/listening_part_bc",
+      <%= render "shared/exam/layouts/listening_part_bc",
             question_sets: @question_sets,
-            part_label: mock_part_label(@part.part_type)&.upcase %>
+            part_label: mock_part_label(@part.part_type)&.upcase,
+            single_use_audio: true %>
 
     <% elsif @section.section_type == "structure" %>
-      <%= render "mocks/structure", questions: @questions, part_label: mock_part_label(@part.part_type)&.upcase %>
+      <%= render "shared/exam/layouts/structure", questions: @questions, part_label: mock_part_label(@part.part_type)&.upcase %>
 
     <% elsif @section.section_type == "reading" %>
-      <%= render "mocks/reading", question_sets: @question_sets %>
+      <%= render "shared/exam/layouts/reading", question_sets: @question_sets, tabbed: true %>
     <% end %>
   <% end %>
 </div>

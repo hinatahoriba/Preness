@@ -1,7 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
 
-// Manages passage tab navigation for the Reading section.
-// Expects parallel arrays of tab targets and panel targets (same DOM order).
 export default class extends Controller {
   static targets = ["tab", "panel"]
 
@@ -15,16 +13,16 @@ export default class extends Controller {
   }
 
   _activate(activeIndex) {
-    this.tabTargets.forEach((tab, i) => {
-      const isActive = i === activeIndex
+    this.tabTargets.forEach((tab, index) => {
+      const isActive = index === activeIndex
       tab.classList.toggle("border-b-[3px]", isActive)
       tab.classList.toggle("border-[#0f2361]", isActive)
       tab.classList.toggle("text-[#0f2361]", isActive)
       tab.classList.toggle("text-gray-400", !isActive)
     })
 
-    this.panelTargets.forEach((panel, i) => {
-      panel.classList.toggle("hidden", i !== activeIndex)
+    this.panelTargets.forEach((panel, index) => {
+      panel.classList.toggle("hidden", index !== activeIndex)
     })
   }
 }
