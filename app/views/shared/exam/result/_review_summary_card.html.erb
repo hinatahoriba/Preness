@@ -1,0 +1,65 @@
+<%# Locals:
+#   question (Question)
+#   review   (ExamSessions::QuestionReviewPresenter)
+%>
+<div class="bg-white border border-gray-200 rounded-sm overflow-hidden shadow-sm">
+  <div class="border-b border-gray-100 px-5 py-3 flex justify-between items-center bg-gray-50">
+    <div class="flex items-center gap-3">
+      <span class="text-sm font-bold text-gray-700">Q<%= question.display_order %></span>
+      <% if question.tag.present? %>
+        <span class="text-[10px] font-semibold text-[#0f2361] bg-[#0f2361]/10 border border-[#0f2361]/20 px-2 py-0.5 rounded-sm"><%= question_tag_label(question.tag) %></span>
+      <% end %>
+    </div>
+    <div>
+      <% if review.correct? %>
+        <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-sm">正解</span>
+      <% else %>
+        <span class="text-xs font-bold text-red-500 bg-red-50 px-2.5 py-1 rounded-sm">不正解</span>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="p-5 space-y-5">
+    <h3 class="text-base font-bold text-gray-900 leading-tight">
+      <%= question.question_text %>
+    </h3>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <div class="border border-gray-100 rounded-sm p-4 <%= review.correct? ? 'bg-emerald-50/30' : 'bg-red-50/30' %>">
+        <p class="text-[10px] text-gray-400 font-semibold mb-2 uppercase">あなたの解答</p>
+        <div class="flex items-center gap-3">
+          <div class="w-7 h-7 rounded-sm <%= review.correct? ? 'bg-emerald-500' : 'bg-red-500' %> text-white flex justify-center items-center text-xs font-bold">
+            <%= review.selected_choice_display %>
+          </div>
+          <span class="text-sm text-gray-800"><%= review.selected_choice_text %></span>
+        </div>
+      </div>
+
+      <div class="border border-gray-100 rounded-sm p-4 bg-blue-50/20">
+        <p class="text-[10px] text-gray-400 font-semibold mb-2 uppercase">正解</p>
+        <div class="flex items-center gap-3">
+          <div class="w-7 h-7 rounded-sm bg-blue-500 text-white flex justify-center items-center text-xs font-bold">
+            <%= review.correct_choice.upcase %>
+          </div>
+          <span class="text-sm text-gray-900 font-medium"><%= review.correct_choice_text %></span>
+        </div>
+      </div>
+    </div>
+
+    <% if review.wrong_reason.present? %>
+      <div class="border border-red-100 rounded-sm p-4 bg-red-50/30 mt-3">
+        <p class="text-[10px] text-red-500 font-semibold mb-1.5 uppercase">間違えた理由</p>
+        <div class="text-sm text-gray-800 leading-relaxed whitespace-pre-line">
+          <%= review.wrong_reason %>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="border border-gray-100 rounded-sm p-4 bg-gray-50/50">
+      <p class="text-[10px] text-gray-400 font-semibold mb-1.5 uppercase">解説</p>
+      <div class="text-sm text-gray-700 leading-relaxed whitespace-pre-line">
+        <%= review.explanation_text %>
+      </div>
+    </div>
+  </div>
+</div>
