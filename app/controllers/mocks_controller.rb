@@ -68,9 +68,9 @@ class MocksController < ApplicationController
 
   # POST /mocks/:id/submit_part
   def submit_part
-    Mocks::SavePartAnswers.call(
+    ExamSessions::PersistAnswers.call(
       attempt: @attempt,
-      part:    @part,
+      questions: @flow.questions_for(@part),
       answers_by_question_id: answers_params
     )
 

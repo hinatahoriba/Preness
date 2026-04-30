@@ -54,10 +54,10 @@ class ExercisesController < ApplicationController
 
   def answer
     if request.post?
-      Exercises::GradeAttempt.call(
-        user: current_user,
-        exercise: @exercise,
-        question_set: @question_set,
+      @attempt = Attempt.create!(user: current_user, mockable: @exercise, completed_at: Time.current)
+      ExamSessions::PersistAnswers.call(
+        attempt: @attempt,
+        questions: @questions,
         answers_by_question_id: answers_params
       )
 
