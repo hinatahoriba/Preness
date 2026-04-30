@@ -84,15 +84,11 @@ module Exercises
     end
 
     def exercise_title(entry)
-      section_label = ExamCatalog.section_label(entry[:section_type])
-      part_label = ExamCatalog.part_label(entry[:part_type])
-      set_number = entry[:set_number]
-
-      if part_label.present? && entry[:section_type] != "reading"
-        "#{section_label} #{part_label} - Set#{set_number}"
-      else
-        "#{section_label} - Set#{set_number}"
-      end
+      ExamCatalog.set_title(
+        section_type: entry[:section_type],
+        part_type: entry[:part_type],
+        set_number: entry[:set_number]
+      )
     end
 
     def start_exercise_for(part_entries)

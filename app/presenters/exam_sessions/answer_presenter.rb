@@ -174,23 +174,19 @@ module ExamSessions
     end
 
     def self.exercise_title(section:, part:, question_set:)
-      section_label = ExamCatalog.section_label(section.section_type)
-      part_label = ExamCatalog.part_label(part.part_type)
-
-      if part_label.present? && section.section_type != "reading"
-        "#{section_label} #{part_label} - Set#{question_set.display_order}"
-      else
-        "#{section_label} - Set#{question_set.display_order}"
-      end
+      ExamCatalog.set_title(
+        section_type: section.section_type,
+        part_type: part.part_type,
+        set_number: question_set.display_order
+      )
     end
 
     def self.mock_title(section:, part:)
-      section_label = ExamCatalog.section_label(section.section_type).upcase
-      part_label = ExamCatalog.part_label(part.part_type)
-
-      title = "SECTION #{section.display_order}: #{section_label}"
-      title += " - #{part_label.upcase}" if part_label.present?
-      title
+      ExamCatalog.section_part_title(
+        section_display_order: section.display_order,
+        section_type: section.section_type,
+        part_type: part.part_type
+      )
     end
   end
 end

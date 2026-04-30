@@ -65,7 +65,7 @@ class MocksController < ApplicationController
       part: @part,
       intro: @direction_intro,
       answer_url: @answer_url,
-      duration_seconds: MocksHelper::DIRECTION_COUNTDOWN_SECONDS
+      duration_seconds: ExamCatalog::DIRECTION_COUNTDOWN_SECONDS
     )
   end
 

@@ -60,4 +60,22 @@ module ExamCatalog
   def part_total(section_type, part_type)
     part_totals(section_type).fetch(part_type, 0)
   end
+
+  def set_title(section_type:, part_type:, set_number:)
+    s = section_label(section_type)
+    p = part_label(part_type)
+    if p.present? && section_type != "reading"
+      "#{s} #{p} - Set#{set_number}"
+    else
+      "#{s} - Set#{set_number}"
+    end
+  end
+
+  def section_part_title(section_display_order:, section_type:, part_type:)
+    s = section_label(section_type).upcase
+    p = part_label(part_type)
+    title = "SECTION #{section_display_order}: #{s}"
+    title += " - #{p.upcase}" if p.present?
+    title
+  end
 end

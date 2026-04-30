@@ -54,7 +54,10 @@ class ExercisesController < ApplicationController
 
     @history_presenter = Exercises::HistoryPresenter.new(
       attempts: @attempts,
-      total_questions: @questions.size
+      total_questions: @questions.size,
+      section: @section,
+      part: @part,
+      question_set: @question_set
     )
   end
 
@@ -79,7 +82,10 @@ class ExercisesController < ApplicationController
     @display_questions = result.display_questions
     @result_presenter = Exercises::ResultPresenter.new(
       correct_count: @correct_count,
-      total_count: @total_count
+      total_count: @total_count,
+      section: @section,
+      part: @part,
+      question_set: @question_set
     )
   end
 
