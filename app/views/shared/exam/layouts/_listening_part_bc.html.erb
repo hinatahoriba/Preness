@@ -4,12 +4,12 @@
 #   single_use_audio (Boolean)
 %>
 <div
-  class="pb-16 max-w-[1200px] mx-auto px-8"
+  class="pb-16 max-w-5xl mx-auto px-8"
   data-controller="exam-audio-player"
   data-exam-audio-player-single-use-value="<%= local_assigns.fetch(:single_use_audio, false) %>"
 >
   <main class="pt-10">
-    <h2 class="text-xl font-bold tracking-wide pb-2 border-b-[1.5px] border-black mb-6 font-serif text-gray-800">
+    <h2 class="text-xl font-bold tracking-wide pb-2 border-b border-black mb-6 font-serif text-gray-800">
       <%= local_assigns[:part_label] || "PART B" %>
     </h2>
     <p class="text-[15px] leading-relaxed text-gray-800 mb-12 font-serif">

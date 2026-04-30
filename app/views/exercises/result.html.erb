@@ -26,7 +26,10 @@
 
     <div class="space-y-4">
       <div class="border-b border-gray-200 pb-2 flex justify-between items-center">
-        <h2 class="text-lg font-bold text-gray-900">正誤/解説</h2>
+        <div class="flex items-center">
+          <div class="w-1.5 h-6 bg-[#1a365d] mr-3"></div>
+          <h2 class="text-lg font-bold text-[#1a365d] tracking-wide">正誤/解説</h2>
+        </div>
 
         <%= form_with url: result_exercise_path(@exercise), method: :get, class: "m-0", data: { turbo: true } do |f| %>
           <%= f.hidden_field :attempt_id, value: @attempt.id %>
