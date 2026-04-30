@@ -1,43 +1,17 @@
 module MocksHelper
-  SECTION_LABELS = {
-    "listening"  => "Listening Comprehension",
-    "structure"  => "Structure and Written Expression",
-    "reading"    => "Reading Comprehension"
-  }.freeze
-
-  PART_LABELS = {
-    "part_a"   => "Part A",
-    "part_b"   => "Part B",
-    "part_c"   => "Part C",
-    "passages" => nil
-  }.freeze
-
-  # セクションタイム制限（秒）
-  SECTION_TIME_LIMITS = {
-    "listening"  => 35 * 60,   # 35分
-    "structure"  => 25 * 60,   # 25分
-    "reading"    => 55 * 60    # 55分
-  }.freeze
-
-  # Direction カウントダウン秒数
-  DIRECTION_COUNTDOWN_SECONDS = 40
+  DIRECTION_COUNTDOWN_SECONDS = ExamCatalog::DIRECTION_COUNTDOWN_SECONDS
 
   def mock_section_label(section_type)
-    SECTION_LABELS.fetch(section_type, section_type)
+    exam_section_label(section_type)
   end
 
   def mock_part_label(part_type)
-    PART_LABELS.fetch(part_type, part_type)
+    exam_part_label(part_type)
   end
 
   # ヘッダー用タイトル（例: "SECTION 1: LISTENING COMPREHENSION - PART A"）
   def mock_section_part_title(section, part)
-    section_label = mock_section_label(section.section_type).upcase
-    part_label    = mock_part_label(part.part_type)
-
-    title = "SECTION #{section.display_order}: #{section_label}"
-    title += " - #{part_label.upcase}" if part_label.present?
-    title
+    exam_section_part_title(section, part)
   end
 
   # Direction 画面の説明テキスト
@@ -61,13 +35,12 @@ module MocksHelper
 
   # タイムリミット（秒）
   def mock_section_time_limit_seconds(section_type)
-    SECTION_TIME_LIMITS.fetch(section_type, 0)
+    exam_section_time_limit_seconds(section_type)
   end
 
   # "35:00" フォーマットで返す
   def mock_section_time_limit_display(section_type)
-    seconds = mock_section_time_limit_seconds(section_type)
-    format("%02d:%02d", seconds / 60, seconds % 60)
+    exam_section_time_limit_display(section_type)
   end
 
   # 現在の Part の次の Part を返す（同Section内 → 次Section → nil）

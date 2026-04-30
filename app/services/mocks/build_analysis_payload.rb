@@ -1,19 +1,6 @@
 module Mocks
   # FastAPI に送信するペイロードを Attempt の回答データから組み立てるサービス
   class BuildAnalysisPayload
-    LISTENING_PART_TOTALS = {
-      "part_a" => 30,
-      "part_b" => 8,
-      "part_c" => 12
-    }.freeze
-
-    STRUCTURE_PART_TOTALS = {
-      "part_a" => 15,
-      "part_b" => 25
-    }.freeze
-
-    READING_QUESTIONS_PER_SET = 10
-    READING_SET_COUNT = 5
     TAGS = Question::TAGS.freeze
 
     def self.call(attempt)
@@ -60,23 +47,16 @@ module Mocks
 
     def build_listening_accuracy
       section = find_section("listening")
-      return empty_listening if section.nil?
+      return empty_part_accuracy("listening") if section.nil?
 
-      {
-        partA: part_stats(section, "part_a", LISTENING_PART_TOTALS["part_a"]),
-        partB: part_stats(section, "part_b", LISTENING_PART_TOTALS["part_b"]),
-        partC: part_stats(section, "part_c", LISTENING_PART_TOTALS["part_c"])
-      }
+      build_part_accuracy(section, "listening")
     end
 
     def build_structure_accuracy
       section = find_section("structure")
-      return empty_structure if section.nil?
+      return empty_part_accuracy("structure") if section.nil?
 
-      {
-        partA: part_stats(section, "part_a", STRUCTURE_PART_TOTALS["part_a"]),
-        partB: part_stats(section, "part_b", STRUCTURE_PART_TOTALS["part_b"])
-      }
+      build_part_accuracy(section, "structure")
     end
 
     def build_reading_accuracy
@@ -88,7 +68,7 @@ module Mocks
 
       question_sets = part.question_sets.sort_by(&:display_order)
 
-      question_sets.first(READING_SET_COUNT).each_with_index.to_h do |qs, idx|
+      question_sets.first(ExamCatalog::READING_SET_COUNT).each_with_index.to_h do |qs, idx|
         key = "Reading_%02d" % (idx + 1)
         questions = qs.questions
         correct   = questions.count { |q| correct_answer?(q) }
@@ -96,7 +76,7 @@ module Mocks
         [key, {
           passage_theme: qs.passage_theme.presence,
           correct:       correct,
-          total:         READING_QUESTIONS_PER_SET
+          total:         ExamCatalog::READING_QUESTIONS_PER_SET
         }]
       end
     end
@@ -138,23 +118,24 @@ module Mocks
       { correct: correct, total: total }
     end
 
+    def build_part_accuracy(section, section_type)
+      ExamCatalog.part_totals(section_type).each_with_object({}) do |(part_type, total), result|
+        result[part_key(part_type)] = part_stats(section, part_type, total)
+      end
+    end
+
     def correct_answer?(question)
       @answers_map[question.id]&.is_correct == true
     end
 
-    def empty_listening
-      {
-        partA: { correct: 0, total: LISTENING_PART_TOTALS["part_a"] },
-        partB: { correct: 0, total: LISTENING_PART_TOTALS["part_b"] },
-        partC: { correct: 0, total: LISTENING_PART_TOTALS["part_c"] }
-      }
+    def empty_part_accuracy(section_type)
+      ExamCatalog.part_totals(section_type).each_with_object({}) do |(part_type, total), result|
+        result[part_key(part_type)] = { correct: 0, total: total }
+      end
     end
 
-    def empty_structure
-      {
-        partA: { correct: 0, total: STRUCTURE_PART_TOTALS["part_a"] },
-        partB: { correct: 0, total: STRUCTURE_PART_TOTALS["part_b"] }
-      }
+    def part_key(part_type)
+      part_type.camelize(:lower).to_sym
     end
   end
 end
