@@ -36,8 +36,10 @@ class ExercisesController < ApplicationController
     end
 
     load_saved_answers
+    @answer_presenter = build_answer_presenter
   rescue ActiveRecord::RecordInvalid => e
     load_saved_answers
+    @answer_presenter = build_answer_presenter
     flash.now[:alert] = e.message
     render :answer, status: :unprocessable_entity
   end
@@ -104,6 +106,19 @@ class ExercisesController < ApplicationController
     @answers_by_question_id = {}
     @total_count = @questions.size
     @answered_count = 0
+  end
+
+  def build_answer_presenter
+    ExamSessions::AnswerPresenter.for_exercise(
+      exercise: @exercise,
+      section: @section,
+      part: @part,
+      question_set: @question_set,
+      questions: @questions,
+      total_count: @total_count,
+      answered_count: @answered_count,
+      attempt: @attempt
+    )
   end
 
   def answers_params

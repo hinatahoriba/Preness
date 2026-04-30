@@ -60,6 +60,13 @@ class MocksController < ApplicationController
       part_id:    @part.id,
       attempt_id: @attempt.id
     )
+    @direction_presenter = Mocks::DirectionPresenter.new(
+      section: @section,
+      part: @part,
+      intro: @direction_intro,
+      answer_url: @answer_url,
+      duration_seconds: MocksHelper::DIRECTION_COUNTDOWN_SECONDS
+    )
   end
 
   # GET /mocks/:id/answer?section_id=X&part_id=Y&attempt_id=Z
@@ -69,6 +76,17 @@ class MocksController < ApplicationController
     @total_count = @questions.size
     @answered_count = 0
     @submit_label = @flow.submit_label_for(@part)
+    @answer_presenter = ExamSessions::AnswerPresenter.for_mock(
+      mock: @mock,
+      attempt: @attempt,
+      section: @section,
+      part: @part,
+      question_sets: @question_sets,
+      questions: @questions,
+      total_count: @total_count,
+      answered_count: @answered_count,
+      submit_label: @submit_label
+    )
   end
 
   # POST /mocks/:id/submit_part

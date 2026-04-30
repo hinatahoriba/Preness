@@ -1,0 +1,102 @@
+<%# Locals:
+#   presenter (ExamSessions::AnswerPresenter)
+%>
+<div
+  class="<%= presenter.wrapper_class %>"
+  data-controller="<%= presenter.controller_names %>"
+  data-exam-progress-total-count-value="<%= presenter.total_count %>"
+  data-exam-progress-require-all-answered-value="<%= presenter.require_all_answered? %>"
+  <%= %(data-mock-timer-seconds-value="#{presenter.timer_seconds}").html_safe if presenter.timer? %>
+>
+  <header class="flex-shrink-0 flex items-stretch h-16 border-b-[3px] border-[#1a1b4b] bg-white sticky top-0 z-50 font-sans">
+    <div class="flex items-center gap-4 px-6 w-1/3 min-w-0">
+      <h1 class="text-[11px] font-bold tracking-[0.12em] text-gray-800 uppercase whitespace-nowrap truncate font-serif">
+        <%= presenter.title %>
+      </h1>
+      <% if presenter.timer? %>
+        <span
+          class="text-[15px] font-bold text-gray-700 tracking-wider font-mono flex-shrink-0"
+          data-mock-timer-target="display"
+        >
+          <%= presenter.timer_display %>
+        </span>
+      <% end %>
+    </div>
+
+    <div class="flex flex-col items-center justify-center border-l border-r border-gray-200 w-1/3 px-4">
+      <div class="text-xs text-gray-600 mb-1">
+        回答済み :
+        <span class="text-gray-800 font-medium" data-exam-progress-target="answeredCount"><%= presenter.answered_count %></span>/<%= presenter.total_count %>問
+      </div>
+      <div class="flex flex-wrap justify-center gap-1 w-full max-w-[250px]">
+        <% presenter.questions.each do |question| %>
+          <div
+            class="w-3 h-1 bg-gray-300"
+            data-exam-progress-target="indicator"
+            data-question-id="<%= question.id %>"
+          ></div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="flex items-center justify-end px-6 gap-4 w-1/3 text-sm">
+      <% if presenter.interruptible? %>
+        <button type="button"
+                data-action="exam-progress#openModal"
+                class="px-5 py-2 border border-gray-300 hover:bg-gray-50 transition-colors text-gray-700">
+          試験を中断する
+        </button>
+      <% else %>
+        <div class="flex gap-2">
+          <% presenter.secondary_links.each do |link| %>
+            <%= link_to link[:label], link[:path],
+                  class: "px-5 py-2 border border-gray-300 hover:bg-gray-50 transition-colors text-gray-700" %>
+          <% end %>
+        </div>
+      <% end %>
+
+      <%= button_tag presenter.submit_label,
+            type: :submit,
+            form: presenter.form_id,
+            disabled: presenter.require_all_answered?,
+            data: { "exam-progress-target": "submitButton" },
+            class: "px-8 py-2 bg-[#1a1b4b] text-white hover:bg-blue-900 transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer whitespace-nowrap" %>
+    </div>
+  </header>
+
+  <% if presenter.interruptible? %>
+    <div
+      class="hidden fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50 font-serif"
+      data-exam-progress-target="interruptModal"
+    >
+      <div class="bg-white w-full max-w-6xl px-8 py-16 md:py-20 shadow-2xl">
+        <h2 class="text-xl md:text-2xl font-bold text-center text-gray-900 mb-6 tracking-widest">
+          警告: 試験の中断
+        </h2>
+        <p class="text-sm md:text-base text-gray-500 text-center mb-12 leading-relaxed">
+          現在、試験を中断しようとしています。この操作を行うと現在のセッションは完了扱いとなり、未回答の問題は無効となります。本当によろしいですか？
+        </p>
+        <div class="flex flex-col sm:flex-row justify-center gap-4">
+          <button
+            type="button"
+            data-action="exam-progress#closeModal"
+            class="w-full sm:w-1/2 py-3.5 px-4 bg-[#f8f9fa] border border-gray-200 text-gray-700 font-medium hover:bg-gray-100 transition-colors duration-200 tracking-wider text-sm"
+          >
+            試験に戻る
+          </button>
+          <%= link_to "中断を確定する", presenter.interrupt_confirm_path,
+                class: "w-full sm:w-1/2 py-3.5 px-4 bg-[#081f5c] text-white font-medium hover:bg-[#05143e] transition-colors duration-200 tracking-wider text-sm text-center" %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <%= form_with(
+    url: presenter.form_url,
+    method: :post,
+    id: presenter.form_id,
+    class: presenter.form_class
+  ) do %>
+    <%= render presenter.layout_partial, **presenter.layout_locals %>
+  <% end %>
+</div>
