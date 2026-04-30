@@ -96,6 +96,11 @@ class MocksController < ApplicationController
     @filter = params[:filter].presence || "wrong"
     @part_filter = params[:part_filter].presence || "all"
     @available_sections = @flow.available_sections
+    @result_presenter = Mocks::ResultPresenter.new(
+      section_results: @section_results,
+      filter: @filter,
+      part_filter: @part_filter
+    )
   end
 
   private
