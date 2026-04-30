@@ -1,4 +1,3 @@
-<% intro = mock_direction_intro(@section, @part) %>
 <div class="bg-white min-h-screen flex items-center justify-center p-4 font-sans text-gray-800"
      data-controller="mock-direction"
      data-mock-direction-answer-url-value="<%= @answer_url %>"
@@ -14,10 +13,10 @@
 
         <div class="bg-[#F8F9FA] p-8 mb-6">
             <h2 class="text-lg md:text-[22px] font-bold text-black mb-4">
-                <%= intro[:count] %>
+                <%= @direction_intro[:count] %>
             </h2>
             <p class="text-gray-600 text-sm md:text-base whitespace-pre-line">
-                <%= intro[:description] %>
+                <%= @direction_intro[:description] %>
             </p>
         </div>
 

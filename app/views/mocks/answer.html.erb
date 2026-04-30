@@ -47,7 +47,7 @@
               class="px-5 py-2 border border-gray-300 hover:bg-gray-50 transition-colors text-gray-700">
         試験を中断する
       </button>
-      <%= button_tag mock_has_next_part?(@mock, @part) ? "次のパートへ進む" : "採点して結果を見る",
+      <%= button_tag @submit_label,
             type: :submit,
             form: form_id,
             data: { "exam-progress-target": "submitButton" },
@@ -93,14 +93,14 @@
 
     <% elsif @section.section_type == "listening" %>
       <%= render "mocks/listening_part_bc",
-            question_sets: @part.question_sets.order(:display_order),
+            question_sets: @question_sets,
             part_label: mock_part_label(@part.part_type)&.upcase %>
 
     <% elsif @section.section_type == "structure" %>
       <%= render "mocks/structure", questions: @questions, part_label: mock_part_label(@part.part_type)&.upcase %>
 
     <% elsif @section.section_type == "reading" %>
-      <%= render "mocks/reading", question_sets: @part.question_sets.order(:display_order) %>
+      <%= render "mocks/reading", question_sets: @question_sets %>
     <% end %>
   <% end %>
 </div>
