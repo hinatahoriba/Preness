@@ -26,8 +26,24 @@ module ApplicationHelper
     end
   end
 
+  def format_vocab_tags(text, in_question: false)
+    return "" if text.blank?
+
+    css_class = "font-bold italic text-black px-0.5"
+    css_class += " mx-1" if in_question
+
+    text.to_s.gsub(/\[([UV]\d*)\](.*?)\[\/\1\]/) do
+      word = Regexp.last_match(2)
+      content_tag(:span, word, class: css_class)
+    end.html_safe
+  end
+
   def question_text_with_tags(question)
     text = question.question_text
+    
+    # Replace [V1]...[/V1] or [U1]...[/U1] with stylized span
+    text = format_vocab_tags(text, in_question: true)
+
     # Replace [A]...[/A] with stylized span
     text.gsub(/\[([A-D])\](.*?)\[\/\1\]/) do
       choice = $1

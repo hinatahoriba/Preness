@@ -4,7 +4,7 @@
   <%# Left: Passage text (scrollable) %>
   <div class="w-1/2 overflow-y-auto px-10 pt-7 pb-24">
     <div class="text-[15.5px] leading-[2] text-gray-800 space-y-5 text-justify font-serif">
-      <%= simple_format(question_set.passage.to_s) %>
+      <%= format_vocab_tags(simple_format(question_set.passage.to_s)) %>
     </div>
   </div>
 
