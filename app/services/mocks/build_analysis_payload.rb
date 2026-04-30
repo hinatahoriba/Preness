@@ -76,7 +76,7 @@ module Mocks
         [key, {
           passage_theme: qs.passage_theme.presence,
           correct:       correct,
-          total:         ExamCatalog::READING_QUESTIONS_PER_SET
+          total:         questions.size
         }]
       end
     end

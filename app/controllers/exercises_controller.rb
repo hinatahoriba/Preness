@@ -16,7 +16,7 @@ class ExercisesController < ApplicationController
       hash[attempt.mockable_id] ||= attempt
     end
 
-    @index_presenter = Exercises::IndexPresenter.new(
+    @index_presenter = ::Exercises::IndexPresenter.new(
       exercises: exercises,
       latest_attempt_by_exercise_id: latest_attempt_by_exercise_id
     )
@@ -52,7 +52,7 @@ class ExercisesController < ApplicationController
       return
     end
 
-    @history_presenter = Exercises::HistoryPresenter.new(
+    @history_presenter = ::Exercises::HistoryPresenter.new(
       attempts: @attempts,
       total_questions: @questions.size,
       section: @section,
@@ -80,7 +80,7 @@ class ExercisesController < ApplicationController
     @answered_count = result.answered_count
     @filter = result.filter
     @display_questions = result.display_questions
-    @result_presenter = Exercises::ResultPresenter.new(
+    @result_presenter = ::Exercises::ResultPresenter.new(
       correct_count: @correct_count,
       total_count: @total_count,
       section: @section,

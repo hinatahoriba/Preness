@@ -10,11 +10,11 @@ module ExamSessions
             description: "音声は一度しか流れません。指示に従い、最も適切な選択肢を選んでください。"
           },
           "part_b" => {
-            count: "7問（約8分）",
+            count: "8問（約8分）",
             description: "短い会話を聞き、各質問に最も適切な選択肢を選んでください。音声は一度しか流れません。"
           },
           "part_c" => {
-            count: "13問（約12分）",
+            count: "12問（約12分）",
             description: "短い講義や会話を聞き、各質問に最も適切な選択肢を選んでください。音声は一度しか流れません。"
           }
         }.freeze,
@@ -97,7 +97,7 @@ module ExamSessions
             .index_by(&:question_id)
 
           correct_count = questions.count { |question| answers_by_question_id[question.id]&.is_correct == true }
-          answered_count = questions.count { |question| answers_by_question_id[question.id].present? }
+          answered_count = questions.count { |question| (answer = answers_by_question_id[question.id]) && answer.selected_choice.present? }
 
           {
             section: section,

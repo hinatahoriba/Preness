@@ -12,7 +12,7 @@ class MocksController < ApplicationController
     mocks = Mock.all.order(:created_at)
     attempts_by_mock_id = current_user.attempts.where(mockable: mocks).index_by(&:mockable_id)
     purchased_mock_ids = current_user.purchases.completed.where(mock: mocks).pluck(:mock_id).to_set
-    @index_presenter = Mocks::IndexPresenter.new(
+    @index_presenter = ::Mocks::IndexPresenter.new(
       mocks: mocks,
       attempts_by_mock_id: attempts_by_mock_id,
       purchased_mock_ids: purchased_mock_ids
@@ -60,7 +60,7 @@ class MocksController < ApplicationController
       part_id:    @part.id,
       attempt_id: @attempt.id
     )
-    @direction_presenter = Mocks::DirectionPresenter.new(
+    @direction_presenter = ::Mocks::DirectionPresenter.new(
       section: @section,
       part: @part,
       intro: @direction_intro,
@@ -108,7 +108,7 @@ class MocksController < ApplicationController
       )
     else
       @attempt.update!(completed_at: Time.current)
-      Mocks::AnalyzeMockResultJob.perform_later(@attempt.id)
+      ::Mocks::AnalyzeMockResultJob.perform_later(@attempt.id)
       redirect_to result_mock_path(@mock, attempt_id: @attempt.id)
     end
   end
@@ -119,7 +119,7 @@ class MocksController < ApplicationController
     @filter = params[:filter].presence || "wrong"
     @part_filter = params[:part_filter].presence || "all"
     @available_sections = @flow.available_sections
-    @result_presenter = Mocks::ResultPresenter.new(
+    @result_presenter = ::Mocks::ResultPresenter.new(
       section_results: @section_results,
       filter: @filter,
       part_filter: @part_filter
