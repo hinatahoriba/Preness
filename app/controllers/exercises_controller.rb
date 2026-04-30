@@ -1,6 +1,7 @@
 class ExercisesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_exercise, only: %i[answer history result]
+  before_action :set_flow, only: %i[answer history result]
   before_action :set_exercise_content, only: %i[answer history result]
 
   def index
@@ -72,10 +73,7 @@ class ExercisesController < ApplicationController
   end
 
   def history
-    @attempts = current_user.attempts
-      .where(mockable: @exercise)
-      .order(created_at: :desc)
-      .includes(:answers)
+    @attempts = @flow.attempts_for(current_user)
 
     if @attempts.empty?
       redirect_to answer_exercise_path(@exercise), alert: "まだ採点されていません。"
@@ -86,7 +84,7 @@ class ExercisesController < ApplicationController
     @attempt = if params[:attempt_id].present?
                  current_user.attempts.find(params[:attempt_id])
                else
-                 current_user.attempts.where(mockable: @exercise).order(created_at: :desc).first
+                 @flow.latest_attempt_for(current_user)
                end
 
     if @attempt.blank?
@@ -94,23 +92,13 @@ class ExercisesController < ApplicationController
       return
     end
 
-    @answers_by_question_id = @attempt.answers.where(question_id: @questions.map(&:id)).index_by(&:question_id)
-
-    @total_count = @questions.size
-    @correct_count = @questions.count { @answers_by_question_id[_1.id]&.is_correct == true }
-    @answered_count = @questions.count { (a = @answers_by_question_id[_1.id]) && a.selected_choice.present? }
-
-    @filter = params[:filter].presence || 'wrong'
-    @display_questions = case @filter
-                         when 'all'
-                           @questions
-                         when 'correct'
-                           @questions.select { @answers_by_question_id[_1.id]&.is_correct == true }
-                         when 'wrong'
-                           @questions.select { @answers_by_question_id[_1.id]&.is_correct != true }
-                         else
-                           @questions.select { @answers_by_question_id[_1.id]&.is_correct != true }
-                         end
+    result = @flow.build_result(@attempt, @questions, filter: params[:filter])
+    @answers_by_question_id = result.answers_by_question_id
+    @total_count = result.total_count
+    @correct_count = result.correct_count
+    @answered_count = result.answered_count
+    @filter = result.filter
+    @display_questions = result.display_questions
   end
 
   private
@@ -119,17 +107,20 @@ class ExercisesController < ApplicationController
     @exercise = Exercise.includes(sections: { parts: { question_sets: :questions } }).find(params[:id])
   end
 
-  def set_exercise_content
-    @section = @exercise.sections.first
-    @part = @section&.parts&.first
-    @question_set = @part&.question_sets&.first
-    @questions = @question_set&.questions&.to_a || []
+  def set_flow
+    @flow = ExamSessions::Flow::Exercise.new(@exercise)
+  end
 
-    raise ActiveRecord::RecordNotFound, "Exercise content is missing" if @section.blank? || @part.blank? || @question_set.blank?
+  def set_exercise_content
+    content = @flow.content!
+    @section = content.section
+    @part = content.part
+    @question_set = content.question_set
+    @questions = content.questions
   end
 
   def load_saved_answers
-    @attempt = current_user.attempts.where(mockable: @exercise).order(created_at: :desc).first
+    @attempt = @flow.latest_attempt_for(current_user)
     @answers_by_question_id = {}
     @total_count = @questions.size
     @answered_count = 0
@@ -139,4 +130,3 @@ class ExercisesController < ApplicationController
     params.permit(answers: {}).fetch(:answers, {}).to_h
   end
 end
-
