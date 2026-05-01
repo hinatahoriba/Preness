@@ -1,0 +1,83 @@
+<% content_for :body_class, "bg-[#f9fafb] text-[#374151] min-h-screen" %>
+
+<main class="max-w-7xl mx-auto p-8 overflow-y-auto">
+  <header class="flex justify-between items-center mb-12">
+    <div>
+      <div class="flex items-center space-x-4 mb-4">
+        <%= link_to mypage_path, class: "text-[#34a0a4] hover:text-[#2d8b8e] transition flex items-center space-x-1" do %>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+          <span class="text-sm font-bold">ダッシュボードへ戻る</span>
+        <% end %>
+      </div>
+      <h2 class="text-3xl font-extrabold tracking-tight text-gray-900 leading-none">実力診断</h2>
+      <p class="text-gray-400 text-sm mt-3">43分・43問で現在の実力を診断します。無料でご利用いただけます。</p>
+    </div>
+  </header>
+
+  <% if @diagnostics.empty? %>
+    <div class="text-center py-24 text-gray-400">
+      <p class="text-lg font-bold mb-2">診断テストは現在準備中です</p>
+      <p class="text-sm">もうしばらくお待ちください。</p>
+    </div>
+  <% else %>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <% @diagnostics.each do |diagnostic| %>
+        <% attempt = @attempts_by_diagnostic_id[diagnostic.id] %>
+        <% completed = attempt&.completed_at.present? %>
+        <% interrupted = attempt.present? && !completed %>
+
+        <div class="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col h-full group">
+          <div class="p-8 flex-1">
+            <div class="flex justify-between items-start mb-6">
+              <div class="w-12 h-12 bg-teal-50 rounded-2xl flex items-center justify-center text-[#34a0a4] group-hover:scale-110 transition-transform duration-300">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+              </div>
+              <% if completed %>
+                <span class="px-4 py-1.5 text-xs font-bold rounded-full bg-green-50 text-green-600">受験済み</span>
+              <% elsif interrupted %>
+                <span class="px-4 py-1.5 text-xs font-bold rounded-full bg-red-50 text-red-500">中断</span>
+              <% else %>
+                <span class="px-4 py-1.5 text-xs font-bold rounded-full bg-teal-50 text-[#34a0a4]">無料</span>
+              <% end %>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-800 mb-3 group-hover:text-[#34a0a4] transition-colors"><%= diagnostic.title %></h3>
+            <p class="text-sm text-gray-400 mb-6 leading-relaxed">
+              Listening・Structure・Reading<br>
+              43分 / 43問
+            </p>
+
+            <% if completed %>
+              <div class="text-xs text-gray-500 bg-gray-50 p-3 rounded-xl border border-gray-100">
+                <p class="font-medium">受験日: <span class="text-gray-700"><%= attempt.completed_at.strftime("%Y年%-m月%-d日") %></span></p>
+              </div>
+            <% elsif interrupted %>
+              <div class="text-xs text-red-700 bg-red-50 p-3 rounded-xl border border-red-100">
+                <p class="font-medium">途中で中断されたため、再開できません。</p>
+              </div>
+            <% end %>
+          </div>
+
+          <div class="p-6 bg-white border-t border-gray-50 mt-auto">
+            <% if completed %>
+              <%= link_to result_diagnostic_path(diagnostic, attempt_id: attempt.id),
+                    class: "w-full flex items-center justify-center space-x-2 py-3 rounded-xl text-sm font-bold bg-gray-100 text-gray-600 hover:bg-gray-200 transition" do %>
+                <span>結果を見る</span>
+              <% end %>
+            <% elsif interrupted %>
+              <div class="w-full flex items-center justify-center py-3 rounded-xl text-sm font-bold bg-gray-100 text-gray-400 cursor-not-allowed">
+                <span>受験不可</span>
+              </div>
+            <% else %>
+              <%= link_to guideline_diagnostic_path(diagnostic),
+                    class: "w-full flex items-center justify-center space-x-2 py-3 rounded-xl text-sm font-bold bg-[#34a0a4] hover:bg-[#2d8b8e] text-white transition shadow-sm" do %>
+                <span>診断を受ける</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</main>

@@ -12,7 +12,7 @@ class MockReportsController < ApplicationController
   end
 
   def show
-    @report = @attempt.mock_analysis_report
+    @report = @attempt.analysis_report
 
     if @report&.completed?
       answers_map = @attempt.answers.includes(:question).index_by(&:question_id)

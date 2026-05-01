@@ -17,7 +17,7 @@
         <h3 class="font-bold text-lg text-gray-800">TOEFL ITP</h3>
       </div>
 
-      <div class="grid grid-cols-2 gap-6">
+      <div class="grid grid-cols-3 gap-6">
         <%# セクション別演習カード %>
         <div class="bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm flex flex-col">
           <div class="py-10 flex justify-center bg-[#fcfdfe]">
@@ -29,6 +29,22 @@
             <p class="text-xs font-bold mb-3 text-gray-500">セクション別演習</p>
             <%= link_to exercises_path, class: "w-full bg-[#34a0a4] hover:bg-[#2d8b8e] text-white py-3 rounded-xl text-sm font-bold flex items-center justify-center space-x-2 transition shadow-sm" do %>
               <span>演習へ進む</span>
+              <span>→</span>
+            <% end %>
+          </div>
+        </div>
+
+        <%# 実力診断カード %>
+        <div class="bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm flex flex-col">
+          <div class="py-10 flex justify-center bg-[#fcfdfe]">
+            <div class="w-12 h-12 bg-teal-50 rounded-full flex items-center justify-center text-[#34a0a4]">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+            </div>
+          </div>
+          <div class="p-4 bg-white border-t border-gray-50 flex flex-col items-center">
+            <p class="text-xs font-bold mb-3 text-gray-500">実力診断</p>
+            <%= link_to diagnostics_path, class: "w-full bg-[#34a0a4] hover:bg-[#2d8b8e] text-white py-3 rounded-xl text-sm font-bold flex items-center justify-center space-x-2 transition shadow-sm" do %>
+              <span>今すぐ診断する</span>
               <span>→</span>
             <% end %>
           </div>

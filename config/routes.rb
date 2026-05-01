@@ -28,6 +28,19 @@ Rails.application.routes.draw do
   get "faq", to: "pages#faq", as: :faq
   get "analysis_report", to: "pages#analysis_report", as: :analysis_report_page
 
+  resources :diagnostics, only: [:index] do
+    member do
+      get  :guideline
+      get  :ready
+      post :start
+      get  :direction
+      get  :answer
+      post :submit_part
+      get  :result
+      get  :report, to: "diagnostic_reports#show"
+    end
+  end
+
   resources :exercises, only: [:index] do
     member do
       match :answer, via: %i[get post]
@@ -65,6 +78,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :mocks, only: [:create]
+      resources :diagnostics, only: [:create]
       resources :exercises, only: [:create]
     end
   end

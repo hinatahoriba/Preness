@@ -1,4 +1,4 @@
-class MockAnalysisReport < ApplicationRecord
+class AnalysisReport < ApplicationRecord
   belongs_to :attempt
 
   STATUSES = %w[pending completed failed].freeze

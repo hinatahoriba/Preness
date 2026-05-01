@@ -12,6 +12,7 @@ module Mocks
       response = conn.post("/api/v1/analysis/jobs", payload)
 
       unless response.success?
+        Rails.logger.error "[AnalysisApiClient] Error Status: #{response.status}, Body: #{response.body}"
         raise ApiError, "API responded with status #{response.status}: #{response.body}"
       end
 

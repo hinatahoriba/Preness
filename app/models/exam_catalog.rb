@@ -36,6 +36,26 @@ module ExamCatalog
   READING_SET_COUNT = 5
   DIRECTION_COUNTDOWN_SECONDS = 40
 
+  DIAGNOSTIC_PART_TOTALS = {
+    "listening" => {
+      "part_a" => 8,
+      "part_b" => 2,
+      "part_c" => 2
+    }.freeze,
+    "structure" => {
+      "part_b" => 8
+    }.freeze
+  }.freeze
+
+  DIAGNOSTIC_SECTION_TIME_LIMITS = {
+    "listening" => 9 * 60,
+    "structure" => 8 * 60,
+    "reading"   => 18 * 60
+  }.freeze
+
+  DIAGNOSTIC_READING_SET_COUNT = 2
+  DIAGNOSTIC_READING_QUESTIONS_PER_SET = 10
+
   def section_label(section_type)
     SECTION_LABELS.fetch(section_type, section_type)
   end
@@ -59,6 +79,19 @@ module ExamCatalog
 
   def part_total(section_type, part_type)
     part_totals(section_type).fetch(part_type, 0)
+  end
+
+  def diagnostic_part_totals(section_type)
+    DIAGNOSTIC_PART_TOTALS.fetch(section_type, {})
+  end
+
+  def diagnostic_section_time_limit_seconds(section_type)
+    DIAGNOSTIC_SECTION_TIME_LIMITS.fetch(section_type, 0)
+  end
+
+  def diagnostic_section_time_limit_display(section_type)
+    seconds = diagnostic_section_time_limit_seconds(section_type)
+    format("%02d:%02d", seconds / 60, seconds % 60)
   end
 
   def set_title(section_type:, part_type:, set_number:)
