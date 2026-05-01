@@ -25,10 +25,7 @@ class DiagnosticsController < ApplicationController
 
     if attempt&.completed_at.present?
       redirect_to result_diagnostic_path(@diagnostic, attempt_id: attempt.id)
-      return
-    end
-
-    if attempt&.completed_at.nil? && attempt.present?
+    elsif attempt.present?
       redirect_to diagnostics_path, alert: "この実力診断は途中で中断されたため再開できません。"
     end
   end

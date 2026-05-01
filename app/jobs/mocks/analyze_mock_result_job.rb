@@ -2,9 +2,7 @@ module Mocks
   class AnalyzeMockResultJob < ApplicationJob
     queue_as :default
 
-    # 指数バックオフでリトライ（約 16s → 64s → 256s の間隔）
-    retry_on StandardError,                  wait: :polynomially_longer, attempts: 3
-    retry_on Mocks::AnalysisApiClient::ApiError, wait: :polynomially_longer, attempts: 3
+    retry_on StandardError, wait: :polynomially_longer, attempts: 3
 
     # Attempt が削除されていた場合はジョブを破棄
     discard_on ActiveRecord::RecordNotFound

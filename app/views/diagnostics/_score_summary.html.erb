@@ -1,15 +1,8 @@
 <%
-  all_reports = current_user.attempts.joins(:analysis_report)
-                             .where.not(completed_at: nil)
-                             .where(mockable_type: "Diagnostic")
-                             .where(analysis_reports: { status: :completed })
-                             .order(completed_at: :asc)
-                             .pluck('analysis_reports.total_score')
-
-  initial_score = all_reports.first || 0
-  latest_score = report.total_score || 0
-  target_score = target_score || 0
-  diff_score = (all_reports.size > 1) ? (latest_score - (all_reports[-2] || 0)) : 0
+  initial_score = all_scores.first || 0
+  latest_score  = report.total_score || 0
+  target_score  = target_score || 0
+  diff_score    = (all_scores.size > 1) ? (latest_score - (all_scores[-2] || 0)) : 0
 %>
 
 <div class="text-[11px] font-bold text-[#e8703a] tracking-[0.12em] uppercase mb-1.5">概要</div>

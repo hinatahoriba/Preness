@@ -2,8 +2,7 @@ module Diagnostics
   class AnalyzeResultJob < ApplicationJob
     queue_as :default
 
-    retry_on StandardError,                     wait: :polynomially_longer, attempts: 3
-    retry_on Mocks::AnalysisApiClient::ApiError, wait: :polynomially_longer, attempts: 3
+    retry_on StandardError, wait: :polynomially_longer, attempts: 3
 
     discard_on ActiveRecord::RecordNotFound
 

@@ -36,6 +36,7 @@ module Api
                     question_text:          question_data.fetch(:question_text),
                     conversation_audio_url: question_data[:conversation_audio_url],
                     question_audio_url:     question_data[:question_audio_url],
+                    scripts:                question_data[:scripts],
                     choice_a:               question_data.fetch(:choice_a),
                     choice_b:               question_data.fetch(:choice_b),
                     choice_c:               question_data.fetch(:choice_c),

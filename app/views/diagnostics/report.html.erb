@@ -49,7 +49,7 @@
 
   <div class="max-w-[1000px] mx-auto px-6 pt-10 pb-16">
 
-    <%= render 'diagnostics/score_summary', report: @report, target_score: @target_score %>
+    <%= render 'diagnostics/score_summary', report: @report, target_score: @target_score, all_scores: @all_scores %>
 
     <%= render 'mocks/listening_analysis', parts_accuracy: @parts_accuracy %>
 

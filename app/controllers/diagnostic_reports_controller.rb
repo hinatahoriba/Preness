@@ -19,6 +19,13 @@ class DiagnosticReportsController < ApplicationController
       @parts_accuracy = build_report_parts_accuracy(@diagnostic, answers_map)
       @tag_accuracy   = build_report_tag_accuracy(@diagnostic, answers_map)
       @target_score   = @attempt.user.user_profile&.itp_target_score
+      @all_scores     = current_user.attempts
+        .joins(:analysis_report)
+        .where.not(completed_at: nil)
+        .where(mockable_type: "Diagnostic")
+        .where(analysis_reports: { status: :completed })
+        .order(completed_at: :asc)
+        .pluck("analysis_reports.total_score")
     end
   end
 
