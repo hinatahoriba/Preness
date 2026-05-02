@@ -4,8 +4,8 @@ class HistoriesController < ApplicationController
   def index
     @completed_attempts = current_user.attempts
       .where.not(completed_at: nil)
-      .where(mockable_type: "Mock")
-      .includes(:mockable, :mock_analysis_report)
+      .where(mockable_type: %w[Mock Diagnostic])
+      .includes(:mockable, :analysis_report)
       .order(completed_at: :desc)
   end
 end

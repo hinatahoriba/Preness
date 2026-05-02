@@ -96,6 +96,51 @@ else
     exercise
   end
 
+  def create_diagnostic_set!(diagnostic:, section_type:, part_type:, set_number:, passage: nil, passage_theme: nil, audio_url: nil, scripts: DEFAULT_SCRIPTS, questions:)
+    section = diagnostic.sections.find_or_create_by!(
+      section_type: section_type,
+      display_order: SECTION_DISPLAY_ORDERS.fetch(section_type)
+    )
+
+    part = section.parts.find_or_create_by!(
+      part_type: part_type,
+      display_order: PART_DISPLAY_ORDERS.fetch(part_type)
+    )
+
+    question_set = part.question_sets.create!(
+      display_order: set_number,
+      passage: passage,
+      passage_theme: passage_theme,
+      conversation_audio_url: audio_url,
+      scripts: scripts
+    )
+
+    questions.each_with_index do |question_data, index|
+      question_conversation_audio_url = if part_type == "part_a"
+        question_data[:conversation_audio_url] || question_data[:question_audio_url] || audio_url
+      end
+
+      question_set.questions.create!(
+        display_order: index + 1,
+        question_text: question_data.fetch(:question_text),
+        conversation_audio_url: question_conversation_audio_url,
+        question_audio_url: question_data[:question_audio_url] || question_data[:audio_url],
+        scripts: question_data[:scripts] || DEFAULT_SCRIPTS,
+        choice_a: question_data.fetch(:choice_a),
+        choice_b: question_data.fetch(:choice_b),
+        choice_c: question_data.fetch(:choice_c),
+        choice_d: question_data.fetch(:choice_d),
+        correct_choice: question_data.fetch(:correct_choice),
+        explanation: question_data[:explanation],
+        tag: question_data[:tag],
+        wrong_reason_a: question_data[:wrong_reason_a],
+        wrong_reason_b: question_data[:wrong_reason_b],
+        wrong_reason_c: question_data[:wrong_reason_c],
+        wrong_reason_d: question_data[:wrong_reason_d]
+      )
+    end
+  end
+
   def create_mock_set!(mock:, section_type:, part_type:, set_number:, passage: nil, passage_theme: nil, audio_url: nil, scripts: DEFAULT_SCRIPTS, questions:)
     section = mock.sections.find_or_create_by!(
       section_type: section_type,
@@ -152,6 +197,7 @@ else
     Section.delete_all
     Exercise.delete_all
     Mock.delete_all if ActiveRecord::Base.connection.data_source_exists?("mocks")
+    Diagnostic.delete_all if ActiveRecord::Base.connection.data_source_exists?("diagnostics")
   end
 
   
@@ -962,6 +1008,639 @@ else
       }
     ]
   )
+
+  # ─── Diagnostic seed data ────────────────────────────────────────────────────
+  puts "Seeding diagnostic data..."
+  diagnostic1 = Diagnostic.create!(title: "実力診断テスト Vol.1")
+
+  # Listening Part A (shortConv) – 8 questions
+  create_diagnostic_set!(
+    diagnostic: diagnostic1,
+    section_type: "listening",
+    part_type: "part_a",
+    set_number: 1,
+    questions: [
+      {
+        tag: "shortConv",
+        question_text: "What does the woman imply?",
+        question_audio_url: audio_url,
+        choice_a: "She will return the book today.",
+        choice_b: "The book may be kept at the front desk.",
+        choice_c: "The library is closed.",
+        choice_d: "She has the book at home.",
+        correct_choice: "B",
+        explanation: '"on reserve" はフロントデスクで保管されている可能性を示唆します。',
+        wrong_reason_a: "本を返すとは述べられていません。",
+        wrong_reason_c: "図書館が閉まっているという情報は会話にありません。",
+        wrong_reason_d: "寮に本があるという手がかりはありません。"
+      },
+      {
+        tag: "shortConv",
+        question_text: "What will the man probably do next?",
+        question_audio_url: audio_url,
+        choice_a: "Ask at the front desk.",
+        choice_b: "Go to the dormitory.",
+        choice_c: "Buy the book online.",
+        choice_d: "Cancel his research plan.",
+        correct_choice: "A",
+        explanation: "女性の示唆からフロントデスクで確認するのが自然な流れです。",
+        wrong_reason_b: "寮に行く流れは会話から読み取れません。",
+        wrong_reason_c: "オンライン購入は会話に登場していません。",
+        wrong_reason_d: "研究計画キャンセルの意図はありません。"
+      },
+      {
+        tag: "shortConv",
+        question_text: "Where does the conversation most likely take place?",
+        question_audio_url: audio_url,
+        choice_a: "At a café.",
+        choice_b: "In a classroom.",
+        choice_c: "At a library.",
+        choice_d: "At a bookstore.",
+        correct_choice: "C",
+        explanation: "予約本とフロントデスクの話題から図書館が想定されます。",
+        wrong_reason_a: "カフェという手がかりは全くありません。",
+        wrong_reason_b: "教室を示す描写がありません。",
+        wrong_reason_d: "書店でフロントデスクに本を予約する慣習はありません。"
+      },
+      {
+        tag: "shortConv",
+        question_text: "What does the man mean?",
+        question_audio_url: audio_url,
+        choice_a: "He forgot his assignment.",
+        choice_b: "He needs more time to finish.",
+        choice_c: "He already submitted the report.",
+        choice_d: "He will ask the professor for help.",
+        correct_choice: "B",
+        explanation: "男性の発言は締め切りに間に合わない可能性を示しています。",
+        wrong_reason_a: "課題を忘れたという発言はありません。",
+        wrong_reason_c: "レポートをすでに提出したとは述べていません。",
+        wrong_reason_d: "教授に助けを求めるとは言っていません。"
+      },
+      {
+        tag: "shortConv",
+        question_text: "What is the woman's problem?",
+        question_audio_url: audio_url,
+        choice_a: "She missed the lecture.",
+        choice_b: "She lost her notes.",
+        choice_c: "She cannot find the classroom.",
+        choice_d: "She does not understand the material.",
+        correct_choice: "A",
+        explanation: "女性は講義を欠席したことを示唆しています。",
+        wrong_reason_b: "ノートを失くしたという話は出ていません。",
+        wrong_reason_c: "教室が見つからない問題ではありません。",
+        wrong_reason_d: "内容が理解できないとは述べていません。"
+      },
+      {
+        tag: "shortConv",
+        question_text: "What does the woman suggest the man do?",
+        question_audio_url: audio_url,
+        choice_a: "Talk to the professor after class.",
+        choice_b: "Study with a classmate.",
+        choice_c: "Check the course website.",
+        choice_d: "Read the textbook again.",
+        correct_choice: "C",
+        explanation: "女性はコースウェブサイトで確認するよう勧めています。",
+        wrong_reason_a: "授業後に教授と話すとは提案していません。",
+        wrong_reason_b: "クラスメートと勉強するという提案ではありません。",
+        wrong_reason_d: "教科書を再度読むよう勧めてはいません。"
+      },
+      {
+        tag: "shortConv",
+        question_text: "What can be inferred about the man?",
+        question_audio_url: audio_url,
+        choice_a: "He is a graduate student.",
+        choice_b: "He is unfamiliar with the campus.",
+        choice_c: "He has been to the library before.",
+        choice_d: "He does not have a student ID.",
+        correct_choice: "B",
+        explanation: "男性のキャンパスへの不慣れさが会話から読み取れます。",
+        wrong_reason_a: "大学院生であるという情報はありません。",
+        wrong_reason_c: "以前図書館に行ったという発言はありません。",
+        wrong_reason_d: "学生証を持っていないとは述べられていません。"
+      },
+      {
+        tag: "shortConv",
+        question_text: "What does the woman say about the exam?",
+        question_audio_url: audio_url,
+        choice_a: "It has been postponed.",
+        choice_b: "It covers three chapters.",
+        choice_c: "It will be held online.",
+        choice_d: "It is open book.",
+        correct_choice: "A",
+        explanation: "試験が延期されたと女性は述べています。",
+        wrong_reason_b: "3章分が範囲という情報は出ていません。",
+        wrong_reason_c: "オンライン実施とは述べられていません。",
+        wrong_reason_d: "持ち込み可とは言っていません。"
+      }
+    ]
+  )
+
+  # Listening Part B (longConv) – 2 questions
+  create_diagnostic_set!(
+    diagnostic: diagnostic1,
+    section_type: "listening",
+    part_type: "part_b",
+    set_number: 1,
+    audio_url: audio_url,
+    questions: [
+      {
+        tag: "longConv",
+        question_text: "What are the students mainly discussing?",
+        question_audio_url: audio_url,
+        choice_a: "Weekend plans.",
+        choice_b: "A research project.",
+        choice_c: "A scholarship requirement.",
+        choice_d: "How to start a club.",
+        correct_choice: "B",
+        explanation: "会話の中心は授業のプロジェクトです。",
+        wrong_reason_a: "週末の予定は主題ではありません。",
+        wrong_reason_c: "奨学金の話は会話に登場しません。",
+        wrong_reason_d: "クラブの立ち上げ方は無関係です。"
+      },
+      {
+        tag: "longConv",
+        question_text: "What does the woman offer to do?",
+        question_audio_url: audio_url,
+        choice_a: "Collect the data.",
+        choice_b: "Write the introduction.",
+        choice_c: "Make the slides.",
+        choice_d: "Present alone.",
+        correct_choice: "C",
+        explanation: "女性はスライド作成を引き受けています。",
+        wrong_reason_a: "データ収集は女性が担当とは述べていません。",
+        wrong_reason_b: "イントロ執筆を引き受けるとは言っていません。",
+        wrong_reason_d: "一人で発表するとは述べていません。"
+      }
+    ]
+  )
+
+  # Listening Part C (talk) – 2 questions
+  create_diagnostic_set!(
+    diagnostic: diagnostic1,
+    section_type: "listening",
+    part_type: "part_c",
+    set_number: 1,
+    audio_url: audio_url,
+    questions: [
+      {
+        tag: "talk",
+        question_text: "What is the main topic of the talk?",
+        question_audio_url: audio_url,
+        choice_a: "The history of the Internet.",
+        choice_b: "Social media and mental health.",
+        choice_c: "Online privacy laws.",
+        choice_d: "Digital literacy in schools.",
+        correct_choice: "B",
+        explanation: "講義はソーシャルメディアとメンタルヘルスの関連を中心に論じています。",
+        wrong_reason_a: "インターネットの歴史は主題ではありません。",
+        wrong_reason_c: "プライバシー法については言及されていません。",
+        wrong_reason_d: "学校でのデジタルリテラシーは主題ではありません。"
+      },
+      {
+        tag: "talk",
+        question_text: "According to the speaker, what is one effect of excessive social media use?",
+        question_audio_url: audio_url,
+        choice_a: "Improved academic performance.",
+        choice_b: "Increased feelings of loneliness.",
+        choice_c: "Better communication skills.",
+        choice_d: "Reduced screen time.",
+        correct_choice: "B",
+        explanation: "講師は過度なSNS使用が孤独感を高めると述べています。",
+        wrong_reason_a: "学業成績の向上は述べられていません。",
+        wrong_reason_c: "コミュニケーションスキル向上は言及されていません。",
+        wrong_reason_d: "スクリーンタイムの減少は述べられていません。"
+      }
+    ]
+  )
+
+  # Structure Part B – Written Expression (8 questions)
+  create_diagnostic_set!(
+    diagnostic: diagnostic1,
+    section_type: "structure",
+    part_type: "part_b",
+    set_number: 1,
+    questions: [
+      {
+        tag: "verbForm",
+        question_text: "The committee has (A)decided to postponing (B)the annual conference (C)due to the (D)ongoing renovation.",
+        choice_a: "decided",
+        choice_b: "the annual conference",
+        choice_c: "due to the",
+        choice_d: "ongoing renovation",
+        correct_choice: "A",
+        explanation: '"decided to postponing" は誤り。"decide to" の後には動詞の原形が来るため "decided to postpone" が正しい。',
+        wrong_reason_b: "the annual conferenceは名詞句として正しい。",
+        wrong_reason_c: "due to theは前置詞句として正しい。",
+        wrong_reason_d: "ongoingは形容詞として正しく使われています。"
+      },
+      {
+        tag: "nounPronoun",
+        question_text: "Each of the students (A)are required to (B)submit (C)their reports (D)by Friday.",
+        choice_a: "are required",
+        choice_b: "submit",
+        choice_c: "their reports",
+        choice_d: "by Friday",
+        correct_choice: "A",
+        explanation: '"Each of" は単数扱いのため "is required" が正しい。',
+        wrong_reason_b: "submitは動詞として正しい用法です。",
+        wrong_reason_c: "theirはstudentsを受けており問題ありません。",
+        wrong_reason_d: "by Fridayは正しい時を表す前置詞句です。"
+      },
+      {
+        tag: "modifierConnect",
+        question_text: "The scientist (A)explained the results (B)clear and (C)confidently to the (D)audience.",
+        choice_a: "explained the results",
+        choice_b: "clear",
+        choice_c: "confidently",
+        choice_d: "audience",
+        correct_choice: "B",
+        explanation: '"clear" は副詞 "clearly" であるべき。動詞 explained を修飾するため副詞が必要。',
+        wrong_reason_a: "explained the resultsは正しいSV目的語構造です。",
+        wrong_reason_c: "confidentlyは正しい副詞形です。",
+        wrong_reason_d: "audienceは名詞として正しい。"
+      },
+      {
+        tag: "verbForm",
+        question_text: "The report (A)was (B)wrote by three (C)senior researchers (D)at the institute.",
+        choice_a: "was",
+        choice_b: "wrote",
+        choice_c: "senior researchers",
+        choice_d: "at the institute",
+        correct_choice: "B",
+        explanation: '"was wrote" は誤り。受動態は "was written" が正しい。',
+        wrong_reason_a: "wasは受動態の助動詞として正しい。",
+        wrong_reason_c: "senior researchersは正しい名詞句です。",
+        wrong_reason_d: "at the instituteは正しい場所を示す句です。"
+      },
+      {
+        tag: "nounPronoun",
+        question_text: "Neither the manager nor the employees (A)was (B)informed about (C)the policy (D)changes.",
+        choice_a: "was",
+        choice_b: "informed",
+        choice_c: "the policy",
+        choice_d: "changes",
+        correct_choice: "A",
+        explanation: '"Neither A nor B" で動詞はBに一致するため "were" が正しい。',
+        wrong_reason_b: "informedは過去分詞として正しい。",
+        wrong_reason_c: "the policyは正しい名詞句の一部です。",
+        wrong_reason_d: "changesはpolicyを修飾する名詞として正しい。"
+      },
+      {
+        tag: "modifierConnect",
+        question_text: "The new regulation, (A)which was (B)announced recent, (C)affects all (D)international students.",
+        choice_a: "which was",
+        choice_b: "announced recent",
+        choice_c: "affects all",
+        choice_d: "international students",
+        correct_choice: "B",
+        explanation: '"recent" は副詞 "recently" であるべき。動詞 announced を修飾するため。',
+        wrong_reason_a: "which wasは関係詞節の正しい始まりです。",
+        wrong_reason_c: "affects allは正しい動詞と目的語の組み合わせです。",
+        wrong_reason_d: "international studentsは正しい名詞句です。"
+      },
+      {
+        tag: "verbForm",
+        question_text: "By the time the guests (A)arrived, the chef (B)has already (C)prepared (D)the entire meal.",
+        choice_a: "arrived",
+        choice_b: "has already",
+        choice_c: "prepared",
+        choice_d: "the entire meal",
+        correct_choice: "B",
+        explanation: '"By the time + 過去形" の場合、主節は過去完了 "had already" が正しい。',
+        wrong_reason_a: "arrivedは過去形として正しい。",
+        wrong_reason_c: "preparedは過去完了の一部として正しい形です。",
+        wrong_reason_d: "the entire mealは正しい目的語です。"
+      },
+      {
+        tag: "nounPronoun",
+        question_text: "The professor asked the class to hand (A)in (B)their (C)essay before (D)leave the room.",
+        choice_a: "in",
+        choice_b: "their",
+        choice_c: "essay",
+        choice_d: "leave",
+        correct_choice: "D",
+        explanation: '"before leave" は誤り。前置詞 before の後には動名詞 "leaving" が必要。',
+        wrong_reason_a: "inはhand inの慣用句として正しい。",
+        wrong_reason_b: "theirはclassを受ける所有格として正しい。",
+        wrong_reason_c: "essayは正しい目的語です。"
+      }
+    ]
+  )
+
+  # Reading Passage 1 (10 questions)
+  passage1_text = <<~PASSAGE
+    The concept of "flow," introduced by psychologist Mihaly Csikszentmihalyi, describes a mental state
+    in which a person is fully immersed in an activity, experiencing energized focus and enjoyment.
+    Flow occurs when the challenge of a task matches the individual's skill level — too easy, and
+    boredom sets in; too difficult, and anxiety takes over. Research has shown that people in flow states
+    report higher levels of creativity, productivity, and overall well-being. Athletes describe it as
+    being "in the zone," while musicians refer to it as playing effortlessly. Although flow can occur
+    in any domain — from surgery to chess — it is most commonly reported during activities that require
+    skill, concentration, and clear goals. Organizations have begun applying flow theory to workplace
+    design, restructuring tasks to promote deeper engagement. Critics argue, however, that not all
+    productive work is enjoyable, and that overemphasizing flow may neglect the value of deliberate,
+    effortful practice.
+  PASSAGE
+
+  create_diagnostic_set!(
+    diagnostic: diagnostic1,
+    section_type: "reading",
+    part_type: "passages",
+    set_number: 1,
+    passage: passage1_text,
+    passage_theme: "Psychology",
+    questions: [
+      {
+        tag: "fact",
+        question_text: "According to the passage, who introduced the concept of flow?",
+        choice_a: "A sports psychologist",
+        choice_b: "Mihaly Csikszentmihalyi",
+        choice_c: "A neuroscientist",
+        choice_d: "An organizational consultant",
+        correct_choice: "B",
+        explanation: "本文第1文に Mihaly Csikszentmihalyi が flow の概念を導入したと明記されています。",
+        wrong_reason_a: "スポーツ心理学者とは述べられていません。",
+        wrong_reason_c: "神経科学者とは述べられていません。",
+        wrong_reason_d: "組織コンサルタントとは述べられていません。"
+      },
+      {
+        tag: "fact",
+        question_text: "According to the passage, when does boredom occur?",
+        choice_a: "When the task is too difficult.",
+        choice_b: "When the person is distracted.",
+        choice_c: "When the task is too easy.",
+        choice_d: "When goals are unclear.",
+        correct_choice: "C",
+        explanation: "本文に「too easy, and boredom sets in」と明記されています。",
+        wrong_reason_a: "難しすぎる場合は不安（anxiety）が生じると述べられています。",
+        wrong_reason_b: "気が散ることによる退屈は本文に書かれていません。",
+        wrong_reason_d: "目標が不明確な場合についての記述ではありません。"
+      },
+      {
+        tag: "inference",
+        question_text: "What can be inferred about athletes who are \"in the zone\"?",
+        choice_a: "They are experiencing a flow state.",
+        choice_b: "They are performing below their skill level.",
+        choice_c: "They feel anxious about the competition.",
+        choice_d: "They are using a new training technique.",
+        correct_choice: "A",
+        explanation: "本文はアスリートが「in the zone」と表現する状態を flow と同一視しています。",
+        wrong_reason_b: "スキルレベル以下のパフォーマンスという記述はありません。",
+        wrong_reason_c: "不安を感じているという文脈ではありません。",
+        wrong_reason_d: "新しいトレーニング技術の話ではありません。"
+      },
+      {
+        tag: "vocab",
+        question_text: "The word \"immersed\" in paragraph 1 is closest in meaning to",
+        choice_a: "confused",
+        choice_b: "absorbed",
+        choice_c: "exhausted",
+        choice_d: "distracted",
+        correct_choice: "B",
+        explanation: '"immersed" は「完全に没頭した」という意味で、"absorbed" が最も近い。',
+        wrong_reason_a: "confusedは「混乱した」という意味で異なります。",
+        wrong_reason_c: "exhaustedは「疲れ果てた」という意味で異なります。",
+        wrong_reason_d: "distractedは「気が散った」という意味で正反対です。"
+      },
+      {
+        tag: "inference",
+        question_text: "Which of the following best describes the author's tone toward flow theory?",
+        choice_a: "Strongly critical.",
+        choice_b: "Completely supportive.",
+        choice_c: "Balanced and informative.",
+        choice_d: "Dismissive.",
+        correct_choice: "C",
+        explanation: "著者は flow の利点を説明しつつ批判的な見方も紹介しており、バランスのとれたトーンです。",
+        wrong_reason_a: "強い批判的トーンではなく、利点も述べています。",
+        wrong_reason_b: "批評家の意見も紹介しており、完全な支持ではありません。",
+        wrong_reason_d: "無視するようなトーンではありません。"
+      },
+      {
+        tag: "fact",
+        question_text: "According to the passage, in which domains can flow occur?",
+        choice_a: "Only in sports.",
+        choice_b: "Only in creative arts.",
+        choice_c: "Only in academic settings.",
+        choice_d: "In any domain requiring skill and concentration.",
+        correct_choice: "D",
+        explanation: "本文に「flow can occur in any domain — from surgery to chess」と明記されています。",
+        wrong_reason_a: "スポーツだけに限定されていません。",
+        wrong_reason_b: "創造的芸術のみとは述べられていません。",
+        wrong_reason_c: "学術的な場だけとは記述されていません。"
+      },
+      {
+        tag: "vocab",
+        question_text: "The word \"deliberate\" in the last sentence is closest in meaning to",
+        choice_a: "accidental",
+        choice_b: "intentional",
+        choice_c: "creative",
+        choice_d: "rapid",
+        correct_choice: "B",
+        explanation: '"deliberate" は「意図的な、意識的な」という意味で "intentional" が最も近い。',
+        wrong_reason_a: "accidentalは「偶然の」という意味で正反対です。",
+        wrong_reason_c: "creativeは「創造的な」という意味で異なります。",
+        wrong_reason_d: "rapidは「速い」という意味で異なります。"
+      },
+      {
+        tag: "inference",
+        question_text: "What do critics of flow theory most likely believe?",
+        choice_a: "Flow is impossible to achieve in the workplace.",
+        choice_b: "Hard work does not always need to be enjoyable.",
+        choice_c: "Flow states are harmful to productivity.",
+        choice_d: "Flow theory applies only to athletes.",
+        correct_choice: "B",
+        explanation: "批評家は「生産的な仕事がすべて楽しいわけではない」と述べており、努力の価値を強調しています。",
+        wrong_reason_a: "職場でのflow達成が不可能とは述べていません。",
+        wrong_reason_c: "flowが生産性に有害とは述べていません。",
+        wrong_reason_d: "アスリートのみに適用されるとは述べていません。"
+      },
+      {
+        tag: "fact",
+        question_text: "According to the passage, what have organizations done with flow theory?",
+        choice_a: "Rejected it as impractical.",
+        choice_b: "Applied it to workplace design.",
+        choice_c: "Used it to evaluate employee performance.",
+        choice_d: "Integrated it into hiring processes.",
+        correct_choice: "B",
+        explanation: "本文に「Organizations have begun applying flow theory to workplace design」と明記されています。",
+        wrong_reason_a: "非現実的として拒否したとは述べていません。",
+        wrong_reason_c: "従業員評価への使用は述べられていません。",
+        wrong_reason_d: "採用プロセスへの統合は述べられていません。"
+      },
+      {
+        tag: "inference",
+        question_text: "What is the most likely purpose of this passage?",
+        choice_a: "To argue that flow is superior to deliberate practice.",
+        choice_b: "To provide an overview of flow theory and its applications.",
+        choice_c: "To criticize the use of psychology in the workplace.",
+        choice_d: "To describe Csikszentmihalyi's personal life.",
+        correct_choice: "B",
+        explanation: "本文はflow理論の概要、応用例、および批判をバランスよく説明しており、概説を目的としています。",
+        wrong_reason_a: "deliberate practiceよりflowが優れているとは主張していません。",
+        wrong_reason_c: "職場での心理学利用への批判が目的ではありません。",
+        wrong_reason_d: "Csikszentmihalyiの個人的な生活については述べていません。"
+      }
+    ]
+  )
+
+  # Reading Passage 2 (10 questions)
+  passage2_text = <<~PASSAGE
+    Coral reefs, often called the "rainforests of the sea," support approximately 25 percent of all
+    marine species despite covering less than 1 percent of the ocean floor. These ecosystems are built
+    by tiny organisms called coral polyps, which secrete calcium carbonate to form the hard structures
+    we recognize as reefs. Coral reefs thrive in warm, clear, shallow waters where sunlight can
+    penetrate. A critical relationship exists between corals and photosynthetic algae known as
+    zooxanthellae, which live within coral tissues and provide up to 90 percent of the coral's
+    energy through photosynthesis. When ocean temperatures rise even slightly, corals expel their
+    algae in a process known as coral bleaching, leaving the reef white and vulnerable. Prolonged
+    bleaching events, increasingly common due to climate change, can lead to coral death. While
+    some recovery is possible if temperatures stabilize, repeated bleaching events have caused
+    widespread, permanent damage to reefs worldwide, threatening the biodiversity they support
+    and the millions of people who depend on them for food and coastal protection.
+  PASSAGE
+
+  create_diagnostic_set!(
+    diagnostic: diagnostic1,
+    section_type: "reading",
+    part_type: "passages",
+    set_number: 2,
+    passage: passage2_text,
+    passage_theme: "Marine Biology",
+    questions: [
+      {
+        tag: "fact",
+        question_text: "According to the passage, what percentage of marine species do coral reefs support?",
+        choice_a: "Less than 1 percent.",
+        choice_b: "About 10 percent.",
+        choice_c: "Approximately 25 percent.",
+        choice_d: "More than 50 percent.",
+        correct_choice: "C",
+        explanation: "本文第1文に「approximately 25 percent of all marine species」と明記されています。",
+        wrong_reason_a: "1%以下はサンゴ礁が占める海底面積の説明です。",
+        wrong_reason_b: "10%という数字は本文に登場しません。",
+        wrong_reason_d: "50%以上とは述べられていません。"
+      },
+      {
+        tag: "vocab",
+        question_text: "The word \"secrete\" in paragraph 1 is closest in meaning to",
+        choice_a: "absorb",
+        choice_b: "dissolve",
+        choice_c: "release",
+        choice_d: "reflect",
+        correct_choice: "C",
+        explanation: '"secrete" は「分泌する、放出する」という意味で "release" が最も近い。',
+        wrong_reason_a: "absorbは「吸収する」という意味で正反対です。",
+        wrong_reason_b: "dissolveは「溶かす」という意味で異なります。",
+        wrong_reason_d: "reflectは「反射する」という意味で異なります。"
+      },
+      {
+        tag: "fact",
+        question_text: "According to the passage, what do zooxanthellae provide to corals?",
+        choice_a: "Structural support.",
+        choice_b: "Up to 90 percent of their energy.",
+        choice_c: "Protection from predators.",
+        choice_d: "A source of calcium carbonate.",
+        correct_choice: "B",
+        explanation: "本文に「provide up to 90 percent of the coral's energy through photosynthesis」と明記されています。",
+        wrong_reason_a: "構造的サポートは述べられていません。",
+        wrong_reason_c: "捕食者からの保護は述べられていません。",
+        wrong_reason_d: "炭酸カルシウムはサンゴポリプが分泌するものです。"
+      },
+      {
+        tag: "fact",
+        question_text: "What happens when ocean temperatures rise?",
+        choice_a: "Coral polyps reproduce rapidly.",
+        choice_b: "Zooxanthellae produce more energy.",
+        choice_c: "Corals expel their algae.",
+        choice_d: "Reefs expand in size.",
+        correct_choice: "C",
+        explanation: "本文に「corals expel their algae in a process known as coral bleaching」と明記されています。",
+        wrong_reason_a: "急速に繁殖するとは述べられていません。",
+        wrong_reason_b: "より多くのエネルギーを生産するとは述べていません。",
+        wrong_reason_d: "礁が拡大するとは述べていません。"
+      },
+      {
+        tag: "vocab",
+        question_text: "The word \"vulnerable\" as used in the passage means",
+        choice_a: "colorful",
+        choice_b: "transparent",
+        choice_c: "at risk",
+        choice_d: "productive",
+        correct_choice: "C",
+        explanation: '"vulnerable" は「傷つきやすい、危険にさらされた」という意味で "at risk" が最も近い。',
+        wrong_reason_a: "colorfulは「色鮮やか」という意味で異なります。",
+        wrong_reason_b: "transparentは「透明な」という意味で異なります。",
+        wrong_reason_d: "productiveは「生産的な」という意味で異なります。"
+      },
+      {
+        tag: "inference",
+        question_text: "What can be inferred about coral bleaching events?",
+        choice_a: "They are becoming less frequent.",
+        choice_b: "They are caused mainly by pollution.",
+        choice_c: "They are increasingly linked to climate change.",
+        choice_d: "They only affect shallow water corals.",
+        correct_choice: "C",
+        explanation: "本文に「increasingly common due to climate change」と述べられており、気候変動との関連が示唆されています。",
+        wrong_reason_a: "減少しているとは述べられておらず、むしろ増加しています。",
+        wrong_reason_b: "主に汚染が原因とは述べられていません。",
+        wrong_reason_d: "浅い水域のサンゴだけに影響するとは限定されていません。"
+      },
+      {
+        tag: "inference",
+        question_text: "What does the passage imply about coral recovery?",
+        choice_a: "It always occurs after bleaching.",
+        choice_b: "It is impossible once bleaching begins.",
+        choice_c: "It depends on whether temperatures stabilize.",
+        choice_d: "It requires human intervention.",
+        correct_choice: "C",
+        explanation: "本文に「some recovery is possible if temperatures stabilize」と条件付きで回復の可能性が述べられています。",
+        wrong_reason_a: "必ず回復するとは述べていません。",
+        wrong_reason_b: "回復が完全に不可能とは述べていません。",
+        wrong_reason_d: "人間の介入が必要とは述べていません。"
+      },
+      {
+        tag: "fact",
+        question_text: "According to the passage, what percentage of the ocean floor do coral reefs cover?",
+        choice_a: "25 percent.",
+        choice_b: "Less than 1 percent.",
+        choice_c: "About 10 percent.",
+        choice_d: "50 percent.",
+        correct_choice: "B",
+        explanation: "本文に「covering less than 1 percent of the ocean floor」と明記されています。",
+        wrong_reason_a: "25%は海洋生物種のサポート割合の説明です。",
+        wrong_reason_c: "10%という数字は本文に登場しません。",
+        wrong_reason_d: "50%とは述べられていません。"
+      },
+      {
+        tag: "inference",
+        question_text: "Who, according to the passage, is threatened by reef damage?",
+        choice_a: "Only marine biologists.",
+        choice_b: "Deep-sea fishermen exclusively.",
+        choice_c: "Millions of people who rely on reefs for food and protection.",
+        choice_d: "Tourists visiting coral reefs.",
+        correct_choice: "C",
+        explanation: "本文末に「millions of people who depend on them for food and coastal protection」と述べられています。",
+        wrong_reason_a: "海洋生物学者のみとは述べていません。",
+        wrong_reason_b: "深海漁師のみとは述べていません。",
+        wrong_reason_d: "観光客については言及されていません。"
+      },
+      {
+        tag: "vocab",
+        question_text: "The phrase \"prolonged bleaching events\" means",
+        choice_a: "Bleaching that occurs very quickly.",
+        choice_b: "Bleaching that lasts for an extended period.",
+        choice_c: "Bleaching caused by human activity.",
+        choice_d: "Bleaching that affects only one species.",
+        correct_choice: "B",
+        explanation: '"prolonged" は「長期にわたる」という意味で、長時間続く白化現象を指します。',
+        wrong_reason_a: "非常に速く起こるとは正反対の意味です。",
+        wrong_reason_c: "人間活動による白化とは限定されていません。",
+        wrong_reason_d: "一種だけに影響するとは述べられていません。"
+      }
+    ]
+  )
+
+  puts "Diagnostic seed finished: #{diagnostic1.title}"
 
   # Create test user
   test_user = User.find_or_create_by!(email: "testuser@gmail.com") do |user|

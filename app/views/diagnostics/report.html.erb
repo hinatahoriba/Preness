@@ -1,0 +1,82 @@
+<% content_for :body_class, "bg-[#f5f7fb] text-[#2c3e50] text-[14px] leading-[1.6]" %>
+<% content_for :head do %>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<% end %>
+
+<%# ── pending / failed ガード ── %>
+<% if @report.nil? || @report.pending? %>
+  <% content_for :head do %>
+    <meta http-equiv="refresh" content="10">
+  <% end %>
+
+  <div class="min-h-screen flex items-center justify-center">
+    <div class="bg-white border border-[#dde3ed] rounded-2xl p-12 text-center max-w-md w-full">
+      <div class="w-14 h-14 mx-auto mb-5 rounded-full bg-amber-50 flex items-center justify-center">
+        <svg class="w-7 h-7 text-amber-500 animate-spin" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+        </svg>
+      </div>
+      <p class="text-[16px] font-bold text-[#1e3a5f] mb-2">分析レポートを作成中です</p>
+      <p class="text-[13px] text-[#6b7c93] mb-6">AIが回答データを解析しています。<br>10秒後に自動更新されます。</p>
+      <%= link_to mypage_path,
+            class: "text-[13px] text-[#34a0a4] hover:underline" do %>
+        マイページに戻る
+      <% end %>
+    </div>
+  </div>
+
+<% elsif @report.failed? %>
+  <div class="min-h-screen flex items-center justify-center">
+    <div class="bg-white border border-[#dde3ed] rounded-2xl p-12 text-center max-w-md w-full">
+      <div class="w-14 h-14 mx-auto mb-5 rounded-full bg-red-50 flex items-center justify-center">
+        <svg class="w-7 h-7 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+        </svg>
+      </div>
+      <p class="text-[16px] font-bold text-[#1e3a5f] mb-2">分析レポートの生成に失敗しました</p>
+      <p class="text-[13px] text-[#6b7c93] mb-6">時間をおいて再度お試しください。</p>
+      <%= link_to mypage_path,
+            class: "inline-block bg-[#34a0a4] text-white text-[13px] font-semibold px-5 py-2.5 rounded-xl hover:bg-[#2d8b8e] transition" do %>
+        マイページへ
+      <% end %>
+    </div>
+  </div>
+
+<% else %>
+
+  <%= render 'diagnostics/report_header', attempt: @attempt %>
+
+  <div class="max-w-[1000px] mx-auto px-6 pt-10 pb-16">
+
+    <%= render 'diagnostics/score_summary', report: @report, target_score: @target_score, all_scores: @all_scores %>
+
+    <%= render 'mocks/listening_analysis', parts_accuracy: @parts_accuracy %>
+
+    <%= render 'diagnostics/structure_analysis', parts_accuracy: @parts_accuracy, tag_accuracy: @tag_accuracy %>
+
+    <%= render 'diagnostics/reading_analysis', parts_accuracy: @parts_accuracy, tag_accuracy: @tag_accuracy %>
+
+    <hr class="border-0 border-t border-[#dde3ed] my-10">
+
+    <%= render 'mocks/strengths_challenges', report: @report %>
+
+    <div class="text-center mt-12 pb-10">
+      <%= link_to histories_path,
+            class: "inline-flex items-center text-[13px] text-[#6b7c93] hover:text-[#1e3a5f] transition-colors" do %>
+        <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+        </svg>
+        学習履歴に戻る
+      <% end %>
+    </div>
+
+  </div>
+
+  <div class="text-center p-6 text-[12px] text-[#6b7c93] border-t border-[#dde3ed]">
+    © <%= Time.current.year %> Preness TOEFL ITP® 実力診断 分析レポート
+  </div>
+
+  <%= render 'mocks/report_scripts' %>
+
+<% end %>

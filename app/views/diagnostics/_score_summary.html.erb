@@ -1,16 +1,8 @@
 <%
-  # 他の模試の結果を取得して初期スコアなどを計算する想定
-  all_reports = current_user.attempts.joins(:analysis_report)
-                           .where.not(completed_at: nil)
-                           .where(mockable_type: "Mock")
-                           .where(analysis_reports: { status: :completed })
-                           .order(completed_at: :asc)
-                           .pluck('analysis_reports.total_score')
-
-  initial_score = all_reports.first || 0
-  latest_score = report.total_score || 0
-  target_score = target_score || 0
-  diff_score = (all_reports.size > 1) ? (latest_score - (all_reports[-2] || 0)) : 0
+  initial_score = all_scores.first || 0
+  latest_score  = report.total_score || 0
+  target_score  = target_score || 0
+  diff_score    = (all_scores.size > 1) ? (latest_score - (all_scores[-2] || 0)) : 0
 %>
 
 <div class="text-[11px] font-bold text-[#e8703a] tracking-[0.12em] uppercase mb-1.5">概要</div>
@@ -18,11 +10,11 @@
 
 <div class="grid grid-cols-3 gap-4 mb-6">
   <div class="bg-white border border-[#dde3ed] rounded-[10px] p-6">
-    <div class="text-[12px] text-[#6b7c93] mb-2">開始時点でのスコア</div>
+    <div class="text-[12px] text-[#6b7c93] mb-2">初回診断スコア</div>
     <div class="text-[36px] font-bold text-[#1e3a5f] leading-none"><%= initial_score %></div>
   </div>
   <div class="bg-white border border-[#dde3ed] rounded-[10px] p-6">
-    <div class="text-[12px] text-[#6b7c93] mb-2">最新スコア</div>
+    <div class="text-[12px] text-[#6b7c93] mb-2">今回の診断スコア</div>
     <div class="text-[36px] font-bold text-[#e8703a] leading-none">
       <%= latest_score %>
       <span class="text-[20px] text-[#6b7c93]">/ 677</span>

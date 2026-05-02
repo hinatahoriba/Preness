@@ -12,26 +12,28 @@ module Mocks
       response = conn.post("/api/v1/analysis/jobs", payload)
 
       unless response.success?
+        Rails.logger.error "[AnalysisApiClient] Error Status: #{response.status}, Body: #{response.body}"
         raise ApiError, "API responded with status #{response.status}: #{response.body}"
       end
 
       response.body
+    rescue Faraday::Error => e
+      raise ApiError, "Connection error: #{e.message}"
     end
 
     private
 
     def build_connection
       Faraday.new(url: base_url) do |f|
-        f.request  :json           # Hash → JSON に自動変換
-        f.response :json           # レスポンス body を Hash に自動パース
-        f.response :raise_error    # 4xx/5xx で例外を自動 raise
+        f.request  :json
+        f.response :json
 
         if ENV["ANALYSIS_API_KEY"].present?
           f.headers["X-Api-Key"] = ENV["ANALYSIS_API_KEY"]
         end
 
-        f.options.open_timeout = 10  # 接続タイムアウト（秒）
-        f.options.timeout      = 30  # 読み取りタイムアウト（秒）
+        f.options.open_timeout = 10
+        f.options.timeout      = 30
       end
     end
 

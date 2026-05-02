@@ -1,0 +1,58 @@
+<% if parts_accuracy[:structure] %>
+  <% structure = parts_accuracy[:structure] %>
+  <div class="text-[16px] font-bold text-[#1e3a5f] bg-[#eef3fa] px-4 py-2.5 rounded-md my-6 mb-4">STRUCTURE</div>
+  <div class="grid grid-cols-3 gap-4 mb-6">
+    <div class="bg-white border border-[#dde3ed] rounded-[10px] p-5">
+      <div class="text-[13px] font-semibold text-[#1e3a5f] mb-1">文法カテゴリ別正解率</div>
+      <div class="text-[11px] text-[#6b7c93] mb-4">&nbsp;</div>
+      <div class="py-2">
+        <%
+          tag_mapping = {
+            "modifierConnect" => "文の構造・修飾・接続",
+            "verbForm" => "動詞の語形",
+            "vocab" => "語彙・品詞"
+          }
+        %>
+        <% tag_mapping.each_with_index do |(tag, label), idx| %>
+          <% data = tag_accuracy[tag] %>
+          <% if data %>
+            <div class="<%= 'mb-3' unless idx == tag_mapping.size - 1 %>">
+              <div class="flex justify-between text-[12px] mb-1">
+                <span><%= label %></span>
+                <span class="<%= data[:pct] < 70 ? 'text-[#e8703a]' : 'text-[#1e3a5f]' %> font-semibold"><%= data[:pct] %>%</span>
+              </div>
+              <div class="bg-[#eef3fa] rounded h-2">
+                <div class="<%= data[:pct] < 70 ? 'bg-[#e8703a]' : 'bg-[#1e3a5f]' %> h-full rounded" style="width: <%= data[:pct] %>%"></div>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+    <div class="bg-white border border-[#dde3ed] rounded-[10px] p-5">
+      <div class="text-[13px] font-semibold text-[#1e3a5f] mb-1">Written Expression スコア</div>
+      <div class="text-[11px] text-[#6b7c93] mb-4">Written Expression（<%= structure[:part_b]&.dig(:total) || 8 %>問）</div>
+      <% pb = structure[:part_b] %>
+      <% if pb %>
+        <div class="flex items-baseline gap-1.5 mt-3 mb-1">
+          <span class="text-[36px] font-bold text-[#e8703a]"><%= pb[:correct] %></span>
+          <span class="text-[16px] text-[#6b7c93]">/ <%= pb[:total] %>問</span>
+        </div>
+        <div class="bg-[#eef3fa] rounded h-2 mb-2">
+          <div class="bg-[#e8703a] h-full rounded" style="width: <%= pb[:pct] %>%"></div>
+        </div>
+        <div class="text-[12px] text-[#6b7c93]">正答率 <strong class="text-[#e8703a]"><%= pb[:pct] %>%</strong></div>
+      <% end %>
+    </div>
+    <div class="bg-white border border-[#dde3ed] rounded-[10px] p-5">
+      <div class="text-[13px] font-semibold text-[#1e3a5f] mb-1">文法カテゴリ別レーダー</div>
+      <div class="text-[11px] text-[#6b7c93] mb-4">Written Expression</div>
+      <div class="flex justify-center items-center py-2">
+        <canvas id="radarStructure2" width="260" height="260"
+          data-labels="文の構造\n修飾・接続,動詞の語形,語彙・品詞"
+          data-values="<%= [tag_accuracy['modifierConnect']&.dig(:pct)||0, tag_accuracy['verbForm']&.dig(:pct)||0, tag_accuracy['vocab']&.dig(:pct)||0].join(',') %>">
+        </canvas>
+      </div>
+    </div>
+  </div>
+<% end %>

@@ -80,6 +80,37 @@ module ExamSessions
       )
     end
 
+    def self.for_diagnostic(diagnostic:, attempt:, section:, part:, question_sets:, questions:, total_count:, answered_count:, submit_label:)
+      new(
+        title: mock_title(section: section, part: part),
+        reading: section.section_type == "reading",
+        questions: questions,
+        total_count: total_count,
+        answered_count: answered_count,
+        form_id: "diagnostic-answer-form-#{part.id}",
+        form_url: Rails.application.routes.url_helpers.submit_part_diagnostic_path(
+          diagnostic,
+          section_id: section.id,
+          part_id: part.id,
+          attempt_id: attempt.id
+        ),
+        submit_label: submit_label,
+        layout_partial: layout_partial_for(section: section, part: part),
+        layout_locals: layout_locals_for(
+          mode: :mock,
+          section: section,
+          part: part,
+          question_set: question_sets.first,
+          question_sets: question_sets,
+          questions: questions
+        ),
+        require_all_answered: false,
+        timer_seconds: ExamCatalog.diagnostic_section_time_limit_seconds(section.section_type),
+        timer_display: ExamCatalog.diagnostic_section_time_limit_display(section.section_type),
+        interrupt_confirm_path: Rails.application.routes.url_helpers.diagnostics_path
+      )
+    end
+
     def reading?
       @reading
     end

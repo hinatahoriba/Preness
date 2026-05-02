@@ -1,0 +1,58 @@
+<% if parts_accuracy[:reading] %>
+  <% reading_sets = parts_accuracy[:reading] %>
+  <div class="text-[16px] font-bold text-[#1e3a5f] bg-[#eef3fa] px-4 py-2.5 rounded-md my-6 mb-4">READING</div>
+  <div class="grid grid-cols-2 gap-3 mb-6">
+    <% reading_sets.each do |rs| %>
+      <div class="bg-white border border-[#dde3ed] rounded-lg p-3.5 text-center">
+        <div class="text-[11px] text-[#6b7c93] mb-2 leading-[1.4] min-h-[32px]">
+          <%= rs[:passage_theme].presence || rs[:label] %>
+        </div>
+        <div class="bg-[#eef3fa] rounded h-[6px] overflow-hidden mb-1.5">
+          <div class="h-full rounded <%= rs[:pct] < 70 ? 'bg-[#e8703a]' : 'bg-[#1e3a5f]' %>" style="width: <%= rs[:pct] %>%"></div>
+        </div>
+        <div class="text-[14px] font-bold text-[#1e3a5f]"><%= rs[:correct] %> / <%= rs[:total] %>点</div>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="grid grid-cols-3 gap-4 mt-4 mb-6">
+    <div class="bg-white border border-[#dde3ed] rounded-[10px] p-5">
+      <div class="text-[13px] font-semibold text-[#1e3a5f] mb-1">問題タイプ別正解率</div>
+      <div class="text-[11px] text-[#6b7c93] mb-4">&nbsp;</div>
+      <div class="py-2">
+        <%
+          reading_tags = {
+            "vocab" => "語彙",
+            "inference" => "推論",
+            "fact" => "事実確認",
+            "mainIdea" => "主題・要旨"
+          }
+        %>
+        <% reading_tags.each_with_index do |(tag, label), idx| %>
+          <% data = tag_accuracy[tag] %>
+          <% if data %>
+            <div class="<%= 'mb-3' unless idx == reading_tags.size - 1 %>">
+              <div class="flex justify-between text-[12px] mb-1">
+                <span><%= label %></span>
+                <span class="<%= data[:pct] < 70 ? 'text-[#e8703a]' : 'text-[#1e3a5f]' %> font-semibold"><%= data[:pct] %>%</span>
+              </div>
+              <div class="bg-[#eef3fa] rounded h-2">
+                <div class="<%= data[:pct] < 70 ? 'bg-[#e8703a]' : 'bg-[#1e3a5f]' %> h-full rounded" style="width: <%= data[:pct] %>%"></div>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+    <div class="bg-white border border-[#dde3ed] rounded-[10px] p-5 col-span-2">
+      <div class="text-[13px] font-semibold text-[#1e3a5f] mb-1">出題タイプ別レーダーチャート</div>
+      <div class="text-[11px] text-[#6b7c93] mb-4">語彙 / 推論 / 事実確認 / 主題・要旨 の正答率</div>
+      <div class="flex justify-center items-center py-2">
+        <canvas id="radarReading" width="400" height="340"
+          data-labels="語彙,推論,事実確認,主題・要旨"
+          data-values="<%= ['vocab', 'inference', 'fact', 'mainIdea'].map { |t| tag_accuracy[t]&.dig(:pct) || 0 }.join(',') %>">
+        </canvas>
+      </div>
+    </div>
+  </div>
+<% end %>

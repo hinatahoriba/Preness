@@ -10,9 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_04_26_131158) do
+ActiveRecord::Schema[8.0].define(version: 2026_04_30_000002) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "analysis_reports", force: :cascade do |t|
+    t.bigint "attempt_id", null: false
+    t.text "summary_closing"
+    t.text "strength"
+    t.text "challenge"
+    t.string "status", default: "pending", null: false
+    t.integer "retry_count", default: 0, null: false
+    t.text "error_message"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "listening_score"
+    t.integer "structure_score"
+    t.integer "reading_score"
+    t.integer "total_score"
+    t.index ["attempt_id"], name: "index_analysis_reports_on_attempt_id", unique: true
+    t.index ["status"], name: "index_analysis_reports_on_status"
+  end
 
   create_table "answers", force: :cascade do |t|
     t.bigint "attempt_id", null: false
@@ -39,27 +57,15 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_26_131158) do
     t.index ["user_id"], name: "index_attempts_on_user_id"
   end
 
-  create_table "exercises", force: :cascade do |t|
+  create_table "diagnostics", force: :cascade do |t|
+    t.string "title", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "mock_analysis_reports", force: :cascade do |t|
-    t.bigint "attempt_id", null: false
-    t.text "summary_closing"
-    t.text "strength"
-    t.text "challenge"
-    t.string "status", default: "pending", null: false
-    t.integer "retry_count", default: 0, null: false
-    t.text "error_message"
+  create_table "exercises", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "listening_score"
-    t.integer "structure_score"
-    t.integer "reading_score"
-    t.integer "total_score"
-    t.index ["attempt_id"], name: "index_mock_analysis_reports_on_attempt_id", unique: true
-    t.index ["status"], name: "index_mock_analysis_reports_on_status"
   end
 
   create_table "mocks", force: :cascade do |t|
@@ -299,10 +305,10 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_26_131158) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "analysis_reports", "attempts"
   add_foreign_key "answers", "attempts"
   add_foreign_key "answers", "questions"
   add_foreign_key "attempts", "users"
-  add_foreign_key "mock_analysis_reports", "attempts"
   add_foreign_key "parts", "sections"
   add_foreign_key "purchases", "mocks"
   add_foreign_key "purchases", "users"
