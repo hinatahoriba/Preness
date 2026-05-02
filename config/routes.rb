@@ -82,6 +82,11 @@ Rails.application.routes.draw do
       resources :exercises, only: [:create]
     end
   end
+
+  get "line/link", to: "line_links#show", as: :line_link
+  get "line/connect", to: "line/auth#connect", as: :line_connect
+  get "line/callback", to: "line/auth#callback", as: :line_callback
+  delete "line/disconnect", to: "line/auth#disconnect", as: :line_disconnect
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
