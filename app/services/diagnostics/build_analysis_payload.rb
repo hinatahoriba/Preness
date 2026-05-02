@@ -48,30 +48,31 @@ module Diagnostics
 
     def build_structure_accuracy
       section = find_section("structure")
-      return empty_part_accuracy("structure") if section.nil?
 
-      build_part_accuracy(section, "structure")
+      ExamCatalog.part_totals("structure").each_with_object({}) do |(part_type, _), result|
+        part      = section&.parts&.find { |p| p.part_type == part_type }
+        questions = part ? part.question_sets.flat_map(&:questions) : []
+        correct   = questions.count { |q| correct_answer?(q) }
+        result[part_key(part_type)] = { correct: correct, total: questions.size }
+      end
     end
 
     def build_reading_accuracy
       section = find_section("reading")
-      return {} if section.nil?
+      part    = section&.parts&.find { |p| p.part_type == "passages" }
+      sets    = part ? part.question_sets.sort_by(&:display_order) : []
 
-      part = section.parts.find { |p| p.part_type == "passages" }
-      return {} if part.nil?
+      (1..ExamCatalog::READING_SET_COUNT).each_with_object({}) do |idx, result|
+        key = "Reading_%02d" % idx
+        qs  = sets[idx - 1]
 
-      question_sets = part.question_sets.sort_by(&:display_order)
-
-      question_sets.first(ExamCatalog::DIAGNOSTIC_READING_SET_COUNT).each_with_index.to_h do |qs, idx|
-        key = "Reading_%02d" % (idx + 1)
-        questions = qs.questions
-        correct   = questions.count { |q| correct_answer?(q) }
-
-        [key, {
-          passage_theme: qs.passage_theme.presence,
-          correct:       correct,
-          total:         questions.size
-        }]
+        if qs
+          questions = qs.questions
+          correct   = questions.count { |q| correct_answer?(q) }
+          result[key] = { passage_theme: qs.passage_theme.presence, correct: correct, total: questions.size }
+        else
+          result[key] = { passage_theme: nil, correct: 0, total: 0 }
+        end
       end
     end
 
