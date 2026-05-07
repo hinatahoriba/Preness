@@ -3,10 +3,11 @@
 #   part_label (String)
 #   single_use_audio (Boolean)
 %>
+<% single_use_audio = local_assigns.fetch(:single_use_audio, false) %>
 <div
   class="pb-16 max-w-5xl mx-auto px-8"
   data-controller="exam-audio-player"
-  data-exam-audio-player-single-use-value="<%= local_assigns.fetch(:single_use_audio, false) %>"
+  data-exam-audio-player-single-use-value="<%= single_use_audio %>"
 >
   <main class="pt-10">
     <h2 class="text-xl font-bold tracking-wide pb-2 border-b border-black mb-6 font-serif text-gray-800">
@@ -21,6 +22,10 @@
       <% end %>
     </p>
 
+    <% if single_use_audio %>
+      <%= render "shared/exam/master_audio_player" %>
+    <% end %>
+
     <% q_offset = 0 %>
     <% question_sets.each_with_index do |question_set, set_index| %>
       <% unless set_index == 0 %>
@@ -33,7 +38,8 @@
           <%= render "shared/exam/audio_player",
                 url: question_set.conversation_audio_url,
                 label: audio_label,
-                status_text: audio_status %>
+                status_text: audio_status,
+                hide_ui: single_use_audio %>
         <% end %>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-12">
@@ -44,7 +50,7 @@
                       url: question.question_audio_url,
                       label: "QUESTION AUDIO",
                       status_text: "Click to play question",
-                      hide_ui: true %>
+                      hide_ui: single_use_audio %>
               <% end %>
               <%= render "shared/exam/question_item", question: question, index: q_offset + question_index %>
             </div>
