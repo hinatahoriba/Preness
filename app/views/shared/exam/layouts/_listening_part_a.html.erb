@@ -2,10 +2,11 @@
 #   questions (Array<Question>)
 #   single_use_audio (Boolean)
 %>
+<% single_use_audio = local_assigns.fetch(:single_use_audio, false) %>
 <div
   class="pb-16 max-w-5xl mx-auto px-8"
   data-controller="exam-audio-player"
-  data-exam-audio-player-single-use-value="<%= local_assigns.fetch(:single_use_audio, false) %>"
+  data-exam-audio-player-single-use-value="<%= single_use_audio %>"
 >
   <main class="pt-10">
     <div class="mb-12">
@@ -16,6 +17,10 @@
       </p>
     </div>
 
+    <% if single_use_audio %>
+      <%= render "shared/exam/master_audio_player" %>
+    <% end %>
+
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-14 gap-y-9">
       <% questions.each_with_index do |question, index| %>
         <div class="question-block">
@@ -24,7 +29,8 @@
                   url: question.conversation_audio_url,
                   label: "CONVERSATION AUDIO",
                   status_text: "Click to play conversation",
-                  compact: true %>
+                  compact: true,
+                  hide_ui: single_use_audio %>
           <% end %>
           <% if question.question_audio_url.present? %>
             <%= render "shared/exam/audio_player",
@@ -32,7 +38,7 @@
                   label: "QUESTION AUDIO",
                   status_text: "Click to play question",
                   compact: true,
-                  hide_ui: true %>
+                  hide_ui: single_use_audio %>
           <% end %>
           <%= render "shared/exam/question_item", question: question, index: index %>
         </div>

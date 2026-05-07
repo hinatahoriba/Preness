@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["audio", "playButton", "statusLabel"]
+  static targets = ["audio", "playButton", "statusLabel", "masterPlayButton", "masterStatusText", "introAudio"]
   static values = { singleUse: Boolean, autoplayDelayMs: Number }
 
   connect() {
@@ -17,6 +17,11 @@ export default class extends Controller {
 
       return { audio, playHandler, pauseHandler, endedHandler }
     })
+
+    if (this.hasIntroAudioTarget) {
+      this._introEndedHandler = () => this._onIntroEnded()
+      this.introAudioTarget.addEventListener("ended", this._introEndedHandler)
+    }
   }
 
   disconnect() {
@@ -25,6 +30,10 @@ export default class extends Controller {
       audio.removeEventListener("pause", pauseHandler)
       audio.removeEventListener("ended", endedHandler)
     })
+
+    if (this.hasIntroAudioTarget && this._introEndedHandler) {
+      this.introAudioTarget.removeEventListener("ended", this._introEndedHandler)
+    }
 
     this._timeoutIds?.forEach((timeoutId) => clearTimeout(timeoutId))
   }
@@ -45,6 +54,39 @@ export default class extends Controller {
     }
 
     audio.paused ? audio.play() : audio.pause()
+  }
+
+  playMasterAudio() {
+    if (!this.hasIntroAudioTarget) return
+
+    if (this.hasMasterPlayButtonTarget) {
+      this.masterPlayButtonTarget.style.display = "none"
+    }
+    if (this.hasMasterStatusTextTarget) {
+      this.masterStatusTextTarget.classList.remove("hidden")
+    }
+
+    const audio = this.introAudioTarget
+    if (this.singleUseValue) {
+      if (audio.dataset.played) return
+      audio.dataset.played = "true"
+    }
+    audio.play()
+  }
+
+  _onIntroEnded() {
+    const firstAudio = this.audioTargets[0]
+    if (!firstAudio) {
+      this._onAllEnded()
+      return
+    }
+
+    const timeoutId = setTimeout(() => {
+      if (this.singleUseValue) firstAudio.dataset.played = "true"
+      firstAudio.play()
+    }, this.delayMs)
+
+    this._timeoutIds.push(timeoutId)
   }
 
   _onPlay(index) {
@@ -83,6 +125,7 @@ export default class extends Controller {
     const nextAudio = this.audioTargets[nextIndex]
     if (!nextAudio) {
       if (label && !this.singleUseValue) label.textContent = "すべての再生が終了しました"
+      this._onAllEnded()
       return
     }
 
@@ -99,6 +142,14 @@ export default class extends Controller {
     }, this.delayMs)
 
     this._timeoutIds.push(timeoutId)
+  }
+
+  _onAllEnded() {
+    if (!this.hasMasterStatusTextTarget) return
+
+    const textSpan = this.masterStatusTextTarget.querySelector("span")
+    if (textSpan) textSpan.textContent = "すべての再生が終了しました"
+    this.masterStatusTextTarget.classList.remove("animate-pulse")
   }
 
   get delayMs() {
