@@ -1,4 +1,28 @@
 module ApplicationHelper
+  def header_auth_buttons
+    btn = "inline-block px-[20px] md:px-[35px] py-[10px] md:py-[12px] text-[13px] md:text-[15px] font-bold text-center cursor-pointer transition-all duration-300 rounded-[40px] bg-[#279ea6] text-white hover:opacity-90"
+    if user_signed_in?
+      link_to "マイページへ", mypage_path, class: btn
+    else
+      safe_join([
+        link_to("アカウント登録", new_user_registration_path, class: btn),
+        link_to("ログイン", new_user_session_path, class: btn)
+      ])
+    end
+  end
+
+  def card_auth_buttons
+    btn = "inline-block px-[35px] py-[12px] text-[15px] font-bold text-center cursor-pointer transition-all duration-300 rounded-[40px] bg-[#279ea6] text-white hover:opacity-90 block w-full"
+    if user_signed_in?
+      link_to "マイページへ", mypage_path, class: btn
+    else
+      safe_join([
+        link_to("アカウント登録", new_user_registration_path, class: "#{btn} mb-[15px]"),
+        link_to("ログイン", new_user_session_path, class: btn)
+      ])
+    end
+  end
+
   def question_tag_label(tag)
     return nil if tag.blank?
 

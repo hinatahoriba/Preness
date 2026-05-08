@@ -5,8 +5,7 @@
                 <%= image_tag "preness_logo.svg", alt: "Preness", class: "h-[40px] w-auto block" %>
             </a>
             <div class="flex gap-[15px]">
-                <%= link_to "アカウント登録", new_user_registration_path, class: "inline-block px-[20px] md:px-[35px] py-[10px] md:py-[12px] text-[13px] md:text-[15px] font-bold text-center cursor-pointer transition-all duration-300 rounded-[40px] bg-[#279ea6] text-white hover:opacity-90" %>
-                <%= link_to "ログイン", new_user_session_path, class: "inline-block px-[20px] md:px-[35px] py-[10px] md:py-[12px] text-[13px] md:text-[15px] font-bold text-center cursor-pointer transition-all duration-300 rounded-[40px] bg-[#279ea6] text-white hover:opacity-90" %>
+                <%= header_auth_buttons %>
             </div>
         </header>
 
@@ -29,8 +28,7 @@
             <div class="bg-transparent border-2 border-[#279ea6] rounded-[20px] w-[320px] px-[30px] py-[60px] flex flex-col items-center min-h-[300px]">
                 <h2 class="text-[26px] mb-auto text-black tracking-[1px] font-bold">TOEFL ITP</h2>
                 <div class="w-full mt-auto">
-                    <%= link_to "アカウント登録", new_user_registration_path, class: "inline-block px-[35px] py-[12px] text-[15px] font-bold text-center cursor-pointer transition-all duration-300 rounded-[40px] bg-[#279ea6] text-white hover:opacity-90 block w-full mb-[15px]" %>
-                    <%= link_to "ログイン", new_user_session_path, class: "inline-block px-[35px] py-[12px] text-[15px] font-bold text-center cursor-pointer transition-all duration-300 rounded-[40px] bg-[#279ea6] text-white hover:opacity-90 block w-full" %>
+                    <%= card_auth_buttons %>
                 </div>
             </div>
 
