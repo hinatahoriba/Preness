@@ -66,8 +66,11 @@
       <div class="text-[11px] text-[#6b7c93] mb-4">Structure（15問）</div>
       <div class="flex justify-center items-center py-2">
         <canvas id="radarStructure1" width="300" height="300"
-          data-labels="文の構造\n修飾・接続,動詞の語形,語彙・品詞,並列・比較,冠詞・前置詞"
-          data-values="<%= [tag_accuracy['modifierConnect']&.dig(:pct)||0, tag_accuracy['verbForm']&.dig(:pct)||0, tag_accuracy['vocab']&.dig(:pct)||0, 75, 80].join(',') %>">
+          data-controller="radar-chart"
+          data-radar-chart-labels-value="文の構造\n修飾・接続,動詞の語形,語彙・品詞"
+          data-radar-chart-values-value="<%= [tag_accuracy['modifierConnect']&.dig(:pct)||0, tag_accuracy['verbForm']&.dig(:pct)||0, tag_accuracy['vocab']&.dig(:pct)||0].join(',') %>"
+          data-radar-chart-margin-value="62"
+          data-radar-chart-top-pad-value="16">
         </canvas>
       </div>
     </div>
@@ -76,8 +79,13 @@
       <div class="text-[11px] text-[#6b7c93] mb-4">Written Expression（25問）</div>
       <div class="flex justify-center items-center py-2">
         <canvas id="radarStructure2" width="300" height="300"
-          data-labels="文の構造\n修飾・接続,動詞の語形,語彙・品詞,並列・比較,冠詞・前置詞"
-          data-values="<%= [tag_accuracy['modifierConnect']&.dig(:pct)||0, tag_accuracy['verbForm']&.dig(:pct)||0, tag_accuracy['vocab']&.dig(:pct)||0, 65, 72].join(',') %>">
+          data-controller="radar-chart"
+          data-radar-chart-labels-value="文の構造\n修飾・接続,動詞の語形,語彙・品詞"
+          data-radar-chart-values-value="<%= [tag_accuracy['modifierConnect']&.dig(:pct)||0, tag_accuracy['verbForm']&.dig(:pct)||0, tag_accuracy['vocab']&.dig(:pct)||0].join(',') %>"
+          data-radar-chart-margin-value="62"
+          data-radar-chart-top-pad-value="16"
+          data-radar-chart-color-value="#e8703a"
+          data-radar-chart-fill-color-value="rgba(232,112,58,0.13)">
         </canvas>
       </div>
     </div>

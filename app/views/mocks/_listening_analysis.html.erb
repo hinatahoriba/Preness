@@ -27,7 +27,11 @@
       <div class="text-[11px] text-[#6b7c93] mb-4">Part A / Part B / Part C の正答率</div>
       <div class="flex justify-center items-center py-2">
         <canvas id="radarListening" width="360" height="320"
-          data-values="<%= [:part_a, :part_b, :part_c].map { |k| listening[k]&.dig(:pct) || 0 }.join(',') %>">
+          data-controller="radar-chart"
+          data-radar-chart-labels-value="Part A,Part B,Part C"
+          data-radar-chart-values-value="<%= [:part_a, :part_b, :part_c].map { |k| listening[k]&.dig(:pct) || 0 }.join(',') %>"
+          data-radar-chart-margin-value="62"
+          data-radar-chart-top-pad-value="16">
         </canvas>
       </div>
     </div>
