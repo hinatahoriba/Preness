@@ -1,8 +1,10 @@
 <%# Locals:
 #   question_sets (Array<QuestionSet>)
 #   tabbed (Boolean)
+#   submit_label (String, optional — required when tabbed)
 %>
 <% tabbed = local_assigns.fetch(:tabbed, false) %>
+<% submit_label = local_assigns.fetch(:submit_label, nil) %>
 <% wrapper_classes = tabbed ? "flex-1 flex flex-col overflow-hidden" : "flex-1 flex overflow-hidden" %>
 
 <div
@@ -25,9 +27,10 @@
   <% end %>
 
   <% q_offset = 0 %>
-  <% question_sets.each do |question_set| %>
+  <% question_sets.each_with_index do |question_set, set_index| %>
+    <% is_last_passage = set_index == question_sets.length - 1 %>
     <div
-      class="flex <%= tabbed ? 'flex-1 overflow-hidden' : '' %>"
+      class="<%= tabbed ? 'flex flex-1 overflow-hidden' : 'flex' %>"
       <%= 'data-exam-passage-tab-target="panel"'.html_safe if tabbed %>
     >
       <div class="w-1/2 overflow-y-auto px-10 pt-7 pb-24">
@@ -36,10 +39,32 @@
         </div>
       </div>
 
-      <div class="w-1/2 border-l border-gray-100 overflow-y-auto px-10 pt-7 pb-24">
+      <div class="w-1/2 border-l border-gray-100 overflow-y-auto px-10 pt-7 pb-10">
         <% question_set.questions.order(:display_order).each_with_index do |question, question_index| %>
           <div class="mb-10 pb-10 border-b border-gray-100 last:border-0 last:mb-0">
             <%= render "shared/exam/question_item", question: question, index: q_offset + question_index %>
+          </div>
+        <% end %>
+
+        <% if tabbed %>
+          <div class="flex justify-end pt-6 pb-4">
+            <% if is_last_passage %>
+              <button
+                type="submit"
+                data-exam-progress-target="submitButton"
+                class="px-8 py-3 bg-[#1a1b4b] text-white hover:bg-blue-900 transition-colors cursor-pointer whitespace-nowrap"
+              >
+                <%= submit_label %>
+              </button>
+            <% else %>
+              <button
+                type="button"
+                data-action="exam-passage-tab#activateNext"
+                class="px-8 py-3 bg-[#1a1b4b] text-white hover:bg-blue-900 transition-colors cursor-pointer whitespace-nowrap"
+              >
+                次のPassageへ進む
+              </button>
+            <% end %>
           </div>
         <% end %>
       </div>

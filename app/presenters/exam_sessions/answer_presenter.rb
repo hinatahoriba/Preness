@@ -71,7 +71,8 @@ module ExamSessions
           part: part,
           question_set: question_sets.first,
           question_sets: question_sets,
-          questions: questions
+          questions: questions,
+          submit_label: submit_label
         ),
         require_all_answered: false,
         timer_seconds: ExamCatalog.section_time_limit_seconds(section.section_type),
@@ -102,7 +103,8 @@ module ExamSessions
           part: part,
           question_set: question_sets.first,
           question_sets: question_sets,
-          questions: questions
+          questions: questions,
+          submit_label: submit_label
         ),
         require_all_answered: false,
         timer_seconds: ExamCatalog.diagnostic_section_time_limit_seconds(section.section_type),
@@ -179,7 +181,7 @@ module ExamSessions
       end
     end
 
-    def self.layout_locals_for(mode:, section:, part:, question_set:, question_sets:, questions:)
+    def self.layout_locals_for(mode:, section:, part:, question_set:, question_sets:, questions:, submit_label: nil)
       if section.section_type == "listening" && part.part_type == "part_a"
         {
           questions: questions,
@@ -197,10 +199,9 @@ module ExamSessions
           part_label: ExamCatalog.part_label(part.part_type)&.upcase
         }
       else
-        {
-          question_sets: question_sets,
-          tabbed: mode == :mock
-        }
+        locals = { question_sets: question_sets, tabbed: mode == :mock }
+        locals[:submit_label] = submit_label if mode == :mock
+        locals
       end
     end
 

@@ -55,12 +55,14 @@
         </div>
       <% end %>
 
-      <%= button_tag presenter.submit_label,
-            type: :submit,
-            form: presenter.form_id,
-            disabled: presenter.require_all_answered?,
-            data: { "exam-progress-target": "submitButton" },
-            class: "px-8 py-2 bg-[#1a1b4b] text-white hover:bg-blue-900 transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer whitespace-nowrap" %>
+      <% unless presenter.reading? && presenter.interruptible? %>
+        <%= button_tag presenter.submit_label,
+              type: :submit,
+              form: presenter.form_id,
+              disabled: presenter.require_all_answered?,
+              data: { "exam-progress-target": "submitButton" },
+              class: "px-8 py-2 bg-[#1a1b4b] text-white hover:bg-blue-900 transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer whitespace-nowrap" %>
+      <% end %>
     </div>
   </header>
 

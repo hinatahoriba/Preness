@@ -12,6 +12,15 @@ export default class extends Controller {
     if (index >= 0) this._activate(index)
   }
 
+  activateNext() {
+    const currentIndex = this.tabTargets.findIndex(tab =>
+      tab.classList.contains("border-b-[3px]")
+    )
+    if (currentIndex >= 0 && currentIndex < this.tabTargets.length - 1) {
+      this._activate(currentIndex + 1)
+    }
+  }
+
   _activate(activeIndex) {
     this.tabTargets.forEach((tab, index) => {
       const isActive = index === activeIndex
