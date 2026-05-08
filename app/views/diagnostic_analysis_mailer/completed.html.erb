@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ja">
+<body style="font-family: sans-serif; color: #374151; background: #f9fafb; padding: 32px;">
+  <div style="max-width: 560px; margin: 0 auto; background: #fff; border-radius: 8px; border: 1px solid #e5e7eb; padding: 32px;">
+    <h2 style="font-size: 18px; font-weight: bold; margin-bottom: 8px; color: #111827;">実力診断の分析レポートが完成しました</h2>
+    <p style="font-size: 14px; color: #6b7280; margin-bottom: 24px;">
+      AIによる分析が完了しました。以下のボタンからレポートをご確認ください。
+    </p>
+
+    <div style="background: #f9fafb; border-radius: 6px; padding: 20px; font-size: 14px; margin-bottom: 24px;">
+      <p style="margin: 0 0 8px; color: #6b7280; font-size: 12px; font-weight: 600;">合計スコア</p>
+      <p style="margin: 0; font-size: 28px; font-weight: bold; color: #1e3a5f;"><%= @report.total_score %></p>
+    </div>
+
+    <div style="text-align: center; margin-bottom: 24px;">
+      <%= link_to "分析レポートを見る",
+            report_diagnostic_url(@diagnostic, attempt_id: @attempt.id),
+            style: "display: inline-block; background: #34a0a4; color: #fff; font-size: 14px; font-weight: 600; padding: 12px 32px; border-radius: 8px; text-decoration: none;" %>
+    </div>
+
+    <p style="font-size: 12px; color: #9ca3af;">
+      このメールは自動送信されています。返信はできません。
+    </p>
+
+    <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 24px 0;">
+    <p style="font-size: 12px; color: #9ca3af; margin: 0;">Preness サポートチーム</p>
+  </div>
+</body>
+</html>

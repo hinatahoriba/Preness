@@ -38,6 +38,8 @@ module Diagnostics
 
         Rails.logger.info "[Diagnostics::AnalyzeResultJob] attempt_id=#{attempt_id} → completed"
 
+        Diagnostics::SendAnalysisCompletedMailJob.perform_later(report.id)
+
       rescue => e
         report.update!(
           status:        "failed",

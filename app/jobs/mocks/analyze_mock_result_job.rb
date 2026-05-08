@@ -40,6 +40,8 @@ module Mocks
 
         Rails.logger.info "[AnalyzeMockResultJob] attempt_id=#{attempt_id} → completed"
 
+        Mocks::SendAnalysisCompletedMailJob.perform_later(report.id)
+
       rescue => e
         report.update!(
           status:        "failed",
