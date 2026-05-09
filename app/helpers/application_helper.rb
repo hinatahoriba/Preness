@@ -72,7 +72,7 @@ module ApplicationHelper
     text.gsub(/\[([A-D])\](.*?)\[\/\1\]/) do
       choice = $1
       content = $2
-      content_tag(:span, class: "relative inline-block border-b-2 border-gray-800 px-1 pb-1 mx-1 mb-4") do
+      content_tag(:span, class: "relative inline-block border-b-2 border-gray-800 px-1 pb-0 mx-1 mb-2") do
         concat content
         concat content_tag(:span, choice, class: "absolute -bottom-5 left-1/2 -translate-x-1/2 text-[10px] font-bold text-gray-700")
       end
