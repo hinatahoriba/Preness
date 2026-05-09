@@ -1,29 +1,41 @@
-<!DOCTYPE html>
-<html lang="ja">
-<body style="font-family: sans-serif; color: #374151; background: #f9fafb; padding: 32px;">
-  <div style="max-width: 560px; margin: 0 auto; background: #fff; border-radius: 8px; border: 1px solid #e5e7eb; padding: 32px;">
-    <h2 style="font-size: 18px; font-weight: bold; margin-bottom: 8px; color: #111827;">実力診断の分析レポートが完成しました</h2>
-    <p style="font-size: 14px; color: #6b7280; margin-bottom: 24px;">
-      AIによる分析が完了しました。以下のボタンからレポートをご確認ください。
-    </p>
-
-    <div style="background: #f9fafb; border-radius: 6px; padding: 20px; font-size: 14px; margin-bottom: 24px;">
-      <p style="margin: 0 0 8px; color: #6b7280; font-size: 12px; font-weight: 600;">合計スコア</p>
-      <p style="margin: 0; font-size: 28px; font-weight: bold; color: #1e3a5f;"><%= @report.total_score %></p>
-    </div>
-
-    <div style="text-align: center; margin-bottom: 24px;">
-      <%= link_to "分析レポートを見る",
-            report_diagnostic_url(@diagnostic, attempt_id: @attempt.id),
-            style: "display: inline-block; background: #34a0a4; color: #fff; font-size: 14px; font-weight: 600; padding: 12px 32px; border-radius: 8px; text-decoration: none;" %>
-    </div>
-
-    <p style="font-size: 12px; color: #9ca3af;">
-      このメールは自動送信されています。返信はできません。
-    </p>
-
-    <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 24px 0;">
-    <p style="font-size: 12px; color: #9ca3af; margin: 0;">Preness サポートチーム</p>
+<div style="font-family: sans-serif; color: #333; line-height: 1.6; max-width: 600px; margin: 0 auto;">
+  <div style="text-align: center; margin-bottom: 30px;">
+    <h2 style="color: #2c3e50;">🎉 実力診断の受験、お疲れ様でした！</h2>
+    <p>Prenessをご利用いただきありがとうございます。<br>
+    実力診断の分析が完了いたしました。<br>
+    今後の学習に役立つレポートをご用意しておりますが、<br>
+    まずはサービス改善のための簡単なアンケートにご協力をお願いいたします。</p>
   </div>
-</body>
-</html>
+
+  <div style="background-color: #f4f9ff; border-radius: 8px; padding: 25px; margin-bottom: 30px; text-align: center;">
+    <h3 style="color: #0056b3; margin-top: 0; border-bottom: 2px solid #cce5ff; padding-bottom: 8px; text-align: left;">📋 満足度アンケートのお願い</h3>
+    <p style="font-size: 0.95em; color: #333; margin-bottom: 20px;">
+      より良いサービス提供のため、率直なご意見をお聞かせください。<br>
+      <span style="font-size: 0.85em; color: #666;">（所要時間：約30秒）</span>
+    </p>
+
+    <div style="margin: 25px 0;">
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSeu5QeXhIypaZ4WSTGu2GJqKAKmHVnPkgE3fdH0AGprkxy9wQ/viewform" 
+         style="background-color: #007bff; color: #ffffff; text-decoration: none; padding: 15px 35px; font-size: 1.1em; border-radius: 30px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1); display: inline-block;">
+        アンケートに回答する
+      </a>
+    </div>
+    <p style="font-size: 0.8em; color: #888;">※外部サイト（Google フォーム）へ移動します</p>
+  </div>
+
+  <div style="background-color: #fffaf0; border: 1px solid #ffeeba; border-radius: 8px; padding: 25px; margin-bottom: 30px;">
+    <h3 style="color: #d39e00; margin-top: 0; border-bottom: 2px solid #ffeeba; padding-bottom: 8px;">📊 あなたの分析レポート</h3>
+    <p>お待たせいたしました！結果をもとに、今後のスコアアップにぜひお役立てください。</p>
+
+    <div style="margin-top: 15px;">
+      <p style="margin-bottom: 5px;"><strong>【オンラインでさくっと確認📱】</strong></p>
+      <a href="<%= report_diagnostic_url(@diagnostic, attempt_id: @attempt.id) %>" style="color: #0056b3; font-weight: bold; text-decoration: none;">▶︎ 分析レポートを確認する</a>
+    </div>
+  </div>
+
+  <p style="text-align: center; color: #666; font-size: 0.9em; margin-top: 40px;">
+    今後ともPrenessをよろしくお願いいたします。<br>
+    ――――――――――――――<br>
+    <strong>Preness 運営チーム</strong>
+  </p>
+</div>
