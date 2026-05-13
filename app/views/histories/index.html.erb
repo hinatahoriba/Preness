@@ -60,22 +60,23 @@
                     <% end %>
                   </td>
                   <td class="px-8 py-5 text-center">
-                    <% if report&.completed? %>
-                      <% report_path = is_diagnostic ?
-                            report_diagnostic_path(attempt.mockable, attempt_id: attempt.id) :
-                            report_mock_path(attempt.mockable, attempt_id: attempt.id) %>
-                      <%= link_to report_path,
-                            class: "inline-flex items-center px-4 py-2 bg-[#34a0a4] text-white text-xs font-bold rounded-lg hover:bg-[#2d8b8e] transition shadow-sm" do %>
-                        <span>レポートを見る</span>
+                    <% result_path = is_diagnostic ?
+                          result_diagnostic_path(attempt.mockable, attempt_id: attempt.id) :
+                          result_mock_path(attempt.mockable, attempt_id: attempt.id) %>
+                    <div class="inline-flex items-center gap-2">
+                      <% if report&.completed? %>
+                        <% report_path = is_diagnostic ?
+                              report_diagnostic_path(attempt.mockable, attempt_id: attempt.id) :
+                              report_mock_path(attempt.mockable, attempt_id: attempt.id) %>
+                        <%= link_to report_path,
+                              class: "inline-flex items-center px-4 py-2 bg-[#34a0a4] text-white text-xs font-bold rounded-lg hover:bg-[#2d8b8e] transition shadow-sm" do %>
+                          <span>レポートを見る</span>
+                        <% end %>
                       <% end %>
-                    <% else %>
-                      <% result_path = is_diagnostic ?
-                            result_diagnostic_path(attempt.mockable, attempt_id: attempt.id) :
-                            result_mock_path(attempt.mockable, attempt_id: attempt.id) %>
                       <%= link_to "試験結果を確認",
                             result_path,
                             class: "text-xs font-semibold text-gray-400 hover:text-gray-600 transition" %>
-                    <% end %>
+                    </div>
                   </td>
                 </tr>
               <% end %>
