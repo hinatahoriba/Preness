@@ -39,10 +39,11 @@ module ExamCatalog
   DIAGNOSTIC_PART_TOTALS = {
     "listening" => {
       "part_a" => 8,
-      "part_b" => 2,
-      "part_c" => 2
+      "part_b" => 8,
+      "part_c" => 8
     }.freeze,
     "structure" => {
+      "part_a" => 8,
       "part_b" => 8
     }.freeze
   }.freeze

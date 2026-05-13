@@ -48,13 +48,9 @@ module Diagnostics
 
     def build_structure_accuracy
       section = find_section("structure")
+      return empty_part_accuracy("structure") if section.nil?
 
-      ExamCatalog.part_totals("structure").each_with_object({}) do |(part_type, _), result|
-        part      = section&.parts&.find { |p| p.part_type == part_type }
-        questions = part ? part.question_sets.flat_map(&:questions) : []
-        correct   = questions.count { |q| correct_answer?(q) }
-        result[part_key(part_type)] = { correct: correct, total: questions.size }
-      end
+      build_part_accuracy(section, "structure")
     end
 
     def build_reading_accuracy
