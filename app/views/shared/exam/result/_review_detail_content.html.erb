@@ -16,7 +16,7 @@
     <div>
       <h3 class="text-xs font-bold text-gray-500 mb-3"><%= review.context_title %></h3>
       <div class="bg-[#F8F9FA] border-l-[3px] border-[#6b7280] py-4 px-5">
-        <p class="font-mono text-[14px] text-gray-800 tracking-tight whitespace-pre-wrap leading-relaxed"><%= review.passage %></p>
+        <p class="font-mono text-[14px] text-gray-800 tracking-tight whitespace-pre-wrap leading-relaxed"><%= format_vocab_tags(review.passage) %></p>
       </div>
     </div>
   <% elsif review.scripts.present? %>
@@ -36,7 +36,7 @@
   <div>
     <h3 class="text-xs font-bold text-gray-500 mb-3">問題文</h3>
     <div class="bg-[#F8F9FA] border-l-[3px] border-[#2C3358] py-4 px-5">
-      <p class="font-mono text-[15px] text-gray-800 tracking-tight"><%= question.question_text %></p>
+      <p class="font-mono text-[15px] text-gray-800 tracking-tight"><%= question_text_with_tags(question) %></p>
     </div>
   </div>
 
