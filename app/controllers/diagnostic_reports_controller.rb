@@ -27,6 +27,8 @@ class DiagnosticReportsController < ApplicationController
         .order(completed_at: :asc)
         .pluck("analysis_reports.total_score")
     end
+
+    render "diagnostics/report"
   end
 
   private
