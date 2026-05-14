@@ -49,8 +49,11 @@
       <div class="text-[11px] text-[#6b7c93] mb-4">Written Expression</div>
       <div class="flex justify-center items-center py-2">
         <canvas id="radarStructure2" width="260" height="260"
-          data-labels="文の構造\n修飾・接続,動詞の語形,語彙・品詞"
-          data-values="<%= [tag_accuracy['modifierConnect']&.dig(:pct)||0, tag_accuracy['verbForm']&.dig(:pct)||0, tag_accuracy['vocab']&.dig(:pct)||0].join(',') %>">
+          data-controller="radar-chart"
+          data-radar-chart-labels-value="文の構造\n修飾・接続,動詞の語形,語彙・品詞"
+          data-radar-chart-values-value="<%= [tag_accuracy['modifierConnect']&.dig(:pct)||0, tag_accuracy['verbForm']&.dig(:pct)||0, tag_accuracy['vocab']&.dig(:pct)||0].join(',') %>"
+          data-radar-chart-color-value="#e8703a"
+          data-radar-chart-fill-color-value="rgba(232,112,58,0.13)">
         </canvas>
       </div>
     </div>

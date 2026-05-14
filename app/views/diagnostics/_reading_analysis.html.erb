@@ -49,8 +49,9 @@
       <div class="text-[11px] text-[#6b7c93] mb-4">語彙 / 推論 / 事実確認 / 主題・要旨 の正答率</div>
       <div class="flex justify-center items-center py-2">
         <canvas id="radarReading" width="400" height="340"
-          data-labels="語彙,推論,事実確認,主題・要旨"
-          data-values="<%= ['vocab', 'inference', 'fact', 'mainIdea'].map { |t| tag_accuracy[t]&.dig(:pct) || 0 }.join(',') %>">
+          data-controller="radar-chart"
+          data-radar-chart-labels-value="語彙,推論,事実確認,主題・要旨"
+          data-radar-chart-values-value="<%= ['vocab', 'inference', 'fact', 'mainIdea'].map { |t| tag_accuracy[t]&.dig(:pct) || 0 }.join(',') %>">
         </canvas>
       </div>
     </div>
