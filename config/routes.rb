@@ -22,9 +22,9 @@ Rails.application.routes.draw do
   resource :mypage, only: [:show]
   resources :histories, only: [:index]
   resource :account_setting, only: [:show]
-resource :user_profile, only: [:edit, :update]
+  resource :user_profile, only: [:edit, :update]
   resource :initial_setting, only: [:new, :create]
-get "analysis_report", to: "pages#analysis_report", as: :analysis_report_page
+  get "analysis_report", to: "pages#analysis_report", as: :analysis_report_page
 
   resources :diagnostics, only: [:index] do
     member do
