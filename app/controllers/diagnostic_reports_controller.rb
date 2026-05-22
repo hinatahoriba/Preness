@@ -7,7 +7,7 @@ class DiagnosticReportsController < ApplicationController
     Rails.logger.error "[DiagnosticReportsController] #{error.class}: #{error.message}\n#{error.backtrace&.first(5)&.join("\n")}"
     redirect_path = (@diagnostic && @attempt) ?
       result_diagnostic_path(@diagnostic, attempt_id: @attempt.id) :
-      diagnostics_path
+      (@diagnostic ? guideline_diagnostic_path(@diagnostic) : mypage_path)
     redirect_to redirect_path, alert: "分析レポートの読み込みに失敗しました。試験結果を確認してください。"
   end
 

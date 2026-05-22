@@ -56,7 +56,7 @@
     </div>
 
     <div class="flex flex-row items-stretch gap-4 mt-8 pb-12">
-      <%= link_to exercises_path, class: "group flex-1 flex items-center justify-center gap-2 rounded-sm border border-gray-200 bg-white px-4 py-3 text-sm font-bold text-gray-600 transition-all hover:bg-gray-50 active:scale-[0.98]" do %>
+      <%= link_to exercises_part_path(section_type: @section.section_type, part_type: @part.part_type), class: "group flex-1 flex items-center justify-center gap-2 rounded-sm border border-gray-200 bg-white px-4 py-3 text-sm font-bold text-gray-600 transition-all hover:bg-gray-50 active:scale-[0.98]" do %>
         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
         </svg>

@@ -22,11 +22,11 @@ Rails.application.routes.draw do
   resource :mypage, only: [:show]
   resources :histories, only: [:index]
   resource :account_setting, only: [:show]
-resource :user_profile, only: [:edit, :update]
+  resource :user_profile, only: [:edit, :update]
   resource :initial_setting, only: [:new, :create]
-get "analysis_report", to: "pages#analysis_report", as: :analysis_report_page
+  get "analysis_report", to: "pages#analysis_report", as: :analysis_report_page
 
-  resources :diagnostics, only: [:index] do
+  resources :diagnostics, only: [] do
     member do
       get  :guideline
       get  :ready
@@ -45,6 +45,10 @@ get "analysis_report", to: "pages#analysis_report", as: :analysis_report_page
       get :history
       get :result
     end
+  end
+
+  namespace :exercises do
+    get "parts/:section_type/:part_type", to: "parts#show", as: :part
   end
 
   resources :mocks, only: [:index] do

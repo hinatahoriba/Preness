@@ -1,4 +1,5 @@
 class MocksController < ApplicationController
+  layout :resolve_layout
   before_action :authenticate_user!
   before_action :set_mock, except: :index
   before_action :set_flow, except: :index
@@ -177,4 +178,12 @@ class MocksController < ApplicationController
     params[:answers].permit!.to_h
   end
 
+  def resolve_layout
+    case action_name
+    when "index"
+      "dashboard"
+    else
+      "application"
+    end
+  end
 end

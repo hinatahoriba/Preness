@@ -1,0 +1,63 @@
+<% content_for :title, "Preness - #{@show_presenter.title}" %>
+
+<main class="min-h-screen bg-slate-50 pt-10 pb-28 flex justify-center">
+  <div class="w-full max-w-3xl px-4 flex flex-col gap-3">
+
+    <div class="flex items-center gap-3 mb-4">
+      <%= link_to exercises_path, class: "text-slate-400 hover:text-slate-600 transition-colors" do %>
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        </svg>
+      <% end %>
+      <h1 class="text-xl font-bold text-slate-800"><%= @show_presenter.title %></h1>
+    </div>
+
+    <% @show_presenter.rows.each do |row| %>
+      <% if row[:attempted] %>
+        <div class="bg-white rounded-xl border border-slate-200 p-4 shadow-sm flex items-center gap-5">
+          <div class="w-12 h-12 shrink-0 rounded-full bg-teal-50 flex items-center justify-center">
+            <svg class="w-6 h-6 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+          <div class="flex-1 flex flex-col justify-center">
+            <div class="flex items-center gap-3 mb-1.5">
+              <span class="text-slate-800 font-bold text-lg">Set <%= row[:set_number] %></span>
+              <span class="<%= row[:score_color] %> font-bold text-sm"><%= row[:score_percent] %>%</span>
+            </div>
+            <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
+              <div class="h-full <%= row[:bar_color] %> rounded-full" style="width: <%= row[:score_percent] %>%;"></div>
+            </div>
+          </div>
+          <div class="flex shrink-0 items-center gap-2">
+            <%= link_to answer_exercise_path(row[:exercise]),
+                  class: "px-3 py-1.5 border border-slate-200 rounded-lg text-sm text-slate-700 font-medium flex items-center gap-1.5 hover:bg-slate-50 transition-colors" do %>
+              復習 <span class="text-xs">💡</span>
+            <% end %>
+            <%= link_to result_exercise_path(row[:exercise], attempt_id: row[:attempt].id),
+                  class: "px-3 py-1.5 bg-slate-100 rounded-lg text-sm text-slate-700 font-medium hover:bg-slate-200 transition-colors" do %>
+              解説
+            <% end %>
+          </div>
+        </div>
+      <% else %>
+        <%= link_to answer_exercise_path(row[:exercise]),
+              class: "bg-white rounded-xl border border-slate-200 p-4 shadow-sm flex items-center gap-5 hover:bg-slate-50 transition-colors" do %>
+          <div class="w-12 h-12 shrink-0 rounded-full bg-emerald-500 flex items-center justify-center hover:bg-emerald-600 transition-colors shadow-sm">
+            <svg class="w-5 h-5 ml-1 text-white" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          </div>
+          <div class="flex-1 flex flex-col justify-center">
+            <div class="flex items-center gap-3 mb-1.5">
+              <span class="text-slate-800 font-bold text-lg">Set <%= row[:set_number] %></span>
+              <span class="text-slate-400 font-medium text-sm">未回答</span>
+            </div>
+            <div class="w-full h-1.5 bg-slate-100 rounded-full"></div>
+          </div>
+        <% end %>
+      <% end %>
+    <% end %>
+
+  </div>
+</main>

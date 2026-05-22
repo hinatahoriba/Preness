@@ -109,7 +109,7 @@ module ExamSessions
         require_all_answered: false,
         timer_seconds: ExamCatalog.diagnostic_section_time_limit_seconds(section.section_type),
         timer_display: ExamCatalog.diagnostic_section_time_limit_display(section.section_type),
-        interrupt_confirm_path: Rails.application.routes.url_helpers.diagnostics_path
+        interrupt_confirm_path: Rails.application.routes.url_helpers.guideline_diagnostic_path(diagnostic)
       )
     end
 

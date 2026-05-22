@@ -1,19 +1,9 @@
 class DiagnosticsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_diagnostic, except: :index
-  before_action :set_flow,       except: :index
+  before_action :set_diagnostic
+  before_action :set_flow
   before_action :set_attempt,       only: %i[direction answer submit_part result]
   before_action :set_section_part,  only: %i[direction answer submit_part]
-
-  # GET /diagnostics
-  def index
-    diagnostics = Diagnostic.all.order(:created_at)
-    attempts_by_diagnostic_id = current_user.attempts
-      .where(mockable: diagnostics)
-      .index_by(&:mockable_id)
-    @diagnostics = diagnostics
-    @attempts_by_diagnostic_id = attempts_by_diagnostic_id
-  end
 
   # GET /diagnostics/:id/guideline
   def guideline
@@ -26,7 +16,7 @@ class DiagnosticsController < ApplicationController
     if attempt&.completed_at.present?
       redirect_to result_diagnostic_path(@diagnostic, attempt_id: attempt.id)
     elsif attempt.present?
-      redirect_to diagnostics_path, alert: "この実力診断は途中で中断されたため再開できません。"
+      redirect_to guideline_diagnostic_path(@diagnostic), alert: "この実力診断は途中で中断されたため再開できません。"
     end
   end
 
@@ -40,7 +30,7 @@ class DiagnosticsController < ApplicationController
     end
 
     if existing.present?
-      redirect_to diagnostics_path, alert: "この実力診断は途中で中断されたため再開できません。"
+      redirect_to guideline_diagnostic_path(@diagnostic), alert: "この実力診断は途中で中断されたため再開できません。"
       return
     end
 
@@ -174,4 +164,5 @@ class DiagnosticsController < ApplicationController
     return {} if params[:answers].blank?
     params[:answers].permit!.to_h
   end
+
 end

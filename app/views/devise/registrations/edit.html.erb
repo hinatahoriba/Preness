@@ -1,49 +1,44 @@
-<% content_for :body_class, "bg-[#f9fafb] text-[#374151] h-screen" %>
-
-<div class="flex h-full">
-  <%= render 'shared/sidebar', active_page: :account_settings %>
-
-  <%# メインコンテンツ %>
-  <main class="flex-1 p-8 overflow-y-auto">
-    <div class="max-w-lg mx-auto">
-      <div class="mb-6">
-        <%= link_to account_setting_path, class: "inline-flex items-center space-x-1 text-sm text-gray-500 hover:text-gray-700 font-medium mb-4 transition" do %>
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-          <span>アカウント設定に戻る</span>
-        <% end %>
-        <h2 class="text-2xl font-bold mb-2">パスワード変更</h2>
-        <p class="text-sm text-gray-500">新しいパスワードを設定します。</p>
-      </div>
-
-      <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
-        <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: "space-y-5" }) do |f| %>
-          <%= render "devise/shared/error_messages", resource: resource %>
-
-          <%= f.hidden_field :email, value: current_user.email %>
-
-          <div>
-            <div class="flex items-baseline justify-between">
-              <%= f.label :password, "新しいパスワード", class: "text-sm font-medium text-slate-700" %>
-              <% if @minimum_password_length %>
-                <span class="text-xs text-slate-400">最低<%= @minimum_password_length %>文字</span>
-              <% end %>
-            </div>
-            <%= f.password_field :password, autocomplete: "new-password", class: "mt-1 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder-slate-400 outline-none ring-0 transition focus:border-preness-400 focus:ring-2 focus:ring-preness-300/40" %>
-          </div>
-
-          <div>
-            <%= f.label :password_confirmation, "新しいパスワード（確認）", class: "text-sm font-medium text-slate-700" %>
-            <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "mt-1 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder-slate-400 outline-none ring-0 transition focus:border-preness-400 focus:ring-2 focus:ring-preness-300/40" %>
-          </div>
-
-          <div>
-            <%= f.label :current_password, "現在のパスワード（確認のため必須）", class: "text-sm font-medium text-slate-700" %>
-            <%= f.password_field :current_password, autocomplete: "current-password", class: "mt-1 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder-slate-400 outline-none ring-0 transition focus:border-preness-400 focus:ring-2 focus:ring-preness-300/40" %>
-          </div>
-
-          <%= f.submit "保存する", class: "inline-flex w-full items-center justify-center rounded-xl bg-preness-500 px-4 py-3 text-sm font-semibold text-white transition hover:bg-preness-600" %>
-        <% end %>
-      </div>
+<main class="flex-grow max-w-4xl w-full mx-auto px-4 md:px-6 py-8 md:py-12 animate-fadeInUp">
+  <div class="max-w-lg mx-auto">
+    <div class="mb-6">
+      <%= link_to account_setting_path, class: "inline-flex items-center space-x-1 text-xs text-gray-400 hover:text-brand-navy font-bold mb-4 transition" do %>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+        <span>アカウント設定に戻る</span>
+      <% end %>
+      <h2 class="text-2xl md:text-3xl font-black text-brand-navy mb-2 tracking-tight">パスワード変更</h2>
+      <p class="text-xs text-gray-400">新しいパスワードを設定します。</p>
     </div>
-  </main>
-</div>
+
+    <div class="bg-white rounded-[32px] shadow-sm border border-brand-teal/10 p-6 md:p-8">
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: "space-y-5" }) do |f| %>
+        <%= render "devise/shared/error_messages", resource: resource %>
+
+        <%= f.hidden_field :email, value: current_user.email %>
+
+        <div>
+          <div class="flex items-baseline justify-between mb-1.5">
+            <%= f.label :password, "新しいパスワード", class: "text-xs font-bold text-brand-navy" %>
+            <% if @minimum_password_length %>
+              <span class="text-[10px] text-gray-400 font-bold">最低<%= @minimum_password_length %>文字</span>
+            <% end %>
+          </div>
+          <%= f.password_field :password, autocomplete: "new-password", class: "w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-teal/30 focus:border-brand-teal text-brand-navy transition placeholder-gray-400" %>
+        </div>
+
+        <div>
+          <%= f.label :password_confirmation, "新しいパスワード（確認）", class: "block text-xs font-bold text-brand-navy mb-1.5" %>
+          <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-teal/30 focus:border-brand-teal text-brand-navy transition placeholder-gray-400" %>
+        </div>
+
+        <div>
+          <%= f.label :current_password, "現在のパスワード（確認のため必須）", class: "block text-xs font-bold text-brand-navy mb-1.5" %>
+          <%= f.password_field :current_password, autocomplete: "current-password", class: "w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-teal/30 focus:border-brand-teal text-brand-navy transition placeholder-gray-400" %>
+        </div>
+
+        <div class="pt-2">
+          <%= f.submit "保存する", class: "inline-flex w-full items-center justify-center rounded-2xl bg-brand-teal hover:opacity-90 px-4 py-3.5 text-xs font-black text-white transition cursor-pointer shadow-lg shadow-teal-500/10" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</main>

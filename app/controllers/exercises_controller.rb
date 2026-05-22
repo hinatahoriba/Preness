@@ -1,25 +1,12 @@
 class ExercisesController < ApplicationController
+  layout :resolve_layout
   before_action :authenticate_user!
   before_action :set_exercise, only: %i[answer history result]
   before_action :set_flow, only: %i[answer history result]
   before_action :set_exercise_content, only: %i[answer history result]
 
   def index
-    exercises = Exercise.includes(sections: { parts: { question_sets: :questions } }).to_a
-
-    exercise_ids = exercises.map(&:id)
-    attempts = current_user.attempts
-      .where(mockable_type: "Exercise", mockable_id: exercise_ids)
-      .order(created_at: :desc)
-      .includes(:answers)
-    latest_attempt_by_exercise_id = attempts.each_with_object({}) do |attempt, hash|
-      hash[attempt.mockable_id] ||= attempt
-    end
-
-    @index_presenter = ::Exercises::IndexPresenter.new(
-      exercises: exercises,
-      latest_attempt_by_exercise_id: latest_attempt_by_exercise_id
-    )
+    @part_selection_presenter = ::Exercises::PartSelectionPresenter.new
   end
 
   def answer
@@ -129,5 +116,14 @@ class ExercisesController < ApplicationController
 
   def answers_params
     params.permit(answers: {}).fetch(:answers, {}).to_h
+  end
+
+  def resolve_layout
+    case action_name
+    when "index"
+      "dashboard"
+    else
+      "application"
+    end
   end
 end
