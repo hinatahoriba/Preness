@@ -15,7 +15,7 @@ module Exercises
       end
 
       def rows
-        sorted_exercises.filter_map do |exercise|
+        sorted_exercises.each_with_index.filter_map do |exercise, index|
           question_set = exercise.sections.first&.parts&.first&.question_sets&.first
           next unless question_set
 
@@ -26,7 +26,7 @@ module Exercises
 
           {
             exercise:      exercise,
-            set_number:    question_set.display_order,
+            set_number:    index + 1,
             attempted:     attempt.present?,
             attempt:       attempt,
             correct_count: correct_count,

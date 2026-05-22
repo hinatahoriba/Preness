@@ -44,7 +44,8 @@ class ExercisesController < ApplicationController
       total_questions: @questions.size,
       section: @section,
       part: @part,
-      question_set: @question_set
+      question_set: @question_set,
+      set_number: sequential_set_number
     )
   end
 
@@ -72,7 +73,8 @@ class ExercisesController < ApplicationController
       total_count: @total_count,
       section: @section,
       part: @part,
-      question_set: @question_set
+      question_set: @question_set,
+      set_number: sequential_set_number
     )
   end
 
@@ -107,11 +109,23 @@ class ExercisesController < ApplicationController
       section: @section,
       part: @part,
       question_set: @question_set,
+      set_number: sequential_set_number,
       questions: @questions,
       total_count: @total_count,
       answered_count: @answered_count,
       attempt: @attempt
     )
+  end
+
+  def sequential_set_number
+    Exercise
+      .joins(sections: { parts: :question_sets })
+      .where(sections: { section_type: @section.section_type })
+      .where(parts: { part_type: @part.part_type })
+      .order("question_sets.display_order ASC")
+      .pluck("exercises.id")
+      .index(@exercise.id)
+      .then { |idx| (idx || 0) + 1 }
   end
 
   def answers_params

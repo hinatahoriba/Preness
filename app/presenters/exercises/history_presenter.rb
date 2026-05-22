@@ -1,18 +1,19 @@
 module Exercises
   class HistoryPresenter
-    def initialize(attempts:, total_questions:, section:, part:, question_set:)
+    def initialize(attempts:, total_questions:, section:, part:, question_set:, set_number:)
       @attempts = attempts
       @total_questions = total_questions
       @section = section
       @part = part
       @question_set = question_set
+      @set_number = set_number
     end
 
     def title
       ExamCatalog.set_title(
         section_type: @section.section_type,
         part_type: @part.part_type,
-        set_number: @question_set.display_order
+        set_number: @set_number
       )
     end
 
