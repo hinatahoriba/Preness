@@ -4,5 +4,6 @@ class MypagesController < ApplicationController
 
   def show
     redirect_to new_initial_setting_path unless current_user.user_profile.present?
+    @diagnostic = Diagnostic.first
   end
 end

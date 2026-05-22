@@ -26,7 +26,7 @@ Rails.application.routes.draw do
   resource :initial_setting, only: [:new, :create]
   get "analysis_report", to: "pages#analysis_report", as: :analysis_report_page
 
-  resources :diagnostics, only: [:index] do
+  resources :diagnostics, only: [] do
     member do
       get  :guideline
       get  :ready
