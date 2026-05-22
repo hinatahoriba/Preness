@@ -47,6 +47,10 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :exercises do
+    get "parts/:section_type/:part_type", to: "parts#show", as: :part
+  end
+
   resources :mocks, only: [:index] do
     member do
       get  :guideline

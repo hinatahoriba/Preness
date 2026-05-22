@@ -6,21 +6,7 @@ class ExercisesController < ApplicationController
   before_action :set_exercise_content, only: %i[answer history result]
 
   def index
-    exercises = Exercise.includes(sections: { parts: { question_sets: :questions } }).to_a
-
-    exercise_ids = exercises.map(&:id)
-    attempts = current_user.attempts
-      .where(mockable_type: "Exercise", mockable_id: exercise_ids)
-      .order(created_at: :desc)
-      .includes(:answers)
-    latest_attempt_by_exercise_id = attempts.each_with_object({}) do |attempt, hash|
-      hash[attempt.mockable_id] ||= attempt
-    end
-
-    @index_presenter = ::Exercises::IndexPresenter.new(
-      exercises: exercises,
-      latest_attempt_by_exercise_id: latest_attempt_by_exercise_id
-    )
+    @part_selection_presenter = ::Exercises::PartSelectionPresenter.new
   end
 
   def answer

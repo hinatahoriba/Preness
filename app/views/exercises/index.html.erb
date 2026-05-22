@@ -1,48 +1,40 @@
 <% content_for :title, "Preness - Exercises" %>
 
-<div class="bg-white min-h-screen">
-  <header class="flex justify-between items-center py-4 px-8 border-b border-gray-100">
-    <%= link_to root_path, class: "text-[#4b9b94] text-xl font-bold tracking-tight" do %>
-      Preness
-    <% end %>
-    <div class="flex items-center gap-4">
-      <%= link_to "マイページ", mypage_path, class: "text-[13px] font-medium text-gray-600 hover:text-[#4b9b94] transition-colors" %>
-    </div>
-  </header>
+<main class="min-h-screen">
+  <div class="mx-auto max-w-6xl px-6 py-10 md:px-10 md:py-14">
+    <header class="mt-6 md:mt-8">
+      <h1 class="text-2xl md:text-3xl font-bold tracking-tight text-slate-800">
+        セクション別演習
+      </h1>
+      <p class="mt-2 text-sm md:text-base text-slate-500">
+        演習するセクションを選択してください。
+      </p>
+    </header>
 
-  <main class="max-w-5xl mx-auto py-12 px-8">
-    <% @index_presenter.section_groups.each do |section_group| %>
-      <div class="flex items-center mb-8 mt-16 first:mt-0">
-        <div class="w-[3px] h-6 bg-[#4b9b94] mr-3 rounded-sm"></div>
-        <h1 class="text-[24px] font-bold text-[#1a2f33]"><%= section_group[:section_label] %></h1>
-      </div>
-
-      <% section_group[:parts].each do |part_group| %>
-        <section class="mb-10 last:mb-0">
-          <div class="flex justify-between items-center mb-4">
-            <h2 class="text-lg font-bold text-[#1a2f33]"><%= part_group[:part_label] %></h2>
-            <%= link_to answer_exercise_path(part_group[:start_exercise]), class: "flex items-center text-[#4b9b94] font-bold text-sm tracking-widest hover:opacity-80 transition-opacity" do %>
-              START
-              <svg class="w-3 h-3 ml-2 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-            <% end %>
-          </div>
-
-          <div class="flex flex-wrap gap-3">
-            <% part_group[:entries].each do |entry| %>
-              <%= link_to answer_exercise_path(entry[:exercise]),
-                  class: "w-14 h-12 flex flex-col items-center justify-center rounded-md transition-all duration-200 #{entry[:box_class]} font-medium",
-                  title: entry[:title] do %>
-                <% if entry[:attempted] %>
-                  <span class="text-[9px] font-medium leading-none mb-1">Set <%= entry[:set_number] %></span>
-                  <span class="text-xs font-bold leading-none"><%= entry[:correct_count] %>/<%= entry[:total_count] %></span>
-                <% else %>
-                  <span class="text-sm"><%= entry[:set_number] %></span>
-                <% end %>
+    <section class="mt-10 md:mt-12">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+        <% @part_selection_presenter.part_cards.each do |card| %>
+          <article class="rounded-[28px] border border-slate-200/70 bg-white p-7 shadow-[0_10px_30px_rgba(15,23,42,0.06)]">
+            <div class="flex items-center gap-3">
+              <div class="h-12 w-12 rounded-2xl <%= card[:icon_bg] %> flex items-center justify-center">
+                <svg class="h-6 w-6 <%= card[:icon_color] %>" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
+                  <%= card[:icon_svg].html_safe %>
+                </svg>
+              </div>
+              <h2 class="text-lg font-bold text-slate-800"><%= card[:label] %></h2>
+            </div>
+            <div class="mt-6">
+              <%= link_to exercises_part_path(section_type: card[:section_type], part_type: card[:part_type]),
+                    class: "w-full inline-flex items-center justify-center gap-2 rounded-xl bg-[#43b3b3] px-4 py-3 text-sm font-bold text-white shadow-sm hover:brightness-105 transition" do %>
+                <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+                演習を始める
               <% end %>
-            <% end %>
-          </div>
-        </section>
-      <% end %>
-    <% end %>
-  </main>
-</div>
+            </div>
+          </article>
+        <% end %>
+      </div>
+    </section>
+  </div>
+</main>
