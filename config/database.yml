@@ -18,6 +18,7 @@ test:
 production:
   primary: &primary_production
     url: <%= ENV["DATABASE_URL"] %>
+    reconnect: true
   cache:
     <<: *primary_production
   queue:
