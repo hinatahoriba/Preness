@@ -103,10 +103,12 @@
 
         <div class="flex flex-col sm:flex-row justify-center gap-3 max-w-md mx-auto">
 
-          <%= link_to "実力診断を受ける",
-            guideline_diagnostic_path(@diagnostic),
-            class: "flex-1 bg-brand-orange-btn text-white px-6 py-3.5 rounded-2xl font-black text-sm hover:opacity-90 transition shadow-lg text-center"
-          %>
+          <% if @diagnostic %>
+            <%= link_to "実力診断を受ける",
+              guideline_diagnostic_path(@diagnostic),
+              class: "flex-1 bg-brand-orange-btn text-white px-6 py-3.5 rounded-2xl font-black text-sm hover:opacity-90 transition shadow-lg text-center"
+            %>
+          <% end %>
 
           <%= link_to "模擬試験を受験する",
             mocks_path,
