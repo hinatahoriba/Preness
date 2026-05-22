@@ -1,6 +1,17 @@
 module Users
   class RegistrationsController < Devise::RegistrationsController
+    layout :resolve_layout
+
     protected
+
+    def resolve_layout
+      case action_name
+      when "edit", "update"
+        "dashboard"
+      else
+        "application"
+      end
+    end
 
     def after_inactive_sign_up_path_for(resource)
       session[:pending_confirmation_email] = resource.email

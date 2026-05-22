@@ -1,4 +1,5 @@
 class DiagnosticsController < ApplicationController
+  layout :resolve_layout
   before_action :authenticate_user!
   before_action :set_diagnostic, except: :index
   before_action :set_flow,       except: :index
@@ -173,5 +174,14 @@ class DiagnosticsController < ApplicationController
   def answers_params
     return {} if params[:answers].blank?
     params[:answers].permit!.to_h
+  end
+
+  def resolve_layout
+    case action_name
+    when "index"
+      "dashboard"
+    else
+      "application"
+    end
   end
 end

@@ -19,6 +19,26 @@
     --color-catskill: #ecf2f9;
     --color-light-gray: #efefef;
     --color-dark-text: #202020;
+
+    /* Brand colors from home.html */
+    --color-brand-navy: #1B3B69;
+    --color-brand-navy-light: #E8EEF8;
+    --color-brand-orange: #FF851B;
+    --color-brand-orange-light: #FFF7ED;
+    --color-brand-orange-btn: #FFA756;
+    --color-brand-teal: #3DA9A9;
+    --color-brand-teal-light: #EBF7F7;
+
+    /* Typography */
+    --font-sans: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+
+    /* Animations */
+    --animate-fadeInUp: fadeInUp 0.6s ease-out forwards;
+
+    @keyframes fadeInUp {
+        0% { opacity: 0; transform: translateY(20px); }
+        100% { opacity: 1; transform: translateY(0); }
+    }
 }
 
 /* LP custom classes */

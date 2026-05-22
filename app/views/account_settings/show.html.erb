@@ -1,106 +1,104 @@
-<% content_for :body_class, "bg-[#f9fafb] text-[#374151] h-screen" %>
+<main class="flex-grow max-w-4xl w-full mx-auto px-4 md:px-6 py-8 md:py-12 animate-fadeInUp">
+  <div class="mb-6 px-2">
+    <h2 class="text-2xl md:text-3xl font-black text-brand-navy mb-2 tracking-tight">アカウント設定</h2>
+    <p class="text-xs text-gray-400">登録情報やプランの管理ができます。</p>
+  </div>
 
-<div class="flex h-full">
-  <%= render 'shared/sidebar', active_page: :account_settings %>
+  <div class="bg-white border border-brand-teal/10 rounded-[32px] shadow-sm overflow-hidden">
+    <%# 基本プロフィール %>
+    <div class="flex items-center justify-between px-6 py-5 border-b border-gray-100 bg-brand-teal-light">
+      <div class="flex items-center space-x-2 text-brand-navy font-black">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 text-brand-teal">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+        </svg>
+        <span>基本プロフィール</span>
+      </div>
+      <%= link_to edit_user_profile_path, class: "text-xs text-brand-teal hover:opacity-80 font-bold bg-white px-4 py-2 rounded-xl shadow-sm border border-brand-teal/5 transition" do %>
+        編集する
+      <% end %>
+    </div>
 
-  <%# メインコンテンツ %>
-  <main class="flex-1 p-8 overflow-y-auto">
-    <div class="max-w-4xl mx-auto">
-      <div class="mb-6">
-        <h2 class="text-2xl font-bold mb-2">アカウント設定</h2>
-        <p class="text-sm text-gray-500">登録情報やプランの管理ができます。</p>
+    <div class="p-6 md:p-8">
+      <%# プロフィール情報 %>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-12 pb-6 border-b border-gray-100">
+        <div>
+          <p class="text-xs text-gray-400 mb-1.5 font-bold">氏名</p>
+          <p class="font-black text-brand-navy text-lg"><%= @user_profile&.full_name %></p>
+          <p class="text-xs text-gray-400 mt-0.5"><%= @user_profile&.full_name_kana %></p>
+        </div>
+
+        <div>
+          <p class="text-xs text-gray-400 mb-1.5 font-bold">年齢</p>
+          <p class="font-bold text-brand-navy"><%= @user_profile&.age %>歳</p>
+        </div>
+
+        <div>
+          <p class="text-xs text-gray-400 mb-1.5 font-bold">所属</p>
+          <p class="font-bold text-brand-navy"><%= @user_profile&.affiliation %></p>
+        </div>
+
+        <div>
+          <p class="text-xs text-gray-400 mb-1.5 font-bold">ニックネーム</p>
+          <p class="font-bold text-brand-navy"><%= @user_profile&.nickname %></p>
+        </div>
       </div>
 
-      <div class="bg-white border border-gray-200 rounded-lg shadow-sm">
-
-        <%# 基本プロフィール %>
-        <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200 bg-[#fbfbfb] rounded-t-lg">
-          <div class="flex items-center space-x-2 text-gray-800 font-bold">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-teal-600">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
-            </svg>
-            <span>基本プロフィール</span>
-          </div>
-          <%= link_to edit_user_profile_path, class: "text-sm text-teal-600 hover:text-teal-700 font-medium" do %>
-            編集する
-          <% end %>
+      <%# 資格・スコア %>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-12 py-6 border-b border-gray-100">
+        <div>
+          <p class="text-xs text-gray-400 mb-1.5 font-bold">英検</p>
+          <p class="font-bold text-brand-navy">
+            <%= @user_profile&.eiken_grade.present? ? { "1" => "1級", "p1" => "準1級", "2" => "2級", "p2" => "準2級", "3" => "3級" }[@user_profile.eiken_grade] : "未設定" %>
+          </p>
         </div>
 
-        <div class="p-8">
-          <%# プロフィール情報 %>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-y-8 gap-x-12 pb-8 border-b border-gray-100">
-            <div>
-              <p class="text-xs text-gray-500 mb-2">氏名</p>
-              <p class="font-bold text-lg"><%= @user_profile&.full_name %></p>
-              <p class="text-xs text-gray-400 mt-1"><%= @user_profile&.full_name_kana %></p>
-            </div>
+        <div>
+          <p class="text-xs text-gray-400 mb-1.5 font-bold">TOEIC L&R</p>
+          <p class="font-bold text-brand-navy"><%= @user_profile&.toeic_score.present? ? "#{@user_profile.toeic_score}点" : "未設定" %></p>
+        </div>
 
-            <div>
-              <p class="text-xs text-gray-500 mb-2">年齢</p>
-              <p class="font-bold"><%= @user_profile&.age %>歳</p>
-            </div>
+        <div>
+          <p class="text-xs text-gray-400 mb-1.5 font-bold">TOEFL iBT</p>
+          <p class="font-bold text-brand-navy"><%= @user_profile&.toefl_ibt_score.present? ? "#{@user_profile.toefl_ibt_score}点" : "未設定" %></p>
+        </div>
 
-            <div>
-              <p class="text-xs text-gray-500 mb-2">所属</p>
-              <p class="font-bold"><%= @user_profile&.affiliation %></p>
-            </div>
+        <div>
+          <p class="text-xs text-gray-400 mb-1.5 font-bold">IELTS</p>
+          <p class="font-bold text-brand-navy"><%= @user_profile&.ielts_score.present? ? "#{@user_profile.ielts_score}点" : "未設定" %></p>
+        </div>
+      </div>
 
-            <div>
-              <p class="text-xs text-gray-500 mb-2">ニックネーム</p>
-              <p class="font-bold"><%= @user_profile&.nickname %></p>
-            </div>
-          </div>
-
-          <%# 資格・スコア %>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-y-8 gap-x-12 py-8 border-b border-gray-100">
-            <div>
-              <p class="text-xs text-gray-500 mb-2">英検</p>
-              <p class="font-bold">
-                <%= @user_profile&.eiken_grade.present? ? { "1" => "1級", "p1" => "準1級", "2" => "2級", "p2" => "準2級", "3" => "3級" }[@user_profile.eiken_grade] : "未設定" %>
-              </p>
-            </div>
-
-            <div>
-              <p class="text-xs text-gray-500 mb-2">TOEIC L&R</p>
-              <p class="font-bold"><%= @user_profile&.toeic_score.present? ? "#{@user_profile.toeic_score}点" : "未設定" %></p>
-            </div>
-
-            <div>
-              <p class="text-xs text-gray-500 mb-2">TOEFL iBT</p>
-              <p class="font-bold"><%= @user_profile&.toefl_ibt_score.present? ? "#{@user_profile.toefl_ibt_score}点" : "未設定" %></p>
-            </div>
-
-            <div>
-              <p class="text-xs text-gray-500 mb-2">IELTS</p>
-              <p class="font-bold"><%= @user_profile&.ielts_score.present? ? "#{@user_profile.ielts_score}点" : "未設定" %></p>
-            </div>
-          </div>
-
-          <%# メールアドレス・パスワード %>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-y-8 gap-x-12 pt-8">
-            <div>
-              <p class="text-xs text-gray-500 mb-2">メールアドレス</p>
-              <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-gray-400">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
-                  </svg>
-                  <p class="font-bold"><%= current_user.email %></p>
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <p class="text-xs text-gray-500 mb-2">パスワード</p>
-              <div class="flex items-center justify-between">
-                <p class="font-bold tracking-widest text-xl leading-none pt-1">••••••••</p>
-                <%= link_to "変更", edit_user_registration_path, class: "text-sm text-teal-600 hover:text-teal-700 font-medium" %>
-              </div>
+      <%# メールアドレス・パスワード %>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-12 pt-6">
+        <div>
+          <p class="text-xs text-gray-400 mb-1.5 font-bold">メールアドレス</p>
+          <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-gray-400">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+              </svg>
+              <p class="font-bold text-brand-navy"><%= current_user.email %></p>
             </div>
           </div>
         </div>
 
+        <div>
+          <p class="text-xs text-gray-400 mb-1.5 font-bold">パスワード</p>
+          <div class="flex items-center justify-between">
+            <p class="font-bold tracking-widest text-brand-navy text-xl leading-none pt-1">••••••••</p>
+            <%= link_to "変更", edit_user_registration_path, class: "text-xs text-brand-teal hover:opacity-80 font-bold bg-brand-teal-light px-4 py-2 rounded-xl transition" %>
+          </div>
+        </div>
       </div>
     </div>
-  </main>
-</div>
+  </div>
+
+  <div class="mt-8 flex justify-center">
+    <%= link_to destroy_user_session_path, data: { turbo_method: :delete }, class: "flex items-center space-x-2 text-xs font-bold text-gray-400 hover:text-red-500 transition px-5 py-3 rounded-full hover:bg-red-50" do %>
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+      </svg>
+      <span>ログアウトする</span>
+    <% end %>
+  </div>
+</main>

@@ -1,4 +1,5 @@
 class ExercisesController < ApplicationController
+  layout :resolve_layout
   before_action :authenticate_user!
   before_action :set_exercise, only: %i[answer history result]
   before_action :set_flow, only: %i[answer history result]
@@ -129,5 +130,14 @@ class ExercisesController < ApplicationController
 
   def answers_params
     params.permit(answers: {}).fetch(:answers, {}).to_h
+  end
+
+  def resolve_layout
+    case action_name
+    when "index"
+      "dashboard"
+    else
+      "application"
+    end
   end
 end

@@ -1,117 +1,93 @@
-<% content_for :body_class, "bg-[#f9fafb] text-[#374151] h-screen" %>
+<main class="flex-grow max-w-4xl w-full mx-auto px-4 md:px-6 py-8 md:py-12 animate-fadeInUp">
+  <div class="mb-8 px-2">
+    <h2 class="text-2xl md:text-3xl font-black text-brand-navy mb-2 tracking-tight">学習履歴</h2>
+    <p class="text-xs text-gray-400">これまでの実力診断・模擬試験の結果と分析レポートを確認できます。</p>
+  </div>
 
-<div class="flex h-full">
-  <%= render 'shared/sidebar', active_page: :history %>
-
-  <main class="flex-1 p-8 flex flex-col overflow-hidden">
-    <header class="flex justify-between items-center mb-10">
-      <div>
-        <h2 class="text-2xl font-bold tracking-tight text-gray-900 leading-none">学習履歴</h2>
-        <p class="text-gray-400 text-sm mt-2.5">これまでの実力診断・模擬試験の結果と分析レポートを確認できます。</p>
-      </div>
-    </header>
-
-    <div class="flex-1 overflow-y-auto pr-2 custom-scrollbar">
-      <% if @completed_attempts.any? %>
-        <div class="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden mb-8">
-          <table class="w-full text-sm">
-            <thead>
-              <tr class="border-b border-gray-100 text-xs text-gray-400 font-semibold bg-gray-50/50">
-                <th class="text-left px-8 py-4">種別</th>
-                <th class="text-left px-8 py-4">試験名</th>
-                <th class="text-left px-8 py-4">受験日</th>
-                <th class="text-center px-8 py-4">トータルスコア</th>
-                <th class="text-center px-8 py-4">ステータス</th>
-                <th class="text-center px-8 py-4"></th>
-              </tr>
-            </thead>
-            <tbody>
-              <% @completed_attempts.each do |attempt| %>
-                <% report = attempt.analysis_report %>
-                <% is_diagnostic = attempt.mockable_type == "Diagnostic" %>
-                <tr class="border-b border-gray-100 last:border-0 hover:bg-gray-50 transition">
-                  <td class="px-8 py-5">
-                    <% if is_diagnostic %>
-                      <span class="inline-block bg-teal-50 text-[#34a0a4] text-[11px] font-bold px-2.5 py-1 rounded-full">実力診断</span>
-                    <% else %>
-                      <span class="inline-block bg-blue-50 text-blue-600 text-[11px] font-bold px-2.5 py-1 rounded-full">模擬試験</span>
-                    <% end %>
-                  </td>
-                  <td class="px-8 py-5 font-medium text-gray-800"><%= attempt.mockable.title %></td>
-                  <td class="px-8 py-5 text-gray-500"><%= attempt.completed_at.strftime("%Y/%m/%d") %></td>
-                  <td class="px-8 py-5 text-center">
+  <% if @completed_attempts.any? %>
+    <div class="bg-white border border-brand-teal/10 rounded-[32px] shadow-sm overflow-hidden mb-8">
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm text-brand-navy">
+          <thead>
+            <tr class="border-b border-gray-100 text-xs text-gray-400 font-bold bg-brand-teal-light">
+              <th class="text-left px-8 py-5">種別</th>
+              <th class="text-left px-8 py-5">試験名</th>
+              <th class="text-left px-8 py-5">受験日</th>
+              <th class="text-center px-8 py-5">トータルスコア</th>
+              <th class="text-center px-8 py-5">ステータス</th>
+              <th class="text-center px-8 py-5"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @completed_attempts.each do |attempt| %>
+              <% report = attempt.analysis_report %>
+              <% is_diagnostic = attempt.mockable_type == "Diagnostic" %>
+              <tr class="border-b border-gray-100 last:border-0 hover:bg-gray-50/50 transition">
+                <td class="px-8 py-5">
+                  <% if is_diagnostic %>
+                    <span class="inline-block bg-brand-teal-light text-brand-teal text-[10px] font-black px-3 py-1 rounded-full">実力診断</span>
+                  <% else %>
+                    <span class="inline-block bg-brand-navy-light text-brand-navy text-[10px] font-black px-3 py-1 rounded-full">模擬試験</span>
+                  <% end %>
+                </td>
+                <td class="px-8 py-5 font-bold text-brand-navy"><%= attempt.mockable.title %></td>
+                <td class="px-8 py-5 text-gray-400 text-xs"><%= attempt.completed_at.strftime("%Y/%m/%d") %></td>
+                <td class="px-8 py-5 text-center">
+                  <% if report&.completed? %>
+                    <span class="text-lg font-black text-brand-navy"><%= report.total_score %></span>
+                    <span class="text-[11px] text-gray-400">/ 677</span>
+                  <% else %>
+                    <span class="text-gray-400">—</span>
+                  <% end %>
+                </td>
+                <td class="px-8 py-5 text-center">
+                  <% if report.nil? || report.pending? %>
+                    <span class="inline-flex items-center gap-1.5 bg-amber-50 text-amber-600 text-[10px] font-bold px-3 py-1.5 rounded-full">
+                      <svg class="w-3 h-3 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path></svg>
+                      分析制作中
+                    </span>
+                  <% elsif report.completed? %>
+                    <span class="inline-block bg-green-50 text-green-600 text-[10px] font-bold px-3 py-1.5 rounded-full">✓ 完了</span>
+                  <% else %>
+                    <span class="inline-block bg-red-50 text-red-500 text-[10px] font-bold px-3 py-1.5 rounded-full">分析失敗</span>
+                  <% end %>
+                </td>
+                <td class="px-8 py-5 text-center">
+                  <% result_path = is_diagnostic ?
+                        result_diagnostic_path(attempt.mockable, attempt_id: attempt.id) :
+                        result_mock_path(attempt.mockable, attempt_id: attempt.id) %>
+                  <div class="inline-flex items-center gap-3">
                     <% if report&.completed? %>
-                      <span class="text-lg font-bold text-[#1e3a5f]"><%= report.total_score %></span>
-                      <span class="text-xs text-gray-400">/ 677</span>
-                    <% else %>
-                      <span class="text-gray-400">—</span>
-                    <% end %>
-                  </td>
-                  <td class="px-8 py-5 text-center">
-                    <% if report.nil? || report.pending? %>
-                      <span class="inline-flex items-center gap-1.5 bg-amber-50 text-amber-600 text-[11px] font-bold px-3 py-1.5 rounded-full">
-                        <svg class="w-3 h-3 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path></svg>
-                        分析制作中
-                      </span>
-                    <% elsif report.completed? %>
-                      <span class="inline-block bg-teal-50 text-[#34a0a4] text-[11px] font-bold px-3 py-1.5 rounded-full">✓ 完了</span>
-                    <% else %>
-                      <span class="inline-block bg-red-50 text-red-500 text-[11px] font-bold px-3 py-1.5 rounded-full">分析失敗</span>
-                    <% end %>
-                  </td>
-                  <td class="px-8 py-5 text-center">
-                    <% result_path = is_diagnostic ?
-                          result_diagnostic_path(attempt.mockable, attempt_id: attempt.id) :
-                          result_mock_path(attempt.mockable, attempt_id: attempt.id) %>
-                    <div class="inline-flex items-center gap-2">
-                      <% if report&.completed? %>
-                        <% report_path = is_diagnostic ?
-                              report_diagnostic_path(attempt.mockable, attempt_id: attempt.id) :
-                              report_mock_path(attempt.mockable, attempt_id: attempt.id) %>
-                        <%= link_to report_path,
-                              class: "inline-flex items-center px-4 py-2 bg-[#34a0a4] text-white text-xs font-bold rounded-lg hover:bg-[#2d8b8e] transition shadow-sm" do %>
-                          <span>レポートを見る</span>
-                        <% end %>
+                      <% report_path = is_diagnostic ?
+                            report_diagnostic_path(attempt.mockable, attempt_id: attempt.id) :
+                            report_mock_path(attempt.mockable, attempt_id: attempt.id) %>
+                      <%= link_to report_path,
+                            class: "inline-flex items-center px-4 py-2 bg-brand-teal text-white text-[11px] font-black rounded-xl hover:opacity-90 transition shadow-md shadow-teal-500/10 whitespace-nowrap" do %>
+                        <span>レポートを見る</span>
                       <% end %>
-                      <%= link_to "試験結果を確認",
-                            result_path,
-                            class: "text-xs font-semibold text-gray-400 hover:text-gray-600 transition" %>
-                    </div>
-                  </td>
-                </tr>
-              <% end %>
-            </tbody>
-          </table>
-        </div>
-      <% else %>
-        <div class="bg-white border border-dashed border-gray-200 rounded-3xl p-20 text-center">
-          <div class="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4 text-gray-300">
-            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-          </div>
-          <h3 class="text-gray-800 font-bold text-lg mb-2">履歴がありません</h3>
-          <p class="text-gray-400 text-sm mb-8">実力診断または模擬試験を受験すると、ここに分析レポートが表示されます。</p>
-          <div class="flex justify-center gap-4">
-            <%= link_to "実力診断を受ける", diagnostics_path, class: "inline-block bg-[#34a0a4] text-white px-6 py-3 rounded-xl font-bold hover:bg-[#2d8b8e] transition shadow-sm" %>
-            <%= link_to "模擬試験を受験する", mocks_path, class: "inline-block bg-white border border-[#34a0a4] text-[#34a0a4] px-6 py-3 rounded-xl font-bold hover:bg-teal-50 transition" %>
-          </div>
-        </div>
-      <% end %>
+                    <% end %>
+                    <%= link_to "結果確認",
+                          result_path,
+                          class: "text-[11px] font-bold text-gray-400 hover:text-brand-navy transition whitespace-nowrap" %>
+                  </div>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
     </div>
-  </main>
-</div>
-
-<style>
-.custom-scrollbar::-webkit-scrollbar {
-  width: 6px;
-}
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: transparent;
-}
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #e2e8f0;
-  border-radius: 10px;
-}
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #cbd5e1;
-}
-</style>
+  <% else %>
+    <div class="bg-white border border-dashed border-gray-200 rounded-[40px] p-16 text-center">
+      <div class="w-16 h-16 bg-brand-teal-light rounded-2xl flex items-center justify-center mx-auto mb-5 text-brand-teal">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+      </div>
+      <h3 class="text-brand-navy font-black text-lg mb-2">受験履歴がありません</h3>
+      <p class="text-gray-400 text-xs mb-8">実力診断または模擬試験を受験すると、ここに分析レポートが表示されます。</p>
+      <div class="flex flex-col sm:flex-row justify-center gap-3 max-w-md mx-auto">
+        <%= link_to "実力診断を受ける", diagnostics_path, class: "flex-1 bg-brand-orange-btn text-white px-6 py-3.5 rounded-2xl font-black text-sm hover:opacity-90 transition shadow-lg shadow-orange-500/10 text-center" %>
+        <%= link_to "模擬試験を受験する", mocks_path, class: "flex-1 bg-white border border-brand-teal text-brand-teal px-6 py-3.5 rounded-2xl font-black text-sm hover:bg-brand-teal-light transition text-center" %>
+      </div>
+    </div>
+  <% end %>
+</main>
