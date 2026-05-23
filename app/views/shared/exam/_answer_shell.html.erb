@@ -8,14 +8,15 @@
   data-exam-progress-require-all-answered-value="<%= presenter.require_all_answered? %>"
   <%= %(data-mock-timer-seconds-value="#{presenter.timer_seconds}").html_safe if presenter.timer? %>
 >
-  <header class="flex-shrink-0 flex items-stretch h-16 border-b-[3px] border-[#1a1b4b] bg-white sticky top-0 z-50 font-sans">
-    <div class="flex items-center gap-4 px-6 w-1/3 min-w-0">
-      <h1 class="text-[11px] font-bold tracking-[0.12em] text-gray-800 uppercase whitespace-nowrap truncate font-serif">
+  <header class="flex-shrink-0 flex items-stretch justify-between h-14 md:h-16 border-b-[3px] border-[#1a1b4b] bg-white sticky top-0 z-50 font-sans">
+    
+    <div class="flex items-center px-3 md:px-6 md:w-1/3 min-w-0">
+      <h1 class="hidden md:block text-[11px] font-bold tracking-[0.12em] text-gray-800 uppercase whitespace-nowrap truncate font-serif mr-4">
         <%= presenter.title %>
       </h1>
       <% if presenter.timer? %>
         <span
-          class="text-[15px] font-bold text-gray-700 tracking-wider font-mono flex-shrink-0"
+          class="text-sm md:text-[15px] font-bold text-gray-700 tracking-wider font-mono flex-shrink-0"
           data-mock-timer-target="display"
         >
           <%= presenter.timer_display %>
@@ -23,7 +24,7 @@
       <% end %>
     </div>
 
-    <div class="flex flex-col items-center justify-center border-l border-r border-gray-200 w-1/3 px-4">
+    <div class="hidden md:flex flex-col items-center justify-center border-l border-r border-gray-200 px-4 md:w-1/3">
       <div class="text-xs text-gray-600 mb-1">
         回答済み :
         <span class="text-gray-800 font-medium" data-exam-progress-target="answeredCount"><%= presenter.answered_count %></span>/<%= presenter.total_count %>問
@@ -39,18 +40,18 @@
       </div>
     </div>
 
-    <div class="flex items-center justify-end px-6 gap-4 w-1/3 text-sm">
+    <div class="flex items-center justify-end px-3 md:px-6 gap-2 md:gap-4 md:w-1/3 text-xs md:text-sm">
       <% if presenter.interruptible? %>
         <button type="button"
                 data-action="exam-progress#openModal"
-                class="px-5 py-2 border border-gray-300 hover:bg-gray-50 transition-colors text-gray-700">
-          試験を中断する
+                class="px-3 py-1.5 md:px-5 md:py-2 border border-gray-300 hover:bg-gray-50 transition-colors text-gray-700 whitespace-nowrap">
+          中断
         </button>
       <% else %>
-        <div class="flex gap-2">
+        <div class="flex gap-1 md:gap-2">
           <% presenter.secondary_links.each do |link| %>
             <%= link_to link[:label], link[:path],
-                  class: "px-5 py-2 border border-gray-300 hover:bg-gray-50 transition-colors text-gray-700" %>
+                  class: "px-3 py-1.5 md:px-5 md:py-2 border border-gray-300 hover:bg-gray-50 transition-colors text-gray-700 whitespace-nowrap" %>
           <% end %>
         </div>
       <% end %>
@@ -61,7 +62,7 @@
               form: presenter.form_id,
               disabled: presenter.require_all_answered?,
               data: { "exam-progress-target": "submitButton" },
-              class: "px-8 py-2 bg-[#1a1b4b] text-white hover:bg-blue-900 transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer whitespace-nowrap" %>
+              class: "px-4 py-1.5 md:px-8 md:py-2 bg-[#1a1b4b] text-white hover:bg-blue-900 transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer whitespace-nowrap" %>
       <% end %>
     </div>
   </header>
