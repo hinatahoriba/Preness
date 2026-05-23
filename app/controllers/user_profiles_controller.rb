@@ -19,8 +19,10 @@ class UserProfilesController < ApplicationController
 
   def user_profile_params
     params.require(:user_profile).permit(
-      :full_name, :full_name_kana, :nickname, :age,
-      :affiliation, :study_abroad_plan, :data_usage_agreed
+      :last_name, :first_name, :last_name_kana, :first_name_kana,
+      :nickname, :date_of_birth, :affiliation, :study_abroad_plan,
+      :eiken_grade, :toeic_score, :toefl_ibt_score, :ielts_score,
+      :data_usage_agreed
     )
   end
 end
