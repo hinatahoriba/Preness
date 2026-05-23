@@ -21,20 +21,24 @@
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
 
-    <% if Rails.env.production? && ENV['GOOGLE_ANALYTICS_ID'].present? %>
-      <!-- Google tag (gtag.js) -->
-      <script async src="https://www.googletagmanager.com/gtag/js?id=<%= ENV['GOOGLE_ANALYTICS_ID'] %>"></script>
-      <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', '<%= ENV['GOOGLE_ANALYTICS_ID'] %>');
-      </script>
+    <% if Rails.env.production? && ENV['GTM_CONTAINER_ID'].present? %>
+      <!-- Google Tag Manager -->
+      <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','<%= ENV['GTM_CONTAINER_ID'] %>');</script>
+      <!-- End Google Tag Manager -->
     <% end %>
   </head>
 
   <body class="antialiased <%= content_for(:body_class) %>">
+    <% if Rails.env.production? && ENV['GTM_CONTAINER_ID'].present? %>
+      <!-- Google Tag Manager (noscript) -->
+      <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=<%= ENV['GTM_CONTAINER_ID'] %>"
+      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+      <!-- End Google Tag Manager (noscript) -->
+    <% end %>
 <% if notice.present? || alert.present? %>
   <div class="fixed inset-x-0 top-4 z-50 mx-auto w-full max-w-2xl px-4 transition-opacity duration-500" data-controller="flash">
     <% if notice.present? %>
