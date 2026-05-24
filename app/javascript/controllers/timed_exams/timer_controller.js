@@ -4,7 +4,7 @@ export default class extends Controller {
   static values = {
     seconds: Number
   }
-  static targets = [ "display" ]
+  static targets = ["display"]
 
   connect() {
     this.secondsLeft = this.secondsValue
@@ -21,21 +21,21 @@ export default class extends Controller {
       }, 1000)
     }
 
-    this.beforeUnloadHandler = (e) => {
-      e.preventDefault()
-      e.returnValue = ''
+    this.beforeUnloadHandler = (event) => {
+      event.preventDefault()
+      event.returnValue = ""
     }
-    window.addEventListener('beforeunload', this.beforeUnloadHandler)
+    window.addEventListener("beforeunload", this.beforeUnloadHandler)
   }
 
   disconnect() {
     this.stopTimer()
-    window.removeEventListener('beforeunload', this.beforeUnloadHandler)
+    window.removeEventListener("beforeunload", this.beforeUnloadHandler)
   }
 
   updateDisplay() {
-    const min = Math.floor(this.secondsLeft / 60).toString().padStart(2, '0')
-    const sec = (this.secondsLeft % 60).toString().padStart(2, '0')
+    const min = Math.floor(this.secondsLeft / 60).toString().padStart(2, "0")
+    const sec = (this.secondsLeft % 60).toString().padStart(2, "0")
     this.displayTarget.textContent = `${min}:${sec}`
   }
 
@@ -47,11 +47,11 @@ export default class extends Controller {
   }
 
   showWarning() {
-    this.displayTarget.classList.remove('text-gray-700')
-    this.displayTarget.classList.add('text-red-600')
-    alert('制限時間が終了したため、次の画面へ移動します。')
+    this.displayTarget.classList.remove("text-gray-700")
+    this.displayTarget.classList.add("text-red-600")
+    alert("制限時間が終了したため、次の画面へ移動します。")
 
-    const form = this.element.querySelector('form')
+    const form = this.element.querySelector("form")
     if (form) {
       form.requestSubmit()
     }

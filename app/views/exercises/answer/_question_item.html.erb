@@ -1,6 +1,6 @@
 <%# Locals:
-#   question (Question) – question record
-#   index    (Integer)  – 0-based display index (shown as index + 1)
+#   question (Question)
+#   index    (Integer)
 %>
 <div class="flex justify-between items-start mb-4">
   <h3 class="text-[17px] font-bold font-serif leading-loose"><%= index + 1 %>. <%= question_text_with_tags(question) %></h3>
@@ -11,7 +11,7 @@
       value="UNKNOWN"
       class="w-4 h-4"
       style="accent-color: #1a1b4b"
-      data-action="exam-progress#update"
+      data-action="exercises--progress#update"
     />
     わからない
   </label>
@@ -26,7 +26,7 @@
         value="<%= choice %>"
         class="w-[17px] h-[17px] mt-0.5 flex-shrink-0"
         style="accent-color: #1a1b4b"
-        data-action="exam-progress#update"
+        data-action="exercises--progress#update"
       />
       <span>(<%= choice %>) <%= question_choice_text(question, choice) %></span>
     </label>

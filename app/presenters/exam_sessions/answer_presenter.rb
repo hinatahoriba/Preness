@@ -35,12 +35,11 @@ module ExamSessions
         form_id: "exercise-answer-form",
         form_url: Rails.application.routes.url_helpers.answer_exercise_path(exercise),
         submit_label: "採点する",
-        layout_partial: layout_partial_for(section: section, part: part),
+        layout_partial: layout_partial_for(mode: :exercise, section: section, part: part),
         layout_locals: layout_locals_for(
           mode: :exercise,
           section: section,
           part: part,
-          question_set: question_set,
           question_sets: [question_set],
           questions: questions
         ),
@@ -64,12 +63,11 @@ module ExamSessions
           attempt_id: attempt.id
         ),
         submit_label: submit_label,
-        layout_partial: layout_partial_for(section: section, part: part),
+        layout_partial: layout_partial_for(mode: :timed_exam, section: section, part: part),
         layout_locals: layout_locals_for(
-          mode: :mock,
+          mode: :timed_exam,
           section: section,
           part: part,
-          question_set: question_sets.first,
           question_sets: question_sets,
           questions: questions,
           submit_label: submit_label
@@ -96,12 +94,11 @@ module ExamSessions
           attempt_id: attempt.id
         ),
         submit_label: submit_label,
-        layout_partial: layout_partial_for(section: section, part: part),
+        layout_partial: layout_partial_for(mode: :timed_exam, section: section, part: part),
         layout_locals: layout_locals_for(
-          mode: :mock,
+          mode: :timed_exam,
           section: section,
           part: part,
-          question_set: question_sets.first,
           question_sets: question_sets,
           questions: questions,
           submit_label: submit_label
@@ -125,10 +122,6 @@ module ExamSessions
       reading? ? "flex-1 flex flex-col overflow-hidden" : ""
     end
 
-    def controller_names
-      timer? ? "exam-progress exam-timer" : "exam-progress"
-    end
-
     def require_all_answered?
       @require_all_answered
     end
@@ -143,10 +136,6 @@ module ExamSessions
 
     def timer_display
       @timer_display
-    end
-
-    def interruptible?
-      interrupt_confirm_path.present?
     end
 
     private
@@ -169,29 +158,31 @@ module ExamSessions
       links
     end
 
-    def self.layout_partial_for(section:, part:)
+    def self.layout_partial_for(mode:, section:, part:)
+      prefix = mode == :timed_exam ? "timed_exams/answer/layouts" : "exercises/answer/layouts"
+
       if section.section_type == "listening" && part.part_type == "part_a"
-        "shared/exam/layouts/listening_part_a"
+        "#{prefix}/listening_part_a"
       elsif section.section_type == "listening"
-        "shared/exam/layouts/listening_part_bc"
+        "#{prefix}/listening_part_bc"
       elsif section.section_type == "structure"
-        "shared/exam/layouts/structure"
+        "#{prefix}/structure"
       else
-        "shared/exam/layouts/reading"
+        "#{prefix}/reading"
       end
     end
 
-    def self.layout_locals_for(mode:, section:, part:, question_set:, question_sets:, questions:, submit_label: nil)
+    def self.layout_locals_for(mode:, section:, part:, question_sets:, questions:, submit_label: nil)
       if section.section_type == "listening" && part.part_type == "part_a"
         {
           questions: questions,
-          single_use_audio: mode == :mock
+          single_use_audio: mode == :timed_exam
         }
       elsif section.section_type == "listening"
         {
           question_sets: question_sets,
           part_label: ExamCatalog.part_label(part.part_type)&.upcase,
-          single_use_audio: mode == :mock
+          single_use_audio: mode == :timed_exam
         }
       elsif section.section_type == "structure"
         {
@@ -199,8 +190,8 @@ module ExamSessions
           part_label: ExamCatalog.part_label(part.part_type)&.upcase
         }
       else
-        locals = { question_sets: question_sets, tabbed: mode == :mock }
-        locals[:submit_label] = submit_label if mode == :mock
+        locals = { question_sets: question_sets, tabbed: mode == :timed_exam }
+        locals[:submit_label] = submit_label if mode == :timed_exam
         locals
       end
     end

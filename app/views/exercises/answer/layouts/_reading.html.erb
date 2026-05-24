@@ -1,0 +1,24 @@
+<%# Locals:
+#   question_sets (Array<QuestionSet>)
+%>
+<div class="flex-1 flex overflow-hidden">
+  <% q_offset = 0 %>
+  <% question_sets.each do |question_set| %>
+    <div class="flex">
+      <div class="w-1/2 overflow-y-auto px-10 pt-7 pb-24">
+        <div class="text-[15.5px] leading-[2] text-gray-800 space-y-5 text-justify font-serif">
+          <%= format_vocab_tags(simple_format(question_set.passage.to_s)) %>
+        </div>
+      </div>
+
+      <div class="w-1/2 border-l border-gray-100 overflow-y-auto px-10 pt-7 pb-10">
+        <% question_set.questions.order(:display_order).each_with_index do |question, question_index| %>
+          <div class="mb-10 pb-10 border-b border-gray-100 last:border-0 last:mb-0">
+            <%= render "exercises/answer/question_item", question: question, index: q_offset + question_index %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <% q_offset += question_set.questions.count %>
+  <% end %>
+</div>

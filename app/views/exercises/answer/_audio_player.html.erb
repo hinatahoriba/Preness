@@ -1,8 +1,8 @@
 <%# Locals:
-#   url         (String)  – audio src
-#   label       (String)  – e.g. "LISTENING AUDIO" or "LISTENING AUDIO 1"
-#   status_text (String)  – e.g. "Click to play conversation"
-#   compact     (Boolean) – true: Part A style (small), false: Part BC style (large)
+#   url         (String)
+#   label       (String)
+#   status_text (String)
+#   compact     (Boolean)
 %>
 <% compact = local_assigns.fetch(:compact, false) %>
 <% outer_cls = compact \
@@ -14,15 +14,14 @@
 <% content_cls = compact ? "ml-4 font-sans flex flex-col justify-center" : "flex flex-col" %>
 <% label_cls = compact ? "text-[#1a1b4b] font-bold text-sm tracking-wider" : "text-[#0f2361] font-bold text-xs tracking-widest font-sans" %>
 <% status_cls = compact ? "font-mono" : "font-sans" %>
-<% hide_ui = local_assigns.fetch(:hide_ui, false) %>
 <% status_text = local_assigns.fetch(:status_text, "Click to play audio") %>
 
-<div class="<%= outer_cls %> <%= 'hidden' if hide_ui %>">
+<div class="<%= outer_cls %>">
   <button
     type="button"
-    class="<%= btn_cls %> transition cursor-pointer disabled:cursor-not-allowed"
-    data-exam-audio-player-target="playButton"
-    data-action="click->exam-audio-player#playAudio"
+    class="<%= btn_cls %> transition cursor-pointer"
+    data-exercises--audio-player-target="playButton"
+    data-action="click->exercises--audio-player#toggle"
   >
     <% if compact %>
       <svg class="w-5 h-5 text-white ml-1" fill="currentColor" viewBox="0 0 20 20">
@@ -44,9 +43,9 @@
     </div>
     <span
       class="text-[10px] text-gray-500 tracking-widest uppercase <%= status_cls %>"
-      data-exam-audio-player-target="statusLabel"
+      data-exercises--audio-player-target="statusLabel"
     ><%= status_text %></span>
   </div>
 
-  <audio src="<%= url %>" class="hidden" data-exam-audio-player-target="audio"></audio>
+  <audio src="<%= url %>" class="hidden" data-exercises--audio-player-target="audio"></audio>
 </div>

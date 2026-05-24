@@ -1,0 +1,68 @@
+<%# Locals:
+#   question_sets (Array<QuestionSet>)
+#   tabbed (Boolean)
+#   submit_label (String)
+%>
+<% submit_label = local_assigns.fetch(:submit_label, nil) %>
+
+<div
+  class="flex-1 flex flex-col overflow-hidden"
+  data-controller="timed-exams--passage-tab"
+>
+  <div class="flex flex-shrink-0 border-b border-gray-200 bg-white">
+    <% question_sets.each_with_index do |_question_set, index| %>
+      <button
+        type="button"
+        class="px-8 py-3 text-[10px] font-bold tracking-widest uppercase transition-colors"
+        data-timed-exams--passage-tab-target="tab"
+        data-action="click->timed-exams--passage-tab#switch"
+      >
+        PASSAGE <%= index + 1 %>
+      </button>
+    <% end %>
+  </div>
+
+  <% q_offset = 0 %>
+  <% question_sets.each_with_index do |question_set, set_index| %>
+    <% is_last_passage = set_index == question_sets.length - 1 %>
+    <div
+      class="flex flex-1 overflow-hidden"
+      data-timed-exams--passage-tab-target="panel"
+    >
+      <div class="w-1/2 overflow-y-auto px-10 pt-7 pb-24">
+        <div class="text-[15.5px] leading-[2] text-gray-800 space-y-5 text-justify font-serif">
+          <%= format_vocab_tags(simple_format(question_set.passage.to_s)) %>
+        </div>
+      </div>
+
+      <div class="w-1/2 border-l border-gray-100 overflow-y-auto px-10 pt-7 pb-10">
+        <% question_set.questions.order(:display_order).each_with_index do |question, question_index| %>
+          <div class="mb-10 pb-10 border-b border-gray-100 last:border-0 last:mb-0">
+            <%= render "timed_exams/answer/question_item", question: question, index: q_offset + question_index %>
+          </div>
+        <% end %>
+
+        <div class="flex justify-end pt-6 pb-4">
+          <% if is_last_passage %>
+            <button
+              type="submit"
+              data-timed-exams--progress-target="submitButton"
+              class="px-8 py-3 bg-[#1a1b4b] text-white hover:bg-blue-900 transition-colors cursor-pointer whitespace-nowrap"
+            >
+              <%= submit_label %>
+            </button>
+          <% else %>
+            <button
+              type="button"
+              data-action="timed-exams--passage-tab#activateNext"
+              class="px-8 py-3 bg-[#1a1b4b] text-white hover:bg-blue-900 transition-colors cursor-pointer whitespace-nowrap"
+            >
+              次のPassageへ進む
+            </button>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <% q_offset += question_set.questions.count %>
+  <% end %>
+</div>

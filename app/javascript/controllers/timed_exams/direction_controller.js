@@ -5,7 +5,7 @@ export default class extends Controller {
     answerUrl: String,
     duration: Number
   }
-  static targets = [ "timer" ]
+  static targets = ["timer"]
 
   connect() {
     this.secondsLeft = this.durationValue || 40
@@ -26,8 +26,8 @@ export default class extends Controller {
   }
 
   updateDisplay() {
-    const min = Math.floor(this.secondsLeft / 60).toString().padStart(2, '0')
-    const sec = (this.secondsLeft % 60).toString().padStart(2, '0')
+    const min = Math.floor(this.secondsLeft / 60).toString().padStart(2, "0")
+    const sec = (this.secondsLeft % 60).toString().padStart(2, "0")
     this.timerTarget.textContent = `${min}:${sec}`
   }
 

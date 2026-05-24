@@ -13,7 +13,7 @@ export default class extends Controller {
   }
 
   activateNext() {
-    const currentIndex = this.tabTargets.findIndex(tab =>
+    const currentIndex = this.tabTargets.findIndex((tab) =>
       tab.classList.contains("border-b-[3px]")
     )
     if (currentIndex >= 0 && currentIndex < this.tabTargets.length - 1) {
