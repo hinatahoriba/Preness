@@ -25,7 +25,7 @@ module ExamSessions
       @interrupt_confirm_path = interrupt_confirm_path
     end
 
-    def self.for_exercise(exercise:, section:, part:, question_set:, set_number:, questions:, total_count:, answered_count:, attempt:)
+    def self.for_exercise(exercise:, section:, part:, question_set:, question_sets:, set_number:, questions:, total_count:, answered_count:, attempt:)
       new(
         title: exercise_title(section: section, part: part, set_number: set_number),
         reading: section.section_type == "reading",
@@ -41,7 +41,7 @@ module ExamSessions
           section: section,
           part: part,
           question_set: question_set,
-          question_sets: [question_set],
+          question_sets: question_sets,
           questions: questions
         ),
         require_all_answered: true,

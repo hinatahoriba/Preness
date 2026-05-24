@@ -16,11 +16,11 @@ module Exercises
 
       def rows
         sorted_exercises.each_with_index.filter_map do |exercise, index|
-          question_set = exercise.sections.first&.parts&.first&.question_sets&.first
-          next unless question_set
+          question_sets = exercise.sections.first&.parts&.first&.question_sets
+          next if question_sets.blank?
 
           attempt       = @latest_attempt_by_exercise_id[exercise.id]
-          total_count   = question_set.questions.size
+          total_count   = question_sets.sum { |question_set| question_set.questions.size }
           correct_count = attempt ? attempt.answers.count(&:is_correct) : nil
           score_percent = correct_count ? ((correct_count.to_f / total_count) * 100).round(1) : nil
 

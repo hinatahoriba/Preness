@@ -1,7 +1,7 @@
 module ExamSessions
   module Flow
     class Exercise
-      Content = Struct.new(:section, :part, :question_set, :questions, keyword_init: true)
+      Content = Struct.new(:section, :part, :question_set, :question_sets, :questions, keyword_init: true)
       Result = Struct.new(
         :attempt,
         :answers_by_question_id,
@@ -20,15 +20,17 @@ module ExamSessions
       def content!
         section = @exercise.sections.first
         part = section&.parts&.first
-        question_set = part&.question_sets&.first
-        questions = question_set&.questions&.to_a || []
+        question_sets = part&.question_sets&.sort_by(&:display_order) || []
+        question_set = question_sets.first
+        questions = question_sets.flat_map { |set| set.questions.sort_by(&:display_order) }
 
-        raise ActiveRecord::RecordNotFound, "Exercise content is missing" if section.blank? || part.blank? || question_set.blank?
+        raise ActiveRecord::RecordNotFound, "Exercise content is missing" if section.blank? || part.blank? || question_sets.blank?
 
         Content.new(
           section: section,
           part: part,
           question_set: question_set,
+          question_sets: question_sets,
           questions: questions
         )
       end

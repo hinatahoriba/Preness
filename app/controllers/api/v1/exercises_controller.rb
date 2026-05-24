@@ -42,47 +42,19 @@ module Api
         exercise_ids = []
 
         ActiveRecord::Base.transaction do
-          question_sets.each do |question_set_data|
-            exercise = Exercise.create!
-            exercise_ids << exercise.id
+          exercise_question_sets = split_question_sets_for_creation(
+            section_type: section_type,
+            part_type: part_type,
+            question_sets: question_sets
+          )
 
-            section = exercise.sections.create!(
+          exercise_question_sets.each do |question_set_group|
+            exercise = create_exercise_with_question_sets!(
               section_type: section_type,
-              display_order: SECTION_DISPLAY_ORDERS.fetch(section_type)
-            )
-
-            part = section.parts.create!(
               part_type: part_type,
-              display_order: PART_DISPLAY_ORDERS.fetch(part_type)
+              question_sets: question_set_group
             )
-
-            question_set = part.question_sets.create!(
-              passage: question_set_data[:passage],
-              passage_theme: question_set_data[:passage_theme],
-              conversation_audio_url: question_set_data[:conversation_audio_url],
-              scripts: question_set_data[:scripts],
-              display_order: question_set_data.fetch(:display_order)
-            )
-
-            question_set_data.fetch(:questions).each do |question_data|
-              question_set.questions.create!(
-                display_order: question_data.fetch(:display_order),
-                question_text: question_data.fetch(:question_text),
-                conversation_audio_url: question_data[:conversation_audio_url],
-                question_audio_url: question_data[:question_audio_url],
-                choice_a: question_data.fetch(:choice_a),
-                choice_b: question_data.fetch(:choice_b),
-                choice_c: question_data.fetch(:choice_c),
-                choice_d: question_data.fetch(:choice_d),
-                correct_choice: question_data.fetch(:correct_choice),
-                explanation: question_data[:explanation],
-                tag: question_data[:tag],
-                wrong_reason_a: question_data[:wrong_reason_a],
-                wrong_reason_b: question_data[:wrong_reason_b],
-                wrong_reason_c: question_data[:wrong_reason_c],
-                wrong_reason_d: question_data[:wrong_reason_d]
-              )
-            end
+            exercise_ids << exercise.id
           end
         end
 
@@ -90,6 +62,64 @@ module Api
       end
 
       private
+
+      def split_question_sets_for_creation(section_type:, part_type:, question_sets:)
+        if grouped_listening_exercise?(section_type: section_type, part_type: part_type)
+          [question_sets]
+        else
+          question_sets.map { |question_set| [question_set] }
+        end
+      end
+
+      def grouped_listening_exercise?(section_type:, part_type:)
+        section_type == "listening" && %w[part_b part_c].include?(part_type)
+      end
+
+      def create_exercise_with_question_sets!(section_type:, part_type:, question_sets:)
+        exercise = Exercise.create!
+
+        section = exercise.sections.create!(
+          section_type: section_type,
+          display_order: SECTION_DISPLAY_ORDERS.fetch(section_type)
+        )
+
+        part = section.parts.create!(
+          part_type: part_type,
+          display_order: PART_DISPLAY_ORDERS.fetch(part_type)
+        )
+
+        question_sets.each do |question_set_data|
+          question_set = part.question_sets.create!(
+            passage: question_set_data[:passage],
+            passage_theme: question_set_data[:passage_theme],
+            conversation_audio_url: question_set_data[:conversation_audio_url],
+            scripts: question_set_data[:scripts],
+            display_order: question_set_data.fetch(:display_order)
+          )
+
+          question_set_data.fetch(:questions).each do |question_data|
+            question_set.questions.create!(
+              display_order: question_data.fetch(:display_order),
+              question_text: question_data.fetch(:question_text),
+              conversation_audio_url: question_data[:conversation_audio_url],
+              question_audio_url: question_data[:question_audio_url],
+              choice_a: question_data.fetch(:choice_a),
+              choice_b: question_data.fetch(:choice_b),
+              choice_c: question_data.fetch(:choice_c),
+              choice_d: question_data.fetch(:choice_d),
+              correct_choice: question_data.fetch(:correct_choice),
+              explanation: question_data[:explanation],
+              tag: question_data[:tag],
+              wrong_reason_a: question_data[:wrong_reason_a],
+              wrong_reason_b: question_data[:wrong_reason_b],
+              wrong_reason_c: question_data[:wrong_reason_c],
+              wrong_reason_d: question_data[:wrong_reason_d]
+            )
+          end
+        end
+
+        exercise
+      end
 
       def exercise_payload
         params.require(:section_type)

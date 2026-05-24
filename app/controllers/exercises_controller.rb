@@ -93,6 +93,7 @@ class ExercisesController < ApplicationController
     @section = content.section
     @part = content.part
     @question_set = content.question_set
+    @question_sets = content.question_sets
     @questions = content.questions
   end
 
@@ -109,6 +110,7 @@ class ExercisesController < ApplicationController
       section: @section,
       part: @part,
       question_set: @question_set,
+      question_sets: @question_sets,
       set_number: sequential_set_number,
       questions: @questions,
       total_count: @total_count,
@@ -118,14 +120,17 @@ class ExercisesController < ApplicationController
   end
 
   def sequential_set_number
-    Exercise
+    exercises = Exercise
       .joins(sections: { parts: :question_sets })
       .where(sections: { section_type: @section.section_type })
       .where(parts: { part_type: @part.part_type })
-      .order("question_sets.display_order ASC")
-      .pluck("exercises.id")
-      .index(@exercise.id)
-      .then { |idx| (idx || 0) + 1 }
+      .includes(sections: { parts: :question_sets })
+      .distinct
+      .sort_by do |exercise|
+        exercise.sections.first&.parts&.first&.question_sets&.map(&:display_order)&.min || 0
+      end
+
+    exercises.index(@exercise).then { |idx| (idx || 0) + 1 }
   end
 
   def answers_params
