@@ -9,7 +9,6 @@ export default class extends Controller {
   connect() {
     this.secondsLeft = this.secondsValue
 
-    // 時間設定がある場合のみタイマーを稼働
     if (this.secondsLeft > 0) {
       this.timer = setInterval(() => {
         this.secondsLeft--
@@ -48,12 +47,10 @@ export default class extends Controller {
   }
 
   showWarning() {
-    // 0になったら赤字にして警告
     this.displayTarget.classList.remove('text-gray-700')
     this.displayTarget.classList.add('text-red-600')
     alert('制限時間が終了したため、次の画面へ移動します。')
-    
-    // フォームを強制的に送信
+
     const form = this.element.querySelector('form')
     if (form) {
       form.requestSubmit()

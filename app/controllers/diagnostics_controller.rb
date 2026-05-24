@@ -64,14 +64,13 @@ class DiagnosticsController < ApplicationController
       part_id:    @part.id,
       attempt_id: @attempt.id
     )
-    @direction_presenter = ::Mocks::DirectionPresenter.new(
+    @direction_presenter = ::Diagnostics::DirectionPresenter.new(
       section: @section,
       part: @part,
       intro: @direction_intro,
       answer_url: @answer_url,
       duration_seconds: ExamCatalog::DIRECTION_COUNTDOWN_SECONDS
     )
-    render "mocks/direction"
   end
 
   # GET /diagnostics/:id/answer?section_id=X&part_id=Y&attempt_id=Z
@@ -92,7 +91,6 @@ class DiagnosticsController < ApplicationController
       answered_count: @answered_count,
       submit_label:   @submit_label
     )
-    render "mocks/answer"
   end
 
   # POST /diagnostics/:id/submit_part
@@ -125,7 +123,7 @@ class DiagnosticsController < ApplicationController
     @filter            = params[:filter].presence || "wrong"
     @part_filter       = params[:part_filter].presence || "all"
     @available_sections = @flow.available_sections
-    @result_presenter  = ::Mocks::ResultPresenter.new(
+    @result_presenter  = ::Diagnostics::ResultPresenter.new(
       section_results: @section_results,
       filter:          @filter,
       part_filter:     @part_filter

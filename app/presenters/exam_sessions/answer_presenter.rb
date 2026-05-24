@@ -126,7 +126,7 @@ module ExamSessions
     end
 
     def controller_names
-      timer? ? "exam-progress mock-timer" : "exam-progress"
+      timer? ? "exam-progress exam-timer" : "exam-progress"
     end
 
     def require_all_answered?

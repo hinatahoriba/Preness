@@ -38,9 +38,7 @@ export default class extends Controller {
     }
   }
 
-  skip(event) {
-    // リンクによる通常のページ遷移が行われるため、
-    // ここではタイマーを止めるだけでOK
+  skip() {
     this.stopTimer()
   }
 

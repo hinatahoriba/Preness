@@ -6,7 +6,7 @@
   data-controller="<%= presenter.controller_names %>"
   data-exam-progress-total-count-value="<%= presenter.total_count %>"
   data-exam-progress-require-all-answered-value="<%= presenter.require_all_answered? %>"
-  <%= %(data-mock-timer-seconds-value="#{presenter.timer_seconds}").html_safe if presenter.timer? %>
+  <%= %(data-exam-timer-seconds-value="#{presenter.timer_seconds}").html_safe if presenter.timer? %>
 >
   <header class="flex-shrink-0 flex items-stretch justify-between h-14 md:h-16 border-b-[3px] border-[#1a1b4b] bg-white sticky top-0 z-50 font-sans">
     
@@ -17,7 +17,7 @@
       <% if presenter.timer? %>
         <span
           class="text-sm md:text-[15px] font-bold text-gray-700 tracking-wider font-mono flex-shrink-0"
-          data-mock-timer-target="display"
+          data-exam-timer-target="display"
         >
           <%= presenter.timer_display %>
         </span>

@@ -20,7 +20,7 @@ module Diagnostics
 
       begin
         payload = Diagnostics::BuildAnalysisPayload.call(attempt)
-        result  = Mocks::AnalysisApiClient.call(payload)
+        result  = Diagnostics::AnalysisApiClient.call(payload)
 
         scores     = result["scores"] || {}
         narratives = result["narratives"] || {}
