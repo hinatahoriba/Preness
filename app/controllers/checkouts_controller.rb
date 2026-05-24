@@ -22,6 +22,7 @@ class CheckoutsController < ApplicationController
         quantity: 1
       }],
       mode: "payment",
+      allow_promotion_codes: true,
       success_url: success_checkouts_url(mock_id: mock.id, session_id: "{CHECKOUT_SESSION_ID}"),
       cancel_url: cancel_checkouts_url(mock_id: mock.id),
       metadata: {
