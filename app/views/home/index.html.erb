@@ -205,36 +205,102 @@
         </div>
     </section>
 
-    <section class="py-[20px] md:py-[60px] bg-gradient-to-br from-[#0e448b] to-[#4684b5] text-white">
-        <div class="max-w-[1100px] mx-auto px-5">
-            <div class="flex items-center mb-[40px]">
-                <div class="h-[1px] bg-white w-[15%] mr-[30px]"></div>
-                <h2 class="text-white text-left text-[28px] font-bold mb-0 tracking-[1.5px]">VOICE</h2>
+    <section class="py-[40px] md:py-[80px] bg-gradient-to-br from-[#1e4d8b] via-[#2a5fa5] to-[#1e4d8b] text-white overflow-hidden">
+        <div class="max-w-6xl mx-auto px-5">
+
+            <!-- タイトル -->
+            <div class="flex items-center gap-6 mb-16">
+                <div class="h-px w-16 md:w-24 bg-white/80"></div>
+
+                <h2 class="font-['Montserrat',sans-serif] text-white text-4xl md:text-5xl font-bold tracking-[0.2em]">
+                    VOICE
+                </h2>
             </div>
-            
-            <div class="flex flex-col md:flex-row items-center md:items-start justify-between gap-[40px] md:gap-[80px] mb-[50px]">
-                <div class="flex flex-col items-center text-center w-[220px] shrink-0">
-                    <div class="w-[220px] h-[220px] bg-[#e0e0e0] rounded-full flex justify-center items-center text-[#333333] text-[18px] font-bold mb-[25px]">写真</div>
-                    <div class="text-[18px] tracking-[2px] font-bold">氏名</div>
-                    <div class="text-[18px] tracking-[2px]">肩書</div>
+
+            <!-- ================================= -->
+            <!-- VOICE 01 -->
+            <!-- ================================= -->
+            <div class="flex flex-col md:flex-row items-center md:items-start gap-8 md:gap-12 mb-24">
+
+                <!-- 左：プロフィール -->
+                <div class="flex flex-col items-center flex-shrink-0">
+                    <div class="w-56 h-56 md:w-64 md:h-64 rounded-full overflow-hidden ring-4 ring-white/30 shadow-2xl bg-gray-200">
+                        <%= image_tag "kenta-nishimaki.png",
+                            alt: "西牧 健太 先生",
+                            class: "w-full h-full object-cover object-top" %>
+                    </div>
+
+                    <div class="mt-6 text-center text-white">
+                        <p class="text-lg md:text-xl font-medium tracking-wider">
+                            西牧 健太（まっきー）先生
+                        </p>
+
+                        <p class="mt-3 text-xs md:text-sm text-white/85 leading-relaxed">
+                            TOEFLテスト日本事務局（ETS Japan）｜Gold認定者<br>
+                            Makieigoスクール代表
+                        </p>
+                    </div>
                 </div>
-                <div class="flex-1 flex flex-col justify-center gap-[20px] py-[10px] md:py-[30px] w-full">
-                    <div class="h-[40px] bg-white bg-opacity-20 rounded-[4px] px-[20px] flex items-center">Lorem Ipsum Dolor Sit Amet</div>
-                    <div class="h-[40px] bg-white bg-opacity-20 rounded-[4px] px-[20px] flex items-center">Lorem Ipsum Dolor Sit Amet</div>
-                    <div class="h-[40px] bg-white bg-opacity-20 rounded-[4px] px-[20px] flex items-center">Lorem Ipsum Dolor Sit Amet</div>
+
+                <!-- 右：コメント -->
+                <div class="flex-1 rounded-[32px] bg-white/95 backdrop-blur-md p-6 md:p-8 text-black font-semibold shadow-[0_12px_40px_rgba(0,0,0,0.18)] border border-white/40">
+                    <p class="text-[15px] md:text-[17px] leading-[2.1] tracking-[0.08em]">
+                        Prenessの問題は、一般的な教材と同等レベルの高いクオリティをしっかりと担保しています。
+                        市販教材は詳しい解説がある反面、どうしても「圧倒的な問題演習量」をこなすのが難しくなりがちです。
+                    </p>
+
+                    <br>
+
+                    <p class="text-[15px] md:text-[17px] leading-[2.1] tracking-[0.08em]">
+                        Prenessは、その弱点を補い、確かな質の問題を豊富に解き進めることができます。
+                        良質な問題をひたすらこなすことがスコアアップの最大の近道になるため、
+                        実践練習を重ねて実力を確かなものにしたい方に、非常におすすめできるサービスです！
+                    </p>
                 </div>
             </div>
 
-            <div class="flex flex-col md:flex-row-reverse items-center md:items-start justify-between gap-[40px] md:gap-[80px] mb-[30px]">
-                <div class="flex flex-col items-center text-center w-[220px] shrink-0">
-                    <div class="w-[220px] h-[220px] bg-[#e0e0e0] rounded-full flex justify-center items-center text-[#333333] text-[18px] font-bold mb-[25px]">写真</div>
-                    <div class="text-[18px] tracking-[2px] font-bold">氏名</div>
-                    <div class="text-[18px] tracking-[2px]">肩書</div>
+            <!-- ================================= -->
+            <!-- VOICE 02 -->
+            <!-- ================================= -->
+            <div class="flex flex-col md:flex-row-reverse items-center md:items-start gap-8 md:gap-12">
+
+                <!-- 右：プロフィール -->
+                <div class="flex flex-col items-center flex-shrink-0">
+                    <div class="w-56 h-56 md:w-64 md:h-64 rounded-full overflow-hidden ring-4 ring-white/30 shadow-2xl bg-gray-200">
+                        <%= image_tag "sota.png",
+                            alt: "そうたさん",
+                            class: "w-full h-full object-cover object-top" %>
+                    </div>
+
+                    <div class="mt-6 text-center text-white">
+                        <p class="text-lg md:text-xl font-medium tracking-wider">
+                            そうたさん（SYR bros 長男）
+                        </p>
+
+                        <p class="mt-3 text-xs md:text-sm text-white/85 leading-relaxed">
+                            英語発音検定EPT100点<br>
+                            英検1級 当時史上最年少取得<br>
+                            Youtube｜SYR Bros.
+                        </p>
+                    </div>
                 </div>
-                <div class="flex-1 flex flex-col justify-center gap-[20px] py-[10px] md:py-[30px] w-full">
-                    <div class="h-[40px] bg-white bg-opacity-20 rounded-[4px] px-[20px] flex items-center">Lorem Ipsum Dolor Sit Amet</div>
-                    <div class="h-[40px] bg-white bg-opacity-20 rounded-[4px] px-[20px] flex items-center">Lorem Ipsum Dolor Sit Amet</div>
-                    <div class="h-[40px] bg-white bg-opacity-20 rounded-[4px] px-[20px] flex items-center">Lorem Ipsum Dolor Sit Amet</div>
+
+                <!-- 左：コメント -->
+                <div class="flex-1 rounded-[32px] bg-white/95 backdrop-blur-md p-6 md:p-8 text-black font-semibold shadow-[0_12px_40px_rgba(0,0,0,0.18)] border border-white/40">
+                    <p class="text-[15px] md:text-[17px] leading-[2.1] tracking-[0.08em]">
+                        TOEFL等の試験対策で最大の壁は「解く問題が尽きる」ことだと思います。
+                        練習量を増やせば増やすほど、過去問や教材の問題を暗記してしまい、
+                        本番の緊張感を持った練習ができなくなってしまうんですよね。
+                    </p>
+
+                    <br>
+
+                    <p class="text-[15px] md:text-[17px] leading-[2.1] tracking-[0.08em]">
+                        その点、「Preness」は、新しい模擬試験やセクション問題を
+                        その場で次々に生成してくれる画期的なサービスです！
+                        常に新鮮な問題に挑み続けられるため、
+                        本質的な英語力を鍛えたい方に強くおすすめします。
+                    </p>
                 </div>
             </div>
         </div>
