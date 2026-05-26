@@ -109,8 +109,115 @@
     <section class="py-[20px] md:py-[60px] bg-[#f0f4f8]">
         <div class="max-w-[1100px] mx-auto px-5">
             <h2 class="text-center text-[28px] font-bold text-[#1f3b60] mb-[30px] tracking-[1.5px]">ご利用料金</h2>
-            <%= image_tag "price_table.png", alt: "Pricing table", class: "max-w-full h-auto block mx-auto" %>
-        </div>
+            
+            <div class="hidden md:block w-full max-w-[1000px] mx-auto">
+                <div class="bg-white rounded-[6px] border border-[#89b4b9] overflow-hidden">
+                    <table class="w-full border-collapse bg-white">
+                        <thead>
+                            <tr>
+                                <th class="border-b border-r border-[#89b4b9] p-4 w-[25%] bg-white"></th>
+                                <th class="border-b border-r border-[#89b4b9] p-4 w-[45%] bg-white text-lg font-bold text-gray-900 tracking-wider text-center">
+                                    TOEFL ITP
+                                </th>
+                                <th class="border-b border-r border-[#89b4b9] p-4 w-[15%] bg-white text-lg font-bold text-gray-900 tracking-wider text-center">
+                                    TOEFL iBT
+                                </th>
+                                <th class="border-b border-[#89b4b9] p-4 w-[15%] bg-white text-lg font-bold text-gray-900 tracking-wider text-center">
+                                    IELTS
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="border-b border-r border-[#89b4b9] p-6 bg-white text-center font-bold text-gray-900 whitespace-nowrap">
+                                    模擬試験セット
+                                </td>
+                                <td class="border-b border-r border-[#89b4b9] p-4 bg-white text-center">
+                                    <div class="flex items-baseline justify-center gap-2 font-bold text-gray-900">
+                                        <span class="text-base tracking-widest">1セット</span>
+                                        <span class="text-[1.75rem] leading-none">1,500</span>
+                                        <span class="text-base">円</span>
+                                    </div>
+                                    <div class="text-[0.8rem] text-[#344e6b] mt-2 font-medium tracking-wide">
+                                        分析レポート付き（解答時間も計測）
+                                    </div>
+                                </td>
+                                <td class="border-b border-r border-[#89b4b9] p-4 bg-white text-center text-[0.9rem] font-bold text-gray-800 whitespace-nowrap">
+                                    近日公開
+                                </td>
+                                <td class="border-b border-[#89b4b9] p-4 bg-white text-center text-[0.9rem] font-bold text-gray-800 whitespace-nowrap">
+                                    近日公開
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="border-r border-[#89b4b9] p-6 bg-white text-center font-bold text-gray-900 whitespace-nowrap">
+                                    セクション対策
+                                </td>
+                                <td class="border-r border-[#89b4b9] p-4 bg-white text-center">
+                                    <div class="flex items-baseline justify-center gap-1 font-bold text-gray-900">
+                                        <span class="text-[1.75rem] leading-none">0</span>
+                                        <span class="text-base ml-1">円</span>
+                                    </div>
+                                    <div class="text-[0.8rem] text-[#344e6b] mt-2 font-medium tracking-wide">
+                                        100問でも、1,000問でも解き放題
+                                    </div>
+                                </td>
+                                <td class="border-r border-[#89b4b9] p-4 bg-white text-center text-[0.9rem] font-bold text-gray-800 whitespace-nowrap">
+                                    近日公開
+                                </td>
+                                <td class="p-4 bg-white text-center text-[0.9rem] font-bold text-gray-800 whitespace-nowrap">
+                                    近日公開
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="block md:hidden space-y-6 max-w-[400px] mx-auto">
+                
+                <div class="bg-white rounded-[8px] border-2 border-[#279ea6] overflow-hidden shadow-sm">
+                    <div class="bg-[#eef5f6] border-b-2 border-[#279ea6] py-3 text-center text-lg font-bold text-gray-900 tracking-wider">
+                        TOEFL ITP
+                    </div>
+                    <div class="p-5 border-b border-[#e2e2e2]">
+                        <div class="text-sm font-bold text-gray-900 text-center mb-3 bg-gray-100 py-1 rounded inline-block px-3 w-full">模擬試験セット</div>
+                        <div class="flex items-baseline justify-center gap-2 font-bold text-gray-900">
+                            <span class="text-sm tracking-widest">1セット</span>
+                            <span class="text-[2rem] leading-none text-[#279ea6]">1,500</span>
+                            <span class="text-sm">円</span>
+                        </div>
+                        <div class="text-[0.8rem] text-[#344e6b] mt-2 text-center font-medium">分析レポート付き（解答時間も計測）</div>
+                    </div>
+                    <div class="p-5">
+                        <div class="text-sm font-bold text-gray-900 text-center mb-3 bg-gray-100 py-1 rounded inline-block px-3 w-full">セクション対策</div>
+                        <div class="flex items-baseline justify-center gap-1 font-bold text-gray-900">
+                            <span class="text-[2rem] leading-none text-[#279ea6]">0</span>
+                            <span class="text-sm ml-1">円</span>
+                        </div>
+                        <div class="text-[0.8rem] text-[#344e6b] mt-2 text-center font-medium">100問でも、1,000問でも解き放題</div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-[8px] border border-[#89b4b9] overflow-hidden opacity-80">
+                    <div class="bg-[#f8f9fa] border-b border-[#89b4b9] py-3 text-center text-lg font-bold text-gray-600 tracking-wider">
+                        TOEFL iBT
+                    </div>
+                    <div class="p-8 text-center font-bold text-gray-500">
+                        近日公開
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-[8px] border border-[#89b4b9] overflow-hidden opacity-80">
+                    <div class="bg-[#f8f9fa] border-b border-[#89b4b9] py-3 text-center text-lg font-bold text-gray-600 tracking-wider">
+                        IELTS
+                    </div>
+                    <div class="p-8 text-center font-bold text-gray-500">
+                        近日公開
+                    </div>
+                </div>
+
+            </div>
+            </div>
     </section>
 
     <section class="py-[20px] md:py-[60px] bg-[#f0f4f8]">
