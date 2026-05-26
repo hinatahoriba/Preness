@@ -26,16 +26,16 @@
   <% question_sets.each_with_index do |question_set, set_index| %>
     <% is_last_passage = set_index == question_sets.length - 1 %>
     <div
-      class="flex flex-1 overflow-hidden"
+      class="flex flex-col md:flex-row flex-1 overflow-hidden"
       data-timed-exams--passage-tab-target="panel"
     >
-      <div class="w-1/2 overflow-y-auto px-10 pt-7 pb-24">
+      <div class="h-1/2 md:h-full overflow-y-auto w-full md:w-1/2 px-4 md:px-10 pt-7 pb-10 md:pb-24">
         <div class="text-[15.5px] leading-[2] text-gray-800 space-y-5 text-justify font-serif">
           <%= format_vocab_tags(simple_format(question_set.passage.to_s)) %>
         </div>
       </div>
 
-      <div class="w-1/2 border-l border-gray-100 overflow-y-auto px-10 pt-7 pb-10">
+      <div class="h-1/2 md:h-full overflow-y-auto w-full md:w-1/2 border-t md:border-t-0 md:border-l border-gray-100 px-4 md:px-10 pt-7 pb-10">
         <% question_set.questions.order(:display_order).each_with_index do |question, question_index| %>
           <div class="mb-10 pb-10 border-b border-gray-100 last:border-0 last:mb-0">
             <%= render "timed_exams/answer/question_item", question: question, index: q_offset + question_index %>
