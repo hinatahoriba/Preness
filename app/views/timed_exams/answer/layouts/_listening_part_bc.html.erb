@@ -52,7 +52,7 @@
                       label: "QUESTION AUDIO",
                       status_text: "Click to play question",
                       hide_ui: single_use_audio,
-                      delay_ms: (question_index == 0 ? nil : 10000) %>
+                      delay_ms: (question_index == 0 ? nil : 7000) %>
               <% end %>
               <%= render "timed_exams/answer/question_item", question: question, index: q_offset + question_index %>
             </div>
