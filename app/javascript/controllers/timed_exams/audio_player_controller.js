@@ -81,10 +81,11 @@ export default class extends Controller {
       return
     }
 
+    const delay = parseInt(firstAudio.dataset.delayMs) || this.delayMs
     const timeoutId = setTimeout(() => {
       if (this.singleUseValue) firstAudio.dataset.played = "true"
       firstAudio.play()
-    }, this.delayMs)
+    }, delay)
 
     this._timeoutIds.push(timeoutId)
   }
@@ -134,12 +135,13 @@ export default class extends Controller {
     const nextLabel = this.statusLabelTargets[nextIndex]
     if (nextLabel) nextLabel.textContent = "5秒後に再生します..."
 
+    const delay = parseInt(nextAudio.dataset.delayMs) || this.delayMs
     const timeoutId = setTimeout(() => {
       if (this.singleUseValue) {
         nextAudio.dataset.played = "true"
       }
       nextAudio.play()
-    }, this.delayMs)
+    }, delay)
 
     this._timeoutIds.push(timeoutId)
   }

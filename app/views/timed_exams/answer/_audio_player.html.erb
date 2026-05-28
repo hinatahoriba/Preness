@@ -3,6 +3,7 @@
 #   label       (String)
 #   status_text (String)
 #   compact     (Boolean)
+#   delay_ms    (Integer, optional) – ms to wait before this audio plays in autoplay chain
 %>
 <% compact = local_assigns.fetch(:compact, false) %>
 <% outer_cls = compact \
@@ -48,5 +49,6 @@
     ><%= status_text %></span>
   </div>
 
-  <audio src="<%= url %>" class="hidden" data-timed-exams--audio-player-target="audio"></audio>
+  <audio src="<%= url %>" class="hidden" data-timed-exams--audio-player-target="audio"
+         <% if local_assigns[:delay_ms].present? %>data-delay-ms="<%= delay_ms %>"<% end %>></audio>
 </div>

@@ -39,7 +39,8 @@
                 url: question_set.conversation_audio_url,
                 label: audio_label,
                 status_text: audio_status,
-                hide_ui: single_use_audio %>
+                hide_ui: single_use_audio,
+                delay_ms: (set_index == 0 ? nil : 15000) %>
         <% end %>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-12">
@@ -50,7 +51,8 @@
                       url: question.question_audio_url,
                       label: "QUESTION AUDIO",
                       status_text: "Click to play question",
-                      hide_ui: single_use_audio %>
+                      hide_ui: single_use_audio,
+                      delay_ms: (question_index == 0 ? nil : 10000) %>
               <% end %>
               <%= render "timed_exams/answer/question_item", question: question, index: q_offset + question_index %>
             </div>
