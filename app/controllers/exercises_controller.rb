@@ -119,6 +119,7 @@ class ExercisesController < ApplicationController
 
   def sequential_set_number
     Exercise
+      .visible
       .joins(sections: { parts: :question_sets })
       .where(sections: { section_type: @section.section_type })
       .where(parts: { part_type: @part.part_type })

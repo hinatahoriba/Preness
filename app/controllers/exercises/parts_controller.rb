@@ -8,6 +8,7 @@ module Exercises
       part_type    = params[:part_type]
 
       exercises = Exercise
+        .visible
         .joins(sections: :parts)
         .where(sections: { section_type: section_type }, parts: { part_type: part_type })
         .includes(sections: { parts: { question_sets: :questions } })
