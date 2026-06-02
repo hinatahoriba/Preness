@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Preness" %></title>
+    <title><%= content_for(:title) || "【TOEFL ITP完全対策】模擬試験とセクション別攻略でスコアアップ | Preness" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+
+    <meta name="description" content="<%= content_for(:description) || 'TOEFL ITP対策ツール「Preness」。AIが弱点と誤答傾向を分析し、あなた専用の学習プランを提案します。何度でも解ける模擬試験と無料のセクション演習で、最短でのスコアアップを実現！' %>">
 
     <%= yield :head %>
 
