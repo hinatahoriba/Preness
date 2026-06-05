@@ -36,10 +36,39 @@ export default class extends Controller {
     const W = canvas.width
     const H = canvas.height
     const legendH = opts.legendH || 0
-    const cx = W / 2
-    const cy = (H - legendH) / 2 + (opts.topPad || 12)
-    const R = Math.min(W, H - legendH) / 2 - (opts.margin || 58)
+    const topPad = opts.topPad || 12
+    const labelPad = 26
+    const lineH = 14
+
+    // Measure label text to compute the minimum margin that prevents clipping
+    ctx.font = '11px "Noto Sans JP", sans-serif'
     const N = labels.length
+    const baseR = Math.min(W, H - legendH) / 2
+    const cx = W / 2
+    const cy = (H - legendH) / 2 + topPad
+
+    let margin = opts.margin || 58
+    for (let i = 0; i < N; i++) {
+      const angle = (Math.PI * 2 * i / N) - Math.PI / 2
+      const cosA = Math.cos(angle), sinA = Math.sin(angle)
+      const lines = labels[i].split("\\n")
+      const maxTW = Math.max(...lines.map(l => ctx.measureText(l).width))
+      const textH = lines.length * lineH
+
+      if (cosA > 0.15) {
+        margin = Math.max(margin, baseR - (W / 2 - maxTW) / cosA + labelPad)
+      } else if (cosA < -0.15) {
+        margin = Math.max(margin, baseR - (W / 2 - maxTW) / (-cosA) + labelPad)
+      }
+      if (sinA > 0.15) {
+        margin = Math.max(margin, baseR - ((H - legendH) - cy - textH) / sinA + labelPad)
+      } else if (sinA < -0.15) {
+        margin = Math.max(margin, baseR - (cy - textH) / (-sinA) + labelPad)
+      }
+    }
+    margin = Math.ceil(margin)
+
+    const R = baseR - margin
     const levels = opts.levels || 5
 
     ctx.clearRect(0, 0, W, H)
