@@ -19,6 +19,14 @@ export default class extends Controller {
     const canvas = this.element
     if (!(canvas instanceof HTMLCanvasElement)) return
 
+    const dpr = window.devicePixelRatio || 1
+    const cssW = canvas.offsetWidth || canvas.width
+    const cssH = canvas.offsetHeight || canvas.height
+    canvas.width = cssW * dpr
+    canvas.height = cssH * dpr
+    canvas.style.width = cssW + "px"
+    canvas.style.height = cssH + "px"
+
     const labels = this.labelsValue.split(",")
     const values = this.valuesValue.split(",").map(Number)
     const opts = {
@@ -28,13 +36,14 @@ export default class extends Controller {
       topPad: this.topPadValue || 12,
     }
 
-    this.#drawRadar(canvas, labels, values, opts)
+    this.#drawRadar(canvas, labels, values, opts, dpr)
   }
 
-  #drawRadar(canvas, labels, values, opts = {}) {
+  #drawRadar(canvas, labels, values, opts = {}, dpr = 1) {
     const ctx = canvas.getContext("2d")
-    const W = canvas.width
-    const H = canvas.height
+    ctx.scale(dpr, dpr)
+    const W = canvas.width / dpr
+    const H = canvas.height / dpr
     const legendH = opts.legendH || 0
     const topPad = opts.topPad || 12
     const labelPad = 26
