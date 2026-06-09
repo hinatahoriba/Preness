@@ -33,7 +33,7 @@ module Mocks
         end
 
         f.options.open_timeout = 10
-        f.options.timeout      = 30
+        f.options.timeout      = 120
       end
     end
 
