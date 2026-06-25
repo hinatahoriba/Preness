@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Preness — TOEFL ITP対策</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script>
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            navy: '#082a63',
+                            orange: '#ff5a1f',
+                            ink: '#0f172a',
+                            mist: '#f5f8fc',
+                        },
+                        fontFamily: {
+                            sans: ['Inter', '"Noto Sans JP"', '"Hiragino Sans"', '"Hiragino Kaku Gothic ProN"', 'Meiryo', 'sans-serif'],
+                        },
+                        minHeight: ({ theme }) => ({
+                            ...theme('spacing'),
+                        }),
+                        boxShadow: {
+                            soft: '0 22px 70px rgba(30,58,95,0.12)',
+                        },
+                    }
+                }
+            }
+        </script>
+    </head>
+    <body class="overflow-x-hidden bg-white font-sans text-ink selection:bg-orange/20">
+        <%= yield %>
+    </body>
+</html>
