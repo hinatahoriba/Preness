@@ -3,7 +3,7 @@
   <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" data-action="load->survey#iframeLoaded"></iframe>
 
   <!-- アンケート入力フォーム -->
-  <form action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSfsY6TmE0Kx8hKGvtCUF_FQXKjseSd2ehLoYxRxJku2mS6SBQ/formResponse" 
+  <form action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSfQBSqEml0RNeXWTYvpG6Jo9QJrBs5t0esRcsQZSB-vYbffeQ/formResponse" 
         method="POST" 
         target="hidden_iframe" 
         class="w-full text-center" 
@@ -12,12 +12,12 @@
         data-action="submit->survey#submit">
       
       <!-- 隠しフィールド -->
-      <input type="hidden" name="entry.2070762740" value="<%= feature_name %>"> 
-      <input type="hidden" name="entry.1811621407" value="<%= current_user&.user_profile&.itp_target_score %>">
-      <input type="hidden" name="entry.511923459" value="<%= current_user&.user_profile&.full_name %>">
+      <input type="hidden" name="entry.1144437821" value="<%= feature_name %>"> 
+      <input type="hidden" name="entry.150110463" value="<%= current_user&.user_profile&.itp_target_score %>">
+      <input type="hidden" name="entry.496575883" value="<%= current_user&.user_profile&.full_name %>">
       
       <!-- 5段階評価の選択値を保持する隠しフィールド -->
-      <input type="hidden" name="entry.975218749" id="rating-value" value="" data-survey-target="ratingInput">
+      <input type="hidden" name="entry.57658235" id="rating-value" value="" data-survey-target="ratingInput">
 
       <!-- メインタイトル -->
       <h2 class="text-[#333333] text-base sm:text-lg font-medium mb-6 sm:mb-8 tracking-wide px-2">
@@ -81,7 +81,7 @@
               </label>
           </div>
           
-          <textarea id="feedback" name="entry.1472134619" rows="3" 
+          <textarea id="feedback" name="entry.454421262" rows="3" 
               class="w-full p-2.5 sm:p-3 border border-gray-300 rounded-lg resize-y focus:outline-none focus:border-[#69be5c] focus:ring-1 focus:ring-[#69be5c] transition-colors mb-4 sm:mb-6 text-xs sm:text-sm text-[#333333]" 
               placeholder="こちらに入力してください..."></textarea>
           
