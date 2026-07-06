@@ -63,49 +63,4 @@
       </div>
     </div>
   </section>
-
-  <%# コミュニティセクション %>
-  <section class="pt-2">
-    <div class="relative rounded-[40px] overflow-hidden min-h-[220px] md:min-h-[180px] flex items-center group cursor-pointer shadow-sm">
-      <div class="absolute inset-0">
-        <img src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?q=80&w=2098&auto=format&fit=crop" alt="Community Life" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-        <div class="absolute inset-0 bg-gradient-to-r from-brand-navy/95 via-brand-navy/80 to-transparent"></div>
-      </div>
-
-      <div class="relative z-10 w-full p-6 md:p-10 flex flex-col md:flex-row items-center justify-between gap-6">
-        <div class="flex items-center gap-5 w-full md:w-auto text-center md:text-left">
-          <div class="space-y-3 w-full">
-            <h2 class="text-2xl md:text-3xl font-black text-white tracking-tight">Preness Community</h2>
-            <div class="flex flex-wrap justify-center md:justify-start gap-x-5 gap-y-2">
-              <div class="flex items-center gap-1.5">
-                <svg class="w-4 h-4 text-brand-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-                </svg>
-                <span class="text-[11px] md:text-xs font-bold text-white/90">仲間との交流</span>
-              </div>
-              <div class="flex items-center gap-1.5">
-                <svg class="w-4 h-4 text-brand-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <span class="text-[11px] md:text-xs font-bold text-white/90">ワーホリ/語学留学支援</span>
-              </div>
-              <div class="flex items-center gap-1.5">
-                <svg class="w-4 h-4 text-brand-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-                <span class="text-[11px] md:text-xs font-bold text-white/90">就活サポート</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <%= link_to "https://lin.ee/sCMNSBS", class: "w-full md:w-auto px-8 py-4 bg-white text-brand-navy rounded-2xl font-black text-sm flex items-center justify-center gap-2 hover:bg-brand-orange hover:text-white transition-all shadow-xl active:scale-95 group/btn whitespace-nowrap", target: "_blank", rel: "noopener noreferrer" do %>
-          今すぐ参加する
-          <svg class="w-4 h-4 transition-transform group-hover/btn:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-          </svg>
-        <% end %>
-      </div>
-    </div>
-  </section>
 </main>
