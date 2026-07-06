@@ -564,8 +564,76 @@
             <p class="text-sm font-black uppercase tracking-normal text-orange">Features</p>
             <h2 class="mt-3 text-[1.8rem] font-black leading-tight text-navy sm:text-5xl">模試、分析、対策を一つの流れに。</h2>
         </div>
-        <div class="mx-auto max-w-[760px]">
-            <img alt="模試、分析、セクション対策、本番へ戻るPrenessの学習サイクル" class="block w-full rounded-[1.5rem] shadow-soft sm:rounded-[2rem]" src="/lp-assets/features-cycle-visual.jpg">
+        <%# モバイル: 画像表示 %>
+        <div class="mx-auto max-w-[430px] sm:hidden">
+            <img alt="模試、分析、セクション対策、本番へ戻るPrenessの学習サイクル" class="block w-full rounded-[1.5rem] shadow-soft" src="/lp-assets/features-cycle-visual.jpg">
+        </div>
+
+        <%# PC・タブレット: 4ステップカードで表示 %>
+        <div class="hidden gap-5 sm:grid sm:grid-cols-2 lg:grid-cols-4">
+
+            <%# 01. 本番に近い模試環境 %>
+            <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+                <div class="grid h-16 w-16 place-items-center rounded-xl bg-orange/10 text-orange">
+                    <svg aria-hidden="true" class="h-8 w-8" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polygon points="10 8 16 12 10 16 10 8"></polygon>
+                    </svg>
+                </div>
+                <h3 class="mt-5 text-xl font-black leading-tight text-navy">本番に近い模試環境</h3>
+                <p class="mt-3 text-base font-medium leading-7 text-slate-600">制限時間、音声の一回再生、中断不可の設計で本番の緊張感を再現。まずはここから実力を測定します。</p>
+            </div>
+
+            <%# 02. AIによる弱点分析 %>
+            <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+                <div class="grid h-16 w-16 place-items-center rounded-xl bg-orange/10 text-orange">
+                    <svg aria-hidden="true" class="h-8 w-8" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"></path>
+                        <path d="M9 13a4.5 4.5 0 0 0 3-4"></path>
+                        <path d="M6.003 5.125A3 3 0 0 0 6.401 6.5"></path>
+                        <path d="M3.477 10.896a4 4 0 0 1 .585-.396"></path>
+                        <path d="M6 18a4 4 0 0 1-1.967-.516"></path>
+                        <path d="M12 13h4"></path>
+                        <path d="M12 18h6a2 2 0 0 1 2 2v1"></path>
+                        <path d="M12 8h8"></path>
+                        <path d="M16 8V5a2 2 0 0 1 2-2"></path>
+                        <circle cx="16" cy="13" r=".5"></circle>
+                        <circle cx="18" cy="3" r=".5"></circle>
+                        <circle cx="20" cy="21" r=".5"></circle>
+                        <circle cx="20" cy="8" r=".5"></circle>
+                    </svg>
+                </div>
+                <h3 class="mt-5 text-xl font-black leading-tight text-navy">AIによる弱点分析</h3>
+                <p class="mt-3 text-base font-medium leading-7 text-slate-600">模試の解答データから、正答率だけでなく「なぜ間違えたか」の傾向をAIが特定し、あなたの伸びしろを言語化します。</p>
+            </div>
+
+            <%# 03. セクション別重点対策 %>
+            <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+                <div class="grid h-16 w-16 place-items-center rounded-xl bg-orange/10 text-orange">
+                    <svg aria-hidden="true" class="h-8 w-8" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <circle cx="12" cy="12" r="6"></circle>
+                        <circle cx="12" cy="12" r="2"></circle>
+                    </svg>
+                </div>
+                <h3 class="mt-5 text-xl font-black leading-tight text-navy">セクション別重点対策</h3>
+                <p class="mt-3 text-base font-medium leading-7 text-slate-600">分析に基づき、今解くべき問題を提示。苦手なセクションをピンポイントで反復し、着実にスコアを引き上げます。</p>
+            </div>
+
+            <%# 04. 本番への再挑戦 %>
+            <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+                <div class="grid h-16 w-16 place-items-center rounded-xl bg-orange/10 text-orange">
+                    <svg aria-hidden="true" class="h-8 w-8" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="m17 2 4 4-4 4"></path>
+                        <path d="M3 11v-1a4 4 0 0 1 4-4h14"></path>
+                        <path d="m7 22-4-4 4-4"></path>
+                        <path d="M21 13v1a4 4 0 0 1-4 4H3"></path>
+                    </svg>
+                </div>
+                <h3 class="mt-5 text-xl font-black leading-tight text-navy">本番への再挑戦</h3>
+                <p class="mt-3 text-base font-medium leading-7 text-slate-600">対策後は再び模試へ。成長をスコアで実感しながら、このサイクルを繰り返すことで本番への自信を創り出します。</p>
+            </div>
+
         </div>
     </section>
 
