@@ -1,0 +1,105 @@
+<div class="w-full bg-white border border-gray-200 rounded-sm p-4 sm:p-5 shadow-sm mt-8 relative" data-controller="survey">
+  <!-- ページ遷移（Googleフォームへのリダイレクト）を防ぐための隠しiframe -->
+  <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" data-action="load->survey#iframeLoaded"></iframe>
+
+  <!-- アンケート入力フォーム -->
+  <form action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSfsY6TmE0Kx8hKGvtCUF_FQXKjseSd2ehLoYxRxJku2mS6SBQ/formResponse" 
+        method="POST" 
+        target="hidden_iframe" 
+        class="w-full text-center" 
+        id="survey-form"
+        data-survey-target="form"
+        data-action="submit->survey#submit">
+      
+      <!-- 隠しフィールド -->
+      <input type="hidden" name="entry.2070762740" value="<%= feature_name %>"> 
+      <input type="hidden" name="entry.1811621407" value="<%= current_user&.user_profile&.itp_target_score %>">
+      <input type="hidden" name="entry.511923459" value="<%= current_user&.user_profile&.full_name %>">
+      
+      <!-- 5段階評価の選択値を保持する隠しフィールド -->
+      <input type="hidden" name="entry.975218749" id="rating-value" value="" data-survey-target="ratingInput">
+
+      <!-- メインタイトル -->
+      <h2 class="text-[#333333] text-base sm:text-lg font-medium mb-6 sm:mb-8 tracking-wide px-2">
+          今回ご利用いただいた機能は使いやすかったですか？
+      </h2>
+
+      <!-- スケールコンテナ -->
+      <div class="flex justify-between sm:justify-center items-start gap-1 sm:gap-4 md:gap-8 max-w-lg mx-auto px-1 sm:px-4">
+          
+          <!-- 選択肢 1 -->
+          <div class="flex flex-col items-center flex-1 max-w-[80px]">
+              <button type="button" value="1" data-color="#e1524a" data-survey-target="button" data-action="click->survey#selectRating" class="rating-btn w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full border-2 border-[#e1524a] bg-white text-[#333333] text-base sm:text-lg font-medium flex items-center justify-center transition-all hover:scale-105 active:scale-95 focus:outline-none cursor-pointer">
+                  1
+              </button>
+              <span class="text-[#555555] text-[10px] sm:text-xs mt-2 text-center leading-tight whitespace-normal sm:whitespace-nowrap">
+                  とても<br class="block sm:hidden">使いにくい
+              </span>
+          </div>
+
+          <!-- 選択肢 2 -->
+          <div class="flex flex-col items-center flex-1 max-w-[80px]">
+              <button type="button" value="2" data-color="#e99e43" data-survey-target="button" data-action="click->survey#selectRating" class="rating-btn w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full border-2 border-[#e99e43] bg-white text-[#333333] text-base sm:text-lg font-medium flex items-center justify-center transition-all hover:scale-105 active:scale-95 focus:outline-none cursor-pointer">
+                  2
+              </button>
+              <span class="text-transparent text-xs mt-2 select-none hidden sm:inline">&nbsp;</span>
+          </div>
+
+          <!-- 選択肢 3 -->
+          <div class="flex flex-col items-center flex-1 max-w-[80px]">
+              <button type="button" value="3" data-color="#f4cb43" data-survey-target="button" data-action="click->survey#selectRating" class="rating-btn w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full border-2 border-[#f4cb43] bg-white text-[#333333] text-base sm:text-lg font-medium flex items-center justify-center transition-all hover:scale-105 active:scale-95 focus:outline-none cursor-pointer">
+                  3
+              </button>
+              <span class="text-transparent text-xs mt-2 select-none hidden sm:inline">&nbsp;</span>
+          </div>
+
+          <!-- 選択肢 4 -->
+          <div class="flex flex-col items-center flex-1 max-w-[80px]">
+              <button type="button" value="4" data-color="#69be5c" data-survey-target="button" data-action="click->survey#selectRating" class="rating-btn w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full border-2 border-[#69be5c] bg-white text-[#333333] text-base sm:text-lg font-medium flex items-center justify-center transition-all hover:scale-105 active:scale-95 focus:outline-none cursor-pointer">
+                  4
+              </button>
+              <span class="text-transparent text-xs mt-2 select-none hidden sm:inline">&nbsp;</span>
+          </div>
+
+          <!-- 選択肢 5 -->
+          <div class="flex flex-col items-center flex-1 max-w-[80px]">
+              <button type="button" value="5" data-color="#3f882d" data-survey-target="button" data-action="click->survey#selectRating" class="rating-btn w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full border-2 border-[#3f882d] bg-white text-[#333333] text-base sm:text-lg font-medium flex items-center justify-center transition-all hover:scale-105 active:scale-95 focus:outline-none cursor-pointer">
+                  5
+              </button>
+              <span class="text-[#555555] text-[10px] sm:text-xs mt-2 text-center leading-tight whitespace-normal sm:whitespace-nowrap">
+                  とても<br class="block sm:hidden">使いやすい
+              </span>
+          </div>
+
+      </div>
+
+      <!-- フィードバック・送信エリア（初期非表示） -->
+      <div data-survey-target="feedbackSection" class="hidden opacity-0 transition-all duration-500 transform translate-y-4 mt-6 sm:mt-8 w-full max-w-xl mx-auto px-2 sm:px-4">
+          <div class="text-left mb-3">
+              <label for="feedback" class="block text-[#333333] font-medium text-xs sm:text-sm leading-relaxed">
+                  改善してほしい点や、ご意見・ご感想があればご自由にお書きください。<span class="text-gray-500 font-normal">（任意）</span>
+              </label>
+          </div>
+          
+          <textarea id="feedback" name="entry.1472134619" rows="3" 
+              class="w-full p-2.5 sm:p-3 border border-gray-300 rounded-lg resize-y focus:outline-none focus:border-[#69be5c] focus:ring-1 focus:ring-[#69be5c] transition-colors mb-4 sm:mb-6 text-xs sm:text-sm text-[#333333]" 
+              placeholder="こちらに入力してください..."></textarea>
+          
+          <button type="submit" class="w-full sm:w-auto bg-[#333333] text-white px-8 py-2 sm:py-2.5 rounded-full text-sm font-medium transition-all hover:bg-[#555555] hover:-translate-y-0.5 active:scale-95 focus:outline-none cursor-pointer shadow-sm">
+              送信する
+          </button>
+      </div>
+
+  </form>
+
+  <!-- 送信完了メッセージ（初期非表示） -->
+  <div data-survey-target="thankyouSection" class="hidden opacity-0 transition-opacity duration-500 text-center py-8 px-4">
+      <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-green-50 text-[#3f882d] mb-3">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+          </svg>
+      </div>
+      <h3 class="text-lg font-bold text-[#333333] mb-2">送信が完了しました</h3>
+      <p class="text-[#555555] text-xs sm:text-sm">フィードバックにご協力いただき、ありがとうございました。</p>
+  </div>
+</div>
