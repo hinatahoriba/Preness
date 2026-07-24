@@ -26,40 +26,58 @@
       <%= render "timed_exams/answer/master_audio_player" %>
     <% end %>
 
-    <% q_offset = 0 %>
-    <% question_sets.each_with_index do |question_set, set_index| %>
-      <% unless set_index == 0 %>
-        <hr class="border-t border-gray-300 mb-16">
-      <% end %>
-      <div class="mb-16">
-        <% if question_set.conversation_audio_url.present? %>
-          <% audio_label = question_sets.size > 1 ? "CONVERSATION AUDIO #{set_index + 1}" : "CONVERSATION AUDIO" %>
-          <% audio_status = question_sets.size > 1 ? "Click to play conversation for Questions #{q_offset + 1}–#{q_offset + question_set.questions.count}" : "Click to play conversation" %>
-          <%= render "timed_exams/answer/audio_player",
-                url: question_set.conversation_audio_url,
-                label: audio_label,
-                status_text: audio_status,
-                hide_ui: single_use_audio,
-                delay_ms: (set_index == 0 ? nil : 15000) %>
-        <% end %>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-12">
-          <% question_set.questions.order(:display_order).each_with_index do |question, question_index| %>
-            <div class="question-block">
-              <% if question.question_audio_url.present? %>
-                <%= render "timed_exams/answer/audio_player",
-                      url: question.question_audio_url,
-                      label: "QUESTION AUDIO",
-                      status_text: "Click to play question",
-                      hide_ui: single_use_audio,
-                      delay_ms: (question_index == 0 ? nil : 7000) %>
-              <% end %>
-              <%= render "timed_exams/answer/question_item", question: question, index: q_offset + question_index %>
-            </div>
-          <% end %>
+    <div class="relative">
+      <% if single_use_audio %>
+        <div
+          data-timed-exams--audio-player-target="overlay"
+          class="absolute inset-0 z-20 flex flex-col items-center justify-start pt-12 transition-all duration-700 pointer-events-none"
+        >
+          <div class="bg-white/95 shadow-xl border-2 border-[#1a1b4b] px-6 py-3.5 rounded-full flex items-center gap-3 text-gray-800 font-bold text-sm tracking-wide">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#1a1b4b]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
+            <span>試験音声を再生すると設問が表示されます</span>
+          </div>
         </div>
+      <% end %>
+
+      <div class="transition-all duration-700 <%= 'opacity-0 select-none pointer-events-none' if single_use_audio %>" data-timed-exams--audio-player-target="questionsContainer">
+        <% q_offset = 0 %>
+        <% question_sets.each_with_index do |question_set, set_index| %>
+          <% unless set_index == 0 %>
+            <hr class="border-t border-gray-300 mb-16">
+          <% end %>
+          <div class="mb-16">
+            <% if question_set.conversation_audio_url.present? %>
+              <% audio_label = question_sets.size > 1 ? "CONVERSATION AUDIO #{set_index + 1}" : "CONVERSATION AUDIO" %>
+              <% audio_status = question_sets.size > 1 ? "Click to play conversation for Questions #{q_offset + 1}–#{q_offset + question_set.questions.count}" : "Click to play conversation" %>
+              <%= render "timed_exams/answer/audio_player",
+                    url: question_set.conversation_audio_url,
+                    label: audio_label,
+                    status_text: audio_status,
+                    hide_ui: single_use_audio,
+                    delay_ms: (set_index == 0 ? nil : 15000) %>
+            <% end %>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-12">
+              <% question_set.questions.order(:display_order).each_with_index do |question, question_index| %>
+                <div class="question-block">
+                  <% if question.question_audio_url.present? %>
+                    <%= render "timed_exams/answer/audio_player",
+                          url: question.question_audio_url,
+                          label: "QUESTION AUDIO",
+                          status_text: "Click to play question",
+                          hide_ui: single_use_audio,
+                          delay_ms: (question_index == 0 ? nil : 7000) %>
+                  <% end %>
+                  <%= render "timed_exams/answer/question_item", question: question, index: q_offset + question_index %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+          <% q_offset += question_set.questions.count %>
+        <% end %>
       </div>
-      <% q_offset += question_set.questions.count %>
-    <% end %>
+    </div>
   </main>
 </div>

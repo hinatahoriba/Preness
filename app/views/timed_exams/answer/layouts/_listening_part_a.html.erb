@@ -21,29 +21,45 @@
       <%= render "timed_exams/answer/master_audio_player" %>
     <% end %>
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-14 gap-y-9">
-      <% questions.each_with_index do |question, index| %>
-        <div class="question-block">
-          <% if question.conversation_audio_url.present? %>
-            <%= render "timed_exams/answer/audio_player",
-                  url: question.conversation_audio_url,
-                  label: "CONVERSATION AUDIO",
-                  status_text: "Click to play conversation",
-                  compact: true,
-                  hide_ui: single_use_audio,
-                  delay_ms: (index == 0 ? nil : 8000) %>
-          <% end %>
-          <% if question.question_audio_url.present? %>
-            <%= render "timed_exams/answer/audio_player",
-                  url: question.question_audio_url,
-                  label: "QUESTION AUDIO",
-                  status_text: "Click to play question",
-                  compact: true,
-                  hide_ui: single_use_audio %>
-          <% end %>
-          <%= render "timed_exams/answer/question_item", question: question, index: index %>
+    <div class="relative">
+      <% if single_use_audio %>
+        <div
+          data-timed-exams--audio-player-target="overlay"
+          class="absolute inset-0 z-20 flex flex-col items-center justify-start pt-12 transition-all duration-700 pointer-events-none"
+        >
+          <div class="bg-white/95 shadow-xl border-2 border-[#1a1b4b] px-6 py-3.5 rounded-full flex items-center gap-3 text-gray-800 font-bold text-sm tracking-wide">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#1a1b4b]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
+            <span>試験音声を再生すると設問が表示されます</span>
+          </div>
         </div>
       <% end %>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-14 gap-y-9 transition-all duration-700 <%= 'opacity-0 select-none pointer-events-none' if single_use_audio %>" data-timed-exams--audio-player-target="questionsContainer">
+        <% questions.each_with_index do |question, index| %>
+          <div class="question-block">
+            <% if question.conversation_audio_url.present? %>
+              <%= render "timed_exams/answer/audio_player",
+                    url: question.conversation_audio_url,
+                    label: "CONVERSATION AUDIO",
+                    status_text: "Click to play conversation",
+                    compact: true,
+                    hide_ui: single_use_audio,
+                    delay_ms: (index == 0 ? nil : 8000) %>
+            <% end %>
+            <% if question.question_audio_url.present? %>
+              <%= render "timed_exams/answer/audio_player",
+                    url: question.question_audio_url,
+                    label: "QUESTION AUDIO",
+                    status_text: "Click to play question",
+                    compact: true,
+                    hide_ui: single_use_audio %>
+            <% end %>
+            <%= render "timed_exams/answer/question_item", question: question, index: index %>
+          </div>
+        <% end %>
+      </div>
     </div>
   </main>
 </div>

@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["audio", "playButton", "statusLabel", "masterPlayButton", "masterStatusText", "introAudio"]
+  static targets = ["audio", "playButton", "statusLabel", "masterPlayButton", "masterStatusText", "introAudio", "questionsContainer", "overlay"]
   static values = { singleUse: Boolean, autoplayDelayMs: Number }
 
   connect() {
@@ -57,6 +57,30 @@ export default class extends Controller {
   }
 
   playMasterAudio() {
+    this.overlayTargets.forEach((el) => {
+      el.classList.add("opacity-0", "pointer-events-none")
+      setTimeout(() => el.classList.add("hidden"), 700)
+    })
+
+    this.questionsContainerTargets.forEach((el) => {
+      el.classList.remove(
+        "hidden",
+        "blur-sm",
+        "blur-md",
+        "blur-lg",
+        "blur-xl",
+        "blur-2xl",
+        "blur-3xl",
+        "select-none",
+        "pointer-events-none",
+        "opacity-40",
+        "opacity-30",
+        "opacity-10",
+        "opacity-5",
+        "opacity-0"
+      )
+    })
+
     if (!this.hasIntroAudioTarget) return
 
     if (this.hasMasterPlayButtonTarget) {
