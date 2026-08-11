@@ -22,13 +22,13 @@ module ExamCatalog
 
   PART_TOTALS = {
     "listening" => {
-      "part_a" => 30,
-      "part_b" => 8,
-      "part_c" => 12
+      "part_a" => 19,
+      "part_b" => 6,
+      "part_c" => 10
     }.freeze,
     "structure" => {
-      "part_a" => 15,
-      "part_b" => 25
+      "part_a" => 13,
+      "part_b" => 12
     }.freeze
   }.freeze
 

@@ -6,15 +6,15 @@ module ExamSessions
       DIRECTION_INTROS = {
         "listening" => {
           "part_a" => {
-            count: "30問（約15分）",
+            count: "30問（約19分）",
             description: "音声は一度しか流れません。指示に従い、最も適切な選択肢を選んでください。"
           },
           "part_b" => {
-            count: "8問（約8分）",
+            count: "8問（約6分）",
             description: "短い会話を聞き、各質問に最も適切な選択肢を選んでください。音声は一度しか流れません。"
           },
           "part_c" => {
-            count: "12問（約12分）",
+            count: "12問（約10分）",
             description: "短い講義や会話を聞き、各質問に最も適切な選択肢を選んでください。音声は一度しか流れません。"
           }
         }.freeze,
