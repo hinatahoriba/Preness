@@ -19,6 +19,14 @@ module ExamSessions
           }
         }.freeze,
         "structure" => {
+          "part_a" => {
+            count: "15問（約13分）",
+            description: "各文を完成させる最も適切な選択肢、または誤りを含む箇所を選んでください。"
+          },
+          "part_b" => {
+            count: "25問（約12分）",
+            description: "各文を完成させる最も適切な選択肢、または誤りを含む箇所を選んでください。"
+          },
           default: {
             count: "40問（約25分）",
             description: "各文を完成させる最も適切な選択肢、または誤りを含む箇所を選んでください。"

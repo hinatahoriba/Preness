@@ -20,6 +20,18 @@ module ExamCatalog
     "reading" => 55 * 60
   }.freeze
 
+  PART_TIME_LIMITS = {
+    "listening" => {
+      "part_a" => 19 * 60,
+      "part_b" => 6 * 60,
+      "part_c" => 10 * 60
+    }.freeze,
+    "structure" => {
+      "part_a" => 13 * 60,
+      "part_b" => 12 * 60
+    }.freeze
+  }.freeze
+
   PART_TOTALS = {
     "listening" => {
       "part_a" => 19,
@@ -71,6 +83,15 @@ module ExamCatalog
 
   def section_time_limit_display(section_type)
     seconds = section_time_limit_seconds(section_type)
+    format("%02d:%02d", seconds / 60, seconds % 60)
+  end
+
+  def part_time_limit_seconds(section_type, part_type)
+    PART_TIME_LIMITS.dig(section_type, part_type) || section_time_limit_seconds(section_type)
+  end
+
+  def part_time_limit_display(section_type, part_type)
+    seconds = part_time_limit_seconds(section_type, part_type)
     format("%02d:%02d", seconds / 60, seconds % 60)
   end
 

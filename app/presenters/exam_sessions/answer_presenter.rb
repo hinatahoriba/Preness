@@ -73,8 +73,8 @@ module ExamSessions
           submit_label: submit_label
         ),
         require_all_answered: false,
-        timer_seconds: ExamCatalog.section_time_limit_seconds(section.section_type),
-        timer_display: ExamCatalog.section_time_limit_display(section.section_type),
+        timer_seconds: ExamCatalog.part_time_limit_seconds(section.section_type, part.part_type),
+        timer_display: ExamCatalog.part_time_limit_display(section.section_type, part.part_type),
         interrupt_confirm_path: Rails.application.routes.url_helpers.mocks_path
       )
     end
