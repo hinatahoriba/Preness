@@ -4,17 +4,6 @@
 %>
 <div class="flex justify-between items-start mb-4">
   <h3 class="text-[17px] font-bold font-serif leading-loose"><%= index + 1 %>. <%= question_text_with_tags(question) %></h3>
-  <label class="font-sans text-sm flex items-center gap-2 border border-gray-300 px-2.5 py-1 cursor-pointer hover:bg-gray-50 text-gray-600 ml-4 shrink-0">
-    <input
-      type="radio"
-      name="answers[<%= question.id %>]"
-      value="UNKNOWN"
-      class="w-4 h-4"
-      style="accent-color: #1a1b4b"
-      data-action="timed-exams--progress#update"
-    />
-    わからない
-  </label>
 </div>
 
 <div class="space-y-3 text-[16px] text-gray-800 ml-2 font-serif">
