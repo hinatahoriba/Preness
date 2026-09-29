@@ -1,0 +1,22 @@
+<h2>分析レポート生成に失敗しました</h2>
+
+<p>分析ジョブの最終リトライが失敗しました。</p>
+
+<h3>対象</h3>
+<ul>
+  <li>Environment: <%= Rails.env %></li>
+  <li>Job: <%= @job_name %></li>
+  <li>Attempt ID: <%= @attempt.id %></li>
+  <li>Report ID: <%= @report.id %></li>
+  <li>Type: <%= @attempt.mockable_type %></li>
+  <li>Title: <%= @mockable.try(:title) || "(no title)" %></li>
+  <li>User ID: <%= @user.id %></li>
+  <li>User Email: <%= @user.email %></li>
+  <li>Retry Count: <%= @report.retry_count %></li>
+</ul>
+
+<h3>Error</h3>
+<p><strong><%= @error_class %></strong>: <%= @error_message %></p>
+
+<h3>Backtrace</h3>
+<pre><%= @backtrace.join("\n") %></pre>

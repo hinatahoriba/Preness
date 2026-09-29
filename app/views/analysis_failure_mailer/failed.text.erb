@@ -1,0 +1,19 @@
+分析レポート生成に失敗しました
+
+分析ジョブの最終リトライが失敗しました。
+
+Environment: <%= Rails.env %>
+Job: <%= @job_name %>
+Attempt ID: <%= @attempt.id %>
+Report ID: <%= @report.id %>
+Type: <%= @attempt.mockable_type %>
+Title: <%= @mockable.try(:title) || "(no title)" %>
+User ID: <%= @user.id %>
+User Email: <%= @user.email %>
+Retry Count: <%= @report.retry_count %>
+
+Error:
+<%= @error_class %>: <%= @error_message %>
+
+Backtrace:
+<%= @backtrace.join("\n") %>

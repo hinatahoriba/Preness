@@ -1,8 +1,13 @@
 module Mocks
   class AnalyzeMockResultJob < ApplicationJob
+    include AnalysisFailureNotifiable
+
     queue_as :default
 
-    retry_on StandardError, wait: :polynomially_longer, attempts: 3
+    retry_on StandardError, wait: :polynomially_longer, attempts: 3 do |job, error|
+      job.send(:notify_analysis_failure, error)
+      raise error
+    end
 
     # Attempt が削除されていた場合はジョブを破棄
     discard_on ActiveRecord::RecordNotFound
