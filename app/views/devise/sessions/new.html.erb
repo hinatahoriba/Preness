@@ -1,5 +1,4 @@
 <%= render "devise/shared/auth_shell", subtitle: "登録済みのアカウントでログインします" do %>
-  <%= render "devise/shared/auth_tabs" %>
   <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "space-y-6" }) do |f| %>
     <div>
       <%= f.label :email, "メールアドレス", class: "text-sm font-medium text-slate-700" %>
