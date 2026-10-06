@@ -4,10 +4,7 @@ module ApplicationHelper
     if user_signed_in?
       link_to "マイページへ", mypage_path, class: btn
     else
-      safe_join([
-        link_to("アカウント登録", new_user_registration_path, class: btn),
-        link_to("ログイン", new_user_session_path, class: btn)
-      ])
+      link_to("ログイン", new_user_session_path, class: btn)
     end
   end
 
@@ -16,10 +13,7 @@ module ApplicationHelper
     if user_signed_in?
       link_to "マイページへ", mypage_path, class: btn
     else
-      safe_join([
-        link_to("アカウント登録", new_user_registration_path, class: "#{btn} mb-[15px]"),
-        link_to("ログイン", new_user_session_path, class: btn)
-      ])
+      link_to("ログイン", new_user_session_path, class: btn)
     end
   end
 

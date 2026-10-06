@@ -1,4 +1,12 @@
 <main class="overflow-hidden">
+    <!-- Announcement Bar -->
+    <div class="border-b border-red-200 bg-red-50 px-4 py-3 text-center text-sm font-medium text-red-800 sm:py-3.5 sm:text-base">
+        <p class="mx-auto max-w-5xl">
+            <span class="font-bold text-red-700">【お知らせ】</span>
+            新規アカウント登録の受付は終了いたしました。すでにご登録いただいているお客様はログインしてご利用いただけます。
+        </p>
+    </div>
+
     <header class="mx-auto hidden w-full max-w-[1560px] items-center justify-between px-4 py-3 sm:flex sm:px-10 lg:px-14">
         <a aria-label="Preness home" class="flex items-center gap-3" href="#">
             <span class="text-3xl font-black tracking-normal text-orange sm:text-5xl">Preness</span>
@@ -6,21 +14,18 @@
         <nav class="hidden items-center gap-10 text-lg font-black text-navy lg:flex">
             <a class="hover:text-orange" href="#report">分析</a>
             <a class="hover:text-orange" href="#features">機能</a>
-            <a class="hover:text-orange" href="#pricing">料金</a>
             <a class="hover:text-orange" href="#faq">FAQ</a>
         </nav>
         <div class="hidden items-center gap-4 sm:flex">
             <a class="inline-flex min-h-11 items-center justify-center rounded-lg border border-slate-300 bg-white px-7 text-base font-black text-navy shadow-sm transition hover:border-orange hover:text-orange" href="/users/sign_in">ログイン</a>
-            <a class="inline-flex min-h-11 items-center justify-center rounded-lg bg-orange px-8 text-base font-black text-white shadow-lg shadow-orange/20 transition hover:bg-[#e94b13]" href="/users/sign_up">アカウント登録</a>
         </div>
     </header>
 
     <!-- ===================== HERO ===================== -->
     <section class="relative mx-auto grid w-full max-w-[1560px] items-center gap-8 overflow-hidden px-4 pb-8 pt-0 sm:min-h-[calc(100svh-76px)] sm:px-10 sm:pt-4 lg:grid-cols-[0.88fr_1.12fr] lg:px-14 lg:pt-2">
-        <!-- Mobile-only login / register, floating over the hero photo -->
-        <div class="absolute right-3 top-[18px] z-30 grid w-[min(51vw,204px)] grid-cols-[0.9fr_1.25fr] gap-1.5 sm:hidden">
-            <a class="inline-flex min-h-8 items-center justify-center whitespace-nowrap rounded-full border border-slate-300 bg-white/90 px-2 text-[10px] font-black text-navy shadow-sm backdrop-blur" href="/users/sign_in">ログイン</a>
-            <a class="inline-flex min-h-8 items-center justify-center whitespace-nowrap rounded-full bg-orange px-2 text-[10px] font-black text-white shadow-lg shadow-orange/20" href="/users/sign_up">アカウント登録</a>
+        <!-- Mobile-only login, floating over the hero photo -->
+        <div class="absolute right-3 top-[18px] z-30 sm:hidden">
+            <a class="inline-flex min-h-8 items-center justify-center whitespace-nowrap rounded-full border border-slate-300 bg-white/95 px-3 py-1 text-xs font-black text-navy shadow-sm backdrop-blur" href="/users/sign_in">ログイン</a>
         </div>
         <div class="relative z-10 w-full min-w-0 max-w-full">
             <!-- Mobile hero photo (heading is baked into the image) -->
@@ -41,28 +46,7 @@
                 <span class="block text-orange">『次の学習ステップ』</span>
                 <span class="block">が即座に判明。</span>
             </h1>
-            <a class="group mt-5 grid min-h-24 w-full max-w-full grid-cols-[4rem_1fr_2.25rem] items-center gap-2 overflow-hidden rounded-2xl border-2 border-orange bg-white px-3 py-4 shadow-[0_18px_44px_rgba(255,90,31,0.12)] transition hover:-translate-y-1 hover:shadow-[0_24px_58px_rgba(255,90,31,0.2)] sm:mt-6 sm:flex sm:min-h-24 sm:max-w-[610px] sm:justify-between sm:gap-3 sm:px-6" href="/users/sign_up">
-                <span class="grid h-16 w-16 shrink-0 place-items-center rounded-full bg-orange/[0.12] text-orange xl:h-20 xl:w-20">
-                    <svg aria-hidden="true" class="h-9 w-9 sm:h-10 sm:w-10 xl:h-12 xl:w-12" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <rect height="4" rx="1" width="8" x="8" y="2"></rect>
-                        <path d="M8 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-.5"></path>
-                        <path d="M16 4h2a2 2 0 0 1 1.73 1"></path>
-                        <path d="M8 18h1"></path>
-                        <path d="M21.378 12.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"></path>
-                    </svg>
-                </span>
-                <span class="min-w-0 px-0 text-center sm:flex-1 sm:px-3 sm:text-left xl:px-5">
-                    <span class="block whitespace-nowrap text-xl font-black leading-tight text-orange xl:text-2xl">まずは無料で</span>
-                    <span class="mt-1 block whitespace-nowrap text-[1.75rem] font-black leading-tight text-navy sm:text-2xl xl:text-3xl">実力診断をする</span>
-                </span>
-                <span class="grid h-9 w-9 shrink-0 place-items-center rounded-full text-orange transition group-hover:translate-x-1 sm:h-11 sm:w-11 sm:bg-orange sm:text-white xl:h-12 xl:w-12">
-                    <svg aria-hidden="true" class="h-7 w-7 sm:h-6 sm:w-6 xl:h-7 xl:w-7" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M5 12h14"></path>
-                        <path d="m12 5 7 7-7 7"></path>
-                    </svg>
-                </span>
-            </a>
-            <div class="mt-6 grid w-full max-w-full grid-cols-2 gap-3 sm:mt-7 sm:max-w-[610px] sm:grid-cols-4 sm:gap-2.5">
+            <div class="mt-6 grid w-full max-w-full grid-cols-2 gap-3 sm:mt-8 sm:max-w-[610px] sm:grid-cols-4 sm:gap-2.5">
                 <div class="flex min-h-20 min-w-0 flex-col items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white p-3 text-center text-[0.8rem] font-black leading-5 text-navy shadow-sm sm:min-h-16 sm:p-2.5 sm:text-[11px] sm:leading-4 xl:min-h-20 xl:p-3 xl:text-xs xl:leading-5">
                     <svg aria-hidden="true" class="h-6 w-6 shrink-0 text-navy sm:h-4 sm:w-4 xl:h-5 xl:w-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path d="M3 3v16a2 2 0 0 0 2 2h16"></path>
@@ -410,28 +394,6 @@
         </div>
     </section>
 
-    <!-- ===================== SOCIAL PROOF ===================== -->
-    <section aria-label="Social proof" class="border-y border-slate-200 bg-white py-7">
-        <div class="mx-auto grid max-w-7xl grid-cols-2 gap-4 px-5 text-center sm:px-8 md:grid-cols-4">
-            <div>
-                <p class="text-3xl font-black text-navy">L/S/R</p>
-                <p class="mt-1 text-sm font-bold text-slate-500">全セクション対応</p>
-            </div>
-            <div>
-                <p class="text-3xl font-black text-navy">何度でも</p>
-                <p class="mt-1 text-sm font-bold text-slate-500">模試に挑戦可能</p>
-            </div>
-            <div>
-                <p class="text-3xl font-black text-navy">0円</p>
-                <p class="mt-1 text-sm font-bold text-slate-500">セクション対策</p>
-            </div>
-            <div>
-                <p class="text-3xl font-black text-navy">AI</p>
-                <p class="mt-1 text-sm font-bold text-slate-500">重点課題を即時提示</p>
-            </div>
-        </div>
-    </section>
-
     <!-- ===================== PROBLEM ===================== -->
     <section class="mx-auto max-w-7xl px-4 py-14 sm:px-8 sm:py-24" id="problem">
         <div class="mb-10 max-w-6xl">
@@ -547,14 +509,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="mt-8 flex justify-center lg:justify-start">
-            <a class="group inline-flex min-h-12 items-center justify-center gap-2 whitespace-nowrap rounded-full bg-orange px-5 py-3 text-sm font-bold text-white shadow-lg shadow-orange/25 transition hover:-translate-y-0.5 hover:bg-[#E27814] focus:outline-none focus:ring-4 focus:ring-orange/25 sm:min-h-14 sm:gap-3 sm:px-8 sm:text-base" href="/users/sign_up">
-                分析付き模試を受験する
-                <svg aria-hidden="true" class="h-5 w-5 transition group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path>
-                </svg>
-            </a>
         </div>
     </section>
 
@@ -809,73 +763,6 @@
         </div>
     </section>
 
-    <!-- ===================== PRICING ===================== -->
-    <section class="mx-auto max-w-7xl px-4 py-14 sm:px-8 sm:py-24" id="pricing">
-        <div class="mb-8 max-w-6xl sm:mb-10">
-            <p class="text-sm font-black uppercase tracking-normal text-orange">Pricing</p>
-            <h2 class="mt-3 text-[1.8rem] font-black leading-tight text-navy sm:text-[clamp(2rem,3vw,2.85rem)]">
-                目的に合わせて、<br class="sm:hidden">まず一歩を選べます。
-            </h2>
-        </div>
-        <div class="grid gap-6 lg:grid-cols-2">
-            <div class="flex min-h-[360px] flex-col rounded-[1.5rem] border border-slate-200 bg-white p-5 shadow-soft sm:min-h-[430px] sm:rounded-[2rem] sm:p-8">
-                <div class="flex-1">
-                    <p class="text-sm font-black text-orange">まずはここから試すのもアリ</p>
-                    <h3 class="mt-3 text-2xl font-black text-navy sm:text-3xl">セクション別対策</h3>
-                    <p class="mt-4 text-4xl font-black text-navy sm:text-5xl">0円</p>
-                    <p class="mt-5 font-medium leading-8 text-slate-600">まずはどんな問題が出るか試したい方へ。苦手なセクションを無料で何度でも対策できます。</p>
-                    <div class="mt-7 grid gap-3">
-                        <div class="flex items-center gap-3 rounded-xl bg-mist p-4 text-sm font-bold text-navy">
-                            <svg aria-hidden="true" class="h-5 w-5 text-orange" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 6 9 17l-5-5"></path></svg>
-                            L / S / R 全対応
-                        </div>
-                        <div class="flex items-center gap-3 rounded-xl bg-mist p-4 text-sm font-bold text-navy">
-                            <svg aria-hidden="true" class="h-5 w-5 text-orange" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 6 9 17l-5-5"></path></svg>
-                            苦手セクションを反復
-                        </div>
-                        <div class="flex items-center gap-3 rounded-xl bg-mist p-4 text-sm font-bold text-navy">
-                            <svg aria-hidden="true" class="h-5 w-5 text-orange" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 6 9 17l-5-5"></path></svg>
-                            無料で何度でも対策
-                        </div>
-                    </div>
-                </div>
-                <div class="mt-8">
-                    <a class="group inline-flex min-h-12 items-center justify-center gap-2 whitespace-nowrap rounded-full bg-orange px-5 py-3 text-sm font-bold text-white shadow-lg shadow-orange/25 transition hover:-translate-y-0.5 hover:bg-[#E27814] focus:outline-none focus:ring-4 focus:ring-orange/25 sm:min-h-14 sm:gap-3 sm:px-8 sm:text-base" href="/users/sign_up">
-                        無料で対策を始める
-                        <svg aria-hidden="true" class="h-5 w-5 transition group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
-                    </a>
-                </div>
-            </div>
-            <div class="flex min-h-[360px] flex-col rounded-[1.5rem] border border-orange bg-white p-5 shadow-soft sm:min-h-[430px] sm:rounded-[2rem] sm:p-8">
-                <div class="flex-1">
-                    <p class="text-sm font-black text-orange">分析レポート付き模試</p>
-                    <h3 class="mt-3 text-2xl font-black text-navy sm:text-3xl">分析レポート付き模試</h3>
-                    <p class="mt-4 text-4xl font-black text-navy sm:text-5xl">1,500円</p>
-                    <p class="mt-5 font-medium leading-8 text-slate-600">模試受験、採点、AI分析レポートまで含むシンプルな料金。現状把握から「次にやるべき学習」まで一気につなげます。</p>
-                    <div class="mt-7 grid gap-3">
-                        <div class="flex items-center gap-3 rounded-xl bg-mist p-4 text-sm font-bold text-navy">
-                            <svg aria-hidden="true" class="h-5 w-5 text-orange" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 6 9 17l-5-5"></path></svg>
-                            本番同様の受験環境
-                        </div>
-                        <div class="flex items-center gap-3 rounded-xl bg-mist p-4 text-sm font-bold text-navy">
-                            <svg aria-hidden="true" class="h-5 w-5 text-orange" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 6 9 17l-5-5"></path></svg>
-                            誤答傾向の可視化
-                        </div>
-                        <div class="flex items-center gap-3 rounded-xl bg-mist p-4 text-sm font-bold text-navy">
-                            <svg aria-hidden="true" class="h-5 w-5 text-orange" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 6 9 17l-5-5"></path></svg>
-                            重点学習項目の提案
-                        </div>
-                    </div>
-                </div>
-                <div class="mt-8">
-                    <a class="group inline-flex min-h-12 items-center justify-center gap-2 whitespace-nowrap rounded-full bg-orange px-5 py-3 text-sm font-bold text-white shadow-lg shadow-orange/25 transition hover:-translate-y-0.5 hover:bg-[#E27814] focus:outline-none focus:ring-4 focus:ring-orange/25 sm:min-h-14 sm:gap-3 sm:px-8 sm:text-base" href="/users/sign_up">
-                        分析付き模試を受験する
-                        <svg aria-hidden="true" class="h-5 w-5 transition group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- ===================== FAQ ===================== -->
     <section class="mx-auto max-w-7xl px-4 py-14 sm:px-8 sm:py-24" id="faq">
@@ -918,14 +805,6 @@ Prenessでは、分析レポートによって明らかになった弱点を、�
             </details>
             <details class="group rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
                 <summary class="flex cursor-pointer list-none items-center justify-between gap-4 text-lg font-black text-navy">
-                    無料で試すことはできますか？
-                    <svg aria-hidden="true" class="h-5 w-5 shrink-0 text-orange transition group-open:rotate-180" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m6 9 6 6 6-6"></path></svg>
-                </summary>
-                <p class="mt-4 whitespace-pre-line font-medium leading-8 text-slate-600">セクション別演習は無料でご利用いただけます。また、弱点診断（ショート模試）も無料で受験可能です。
-さらに、弱点を可視化する分析レポートも発行されるため、本番さながらの操作画面をご体験いただきながら、ご自身の課題を明確に把握していただけます。</p>
-            </details>
-            <details class="group rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-                <summary class="flex cursor-pointer list-none items-center justify-between gap-4 text-lg font-black text-navy">
                     出てくるスコアは、本番のスコアと同じくらいになりますか？
                     <svg aria-hidden="true" class="h-5 w-5 shrink-0 text-orange transition group-open:rotate-180" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m6 9 6 6 6-6"></path></svg>
                 </summary>
@@ -945,12 +824,6 @@ Prenessでは、分析レポートによって明らかになった弱点を、�
             <p class="mx-auto mt-5 max-w-2xl text-lg font-medium leading-8 text-white/75">
                 TOEFL ITP対策の最初の一歩は、今の弱点を正しく知ること。<br class="hidden sm:block">Prenessの分析付き模試で、今日やるべき学習を明確に。
             </p>
-            <div class="mt-8">
-                <a class="group inline-flex min-h-12 items-center justify-center gap-2 whitespace-nowrap rounded-full bg-orange px-5 py-3 text-sm font-bold text-white shadow-lg shadow-orange/25 transition hover:-translate-y-0.5 hover:bg-[#E27814] focus:outline-none focus:ring-4 focus:ring-orange/25 sm:min-h-14 sm:gap-3 sm:px-8 sm:text-base" href="/users/sign_up">
-                    分析付き模試を受験する
-                    <svg aria-hidden="true" class="h-5 w-5 transition group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
-                </a>
-            </div>
         </div>
     </section>
 
